@@ -24,6 +24,10 @@ public class Like {
 		this.postId = postId;
 	}
 
+	public Like() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public ArrayList<Like> getLikes(int postId){return null;}
 	
 	public boolean Like(int postId){return false;}

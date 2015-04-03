@@ -24,6 +24,10 @@ public class Dislike {
 		this.postId = postId;
 	}
 
+	public Dislike() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public ArrayList<Dislike> getDislikes(int postId){return null;}
 	
 	public boolean dislike(int postId){return false;}

@@ -8,20 +8,26 @@ public class Post {
 	private String post; 
 	private Date postDate;
 	private ArrayList<Comment> comments;
+	private LikeDislike likeStatistics;
+	
 	
 	/**
 	 * @param postId
 	 * @param post
 	 * @param postDate
+	 * @param comments
+	 * @param likeStatistics
 	 */
-	public Post(int postId, String post, Date postDate) {
+	public Post(int postId, String post, Date postDate,
+			ArrayList<Comment> comments, LikeDislike likeStatistics) {
 		super();
 		this.postId = postId;
 		this.post = post;
 		this.postDate = postDate;
-		this.comments = null;
+		this.comments = comments;
+		this.likeStatistics = likeStatistics;
 	}
-	
+
 	public Post addPost(Post post){return null;}
 	
 	public boolean deletePost(int postId){return false;}
