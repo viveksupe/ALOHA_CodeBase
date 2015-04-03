@@ -2,7 +2,6 @@ package com.aloha.common.dao_manager;
 
 import java.sql.*;
 
-import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
 	private static String driverName = "com.mysql.jdbc.Driver";
@@ -28,9 +27,9 @@ public class DatabaseHandler {
 	            }
 	            catch(ClassNotFoundException ex)
 	            {
-	                JOptionPane.showMessageDialog(null, "CONNECTION NOT ESTABLISHED!!\n"+ex);
+	            	System.out.println("ERROR: Unable to Connect to Database.");
 	            }catch (SQLException ex) {
-	                JOptionPane.showMessageDialog(null, "CONNECTION NOT ESTABLISHED!!\n"+ex);
+	            	System.out.println("ERROR: Unable to Connect to Database.");
 	            }
 	        }
 	        try {
