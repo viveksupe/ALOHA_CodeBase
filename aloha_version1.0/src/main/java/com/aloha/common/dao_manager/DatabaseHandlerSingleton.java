@@ -21,14 +21,15 @@ public class DatabaseHandlerSingleton {
 			// ask the DriverManager for a connection to the schema mysql with
 			// root privilleges
 			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/mysql", "root", "root");
-
+					"jdbc:mysql://localhost:3306/testdb", "root", "root");
+			
 			stmt = con.createStatement();
 
 		} catch (SQLException ex) {
 			System.out.println("cannot query the database");
 		} catch (ClassNotFoundException ex) {
 			System.out.println("cannot connect to MySQL database");
+			ex.printStackTrace();
 		}
 	}
 
