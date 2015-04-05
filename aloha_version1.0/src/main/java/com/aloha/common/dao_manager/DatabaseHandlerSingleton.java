@@ -19,7 +19,7 @@ public class DatabaseHandlerSingleton {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			// ask the DriverManager for a connection to the schema mysql with
-			// root privilleges
+			// root privileges
 			con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/testdb", "root", "root");
 			
@@ -32,7 +32,7 @@ public class DatabaseHandlerSingleton {
 			ex.printStackTrace();
 		}
 	}
-
+	
 	public static Connection getDBConnection() {
 		if (db == null) {
 			DatabaseHandlerSingleton db = new DatabaseHandlerSingleton();

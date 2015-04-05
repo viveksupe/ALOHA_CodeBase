@@ -11,6 +11,10 @@ import java.util.List;
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.User;
 
+/**
+ * @author Milind
+ *
+ */
 public class UserDal {
 
 	Connection con = null;
@@ -20,6 +24,10 @@ public class UserDal {
 	private String UPDATE_USER;
 	private String DELETE_USER;
 
+	
+	/**
+	 * Constructor
+	 */
 	public UserDal() {
 		SELECT = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user";
 		INSERT_USER = "INSERT INTO user(user_id, fname, lname, contact_number, email, password, bdate, isVerified, isLocked, lastactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -28,6 +36,11 @@ public class UserDal {
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
+	
+	/**
+	 * @return List of users
+	 * @throws SQLException
+	 */
 	public ArrayList<User> selectUserAll() throws SQLException {
 		String SelectUsersAllStatement = SELECT;
 		PreparedStatement ps = null;
@@ -40,7 +53,7 @@ public class UserDal {
 			while (rSet.next()) {
 				User u = new User(rSet.getInt("user_id"),
 						rSet.getString("fname"), rSet.getString("lname"),
-						rSet.getString("contactNumber"),
+						rSet.getString("contact_number"),
 						rSet.getString("email"), rSet.getString("password"),
 						rSet.getDate("bdate"), rSet.getInt("isVerified"),
 						rSet.getInt("isLocked"), rSet.getDate("lastActive"));

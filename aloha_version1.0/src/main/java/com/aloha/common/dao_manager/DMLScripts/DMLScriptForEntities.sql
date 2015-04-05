@@ -9,7 +9,7 @@ CREATE TABLE  `testdb`.`user` (
   `email` varchar(45) NOT NULL,
   `password` varchar(16) CHARACTER SET utf8 NOT NULL,
   `bdate` date DEFAULT NULL,
-  `isVerfied` tinyint(1) NOT NULL DEFAULT '0',
+  `isVerified` tinyint(1) NOT NULL DEFAULT '0',
   `isLocked` tinyint(1) NOT NULL DEFAULT '0',
   `lastactive` datetime NOT NULL,
   PRIMARY KEY (`user_id`)
