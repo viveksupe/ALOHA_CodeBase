@@ -6,33 +6,35 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
+import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.User;
 
 /**
  * @author Milind
  *
  */
-public class UserDal {
+public class FriendshipDal {
 
 	Connection con = null;
 	// write the queries for User table
-	private String SELECT;
-	private String INSERT_USER;
-	private String UPDATE_USER;
-	private String DELETE_USER;
+	private String SELECTALL;
+	private String SELECT_FRIENDSHIP;
+	private String INSERT_FRIENDSHIP;
+	private String UPDATE_FRIENDSHIP;
+	private String DELETE_FRIENDSHIP;
 
 	
 	/**
 	 * Constructor
 	 */
-	public UserDal() {
-		SELECT = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user";
-		INSERT_USER = "INSERT INTO user(user_id, fname, lname, contact_number, email, password, bdate, isVerified, isLocked, lastactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		UPDATE_USER = "UPDATE user SET user_id = ?, fname = ?, lname = ?, contact_number = ?, email = ?, password = ?, bdate = ?, isVerified = ?, isLocked = ?, lastactive = ? WHERE user_id = ?;";
-		DELETE_USER = "DELETE FROM user";
+	public FriendshipDal() {
+		SELECTALL = "SELECT friendship.FId, friendship.UserID1, friendship.UserID2, friendship.FriendStatusID, friendship.BlockedBy, friendship.ReqSentBy FROM friendship;";
+		SELECT_FRIENDSHIP = "SELECT friendship.FId, friendship.UserID1, friendship.UserID2, friendship.FriendStatusID, friendship.BlockedBy, friendship.ReqSentBy FROM friendship WHERE friendship.FId = ?;;";
+		INSERT_FRIENDSHIP = "INSERT INTO friendship(FId, UserID1, UserID2, FriendStatusID, BlockedBy, ReqSentBy) VALUES(?, ?, ?, ?, ?, ?);";
+		UPDATE_FRIENDSHIP = "UPDATE friendship SET FId = ? , UserID1 = ? , UserID2 = ? , FriendStatusID = ? , BlockedBy = ? , ReqSentBy = ? WHERE FId = ?;";
+		DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE friendship.FId = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
@@ -42,7 +44,7 @@ public class UserDal {
 	 * @throws SQLException
 	 */
 	public ArrayList<User> selectUserAll() throws SQLException {
-		String SelectUsersAllStatement = SELECT;
+		String SelectUsersAllStatement = SELECTALL;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -74,8 +76,7 @@ public class UserDal {
 	}
 
 	public User selectUserByPrimaryKey(int id) throws SQLException {
-		String SelectUsersByPrimaryKeyStatement = SELECT
-				+ " where user.user_id=?;";
+		String SelectUsersByPrimaryKeyStatement = SELECT_FRIENDSHIP;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -84,13 +85,15 @@ public class UserDal {
 			ps.setInt(1, id);
 			rSet = ps.executeQuery();
 			if (rSet.next()) {
-				User u = new User(rSet.getInt("user_id"),
-						rSet.getString("fname"), rSet.getString("lname"),
-						rSet.getString("contact_number"),
-						rSet.getString("email"), rSet.getString("password"),
-						rSet.getDate("bdate"), rSet.getInt("isVerified"),
-						rSet.getInt("isLocked"), rSet.getDate("lastActive"));
-				return u;
+				int fId=rSet.getInt("FId");
+				int userID1=rSet.getInt("UserID1");
+				int userID2=rSet.getInt("UserID2");
+				int friendStatusID=rSet.getInt("FriendStatusID");
+				int blockedBy=rSet.getInt("BlockedBy");
+				int reqSentBy=rSet.getInt("ReqSentBy");
+				/*Fetch the user object in the */
+				
+				
 			} else
 				return null;
 		} catch (SQLException e) {
@@ -109,7 +112,7 @@ public class UserDal {
 			String email, String pwd, Date dob, int isVerified, int isLocked,
 			Date lastActive) throws SQLException {
 		con = DatabaseHandlerSingleton.getDBConnection();
-		String insertUserStatement = INSERT_USER;
+		String insertUserStatement = INSERT_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
@@ -141,7 +144,7 @@ public class UserDal {
 
 	public int updateUser(int id, String fname, String lname, String contactNo,
 			String email, String pwd, Date dob, int isVerified, int isLocked, Date lastActive) throws SQLException {
-	String updateUserStatement = UPDATE_USER;
+	String updateUserStatement = UPDATE_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
@@ -172,7 +175,7 @@ public class UserDal {
 	}
 
 	public int deleteUser(int id) throws SQLException {
-		String updateUserStatement = DELETE_USER + " where user_id=?";
+		String updateUserStatement = DELETE_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
