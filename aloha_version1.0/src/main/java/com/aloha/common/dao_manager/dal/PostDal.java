@@ -20,7 +20,7 @@ import com.aloha.common.entities.User;
  */
 public class PostDal {
 	Connection con = null;
-	// write the queries for User table
+	// write the queries for Post table
 	private String SELECT;
 	private String INSERT_POST;
 	private String UPDATE_POST;

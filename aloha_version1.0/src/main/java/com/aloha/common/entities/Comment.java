@@ -8,17 +8,20 @@ public class Comment {
 	private String comment; 
 	private Date commentDate;
 	private int postId;
+	private int userId;
+	
 	/**
 	 * @param commenttId
 	 * @param comment
 	 * @param commentDate
 	 */
-	public Comment(int commenttId, String comment, Date commentDate, int postId) {
+	public Comment(int commenttId, String comment, Date commentDate, int postId, int userId) {
 		super();
 		this.commenttId = commenttId;
 		this.comment = comment;
 		this.commentDate = commentDate;
 		this.postId = postId;
+		this.userId = userId;
 	}
 	
 	public Comment addComment(Comment comment){return null;}

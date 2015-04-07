@@ -8,13 +8,13 @@ import com.aloha.common.dao_manager.dal.PostDal;
 
 public class Post {
 	private int postId;
-	private String post; 
+	private String post;
 	private Date postDate;
 	private ArrayList<Comment> comments;
 	private LikeDislike likeStatistics;
 	private boolean hasComments;
 	private PostDal dal;
-	
+
 	/**
 	 * @param postId
 	 * @param post
@@ -22,7 +22,7 @@ public class Post {
 	 * @param comments
 	 * @param likeStatistics
 	 */
-	public Post(int postId, String post, Date postDate,boolean hasComments,
+	public Post(int postId, String post, Date postDate, boolean hasComments,
 			ArrayList<Comment> comments, LikeDislike likeStatistics) {
 		super();
 		this.postId = postId;
@@ -33,6 +33,8 @@ public class Post {
 		this.hasComments = hasComments;
 		this.dal = new PostDal();
 	}
+
+	// region gettersetter
 
 	public int getPostId() {
 		return postId;
@@ -82,44 +84,51 @@ public class Post {
 		this.hasComments = hasComments;
 	}
 
-	public int addPost(Post post, int user_id) throws SQLException{
-		
+	// endregion gettersetter
+
+	public int addPost(Post post, int user_id) throws SQLException {
+
 		int success = dal.insertPost(post, user_id);
 		return success;
 	}
-	
-	public boolean deletePost(int postId) throws SQLException{
-	int result = dal.deletePost(postId);
-	if(result == 1) return true;
-	else return false;
+
+	public boolean deletePost(int postId) throws SQLException {
+		int result = dal.deletePost(postId);
+		if (result == 1)
+			return true;
+		else
+			return false;
 	}
-	
-	public ArrayList<Post> getPostsUser(int userId) throws SQLException{
+
+	public ArrayList<Post> getPostsUser(int userId) throws SQLException {
 		ArrayList<Post> posts = new ArrayList<Post>();
 		posts = dal.getPostsForUser(userId);
 		return posts;
 	}
-	
-	public ArrayList<Post> getPostsFriends(int userId){return null;}
-	
-	public boolean updatePost(Post post) throws SQLException{
-		int success = dal.updatePost(post);
-		if(success == 1) return true;
-		else return false;
-		
-	}
-	
-	public Post getPost(int postId) throws SQLException{
-	Post post = dal.getPostByPrimaryKey(postId);
-	return post;
-	}
-	
-	public ArrayList<Comment> getComments(int postId){
-		if(this.hasComments)
-		{}
-		else{}
+
+	public ArrayList<Post> getPostsFriends(int userId) {
 		return null;
 	}
-	
+
+	public boolean updatePost(Post post) throws SQLException {
+		int success = dal.updatePost(post);
+		if (success == 1)
+			return true;
+		else
+			return false;
+
+	}
+
+	public Post getPost(int postId) throws SQLException {
+		Post post = dal.getPostByPrimaryKey(postId);
+		return post;
+	}
+
+	public ArrayList<Comment> getComments(int postId) {
+		if (this.hasComments) {
+		} else {
+		}
+		return null;
+	}
 
 }
