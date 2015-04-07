@@ -7,33 +7,37 @@ import java.util.ArrayList;
  *
  */
 public class Friendship {
-	
+
 	private int friendshipId;
 	private User user1;
 	private User user2;
 	private FriendshipStatus status;
 	private User blocked_by;
 	private User req_sent_by;
-	
+
 	/**
 	 * 
 	 */
-	public Friendship(){
+	public Friendship() {
+		this.friendshipId = 0;
+		this.user1 = new User();
+		this.user2 = new User();
+		this.status = FriendshipStatus.Default;
 	}
-	
+
 	/**
 	 * @param fshipId
 	 * @param u1
 	 * @param u2
 	 * @param fStatus
 	 */
-	public Friendship (int fshipId, User u1, User u2, FriendshipStatus fStatus){
+	public Friendship(int fshipId, User u1, User u2, FriendshipStatus fStatus) {
 		this.friendshipId = fshipId;
 		this.user1 = u1;
 		this.user2 = u2;
 		this.status = fStatus;
 	}
-	
+
 	/**
 	 * @return the friendshipId
 	 */
@@ -42,7 +46,8 @@ public class Friendship {
 	}
 
 	/**
-	 * @param friendshipId the friendshipId to set
+	 * @param friendshipId
+	 *            the friendshipId to set
 	 */
 	public void setFriendshipId(int friendshipId) {
 		this.friendshipId = friendshipId;
@@ -56,7 +61,8 @@ public class Friendship {
 	}
 
 	/**
-	 * @param user1 the user1 to set
+	 * @param user1
+	 *            the user1 to set
 	 */
 	public void setUser1(User user1) {
 		this.user1 = user1;
@@ -70,7 +76,8 @@ public class Friendship {
 	}
 
 	/**
-	 * @param user2 the user2 to set
+	 * @param user2
+	 *            the user2 to set
 	 */
 	public void setUser2(User user2) {
 		this.user2 = user2;
@@ -84,10 +91,19 @@ public class Friendship {
 	}
 
 	/**
-	 * @param status the status to set
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(FriendshipStatus status) {
 		this.status = status;
+	}
+
+	/**
+	 * @param status
+	 *            the status to set
+	 */
+	public void setStatus(int status) {
+		this.status.setStatus(status);
 	}
 
 	/**
@@ -98,7 +114,8 @@ public class Friendship {
 	}
 
 	/**
-	 * @param blocked_by the blocked_by to set
+	 * @param blocked_by
+	 *            the blocked_by to set
 	 */
 	public void setBlocked_by(User blocked_by) {
 		this.blocked_by = blocked_by;
@@ -112,7 +129,8 @@ public class Friendship {
 	}
 
 	/**
-	 * @param req_sent_by the req_sent_by to set
+	 * @param req_sent_by
+	 *            the req_sent_by to set
 	 */
 	public void setReq_sent_by(User req_sent_by) {
 		this.req_sent_by = req_sent_by;
@@ -122,33 +140,32 @@ public class Friendship {
 	 * @param fshipId
 	 * @return
 	 */
-	public boolean deleteFriendship(int fshipId){
+	public boolean deleteFriendship(int fshipId) {
 		return false;
 	}
-	
+
 	/**
 	 * @param friendship
 	 * @return
 	 */
-	public boolean addFriendship(Friendship friendship){
+	public boolean addFriendship(Friendship friendship) {
 		return false;
 	}
-	
+
 	/**
 	 * @param userid
 	 * @return
 	 */
-	public ArrayList<User> getUserFriends(int userid){
+	public ArrayList<User> getUserFriends(int userid) {
 		return null;
 	}
-	
+
 	/**
 	 * @param friendship
 	 * @return
 	 */
-	public boolean updateFriendship(Friendship friendship){
+	public boolean updateFriendship(Friendship friendship) {
 		return false;
 	}
 
-	
 }
