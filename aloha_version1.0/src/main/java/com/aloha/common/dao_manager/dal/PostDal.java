@@ -4,9 +4,14 @@
 package com.aloha.common.dao_manager.dal;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
+import com.aloha.common.entities.Post;
 import com.aloha.common.entities.User;
 
 /**
@@ -17,30 +22,151 @@ public class PostDal {
 	Connection con = null;
 	// write the queries for User table
 	private String SELECT;
-	private String INSERT_USER;
-	private String UPDATE_USER;
-	private String DELETE_USER;
+	private String INSERT_POST;
+	private String UPDATE_POST;
+	private String DELETE_POST;
 
-	PostDal() {
-		SELECT = "SELECT post.post_id, post.post_content, post.hascomments, post.user_id FROM post;";
-		INSERT_USER = "INSERT INTO post (post_id, post_content, hascomments, user_id) VALUES (<{post_id: }>, <{post_content: }>, <{hascomments: 0}>, <{user_id: }>);";
-		UPDATE_USER = "UPDATE user SET user_id = ?, fname = ?, lname = ?, contact_number = ?, email = ?, password = ?, bdate = ?, isVerfied = ?, isLocked = ?, lastactive = ? WHERE user_id = ?;";
-		DELETE_USER = "DELETE FROM post";
+	public PostDal() {
+		SELECT = "SELECT post.post_id, post.post_content, post.hascomments, post.user_id FROM post";
+		INSERT_POST = "INSERT INTO post (post_id, post_content, hascomments,date, user_id) VALUES (?, ?, ?, ?, ?);";
+		UPDATE_POST = "UPDATE post SET post_id = ?, post_content = ?, hascomments = ?, date = ? WHERE post_id = ?;";
+		DELETE_POST = "DELETE FROM post WHERE post_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
-	
-	public User selectPost(int postId){
+
+	public Post getPostByPrimaryKey(int id) throws SQLException {
+		String getPostById = SELECT + " where post.post_id=?;";
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(getPostById);
+			ps.setInt(1, id);
+			rSet = ps.executeQuery();
+			if (rSet.next()) {
+				Post post = new Post(rSet.getInt("post_id"),
+						rSet.getString("post_content"), rSet.getDate("date"),
+						rSet.getBoolean("hasComments"), null, null);
+
+				return post;
+			} else
+				return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	public int deletePost(int id) throws SQLException {
+		String updateUserStatement = DELETE_POST;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(updateUserStatement);
+			ps.setInt(1, id);
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	public int insertPost(Post post, int user_id) throws SQLException {
+		con = DatabaseHandlerSingleton.getDBConnection();
+		String insertUserStatement = INSERT_POST;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(insertUserStatement);
+			ps.setInt(1, post.getPostId());
+			ps.setString(2, post.getPost());
+			ps.setBoolean(3, post.isHasComments());
+			ps.setDate(4, (java.sql.Date) post.getPostDate());
+			ps.setInt(5, user_id);
+
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	public int updatePost(Post post) throws SQLException {
+		String updatePost = UPDATE_POST;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(updatePost);
+			ps.setInt(1, post.getPostId());
+			ps.setString(2, post.getPost());
+			ps.setBoolean(3, post.isHasComments());
+			ps.setDate(4, (java.sql.Date) post.getPostDate());
+
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	public ArrayList<Post> getPostsForUser(int userId) throws SQLException {
+		String getPostById = SELECT + " where post.user_id=?;";
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(getPostById);
+			ps.setInt(1, userId);
+			rSet = ps.executeQuery();
+			ArrayList<Post> posts = new ArrayList<Post>();
+			while (rSet.next()) {
+				Post post = new Post(
+						rSet.getInt("post_id"),
+						rSet.getString("post_content"), 
+						rSet.getDate("date"),
+						rSet.getBoolean("hasComments"), null, null);
+				posts.add(post);
+			}
+			return posts;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	public ArrayList<User> getPostsForUserAndFriends(int userId) {
 		return null;
 	}
-	
-	public boolean deletePost(int postId){return false;}
-	
-	public boolean insertPost(User user){return false;}
-	
-	public boolean updatePost(User user){return false;}
-	
-	public ArrayList<User> getPostsForUser(int userId){return null;}
-	
-	public ArrayList<User> getPostsForUserAndFriends(int userId){return null;}
-	
+
 }
