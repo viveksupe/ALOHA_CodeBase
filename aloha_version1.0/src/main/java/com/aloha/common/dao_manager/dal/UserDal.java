@@ -105,9 +105,7 @@ public class UserDal {
 		}
 	}
 
-	public int insertUser(int id, String fname, String lname, String contactNo,
-			String email, String pwd, Date dob, int isVerified, int isLocked,
-			Date lastActive) throws SQLException {
+	public int insertUser(User u) throws SQLException {
 		con = DatabaseHandlerSingleton.getDBConnection();
 		String insertUserStatement = INSERT_USER;
 		PreparedStatement ps = null;
@@ -115,17 +113,16 @@ public class UserDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(insertUserStatement);
-			ps.setInt(1, id);
-			ps.setString(2, fname);
-			ps.setString(2, fname);
-			ps.setString(3, lname);
-			ps.setString(4, contactNo);
-			ps.setString(5, email);
-			ps.setString(6, pwd);
-			ps.setDate(7, (java.sql.Date) dob);
-			ps.setInt(8, isVerified);
-			ps.setInt(9, isLocked);
-			ps.setDate(10, (java.sql.Date) lastActive);
+			ps.setInt(1, u.getUserId());
+			ps.setString(2, u.getFirstName());
+			ps.setString(3, u.getLastName());
+			ps.setString(4, u.getContactNumber());
+			ps.setString(5, u.getEmail());
+			ps.setString(6, u.getPassword());
+			ps.setDate(7, (java.sql.Date) u.getDateOfBirth());
+			ps.setInt(8, u.getIsVerified());
+			ps.setInt(9, u.getIsLocked());
+			ps.setDate(10, (java.sql.Date) u.getLastActive());
 
 			result = ps.executeUpdate();
 			return result;
@@ -139,26 +136,24 @@ public class UserDal {
 		}
 	}
 
-	public int updateUser(int id, String fname, String lname, String contactNo,
-			String email, String pwd, Date dob, int isVerified, int isLocked, Date lastActive) throws SQLException {
+	public int updateUser(User u) throws SQLException {
 	String updateUserStatement = UPDATE_USER;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(updateUserStatement);
-			ps.setInt(1, id);
-			ps.setString(2, fname);
-			ps.setString(2, fname);
-			ps.setString(3, lname);
-			ps.setString(4, contactNo);
-			ps.setString(5, email);
-			ps.setString(6, pwd);
-			ps.setDate(7, (java.sql.Date) dob);
-			ps.setInt(8, isVerified);
-			ps.setInt(9, isLocked);
-			ps.setDate(10, (java.sql.Date) lastActive);
-			ps.setInt(11, id);
+			ps.setInt(1, u.getUserId());
+			ps.setString(2, u.getFirstName());
+			ps.setString(3, u.getLastName());
+			ps.setString(4, u.getContactNumber());
+			ps.setString(5, u.getEmail());
+			ps.setString(6, u.getPassword());
+			ps.setDate(7, (java.sql.Date) u.getDateOfBirth());
+			ps.setInt(8, u.getIsVerified());
+			ps.setInt(9, u.getIsLocked());
+			ps.setDate(10, (java.sql.Date) u.getLastActive());
+			ps.setInt(11, u.getUserId());
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
