@@ -24,7 +24,6 @@ public class UserDal {
 	private String UPDATE_USER;
 	private String DELETE_USER;
 
-	
 	/**
 	 * Constructor
 	 */
@@ -32,11 +31,10 @@ public class UserDal {
 		SELECT = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user";
 		INSERT_USER = "INSERT INTO user(user_id, fname, lname, contact_number, email, password, bdate, isVerified, isLocked, lastactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		UPDATE_USER = "UPDATE user SET user_id = ?, fname = ?, lname = ?, contact_number = ?, email = ?, password = ?, bdate = ?, isVerified = ?, isLocked = ?, lastactive = ? WHERE user_id = ?;";
-		DELETE_USER = "DELETE FROM user";
+		DELETE_USER = "DELETE FROM user WHERE user_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
-	
 	/**
 	 * @return List of users
 	 * @throws SQLException
@@ -137,7 +135,7 @@ public class UserDal {
 	}
 
 	public int updateUser(User u) throws SQLException {
-	String updateUserStatement = UPDATE_USER;
+		String updateUserStatement = UPDATE_USER;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
@@ -167,7 +165,7 @@ public class UserDal {
 	}
 
 	public int deleteUser(int id) throws SQLException {
-		String updateUserStatement = DELETE_USER + " where user_id=?";
+		String updateUserStatement = DELETE_USER;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {

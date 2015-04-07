@@ -14,6 +14,18 @@ public class User {
 	private int isLocked;
 	private Date lastActive;
 
+	public User() {
+		this.userId = 0;
+		this.firstName = null;
+		this.lastName = null;
+		this.email = null;
+		this.password = null;
+		this.dateOfBirth = null;
+		this.isVerified = -1;
+		this.isLocked = -1;
+		this.lastActive = null;
+	}
+	
 	public User(int id, String fName, String lName, String email, String pwd,
 			String contactNumber, Date dob, int isVerified, int isLocked, Date lastActive) {
 		this.userId = id;
