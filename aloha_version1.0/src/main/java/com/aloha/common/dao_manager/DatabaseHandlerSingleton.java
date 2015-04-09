@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class DatabaseHandlerSingleton {
 
-	private static volatile DatabaseHandlerSingleton db; 
+	private static volatile DatabaseHandlerSingleton db;
 	private static Connection con = null;
 	private Statement stmt = null;
 
@@ -21,8 +21,10 @@ public class DatabaseHandlerSingleton {
 			// ask the DriverManager for a connection to the schema mysql with
 			// root privileges
 			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/testdb", "root", "root");
-			
+					"jdbc:mysql://sql3.freemysqlhosting.net:3306/sql373425",
+					"sql373425", "zB8*dV3%");
+/*			con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/testdb", "root", "root");*/
 			stmt = con.createStatement();
 
 		} catch (SQLException ex) {
@@ -32,11 +34,11 @@ public class DatabaseHandlerSingleton {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static Connection getDBConnection() {
 		if (db == null) {
 			DatabaseHandlerSingleton db = new DatabaseHandlerSingleton();
-			
+
 		}
 		return con;
 	}
