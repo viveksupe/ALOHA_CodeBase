@@ -14,49 +14,23 @@ import com.aloha.common.entities.User;
 public class TestUserDBHandler {
 	static final Logger logger = Logger.getLogger(TestUserDBHandler.class
 			.toString());
+	UserDal ud;
+
+	public TestUserDBHandler() {
+		ud = new UserDal();
+	}
 
 	public static void main(String[] args) {
 		Connection con = DatabaseHandlerSingleton.getDBConnection();
-		Date dob = Date.valueOf("1987-10-02");
-		UserDal ud = new UserDal();
+
 		try {
-			int res;
-			User u = new User();
-			u.setUserId(1);
-			u.setFirstName("milind");
-			u.setLastName("gokhale");
-			u.setContactNumber("8123697654");
-			u.setEmail("milindhg@gmail.com");
-			u.setPassword("root");
-			u.setDateOfBirth(dob);
-			u.setIsVerified(0);
-			u.setIsLocked(0);
-			u.setLastActive(dob);
-			res = ud.insertUser(u);
-			if (res == 1)
-				System.out.println("row inserted successfully");
-			u = ud.selectUserByPrimaryKey(1);
-			u.setUserId(1);
-			u.setFirstName("Milind");
-			u.setLastName("Gokhale");
-			u.setContactNumber("8123697654");
-			u.setEmail("mgokhale@indiana.edu");
-			u.setPassword("root");
-			u.setDateOfBirth(dob);
-			u.setIsVerified(0);
-			u.setIsLocked(0);
-			u.setLastActive(dob);
-
-			System.out.println(u.toString());
-			res = ud.updateUser(u);
-			if (res == 1)
-				System.out.println("row updated successfully");
-
-			u = ud.selectUserByPrimaryKey(1);
-			System.out.println(u.toString());
-			res = ud.deleteUser(1);
-			if (res == 1)
-				System.out.println("row deleted successfully");
+			TestUserDBHandler test = new TestUserDBHandler();
+			// test.insertUser();
+			// test.selectUser();
+			// test.updateUser();
+			//test.selectUser(3);
+			//test.deleteUser(3);
+			test.selectAllUsers();
 
 			/*
 			 * res = ud.insertUser(1, "milind", "gokhale", "8123697654" ,
@@ -73,17 +47,14 @@ public class TestUserDBHandler {
 			 * System.out.println("row inserted successfully");
 			 */
 
-/*			ArrayList<User> ulist = ud.selectUserAll();
-
-			for (User user : ulist) {
-				System.out.println(user);
-			}
-
-			res = ud.deleteUser(1);
-			res = ud.deleteUser(2);
-			res = ud.deleteUser(3);
-			res = ud.deleteUser(4);
-*/
+			/*
+			 * ArrayList<User> ulist = ud.selectUserAll();
+			 * 
+			 * for (User user : ulist) { System.out.println(user); }
+			 * 
+			 * res = ud.deleteUser(1); res = ud.deleteUser(2); res =
+			 * ud.deleteUser(3); res = ud.deleteUser(4);
+			 */
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 
@@ -91,4 +62,68 @@ public class TestUserDBHandler {
 		}
 
 	}
+
+	private void selectAllUsers() throws SQLException {
+
+		ArrayList<User> ulist = ud.selectUserAll();
+
+		for (User user : ulist) {
+			System.out.println(user);
+		}
+
+	}
+
+	private void selectUser(int id) throws SQLException {
+		User u = new User();
+		u = ud.selectUserByPrimaryKey(id);
+		System.out.println(u.toString());
+
+	}
+
+	private void insertUser() throws SQLException {
+		int res;
+		Date dob = Date.valueOf("1987-10-02");
+		User u = new User();
+
+		u.setFirstName("Milind");
+		u.setLastName("Gokhale");
+		u.setContactNumber("8123697654");
+		u.setEmail("milindhg@gmail.com");
+		u.setPassword("root");
+		u.setDateOfBirth(dob);
+		u.setIsVerified(0);
+		u.setIsLocked(0);
+		u.setLastActive(dob);
+		res = ud.insertUser(u);
+		if (res == 1)
+			System.out.println("row inserted successfully");
+	}
+
+	private void updateUser(int id) throws SQLException {
+		int res;
+		Date dob = Date.valueOf("1999-12-31");
+		User u = new User();
+
+		u = ud.selectUserByPrimaryKey(id);
+		u.setFirstName("Milind");
+		u.setLastName("Gokhale");
+		u.setContactNumber("8123697654");
+		u.setEmail("mgokhale@indiana.edu");
+		u.setPassword("root");
+		u.setDateOfBirth(dob);
+		u.setIsVerified(0);
+		u.setIsLocked(0);
+		u.setLastActive(dob);
+		res = ud.updateUser(u);
+		if (res == 1)
+			System.out.println("row updated successfully");
+
+	}
+
+	private void deleteUser(int id) throws SQLException {
+		int res = ud.deleteUser(id);
+		if (res == 1)
+			System.out.println("row deleted successfully");
+	}
+
 }
