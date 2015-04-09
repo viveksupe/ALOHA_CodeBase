@@ -145,7 +145,7 @@ public class CommentDal {
 		
 	}
 	
-	public int updateComment(Comment comment){
+	public int updateComment(Comment comment) throws SQLException{
 		String updateComm = UPDATE_COMM;
 		PreparedStatement ps = null;
 		int result = -1;
