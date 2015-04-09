@@ -127,4 +127,18 @@ public class Post {
 		return null;
 	}
 
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(new StringBuilder().append("[postid=")
+				.append(postId).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[post=")
+				.append(post).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[postdate=")
+				.append(postDate).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[hasComm=")
+				.append(hasComments).append("]\n").toString());
+		
+		return stringBuffer.toString();
+	}
+
 }

@@ -27,7 +27,7 @@ public class PostDal {
 	private String DELETE_POST;
 
 	public PostDal() {
-		SELECT = "SELECT post.post_id, post.post_content, post.hascomments, post.user_id FROM post";
+		SELECT = "SELECT post.post_id, post.post_content, post.date, post.hascomments, post.user_id FROM post";
 		INSERT_POST = "INSERT INTO post (post_content, hascomments,date, user_id) VALUES ( ?, ?, ?, ?);";
 		UPDATE_POST = "UPDATE post SET post_content = ?, hascomments = ?, date = ? WHERE post_id = ?;";
 		DELETE_POST = "DELETE FROM post WHERE post_id = ?;";
@@ -45,8 +45,10 @@ public class PostDal {
 			rSet = ps.executeQuery();
 			if (rSet.next()) {
 				Post post = new Post(rSet.getInt("post_id"),
-						rSet.getString("post_content"), rSet.getDate("date"),
-						rSet.getBoolean("hasComments"), null, null);
+						rSet.getString("post_content"), 
+						rSet.getDate("date"),
+						rSet.getBoolean("hasComments"), 
+						null, null);
 
 				return post;
 			} else
