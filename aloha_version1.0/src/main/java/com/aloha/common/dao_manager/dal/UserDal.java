@@ -29,8 +29,8 @@ public class UserDal {
 	 */
 	public UserDal() {
 		SELECT = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user";
-		INSERT_USER = "INSERT INTO user(user_id, fname, lname, contact_number, email, password, bdate, isVerified, isLocked, lastactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		UPDATE_USER = "UPDATE user SET user_id = ?, fname = ?, lname = ?, contact_number = ?, email = ?, password = ?, bdate = ?, isVerified = ?, isLocked = ?, lastactive = ? WHERE user_id = ?;";
+		INSERT_USER = "INSERT INTO user(fname, lname, contact_number, email, password, bdate, isVerified, isLocked, lastactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		UPDATE_USER = "UPDATE user SET fname = ?, lname = ?, contact_number = ?, email = ?, password = ?, bdate = ?, isVerified = ?, isLocked = ?, lastactive = ? WHERE user_id = ?;";
 		DELETE_USER = "DELETE FROM user WHERE user_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -111,16 +111,15 @@ public class UserDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(insertUserStatement);
-			ps.setInt(1, u.getUserId());
-			ps.setString(2, u.getFirstName());
-			ps.setString(3, u.getLastName());
-			ps.setString(4, u.getContactNumber());
-			ps.setString(5, u.getEmail());
-			ps.setString(6, u.getPassword());
-			ps.setDate(7, (java.sql.Date) u.getDateOfBirth());
-			ps.setInt(8, u.getIsVerified());
-			ps.setInt(9, u.getIsLocked());
-			ps.setDate(10, (java.sql.Date) u.getLastActive());
+			ps.setString(1, u.getFirstName());
+			ps.setString(2, u.getLastName());
+			ps.setString(3, u.getContactNumber());
+			ps.setString(4, u.getEmail());
+			ps.setString(5, u.getPassword());
+			ps.setDate(6, (java.sql.Date) u.getDateOfBirth());
+			ps.setInt(7, u.getIsVerified());
+			ps.setInt(8, u.getIsLocked());
+			ps.setDate(9, (java.sql.Date) u.getLastActive());
 
 			result = ps.executeUpdate();
 			return result;
@@ -141,17 +140,16 @@ public class UserDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(updateUserStatement);
-			ps.setInt(1, u.getUserId());
-			ps.setString(2, u.getFirstName());
-			ps.setString(3, u.getLastName());
-			ps.setString(4, u.getContactNumber());
-			ps.setString(5, u.getEmail());
-			ps.setString(6, u.getPassword());
-			ps.setDate(7, (java.sql.Date) u.getDateOfBirth());
-			ps.setInt(8, u.getIsVerified());
-			ps.setInt(9, u.getIsLocked());
-			ps.setDate(10, (java.sql.Date) u.getLastActive());
-			ps.setInt(11, u.getUserId());
+			ps.setString(1, u.getFirstName());
+			ps.setString(2, u.getLastName());
+			ps.setString(3, u.getContactNumber());
+			ps.setString(4, u.getEmail());
+			ps.setString(5, u.getPassword());
+			ps.setDate(6, (java.sql.Date) u.getDateOfBirth());
+			ps.setInt(7, u.getIsVerified());
+			ps.setInt(8, u.getIsLocked());
+			ps.setDate(9, (java.sql.Date) u.getLastActive());
+			ps.setInt(10, u.getUserId());
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
