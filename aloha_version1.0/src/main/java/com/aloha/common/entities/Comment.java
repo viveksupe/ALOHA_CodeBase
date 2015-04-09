@@ -10,6 +10,44 @@ public class Comment {
 	private int postId;
 	private int userId;
 	
+	//region Getter Setter methods
+	public int getCommenttId() {
+		return commenttId;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Date getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(Date commentDate) {
+		this.commentDate = commentDate;
+	}
+
+	public int getPostId() {
+		return postId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	//endregion
+
 	/**
 	 * @param commenttId
 	 * @param comment

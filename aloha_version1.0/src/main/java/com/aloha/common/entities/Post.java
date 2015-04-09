@@ -40,10 +40,6 @@ public class Post {
 		return postId;
 	}
 
-	public void setPostId(int postId) {
-		this.postId = postId;
-	}
-
 	public String getPost() {
 		return post;
 	}

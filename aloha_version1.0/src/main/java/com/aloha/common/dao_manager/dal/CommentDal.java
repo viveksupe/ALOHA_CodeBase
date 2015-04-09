@@ -26,8 +26,8 @@ public class CommentDal {
 	
 	public CommentDal(){
 		SELECT = "SELECT comment.comment_id, comment.comment_content, comment.user_id, comment.post_id FROM comment;";
-		INSERT_COMM = "INSERT INTO post (post_id, post_content, hascomments,date, user_id) VALUES (?, ?, ?, ?, ?);";
-		UPDATE_COMM = "UPDATE post SET post_id = ?, post_content = ?, hascomments = ?, date = ? WHERE post_id = ?;";
+		INSERT_COMM = "INSERT INTO comment ( comment_content, user_id, post_id) VALUES ( ?, ?, ?);";
+		UPDATE_COMM = "UPDATE comment SET comment_content = ?, user_id = ?, post_id = ? WHERE comment_id = ?;";
 		DELETE_COMM = "DELETE FROM comment WHERE comment_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -98,5 +98,73 @@ public class CommentDal {
 			con.close();
 		}
 
+	}
+
+	public int deleteComment(int comment_id) throws SQLException{
+		String updateCommStatement = DELETE_COMM;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(updateCommStatement);
+			ps.setInt(1, comment_id);
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	public int insertComment(Comment comment) throws SQLException{
+		con = DatabaseHandlerSingleton.getDBConnection();
+		String insertCommStatement = INSERT_COMM;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(insertCommStatement);
+			ps.setString(1, comment.getComment());
+			ps.setInt(2, comment.getUserId());
+			ps.setInt(3, comment.getPostId());
+			
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+		
+	}
+	
+	public int updateComment(Comment comment){
+		String updateComm = UPDATE_COMM;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(updateComm);
+			ps.setString(1, comment.getComment());
+			ps.setInt(2, comment.getUserId());
+			ps.setInt(3, comment.getPostId());
+			ps.setInt(4, comment.getCommenttId());
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
 	}
 }

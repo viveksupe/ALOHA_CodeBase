@@ -28,8 +28,8 @@ public class PostDal {
 
 	public PostDal() {
 		SELECT = "SELECT post.post_id, post.post_content, post.hascomments, post.user_id FROM post";
-		INSERT_POST = "INSERT INTO post (post_id, post_content, hascomments,date, user_id) VALUES (?, ?, ?, ?, ?);";
-		UPDATE_POST = "UPDATE post SET post_id = ?, post_content = ?, hascomments = ?, date = ? WHERE post_id = ?;";
+		INSERT_POST = "INSERT INTO post (post_content, hascomments,date, user_id) VALUES ( ?, ?, ?, ?);";
+		UPDATE_POST = "UPDATE post SET post_content = ?, hascomments = ?, date = ? WHERE post_id = ?;";
 		DELETE_POST = "DELETE FROM post WHERE post_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -91,11 +91,10 @@ public class PostDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(insertUserStatement);
-			ps.setInt(1, post.getPostId());
-			ps.setString(2, post.getPost());
-			ps.setBoolean(3, post.isHasComments());
-			ps.setDate(4, (java.sql.Date) post.getPostDate());
-			ps.setInt(5, user_id);
+			ps.setString(1, post.getPost());
+			ps.setBoolean(2, post.isHasComments());
+			ps.setDate(3, (java.sql.Date) post.getPostDate());
+			ps.setInt(4, user_id);
 
 			result = ps.executeUpdate();
 			return result;
@@ -116,11 +115,10 @@ public class PostDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(updatePost);
-			ps.setInt(1, post.getPostId());
-			ps.setString(2, post.getPost());
-			ps.setBoolean(3, post.isHasComments());
-			ps.setDate(4, (java.sql.Date) post.getPostDate());
-
+			ps.setString(1, post.getPost());
+			ps.setBoolean(2, post.isHasComments());
+			ps.setDate(3, (java.sql.Date) post.getPostDate());
+			ps.setInt(4, post.getPostId());
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
