@@ -168,4 +168,16 @@ public class Friendship {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Friendship [friendshipId=" + friendshipId + ", user1=" + user1
+				+ ", user2=" + user2 + ", status=" + status + ", blocked_by="
+				+ blocked_by + ", req_sent_by=" + req_sent_by + "]";
+	}
+
 }

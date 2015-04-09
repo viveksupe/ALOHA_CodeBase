@@ -5,11 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Friendship;
-import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.User;
 
 /**
@@ -32,8 +30,8 @@ public class FriendshipDal {
 	public FriendshipDal() {
 		SELECTALL = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship;";
 		SELECT_FRIENDSHIP = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE friendship.friendship_id = ?;;";
-		INSERT_FRIENDSHIP = "INSERT INTO friendship(friendship_id, user_id1, user_id2, friend_status_id, blocked_by, req_sent_by) VALUES(?, ?, ?, ?, ?, ?);";
-		UPDATE_FRIENDSHIP = "UPDATE friendship SET friendship_id = ? , user_id1 = ? , user_id2 = ? , friend_status_id = ? , blocked_by = ? , req_sent_by = ? WHERE friendship_id = ?;";
+		INSERT_FRIENDSHIP = "INSERT INTO friendship(user_id1, user_id2, friend_status_id, blocked_by, req_sent_by) VALUES(?, ?, ?, ?, ?);";
+		UPDATE_FRIENDSHIP = "UPDATE friendship SET user_id1 = ? , user_id2 = ? , friend_status_id = ? , blocked_by = ? , req_sent_by = ? WHERE friendship_id = ?;";
 		DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE friendship.friendship_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -43,12 +41,12 @@ public class FriendshipDal {
 	 * @throws SQLException
 	 */
 	public ArrayList<Friendship> selectFriendshipAll() throws SQLException {
-		String SelectUsersAllStatement = SELECTALL;
+		String SelectFriendshipAllStatement = SELECTALL;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(SelectUsersAllStatement);
+			ps = con.prepareStatement(SelectFriendshipAllStatement);
 			rSet = ps.executeQuery();
 			ArrayList<Friendship> friendships = new ArrayList<Friendship>();
 			while (rSet.next()) {
@@ -65,8 +63,9 @@ public class FriendshipDal {
 								.getUser1() : friendship.getUser2());
 				int blocked_by = rSet.getInt("blocked_by");
 				friendship
-				.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
-						.getUser1() : friendship.getUser2());				
+						.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
+								.getUser1() : friendship.getUser2());
+				friendships.add(friendship);
 			}
 			return friendships;
 		} catch (SQLException e) {
@@ -105,8 +104,8 @@ public class FriendshipDal {
 								.getUser1() : friendship.getUser2());
 				int blocked_by = rSet.getInt("blocked_by");
 				friendship
-				.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
-						.getUser1() : friendship.getUser2());
+						.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
+								.getUser1() : friendship.getUser2());
 				return friendship;
 			} else
 				return null;
@@ -124,18 +123,17 @@ public class FriendshipDal {
 
 	public int insertFriendship(Friendship f) throws SQLException {
 		con = DatabaseHandlerSingleton.getDBConnection();
-		String insertUserStatement = INSERT_FRIENDSHIP;
+		String insertFriendshipStatement = INSERT_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(insertUserStatement);
-			ps.setInt(1, f.getFriendshipId());
-			ps.setInt(2, f.getUser1().getUserId());
-			ps.setInt(3, f.getUser2().getUserId());
-			ps.setInt(4, f.getStatus().getStatus());
-			ps.setInt(5, f.getBlocked_by().getUserId());
-			ps.setInt(6, f.getReq_sent_by().getUserId());
+			ps = con.prepareStatement(insertFriendshipStatement);
+			ps.setInt(1, f.getUser1().getUserId());
+			ps.setInt(2, f.getUser2().getUserId());
+			ps.setInt(3, f.getStatus().getStatus());
+			ps.setInt(4, -1);
+			ps.setInt(5, f.getReq_sent_by().getUserId());
 
 			result = ps.executeUpdate();
 			return result;
@@ -149,27 +147,19 @@ public class FriendshipDal {
 		}
 	}
 
-	public int updateFriendship(int id, String fname, String lname, String contactNo,
-			String email, String pwd, Date dob, int isVerified, int isLocked,
-			Date lastActive) throws SQLException {
-		String updateUserStatement = UPDATE_FRIENDSHIP;
+	public int updateFriendship(Friendship f) throws SQLException {
+		String updateFriendshipStatement = UPDATE_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(updateUserStatement);
-			ps.setInt(1, id);
-			ps.setString(2, fname);
-			ps.setString(2, fname);
-			ps.setString(3, lname);
-			ps.setString(4, contactNo);
-			ps.setString(5, email);
-			ps.setString(6, pwd);
-			ps.setDate(7, (java.sql.Date) dob);
-			ps.setInt(8, isVerified);
-			ps.setInt(9, isLocked);
-			ps.setDate(10, (java.sql.Date) lastActive);
-			ps.setInt(11, id);
+			ps = con.prepareStatement(updateFriendshipStatement);
+			ps.setInt(1, f.getUser1().getUserId());
+			ps.setInt(2, f.getUser2().getUserId());
+			ps.setInt(3, f.getStatus().getStatus());
+			ps.setInt(4, f.getBlocked_by().getUserId());
+			ps.setInt(5, f.getReq_sent_by().getUserId());
+			ps.setInt(6, f.getFriendshipId());
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
@@ -183,12 +173,12 @@ public class FriendshipDal {
 	}
 
 	public int deleteUser(int id) throws SQLException {
-		String updateUserStatement = DELETE_FRIENDSHIP;
+		String deleteFriendshipStatement = DELETE_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(updateUserStatement);
+			ps = con.prepareStatement(deleteFriendshipStatement);
 			ps.setInt(1, id);
 			result = ps.executeUpdate();
 			return result;
