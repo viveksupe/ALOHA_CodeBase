@@ -33,7 +33,7 @@ public class TestFriendshipDBHandler {
 			//test.insertFriendship();
 			//test.selectFriendship(3);
 			//test.updateFriendship(3);
-			//test.selectFriendship(3);
+			test.selectFriendship(1);
 			//test.deleteFriendship(3);
 			test.selectAllFriendships();
 
