@@ -20,7 +20,7 @@ public class TestUserDBHandler {
 		try {
 			int res;
 			User u = new User();
-			u.setUserId(0);
+			u.setUserId(1);
 			u.setFirstName("milind");
 			u.setLastName("gokhale");
 			u.setContactNumber("8123697654");
@@ -50,6 +50,8 @@ public class TestUserDBHandler {
 			if (res == 1)
 				System.out.println("row updated successfully");
 
+			u = ud.selectUserByPrimaryKey(1);
+			System.out.println(u.toString());
 			res = ud.deleteUser(1);
 			if (res == 1)
 				System.out.println("row deleted successfully");
@@ -69,7 +71,7 @@ public class TestUserDBHandler {
 			 * System.out.println("row inserted successfully");
 			 */
 
-			ArrayList<User> ulist = ud.selectUserAll();
+/*			ArrayList<User> ulist = ud.selectUserAll();
 
 			for (User user : ulist) {
 				System.out.println(user);
@@ -79,7 +81,7 @@ public class TestUserDBHandler {
 			res = ud.deleteUser(2);
 			res = ud.deleteUser(3);
 			res = ud.deleteUser(4);
-
+*/
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 
