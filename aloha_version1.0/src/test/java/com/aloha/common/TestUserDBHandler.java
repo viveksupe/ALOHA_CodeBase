@@ -28,33 +28,10 @@ public class TestUserDBHandler {
 			// test.insertUser();
 			// test.selectUser();
 			// test.updateUser();
-			//test.selectUser(3);
-			//test.deleteUser(3);
+			// test.selectUser(3);
+			// test.deleteUser(3);
 			test.selectAllUsers();
 
-			/*
-			 * res = ud.insertUser(1, "milind", "gokhale", "8123697654" ,
-			 * "milindhg@gmail.com", "root", dob, 0, 0, dob); if(res==1)
-			 * System.out.println("row inserted successfully"); res =
-			 * ud.insertUser(2, "renuka", "deshmukh", "8123697654" ,
-			 * "renudesh@gmail.com", "root", dob, 0, 0, dob); if(res==1)
-			 * System.out.println("row inserted successfully"); res =
-			 * ud.insertUser(3, "vivek", "supe", "8123697654" ,
-			 * "vsupe@gmail.com", "root", dob, 0, 0, dob); if(res==1)
-			 * System.out.println("row inserted successfully"); res =
-			 * ud.insertUser(4, "mrunal", "pagnis", "8123697654" ,
-			 * "mpagnis@gmail.com", "root", dob, 0, 0, dob); if(res==1)
-			 * System.out.println("row inserted successfully");
-			 */
-
-			/*
-			 * ArrayList<User> ulist = ud.selectUserAll();
-			 * 
-			 * for (User user : ulist) { System.out.println(user); }
-			 * 
-			 * res = ud.deleteUser(1); res = ud.deleteUser(2); res =
-			 * ud.deleteUser(3); res = ud.deleteUser(4);
-			 */
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 
