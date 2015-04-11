@@ -2,6 +2,8 @@ package com.aloha.common.entities;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Milind
  *
@@ -175,9 +177,22 @@ public class Friendship {
 	 */
 	@Override
 	public String toString() {
-		return "Friendship [friendshipId=" + friendshipId + ", user1=" + user1
-				+ ", user2=" + user2 + ", status=" + status + ", blocked_by="
-				+ blocked_by + ", req_sent_by=" + req_sent_by + "]";
+		StringBuffer stringBuffer = new StringBuffer("Friendship ");
+		stringBuffer.append(new StringBuilder().append("[friendshipId=")
+				.append(friendshipId).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[user1=").append(user1)
+				.append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[user2=").append(user2)
+				.append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[status=")
+				.append(status).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[blocked_by=")
+				.append(blocked_by).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[req_sent_by=")
+				.append(req_sent_by).append("]\n").toString());
+		
+		return stringBuffer.toString();
+
 	}
 
 }

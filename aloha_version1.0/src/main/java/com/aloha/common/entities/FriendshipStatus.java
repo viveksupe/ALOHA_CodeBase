@@ -4,7 +4,7 @@
 package com.aloha.common.entities;
 
 /**
- * @author Renuka
+ * @author Milind
  *
  */
 public enum FriendshipStatus {
