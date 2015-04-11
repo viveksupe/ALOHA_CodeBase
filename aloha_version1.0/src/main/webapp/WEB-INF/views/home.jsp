@@ -8,7 +8,13 @@
 <h1>
 	Hello world!  
 </h1>
-
+	
 <P>  The time on the server is ${serverTime}. </P>
+<P>	 <c:forEach items="${users}" var="element"> 
+  <tr>
+    <td>${element}</td>
+  </tr>
+</c:forEach>
+</P>
 </body>
 </html>
