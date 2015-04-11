@@ -1,4 +1,4 @@
-package com.aloha.common;
+package com.aloha.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
