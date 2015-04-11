@@ -19,7 +19,9 @@ public class FriendshipDal {
 	Connection con = null;
 	// write the queries for User table
 	private String SELECTALL;
-	private String SELECT_FRIENDSHIP;
+	private String SELECTALL_FRIENDSHIPS_OF_USER;
+	private String SELECT_FRIENDSHIP_BY_PKEY;
+	private String SELECT_FRIENDSHIP_BY_USERIDS;
 	private String INSERT_FRIENDSHIP;
 	private String UPDATE_FRIENDSHIP;
 	private String DELETE_FRIENDSHIP;
@@ -29,7 +31,9 @@ public class FriendshipDal {
 	 */
 	public FriendshipDal() {
 		SELECTALL = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship;";
-		SELECT_FRIENDSHIP = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE friendship.friendship_id = ?;;";
+		SELECTALL_FRIENDSHIPS_OF_USER = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship where friendship.user_id1 = ? or friendship.user_id2 = ?;";
+		SELECT_FRIENDSHIP_BY_PKEY = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE friendship.friendship_id = ?;";
+		SELECT_FRIENDSHIP_BY_USERIDS = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE (friendship.user_id1=? && friendship.user_id2=?) or  (friendship.user_id2=? && friendship.user_id1=?) ;";
 		INSERT_FRIENDSHIP = "INSERT INTO friendship(user_id1, user_id2, friend_status_id, blocked_by, req_sent_by) VALUES(?, ?, ?, ?, ?);";
 		UPDATE_FRIENDSHIP = "UPDATE friendship SET user_id1 = ? , user_id2 = ? , friend_status_id = ? , blocked_by = ? , req_sent_by = ? WHERE friendship_id = ?;";
 		DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE friendship.friendship_id = ?;";
@@ -37,7 +41,7 @@ public class FriendshipDal {
 	}
 
 	/**
-	 * @return List of users
+	 * @return List of Friendships
 	 * @throws SQLException
 	 */
 	public ArrayList<Friendship> selectFriendshipAll() throws SQLException {
@@ -81,8 +85,105 @@ public class FriendshipDal {
 
 	}
 
+	/**
+	 * @param userId
+	 * @return
+	 * @throws SQLException
+	 */
+	public ArrayList<Friendship> selectFriendshipAllByUser(int userId)
+			throws SQLException {
+		String SelectFriendshipAllByUserStatement = SELECTALL_FRIENDSHIPS_OF_USER;
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(SelectFriendshipAllByUserStatement);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);
+			rSet = ps.executeQuery();
+			ArrayList<Friendship> friendships = new ArrayList<Friendship>();
+			while (rSet.next()) {
+				Friendship friendship = new Friendship();
+				friendship.setUser1(new User());
+				friendship.setUser2(new User());
+				friendship.setFriendshipId(rSet.getInt("friendship_id"));
+				friendship.getUser1().setUserId(rSet.getInt("user_id1"));
+				friendship.getUser2().setUserId(rSet.getInt("user_id2"));
+				friendship.setStatus(rSet.getInt("friend_status_id"));
+				int request_sent_by = rSet.getInt("req_sent_by");
+				friendship
+						.setReq_sent_by(friendship.getUser1().getUserId() == request_sent_by ? friendship
+								.getUser1() : friendship.getUser2());
+				int blocked_by = rSet.getInt("blocked_by");
+				friendship
+						.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
+								.getUser1() : friendship.getUser2());
+				friendships.add(friendship);
+			}
+			return friendships;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+
+	}
+
+	public Friendship selectFriendshipByUsers(int userId1, int userId2) throws SQLException {
+		String SelectFriendhipByUsersStatement = SELECT_FRIENDSHIP_BY_USERIDS;
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(SelectFriendhipByUsersStatement);
+			ps.setInt(1, userId1);
+			ps.setInt(2, userId2);
+			ps.setInt(3, userId1);
+			ps.setInt(4, userId2);
+			rSet = ps.executeQuery();
+			if (rSet.next()) {
+				Friendship friendship = new Friendship();
+				friendship.setUser1(new User());
+				friendship.setUser2(new User());
+				friendship.setFriendshipId(rSet.getInt("friendship_id"));
+				friendship.getUser1().setUserId(rSet.getInt("user_id1"));
+				friendship.getUser2().setUserId(rSet.getInt("user_id2"));
+				friendship.setStatus(rSet.getInt("friend_status_id"));
+				int request_sent_by = rSet.getInt("req_sent_by");
+				friendship
+						.setReq_sent_by(friendship.getUser1().getUserId() == request_sent_by ? friendship
+								.getUser1() : friendship.getUser2());
+				int blocked_by = rSet.getInt("blocked_by");
+				friendship
+						.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
+								.getUser1() : friendship.getUser2());
+				return friendship;
+			} else
+				return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public Friendship selectFriendshipByPrimaryKey(int id) throws SQLException {
-		String SelectUsersByPrimaryKeyStatement = SELECT_FRIENDSHIP;
+		String SelectUsersByPrimaryKeyStatement = SELECT_FRIENDSHIP_BY_PKEY;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -121,6 +222,11 @@ public class FriendshipDal {
 		}
 	}
 
+	/**
+	 * @param f
+	 * @return
+	 * @throws SQLException
+	 */
 	public int insertFriendship(Friendship f) throws SQLException {
 		con = DatabaseHandlerSingleton.getDBConnection();
 		String insertFriendshipStatement = INSERT_FRIENDSHIP;
@@ -147,6 +253,11 @@ public class FriendshipDal {
 		}
 	}
 
+	/**
+	 * @param f
+	 * @return
+	 * @throws SQLException
+	 */
 	public int updateFriendship(Friendship f) throws SQLException {
 		String updateFriendshipStatement = UPDATE_FRIENDSHIP;
 		PreparedStatement ps = null;
@@ -172,6 +283,11 @@ public class FriendshipDal {
 		}
 	}
 
+	/**
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
 	public int deleteUser(int id) throws SQLException {
 		String deleteFriendshipStatement = DELETE_FRIENDSHIP;
 		PreparedStatement ps = null;
