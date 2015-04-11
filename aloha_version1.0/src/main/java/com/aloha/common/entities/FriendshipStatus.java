@@ -8,18 +8,13 @@ package com.aloha.common.entities;
  *
  */
 public enum FriendshipStatus {
-	RequestSent (1),
-	Friends (2),
-	Blocked (3),
-	Default (0);
-	
-	private int status;
-	
-	
-	FriendshipStatus(int status){
-		this.status=status;
-	}
+	RequestSent(1), Friends(2), Blocked(3), Default(0);
 
+	private int status;
+
+	private FriendshipStatus(int status) {
+		this.status = status;
+	}
 
 	/**
 	 * @return the status
@@ -28,9 +23,9 @@ public enum FriendshipStatus {
 		return status;
 	}
 
-
 	/**
-	 * @param status the status to set
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(int status) {
 		this.status = status;
