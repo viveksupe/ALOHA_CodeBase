@@ -27,9 +27,9 @@ public class PostDal {
 	private String DELETE_POST;
 
 	public PostDal() {
-		SELECT = "SELECT post.post_id, post.post_content, post.date, post.hascomments, post.user_id FROM post";
-		INSERT_POST = "INSERT INTO post (post_content, hascomments,date, user_id) VALUES ( ?, ?, ?, ?);";
-		UPDATE_POST = "UPDATE post SET post_content = ?, hascomments = ?, date = ? WHERE post_id = ?;";
+		SELECT = "SELECT post.post_id, post.post_content, post.timestamp, post.hascomments, post.user_id FROM post";
+		INSERT_POST = "INSERT INTO post (post_content, hascomments, user_id) VALUES ( ?, ?, ?);";
+		UPDATE_POST = "UPDATE post SET post_content = ?, hascomments = ?, WHERE post_id = ?;";
 		DELETE_POST = "DELETE FROM post WHERE post_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -46,7 +46,7 @@ public class PostDal {
 			if (rSet.next()) {
 				Post post = new Post(rSet.getInt("post_id"),
 						rSet.getString("post_content"), 
-						rSet.getDate("date"),
+						rSet.getTimestamp("timestamp"),
 						rSet.getBoolean("hasComments"), 
 						null, null);
 
@@ -95,8 +95,7 @@ public class PostDal {
 			ps = con.prepareStatement(insertUserStatement);
 			ps.setString(1, post.getPost());
 			ps.setBoolean(2, post.isHasComments());
-			ps.setDate(3, (java.sql.Date) post.getPostDate());
-			ps.setInt(4, user_id);
+			ps.setInt(3, user_id);
 
 			result = ps.executeUpdate();
 			return result;
@@ -119,8 +118,7 @@ public class PostDal {
 			ps = con.prepareStatement(updatePost);
 			ps.setString(1, post.getPost());
 			ps.setBoolean(2, post.isHasComments());
-			ps.setDate(3, (java.sql.Date) post.getPostDate());
-			ps.setInt(4, post.getPostId());
+			ps.setInt(3, post.getPostId());
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
@@ -147,7 +145,7 @@ public class PostDal {
 				Post post = new Post(
 						rSet.getInt("post_id"),
 						rSet.getString("post_content"), 
-						rSet.getDate("date"),
+						rSet.getTimestamp("timestamp"),
 						rSet.getBoolean("hasComments"), null, null);
 				posts.add(post);
 			}
