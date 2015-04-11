@@ -16,5 +16,6 @@
   </tr>
 </c:forEach>
 </P>
+<p> <a href="friends/" >Friends List</a></p>
 </body>
 </html>

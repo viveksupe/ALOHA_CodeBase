@@ -34,6 +34,12 @@ public class FriendsController {
 
 		List<Friendship> flist = fd.selectFriendshipAllByUser(u.getUserId());
 		model.addAttribute("friends", flist);
+		
+		List<User> ulist = ud.selectUserAll();
+		
+		model.addAttribute("users", flist);
+
+		
 		return "friends/friends";
 
 	}
