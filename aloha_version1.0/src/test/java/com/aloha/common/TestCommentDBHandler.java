@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.aloha.common.dao_manager.dal.CommentDal;
 import com.aloha.common.entities.Comment;
-import com.aloha.common.entities.Post;
 
 public class TestCommentDBHandler {
 
