@@ -25,9 +25,9 @@ public class CommentDal {
 	private String DELETE_COMM;
 	
 	public CommentDal(){
-		SELECT = "SELECT comment.comment_id, comment.comment_content, comment.user_id, comment.post_id FROM comment;";
+		SELECT = "SELECT comment.comment_id, comment.comment_content,comment.timestamp, comment.post_id,comment.user_id FROM comment";
 		INSERT_COMM = "INSERT INTO comment ( comment_content, user_id, post_id) VALUES ( ?, ?, ?);";
-		UPDATE_COMM = "UPDATE comment SET comment_content = ?, user_id = ?, post_id = ? WHERE comment_id = ?;";
+		UPDATE_COMM = "UPDATE comment SET comment_content = ?, user_id = ?, post_id = ?,timestamp=current_timestamp WHERE comment_id = ?;";
 		DELETE_COMM = "DELETE FROM comment WHERE comment_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -45,9 +45,10 @@ public class CommentDal {
 				Comment comm = new Comment(
 						rSet.getInt("comment_id"),
 						rSet.getString("comment_content"), 
-						rSet.getDate("date"),
+						rSet.getTimestamp("timestamp"),
 						rSet.getInt("post_id"), 
 						rSet.getInt("user_id"));
+				
 
 				return comm;
 			} else
@@ -79,7 +80,7 @@ public class CommentDal {
 				Comment comm = new Comment(
 						rSet.getInt("comment_id"),
 						rSet.getString("comment_content"), 
-						rSet.getDate("date"),
+						rSet.getTimestamp("timestamp"),
 						rSet.getInt("post_id"), 
 						rSet.getInt("user_id"));
 

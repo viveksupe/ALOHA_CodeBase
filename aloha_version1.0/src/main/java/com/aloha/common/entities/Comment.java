@@ -72,5 +72,19 @@ public class Comment {
 	
 	public Comment getComment(int commId){return null;}
 	
-	
+	public String toString() {
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(new StringBuilder().append("[commenttId=")
+				.append(commenttId).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[comment=")
+				.append(comment).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[commentDate=")
+				.append(commentDate).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[postId=")
+				.append(postId).append("]\n").toString());
+		stringBuffer.append(new StringBuilder().append("[userId=")
+				.append(userId).append("]\n").toString());
+		
+		return stringBuffer.toString();
+	}
 }
