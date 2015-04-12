@@ -39,8 +39,7 @@
                 }
             </style>
 
-           
-            <div class="root" root="http://feedstack.asia/" access-token=''></div>
+<c:forEach items="${posts}" var="element">
             <div class="feed feed-637" liveuser-id="" uid='845' feed-id='637'>
                 <div class="bcol-15">
                     <div class="feed-user mobile-hidden">
@@ -95,6 +94,7 @@
                 </div>
                 <div class="clear"></div>
             </div>
+</c:forEach>
 
             <div class="bcol-15">&nbsp;</div>
             <div class="bcol-85">
