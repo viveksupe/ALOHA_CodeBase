@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aloha.common.dao_manager.dal.*;
 import com.aloha.common.entities.*;
+import com.aloha.common.model.PostUI;
 
 @Controller
 public class PostController {
@@ -23,10 +24,9 @@ public class PostController {
 		UserDal ud = new UserDal();
 		u = ud.selectUserByPrimaryKey(1);
 		
-		PostDal pDal = new PostDal();
-		ArrayList<Post> posts = pDal.getPostsForUser(u.getUserId());
+		PostUI pui = new PostUI();
+		ArrayList<PostUI> posts = pui.getPostsForUser(u);
 		
-		model.addAttribute("user", u);
 		model.addAttribute("posts", posts);
 		
 		return "post";
