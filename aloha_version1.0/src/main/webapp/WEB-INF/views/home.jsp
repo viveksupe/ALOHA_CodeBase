@@ -14,7 +14,7 @@
  </P>
  
  <p> <a href="friends/">Friends List</a>
- <a href="Login.jsp">Login</a>
+ <a href="login/">Login</a>
  		</p>
         
 	</jsp:body>
