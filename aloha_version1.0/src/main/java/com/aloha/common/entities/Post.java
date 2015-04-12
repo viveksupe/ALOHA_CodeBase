@@ -99,6 +99,15 @@ public class Post {
 	public ArrayList<Post> getPostsUser(int userId) throws SQLException {
 		ArrayList<Post> posts = new ArrayList<Post>();
 		posts = dal.getPostsForUser(userId);
+		
+		for (Post post : posts) {
+			if(post.hasComments = true)
+			{
+				Comment comm = new Comment();
+				post.comments = comm.getCommentsPost(postId);
+			}
+			
+		}
 		return posts;
 	}
 
@@ -117,6 +126,11 @@ public class Post {
 
 	public Post getPost(int postId) throws SQLException {
 		Post post = dal.getPostByPrimaryKey(postId);
+		if(post.hasComments = true)
+		{
+			Comment comm = new Comment();
+			post.comments = comm.getCommentsPost(postId);
+		}
 		return post;
 	}
 

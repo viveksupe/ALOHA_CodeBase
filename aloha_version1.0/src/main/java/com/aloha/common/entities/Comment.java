@@ -58,6 +58,10 @@ public class Comment {
 	 * @param comment
 	 * @param commentDate
 	 */
+	public Comment(){
+		this.dal = new CommentDal();
+	}
+	
 	public Comment(int commenttId, String comment, Date commentDate,
 			int postId, int userId) {
 		super();
