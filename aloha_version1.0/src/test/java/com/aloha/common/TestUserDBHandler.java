@@ -25,7 +25,7 @@ public class TestUserDBHandler {
 
 		try {
 			TestUserDBHandler test = new TestUserDBHandler();
-			// test.insertUser();
+			 test.insertUser();
 			// test.selectUser();
 			// test.updateUser();
 			// test.selectUser(3);

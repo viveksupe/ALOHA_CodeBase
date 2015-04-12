@@ -17,7 +17,8 @@
 </c:forEach>
 </P>
 
-<p> <a href="friends/">Friends List</a>
+<p> <a href="friends/">Friends List</a><br/>
+<a href="Login.jsp">Login</a>
 		</p>
        </jsp:body>
 </t:GlobalTemplate>
