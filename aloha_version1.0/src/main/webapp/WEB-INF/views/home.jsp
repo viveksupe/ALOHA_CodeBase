@@ -10,5 +10,16 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+<P>	 <c:forEach items="${users}" var="element"> 
+  <tr>
+    <td>${element}</td>
+  </tr>
+</c:forEach>
+</P>
+
+<p> <a href="friends/">Friends List</a><br/>
+<a href="Login.jsp">Login</a>
+		</p>
+       </jsp:body>
+
+
