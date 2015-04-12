@@ -1,8 +1,11 @@
 package com.aloha.common.entities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.log4j.Logger;
+import com.aloha.common.dao_manager.dal.FriendshipDal;
+import com.aloha.common.dao_manager.dal.UserDal;
 
 /**
  * @author Milind
@@ -16,6 +19,8 @@ public class Friendship {
 	private FriendshipStatus status;
 	private User blocked_by;
 	private User req_sent_by;
+	public FriendshipDal fdal = new FriendshipDal();
+	public UserDal udal = new UserDal();
 
 	/**
 	 * 
@@ -155,6 +160,29 @@ public class Friendship {
 	}
 
 	/**
+	 * @param friendship
+	 * @return
+	 */
+	public boolean addFriendship(User user1, User user2) {
+		boolean result = false;
+		Friendship f = new Friendship();
+		f.setUser1(user1);
+		f.setUser2(user2);
+		//f.setStatus(FriendshipStatus.Default);
+		//f.setReq_sent_by(user1);
+		try {
+			int res = fdal.insertFriendship(f);
+			if (res == 0)
+				result = true;
+			else
+				result = false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/**
 	 * @param userid
 	 * @return
 	 */
@@ -170,6 +198,27 @@ public class Friendship {
 		return false;
 	}
 
+	public List<Friendship> getFriendships(User u1) {
+		List<Friendship> flist = fdal.selectFriendshipAllByUser(u1.getUserId());		
+		for(Friendship friendship : flist){
+			//if the first user in friendship is himself then populate other user 
+			if(friendship.getUser1().getUserId()==u1.getUserId())
+				friendship.setUser2(udal.selectUserByPrimaryKey(friendship.getUser2().getUserId()));
+			else
+		}
+		try {
+			int res = fdal.insertFriendship(f);
+			if (res == 0)
+				result = true;
+			else
+				result = false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -190,7 +239,7 @@ public class Friendship {
 				.append(blocked_by).append("]\n").toString());
 		stringBuffer.append(new StringBuilder().append("[req_sent_by=")
 				.append(req_sent_by).append("]\n").toString());
-		
+
 		return stringBuffer.toString();
 
 	}

@@ -1,8 +1,6 @@
 package com.aloha.controller;
 
-import java.util.List;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -32,11 +30,9 @@ public class HomeController {
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
 		String formattedDate = dateFormat.format(date);
-	    List<String> users = new ArrayList<String>();
-		users.add("test1");
-		users.add("test2");
+		
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("users", users);
+		
 		return "home";
 	}
 	

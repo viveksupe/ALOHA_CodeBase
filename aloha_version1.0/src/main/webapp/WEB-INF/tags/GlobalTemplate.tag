@@ -40,7 +40,7 @@
                             </i>Profile
                         </li>
                     </a>
-                    <a href="http://feedstack.asia/members"><li><i class="fa fa-space fa-group"></i>Members</li></a>
+                    <a href="friends"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
                     <a href="http://feedstack.asia/user/logout"><li><i class="fa fa-space fa-sign-out"></i>Logout</li></a>
                 </ul>
             </div>
