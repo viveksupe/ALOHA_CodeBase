@@ -36,6 +36,11 @@ public class Post {
 
 	// region gettersetter
 
+	public Post() {
+		// TODO Auto-generated constructor stub
+		this.dal = new PostDal();
+	}
+
 	public int getPostId() {
 		return postId;
 	}
