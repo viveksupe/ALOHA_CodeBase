@@ -30,16 +30,14 @@ public class TestFriendshipDBHandler {
 
 		try {
 			TestFriendshipDBHandler test = new TestFriendshipDBHandler();
-			//test.insertFriendship();
+			test.insertFriendship();
 			//test.selectFriendship(3);
 			//test.updateFriendship(3);
-			test.selectFriendship(1);
+			//test.selectFriendship(1);
 			//test.deleteFriendship(3);
-			test.selectAllFriendships();
+			//test.selectAllFriendships();
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
 		}
 
@@ -64,13 +62,14 @@ public class TestFriendshipDBHandler {
 
 	private void insertFriendship() throws SQLException {
 		int res;
-		User u1 = ud.selectUserByPrimaryKey(1);
 		Friendship f = new Friendship();
+		User u1 = ud.selectUserByPrimaryKey(6);
+		User u2 = ud.selectUserByPrimaryKey(8);
 		f.setUser1(u1);
-		User u2 = ud.selectUserByPrimaryKey(1);
 		f.setUser2(u2);
 		f.setReq_sent_by(u1);
 		f.setStatus(FriendshipStatus.RequestSent);
+		
 		res = fd.insertFriendship(f);
 		if (res == 1)
 			System.out.println("row inserted successfully");
@@ -98,7 +97,7 @@ public class TestFriendshipDBHandler {
 	}
 
 	private void deleteFriendship(int id) throws SQLException {
-		int res = ud.deleteUser(id);
+		int res = fd.deleteUser(id);
 		if (res == 1)
 			System.out.println("row deleted successfully");
 	}
