@@ -10,6 +10,12 @@
     <link href="http://feedstack.asia/themes/simplex/css/menu.css" rel="stylesheet">
     <link href="http://feedstack.asia/themes/simplex/css/index.css" rel="stylesheet">
     <link href="http://feedstack.asia/themes/simplex/css/userlog.css" rel="stylesheet">
+     <link href="http://feedstack.asia/themes/simplex/css/wall.css" rel="stylesheet">
+      <link href="http://feedstack.asia/themes/simplex/css/profile.css" rel="stylesheet">
+   
+   <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
+    <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>
+    <script src="http://feedstack.asia/themes/simplex/script/feed-menu.js"></script>
    
 </head>
 <body>
@@ -51,17 +57,13 @@
                     <ul class="ftr_menu">
                         <a href="http://feedstack.asia/"><li>Home</li></a>
                         <a href="http://feedstack.asia/about"><li>About</li></a>
-                        <a href="http://feedstack.asia/feed"><li>Feeds</li></a>
+                        <a href="/post"><li>Scribble</li></a>
                         <a href="http://feedstack.asia/terms"><li>Terms of use</li></a>
                         <a href="http://feedstack.asia/contact"><li>contact</li></a>
                     </ul>
                 </div>
                 <div class="bcol-30">
-                    <!--<div class="pull-right up">
-                        <a href="https://www.facebook.com/groups/packetcode/"><i class="fa fa-facebook-square s-icons"></i></a>&nbsp;
-                        <a href="https://plus.google.com/+packetcode"><i class="fa fa-google-plus-square s-icons"></i></a>&nbsp;
-                        <a href="https://twitter.com/shaadomanthra"><i class="fa fa-twitter-square s-icons"></i></a>
-                    </div>-->
+                   
                 </div>
                 <div class="clear"></div>
             </div>
