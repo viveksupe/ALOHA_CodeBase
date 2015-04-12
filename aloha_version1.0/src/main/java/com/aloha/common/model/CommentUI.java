@@ -3,6 +3,8 @@ package com.aloha.common.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.aloha.common.entities.Comment;
+import com.aloha.common.entities.Post;
 import com.aloha.common.entities.User;
 
 public class CommentUI {
@@ -55,9 +57,20 @@ public class CommentUI {
 
 	// endregion
 
-	public ArrayList<CommentUI> getCommentsForPost(User user, int postId) {
+	public ArrayList<CommentUI> getCommentsForPost(User user, Post post) {
 
 		ArrayList<CommentUI> comments = new ArrayList<CommentUI>();
+		
+		for (Comment comment : post.getComments()) {
+			CommentUI cui = new CommentUI();
+			cui.setCommentId(comment.getCommenttId());
+			cui.setCommentData(comment.getComment());
+			cui.setCommentDate(comment.getCommentDate());
+			cui.setUserName(user.getFirstName() + user.getLastName());
+			cui.setUserId(user.getUserId());
+			
+			comments.add(cui);
+		}
 
 		return comments;
 	}

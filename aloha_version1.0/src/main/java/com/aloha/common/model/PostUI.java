@@ -83,7 +83,9 @@ public class PostUI {
 				pui.setPostDate(post.getPostDate());
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
-				pui.Comments = comm.getCommentsForPost(user, post.getPostId());
+				pui.Comments = comm.getCommentsForPost(user, post);
+				
+				userPosts.add(pui);
 			}
 			
 			return userPosts;
