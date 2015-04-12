@@ -4,6 +4,35 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
 	<jsp:body>
+      <div class="container-main pad-20">
+        <div class="app">
+<script src="http://feedstack.asia/app/script/members.js"></script>
+<div class="member-body">
+<div class="header-member">
+		<i class="fa fa-space fa-group"></i> Members
+		<span class="members-count">827</span>
+	<span class="member-seach-span"><input type="text"
+							class="member-search" placeholder="search..."
+							root="http://feedstack.asia/"></span>
+	</div>
+<div class="root" root="http://feedstack.asia/" access-token=""></div>
+<div class="entry">
+						<div class="member-container">
+<div class="bcol-member-block">
+	<div class="member-image">
+		<a href="http://feedstack.asia/renudeshmukh">
+		<img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
+	</div>
+	<div class="member-name">
+		<a href="http://feedstack.asia/renudeshmukh">Renuka Deshmukh</a>
+	</div>
+</div>
+<div class="clear"></div>
+</div>
+					</div>
+</div>
+			</div>
+      </div>
 
 	<h1>This is the friends page. This page will contain the listing
 		of user's friends</h1>

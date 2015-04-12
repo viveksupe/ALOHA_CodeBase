@@ -10,10 +10,11 @@
     <link href="http://feedstack.asia/themes/simplex/css/menu.css" rel="stylesheet">
     <link href="http://feedstack.asia/themes/simplex/css/index.css" rel="stylesheet">
     <link href="http://feedstack.asia/themes/simplex/css/userlog.css" rel="stylesheet">
-     <link href="http://feedstack.asia/themes/simplex/css/wall.css" rel="stylesheet">
-      <link href="http://feedstack.asia/themes/simplex/css/profile.css" rel="stylesheet">
+    <link href="http://feedstack.asia/themes/simplex/css/members.css" rel="stylesheet">
+    <link href="http://feedstack.asia/themes/simplex/css/wall.css" rel="stylesheet">
+    <link href="http://feedstack.asia/themes/simplex/css/profile.css" rel="stylesheet">
    
-   <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
+    <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/feed-menu.js"></script>
    
