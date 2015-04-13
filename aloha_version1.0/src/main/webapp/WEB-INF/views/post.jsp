@@ -86,7 +86,7 @@
                                     </span> Comments
                                 </span>
                                 <span class="loading-likers" style="display:none"><img src="http://feedstack.asia/img/loading1.gif" /></span>
-                                <div class="feed-time mobile-hidden">5 hours ago </div>
+                                <div class="feed-time mobile-hidden">${element.getPostDate()}</div>
                             </small>
                         </div>
                         <div class='like-entry-637'><span class='you-like-637'></span></div>		

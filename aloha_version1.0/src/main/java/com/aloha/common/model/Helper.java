@@ -6,13 +6,19 @@ import java.util.TimeZone;
 
 public class Helper {
 
-	public static String getLocalDate(String date) {
+	public static String getLocalDate(Date date) {
 		Date lv_localDate = null;
 
-		SimpleDateFormat lv_parser = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		TimeZone tz = TimeZone.getDefault();
+		/*SimpleDateFormat lv_parser = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		lv_parser.setTimeZone(TimeZone.getTimeZone("UTC"));
 		SimpleDateFormat lv_formatter = new SimpleDateFormat(
 				"dd-MM-yyyy HH:mm:ss z'('Z')'");
 		return lv_formatter.format(lv_localDate);
+*/	
+		SimpleDateFormat sdfAmerica = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a");
+		sdfAmerica.setTimeZone(TimeZone.getDefault());
+		String sDateInAmerica = sdfAmerica.format(date);
+		return sDateInAmerica;
 	}
 }
