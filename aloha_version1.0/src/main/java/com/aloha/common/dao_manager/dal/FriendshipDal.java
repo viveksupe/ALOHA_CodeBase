@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Friendship;
@@ -26,6 +27,9 @@ public class FriendshipDal {
 	private String UPDATE_FRIENDSHIP;
 	private String DELETE_FRIENDSHIP;
 
+	private String SELECT_FRIENDSHIP_BY_USER1ID;
+	private String SELECT_FRIENDSHIP_BY_USER2ID;
+
 	/**
 	 * Constructor
 	 */
@@ -37,6 +41,9 @@ public class FriendshipDal {
 		INSERT_FRIENDSHIP = "INSERT INTO friendship(user_id1, user_id2, friend_status_id, blocked_by, req_sent_by) VALUES(?, ?, ?, ?, ?);";
 		UPDATE_FRIENDSHIP = "UPDATE friendship SET user_id1 = ? , user_id2 = ? , friend_status_id = ? , blocked_by = ? , req_sent_by = ? WHERE friendship_id = ?;";
 		DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE friendship.friendship_id = ?;";
+
+		SELECT_FRIENDSHIP_BY_USER1ID = "SELECT F.*,U.* FROM friendship F inner join user U on F.user_id2=U.user_id where F.user_id1=?;";
+		SELECT_FRIENDSHIP_BY_USER2ID = "SELECT F.*,U.* FROM friendship F inner join user U  on F.user_id1=U.user_id where F.user_id2=?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
@@ -134,7 +141,8 @@ public class FriendshipDal {
 
 	}
 
-	public Friendship selectFriendshipByUsers(int userId1, int userId2) throws SQLException {
+	public Friendship selectFriendshipByUsers(int userId1, int userId2)
+			throws SQLException {
 		String SelectFriendhipByUsersStatement = SELECT_FRIENDSHIP_BY_USERIDS;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
@@ -182,8 +190,47 @@ public class FriendshipDal {
 	 * @return
 	 * @throws SQLException
 	 */
+	@SuppressWarnings("resource")
+	public ArrayList<Friendship> selectFriendshipByUserId(User u)
+			throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		String SelectUsersByUID1 = SELECT_FRIENDSHIP_BY_USER1ID;
+		String SelectUsersByUID2 = SELECT_FRIENDSHIP_BY_USER2ID;
+		Friendship f;
+		ArrayList<Friendship> flist = new ArrayList<Friendship>();
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(SelectUsersByUID1);
+			ps.setInt(1, u.getUserId());
+			rSet = ps.executeQuery();
+			while (rSet.next()) {
+					f = populateFriendship(rSet, u);
+					flist.add(f);
+			}
+
+			ps = con.prepareStatement(SelectUsersByUID2);
+			ps.setInt(1, u.getUserId());
+			rSet = ps.executeQuery();
+			while (rSet.next()) {
+					f = populateFriendship(rSet, u);
+					flist.add(f);
+			}
+			return flist;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
 	public Friendship selectFriendshipByPrimaryKey(int id) throws SQLException {
-		String SelectUsersByPrimaryKeyStatement = SELECT_FRIENDSHIP_BY_PKEY;
+		String SelectUsersByPrimaryKeyStatement = SELECT_FRIENDSHIP_BY_USER1ID;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -306,5 +353,30 @@ public class FriendshipDal {
 				ps.close();
 			con.close();
 		}
+	}
+
+	private Friendship populateFriendship(ResultSet rSet, User u)
+			throws SQLException {
+		Friendship friendship = new Friendship();
+		friendship.setFriendshipId(rSet.getInt("friendship_id"));
+		friendship.setStatus(rSet.getInt("friend_status_id"));
+		int request_sent_by = rSet.getInt("req_sent_by");
+		friendship
+				.setReq_sent_by(friendship.getUser1().getUserId() == request_sent_by ? friendship
+						.getUser1() : friendship.getUser2());
+		int blocked_by = rSet.getInt("blocked_by");
+		friendship
+				.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
+						.getUser1() : friendship.getUser2());
+
+		friendship.setUser1(u);
+		User otherUser = new User(rSet.getInt("user_id"),
+				rSet.getString("fname"), rSet.getString("lname"),
+				rSet.getString("contact_number"), rSet.getString("email"),
+				rSet.getString("password"), rSet.getDate("bdate"),
+				rSet.getInt("isVerified"), rSet.getInt("isLocked"),
+				rSet.getDate("lastActive"));
+		friendship.setUser2(otherUser);
+		return friendship;
 	}
 }

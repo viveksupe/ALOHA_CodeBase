@@ -1,6 +1,7 @@
 package com.aloha.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,20 +25,21 @@ public class FriendsController {
 	public String index(Locale locale, Model model) throws SQLException {
 		// creating user to start working with and finding friends.
 		User u = new User();
+		Friendship f = new Friendship();
 
 		// fetching my first user from the db to start adding friends
 		UserDal ud = new UserDal();
-		u = ud.selectUserByPrimaryKey(1);
+		u = ud.selectUserByPrimaryKey(6);
+		ArrayList<User> ulist = f.getUserFriends(u);
+		
+		model.addAttribute("users", ulist);
 
-		// fetching the friends of current user u
+/*		// fetching the friends of current user u
 		FriendshipDal fd = new FriendshipDal();
 
 		List<Friendship> flist = fd.selectFriendshipAllByUser(u.getUserId());
 		model.addAttribute("friends", flist);
-		
-		List<User> ulist = ud.selectUserAll();
-		
-		model.addAttribute("users", flist);
+*/		
 
 		
 		return "friends/friends";
