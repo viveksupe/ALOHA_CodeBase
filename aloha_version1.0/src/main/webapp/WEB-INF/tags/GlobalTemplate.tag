@@ -5,14 +5,14 @@
 <head>
     <title>Aloha</title>
     <link rel="stylesheet" href="http://feedstack.asia/lib/font-awesome/css/font-awesome.css">
-    <link href="http://feedstack.asia/themes/simplex/css/bottle.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/feed-menu.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/menu.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/index.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/userlog.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/members.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/wall.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/profile.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bottle.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/feed-menu.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/menu.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/index.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/userlog.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/members.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/wall.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/profile.css" rel="stylesheet">
    
     <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>

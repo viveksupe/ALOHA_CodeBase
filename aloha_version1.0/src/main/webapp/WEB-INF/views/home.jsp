@@ -12,7 +12,7 @@
    </tr>
  </c:forEach>
  </P>
- 
+ <img alt="ok" src="${pageContext.request.contextPath}/resources/img/glyphicons-halflings-white.png">
  <p> <a href="friends/">Friends List</a>
  <a href="login/">Login</a>
  		</p>
