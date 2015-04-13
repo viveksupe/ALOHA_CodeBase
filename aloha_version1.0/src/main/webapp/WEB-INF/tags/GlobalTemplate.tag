@@ -17,6 +17,7 @@
     <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/feed-menu.js"></script>
+    <script src="http://feedstack.asia/app/script/wall.js"></script>
    
 </head>
 <body>
@@ -29,9 +30,6 @@
             </div>
             <div class="bcol-75 menu">
                 <span class="menu-text">+ menu</span>
-
-                <style>
-                </style>
                 <ul class="menu-bar">
                     <a href="/common"><li><i class="fa fa-space fa-home"></i>Home</li></a>
                     <a href="http://feedstack.asia/renudeshmukh">
