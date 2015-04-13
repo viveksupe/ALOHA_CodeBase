@@ -82,12 +82,17 @@ public class UserDal {
 			ps.setInt(1, id);
 			rSet = ps.executeQuery();
 			if (rSet.next()) {
-				User u = new User(rSet.getInt("user_id"),
-						rSet.getString("fname"), rSet.getString("lname"),
-						rSet.getString("contact_number"),
-						rSet.getString("email"), rSet.getString("password"),
-						rSet.getDate("bdate"), rSet.getInt("isVerified"),
-						rSet.getInt("isLocked"), rSet.getDate("lastActive"));
+				User u = new User();
+				u.setUserId(rSet.getInt("user_id"));
+				u.setFirstName(rSet.getString("fname"));
+				u.setLastName(rSet.getString("lname"));
+				u.setContactNumber(rSet.getString("contact_number"));
+				u.setEmail(rSet.getString("email"));
+						u.setPassword(rSet.getString("password"));
+				u.setDateOfBirth(rSet.getDate("bdate"));
+						u.setIsVerified(rSet.getInt("isVerified"));
+						u.setIsLocked(rSet.getInt("isLocked"));
+						u.setLastActive(rSet.getDate("lastActive"));
 				return u;
 			} else
 				return null;

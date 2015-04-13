@@ -30,6 +30,7 @@
             </div>
             <div class="bcol-75 menu">
                 <span class="menu-text">+ menu</span>
+
                 <ul class="menu-bar">
                     <a href="/common"><li><i class="fa fa-space fa-home"></i>Home</li></a>
                     <a href="http://feedstack.asia/renudeshmukh">
