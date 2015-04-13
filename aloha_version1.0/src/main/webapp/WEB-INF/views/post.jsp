@@ -60,14 +60,14 @@
                             </div>
                             <div class="bcol-90x">
                                 <div class="feed-title">
-                                    <b><a href="http://feedstack.asia/renudeshmukh">${element.UserName}</a></b>
-                                    <small class="feed-time-mobile mobile-visible">5 hours ago </small>
+                                    <b><a href="http://feedstack.asia/renudeshmukh">${element.getUserName()}</a></b>
+                                    <small class="feed-time-mobile mobile-visible">${element.getPostDate()} </small>
                                 </div>
                             </div>
 
                             <div class="clear"></div>
                             <div class="feed-content">
-                                <div class='article'>${element.PostData}</div>
+                                <div class='article'>${element.getPostData()}</div>
                             </div>
                             <small>
                                 <span class="feed-view-count">

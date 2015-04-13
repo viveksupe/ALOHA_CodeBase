@@ -26,7 +26,7 @@ public class PostController {
 		
 		PostUI pui = new PostUI();
 		ArrayList<PostUI> posts = pui.getPostsForUser(u);
-		
+		//posts.get(1).getPostData()
 		model.addAttribute("posts", posts);
 		
 		return "post";
