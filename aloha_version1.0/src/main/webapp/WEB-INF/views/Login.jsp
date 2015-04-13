@@ -11,8 +11,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <title>ALOHA</title>
-	<link href="css/bootstrap.css" rel="stylesheet" type="text/css"></link>
-	<link href="css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
+	<link href="resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
+	<link href="resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
 	
     <!--[if IE]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -50,7 +50,7 @@
 <!-- End of FORM -->
  
   <script src ="http://code.jquery.com/jquery-latest.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="resources/Login/js/bootstrap.min.js"></script>
 <script>
 function checkPassword(input){
       var pass = /^(?:([A-Z])*([a-z])*(\d)*(\W)*){8,15}$/;
