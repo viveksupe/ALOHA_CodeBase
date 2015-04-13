@@ -46,7 +46,7 @@
             <div class="clear"></div>
         </div>
     </div>
-    <div class="body" align="center">
+    <div class="body">
           <jsp:doBody/>
     </div>
 
