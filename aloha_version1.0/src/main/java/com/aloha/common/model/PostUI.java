@@ -80,10 +80,10 @@ public class PostUI {
 				PostUI pui = new PostUI();
 				pui.setUserName(user.getFirstName() + " " + user.getLastName());
 				pui.setUserId(user.getUserId());
-				pui.setPostDate(Helper.getLocalDate(post.getPostDate().toString()));
+				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
-				pui.Comments = comm.getCommentsForPost(user, post);
+				pui.setComments(comm.getCommentsForPost(user, post));
 				
 				userPosts.add(pui);
 			}
