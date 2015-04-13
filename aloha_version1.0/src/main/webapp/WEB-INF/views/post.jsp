@@ -60,14 +60,14 @@
                             </div>
                             <div class="bcol-90x">
                                 <div class="feed-title">
-                                    <b><a href="http://feedstack.asia/renudeshmukh"> Renuka Deshmukh</a></b>
-                                    <small class="feed-time-mobile mobile-visible">5 hours ago </small>
+                                    <b><a href="http://feedstack.asia/renudeshmukh">${element.getUserName()}</a></b>
+                                    <small class="feed-time-mobile mobile-visible">${element.getPostDate()} </small>
                                 </div>
                             </div>
 
                             <div class="clear"></div>
                             <div class="feed-content">
-                                <div class='article'>renuka</div>
+                                <div class='article'>${element.getPostData()}</div>
                             </div>
                             <small>
                                 <span class="feed-view-count">
@@ -89,7 +89,8 @@
                                 <div class="feed-time mobile-hidden">5 hours ago </div>
                             </small>
                         </div>
-                        <div class='like-entry-637'><span class='you-like-637'></span></div>		<div class="comment-block-entry-637" style="display:none"></div>
+                        <div class='like-entry-637'><span class='you-like-637'></span></div>		
+                        <div class="comment-block-entry-637" style="display:none"></div>
                     </div>
                 </div>
                 <div class="clear"></div>

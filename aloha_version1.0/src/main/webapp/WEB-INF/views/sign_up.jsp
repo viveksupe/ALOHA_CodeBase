@@ -31,17 +31,21 @@
     <hr />
 
 <!-- Start of FORM -->
-<form name="login" method="post" action="home.jsp">
+<form name="sign_up" method="post" action="Login.jsp">
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
 	 <h2>Login</h2>
+	 <label>First Name</label><input type="text" name="fname" width="100px"  required/>
+	 <label>Last Name</label><input type="text" name="lname" width="100px"  required/>
+	 <label>Contact Number</label><input type="text" name="cnum" width="100px" />
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
 	 <label>Password</label><input type="password" name="pwd" width="100px" required/>
-	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle" onClick="checkPassword(document.login.Login)">
+	 <label>Confirm Password</label><input type="password" name="cpwd" width="100px" required/>
+	 <input class="btn btn-primary" type="submit" value="Sign Up" name="sign_up" align="middle" onClick="Validate()">
 	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
-	 <a style="font-size:11px" href="forgotPassword.jsp">Forgot Password?</a> <br/>
-	 <a style="font-size:20px" href="sign_up/">Not a member yet? Join Us</a>
+	 <a style="font-size:20px" href="login/">Already a member? Login</a>
+
 </div>
 
 
@@ -52,17 +56,60 @@
   <script src ="http://code.jquery.com/jquery-latest.js"></script>
 <script src="resources/Login/js/bootstrap.min.js"></script>
 <script>
-function checkPassword(input){
+function Validate(){
+      var fname = document.forms["sign_up"]["fname"].value;
+	  var lname = document.forms["sign_up"]["lname"].value;
+	  var cnum = document.forms["sign_up"]["cnum"].value;
+	  var in_pswd = document.forms["sign_up"]["pwd"].value;
+	  var c_pswd = document.forms["sign_up"]["cpwd"].value;	  
       var pass = /^(?:([A-Z])*([a-z])*(\d)*(\W)*){8,15}$/;
-      if(input.value.match(pass))
+	  var phoneno = /^\d{10}$/; 
+	  var letters = /^[A-Za-z]+$/;
+	  var ret = false;
+	  if(fname.match(letters))
+	  {
+	   ret = true;
+	  }
+	  else
+	  {
+	   return false;
+	  }
+	  if(lname.match(letters))
+	  {
+	   ret = true;
+	  }
+	  else
+	  {
+	   return false;
+	  }
+	  if(cnum.match(phoneno))
+	  {
+	   ret = true;
+	  }
+	  else
+	  {
+	   return false;
+	  }
+      if(in_pswd.match(pass))
       {
-       return true;
+       ret = true;
       }
       else
       {
        alert('Incorrect email or password');
        return false;
       }
+	  
+	  if(c_pswd.match(in_pswd))
+	  {
+	    ret = true;
+	  }
+	  else
+	  {
+	   alert('Confirm Password does not match');
+       return false;
+	  }
+	  return true;
 }
 </script>
   </body>

@@ -9,7 +9,7 @@ import com.aloha.common.entities.*;
 public class PostUI {
 	private String UserName;
 	private int UserId;
-	private Date PostDate;
+	private String PostDate;
 	private String PostData;
 	private int PostId;
 	private ArrayList<CommentUI> Comments;
@@ -34,11 +34,11 @@ public class PostUI {
 		UserId = userId;
 	}
 
-	public Date getPostDate() {
+	public String getPostDate() {
 		return PostDate;
 	}
 
-	public void setPostDate(Date postDate) {
+	public void setPostDate(String postDate) {
 		PostDate = postDate;
 	}
 
@@ -78,9 +78,9 @@ public class PostUI {
 			posts = p.getPostsUser(user.getUserId());
 			for (Post post : posts) {
 				PostUI pui = new PostUI();
-				pui.setUserName(user.getFirstName() + user.getLastName());
+				pui.setUserName(user.getFirstName() + " " + user.getLastName());
 				pui.setUserId(user.getUserId());
-				pui.setPostDate(post.getPostDate());
+				pui.setPostDate(Helper.getLocalDate(post.getPostDate().toString()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
 				pui.Comments = comm.getCommentsForPost(user, post);
