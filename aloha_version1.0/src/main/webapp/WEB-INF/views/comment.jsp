@@ -1,4 +1,6 @@
-<div class="comment-block-entry-637" style="display: block;">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set value="${param.comments}" var="comments" />
+<c:forEach items="${comments}" var="comment">
     <div class="feed-comment">
         <div class="feed-comment-list feed-comment-list-637">
             <div class="feed-comment-block feed-comment-block-202">
@@ -15,7 +17,7 @@
                             <small>
                                 <b>
                                     <a href="http://feedstack.asia/renudeshmukh">
-                                        Renuka Deshmukh
+                                        "${comment.getUserName()}"
                                     </a>
                                 </b>
                             </small>
@@ -32,7 +34,11 @@
             </div>
             <div class="feed-comment-entry feed-comment-entry-637"></div>
         </div>
-        <div class="feed-comment-input" feed-id="637">
+           </div>
+
+</c:forEach>
+
+<div class="feed-comment-input" feed-id="637">
             <div class="bcol-20x">
                 <div class="feed-comment-user">
                     <a href="http://feedstack.asia/renudeshmukh">
@@ -47,5 +53,4 @@
             </div>
             <div class="clear"></div>
         </div>
-    </div>
-</div>
+ 
