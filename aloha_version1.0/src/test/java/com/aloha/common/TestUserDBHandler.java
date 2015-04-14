@@ -25,12 +25,12 @@ public class TestUserDBHandler {
 
 		try {
 			TestUserDBHandler test = new TestUserDBHandler();
-			 test.insertUser();
-			// test.selectUser();
+			 //test.insertUser();
+			test.selectUser(6);
 			// test.updateUser();
 			// test.selectUser(3);
 			// test.deleteUser(3);
-			test.selectAllUsers();
+			//test.selectAllUsers();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

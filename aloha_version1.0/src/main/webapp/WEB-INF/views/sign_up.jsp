@@ -11,9 +11,10 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <title>ALOHA</title>
-	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
-	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
-	
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css">
+  	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
     <!--[if IE]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -40,6 +41,7 @@
 	 <div id="fname_e" class = "error" style = "display:none"><label>Enter valid first name</label></div>
 	 <label>Last Name</label><input type="text" name="lname" width="100px"  required/>
 	 <div id="lname_e" class = "error" style = "display:none"><label>Enter valid last name</label></div>
+	 <label>Date of Birth</label><input type="text" id="datepicker">
 	 <label>Contact Number</label><input type="text" name="cnum" width="100px" />
 	 <div id="cnum_e" class = "error" style = "display:none"><label>Enter valid contact number</label></div>
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
@@ -59,7 +61,7 @@
 <!-- End of FORM -->
  
   <script src ="http://code.jquery.com/jquery-latest.js"></script>
-<script src="${pageContext.request.contextPath}/resources/Login/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script>
 function Validate(){
       var fname = document.forms["sign_up"]["fname"].value;
@@ -121,5 +123,10 @@ function Validate(){
 	  return ret;
 }
 </script>
+<script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+ </script>
   </body>
 </html>

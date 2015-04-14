@@ -23,7 +23,7 @@ public class UserDal {
 	private String INSERT_USER;
 	private String UPDATE_USER;
 	private String DELETE_USER;
-
+	private String SELECT_LOGIN;
 	/**
 	 * Constructor
 	 */
@@ -185,5 +185,34 @@ public class UserDal {
 				ps.close();
 			con.close();
 		}
+	}
+	public User getPasswordByEmail(String email, String pwd) throws SQLException{
+		String query = "select * from user where user.email = ? and user.password = ?;";
+		PreparedStatement ps = null;
+		ResultSet res = null;
+		User u = null;
+		try{
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(query);
+			ps.setString(1, email);
+			ps.setString(2, pwd);
+			res = ps.executeQuery();
+			u = new User(res.getInt("userid"),res.getString("fname"), res.getString("lname"),
+			res.getString("contact_number"),
+			res.getString("email"), res.getString("password"),
+			res.getDate("bdate"), res.getInt("isVerified"),
+			res.getInt("isLocked"), res.getDate("lastActive"));			
+		}
+		catch(SQLException ex){
+			u = null;
+			throw ex;
+		}
+		finally{
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+		
+		return u;
 	}
 }
