@@ -2,8 +2,10 @@ package com.aloha.controller;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import javax.websocket.OnClose;
@@ -33,6 +35,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 public class WebSocketChatController {
 
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
+	private static Map map = Collections.synchronizedMap(new HashMap());
 
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session. The session
@@ -42,6 +45,7 @@ public class WebSocketChatController {
 	@OnOpen
 	public void onOpen(Session session) {
 		System.out.println(session.getId() + " has opened a connection");
+		//System.out.println(session.);
 		clients.add(session);
 
 		/*
