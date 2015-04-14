@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.dao_manager.dal.UserDal;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;;
 
 public class TestUserDBHandler {
 	static final Logger logger = Logger.getLogger(TestUserDBHandler.class
@@ -42,7 +42,7 @@ public class TestUserDBHandler {
 
 	private void selectAllUsers() throws SQLException {
 
-		ArrayList<User> ulist = ud.selectUserAll();
+		ArrayList<com.aloha.common.entities.user.User> ulist = ud.selectUserAll();
 
 		for (User user : ulist) {
 			System.out.println(user);
