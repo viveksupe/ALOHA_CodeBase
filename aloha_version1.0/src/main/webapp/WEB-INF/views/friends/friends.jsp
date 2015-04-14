@@ -9,7 +9,7 @@
 <script src="http://feedstack.asia/app/script/members.js"></script>
 <div class="member-body">
 <div class="header-member">
-		<i class="fa fa-space fa-group"></i> Friends
+		<i class="fa fa-space fa-group"></i> Friends of ${sessionUser.getFirstName()}
 		<span class="members-count">${pageContext.request.contextPath})</span>
 	<span class="member-seach-span"><input type="text"
 							class="member-search" placeholder="search..."
