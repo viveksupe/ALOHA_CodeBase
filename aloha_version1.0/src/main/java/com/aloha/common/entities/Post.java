@@ -106,11 +106,11 @@ public class Post {
 		posts = dal.getPostsForUser(userId);
 		
 		for (Post post : posts) {
-			if(post.hasComments = true)
-			{
+			//if(post.hasComments = true)
+			//{
 				Comment comm = new Comment();
-				post.comments = comm.getCommentsPost(postId);
-			}
+				post.comments = comm.getCommentsPost(post.getPostId());
+			//}
 			
 		}
 		return posts;
