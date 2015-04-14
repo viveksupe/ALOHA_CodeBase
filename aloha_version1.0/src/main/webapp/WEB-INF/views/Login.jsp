@@ -11,8 +11,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <title>ALOHA</title>
-	<link href="resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
-	<link href="resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
+	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
+	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
 	
     <!--[if IE]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -31,7 +31,7 @@
     <hr />
 
 <!-- Start of FORM -->
-<form name="login" method="post" action="home.jsp">
+<form name="login" method="post" action="${pageContext.request.contextPath}/login">
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
@@ -41,7 +41,7 @@
 	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle" onClick="checkPassword(document.login.Login)">
 	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
 	 <a style="font-size:11px" href="forgotPassword.jsp">Forgot Password?</a> <br/>
-	 <a style="font-size:20px" href="sign_up/">Not a member yet? Join Us</a>
+	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/sign_up/">Not a member yet? Join Us</a>
 </div>
 
 
@@ -50,7 +50,7 @@
 <!-- End of FORM -->
  
   <script src ="http://code.jquery.com/jquery-latest.js"></script>
-<script src="resources/Login/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/Login/js/bootstrap.min.js"></script>
 <script>
 function checkPassword(input){
       var pass = /^(?:([A-Z])*([a-z])*(\d)*(\W)*){8,15}$/;

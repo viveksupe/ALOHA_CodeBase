@@ -1,5 +1,6 @@
 package com.aloha.controller;
 
+import java.sql.SQLException;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -8,6 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.entities.User;
 
 @Controller
 public class UserSignupController {
@@ -22,4 +28,35 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 		
 		return "sign_up";
 	}
+	@RequestMapping(value = "login/sign_up", method = RequestMethod.POST)
+	public String perform_sign_up(@RequestParam("fname") String fname,@RequestParam("lname") String lname, @RequestParam("cnum") String cnum, @RequestParam("email") String email, @RequestParam("pwd") String pwd,@RequestParam("cpwd") String cpwd, Model model) {
+		logger.info("Welcome Sign_up! The client locale is {}.");
+		
+		UserDal ud = new UserDal();
+		User u = new User();
+	
+		u.setFirstName(fname);
+		u.setLastName(lname);
+		u.setContactNumber(cnum);
+		u.setPassword(pwd);
+		
+		u.setIsLocked(0);
+		u.setIsVerified(0);
+		u.setEmail(email);
+		
+		int res =0;
+		try {
+			res = ud.insertUser(u);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			((Model) model).addAttribute("headerMessage","Something went wrong");
+			return "sign_up";
+		}
+		if(res==1)
+			((Model) model).addAttribute("headerMessage","Please login, you have successfully signed up");
+		//System.out.println("success");
+		return "Login";
+	}
+	//public ModelAndView perform_sign_up(@ModelAttribute("user"))
 }

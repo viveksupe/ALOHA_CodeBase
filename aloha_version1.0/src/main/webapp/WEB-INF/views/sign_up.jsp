@@ -11,8 +11,8 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <title>ALOHA</title>
-	<link href="resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
-	<link href="resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
+	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
+	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
 	
     <!--[if IE]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -31,20 +31,25 @@
     <hr />
 
 <!-- Start of FORM -->
-<form name="sign_up" method="post" action="Login.jsp">
+<form name="sign_up" method="post" action="${pageContext.request.contextPath}/login/sign_up">
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
 	 <h2>Login</h2>
 	 <label>First Name</label><input type="text" name="fname" width="100px"  required/>
+	 <div id="fname_e" class = "error" style = "display:none"><label>Enter valid first name</label></div>
 	 <label>Last Name</label><input type="text" name="lname" width="100px"  required/>
+	 <div id="lname_e" class = "error" style = "display:none"><label>Enter valid last name</label></div>
 	 <label>Contact Number</label><input type="text" name="cnum" width="100px" />
+	 <div id="cnum_e" class = "error" style = "display:none"><label>Enter valid contact number</label></div>
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
 	 <label>Password</label><input type="password" name="pwd" width="100px" required/>
+	 <div id="pwd_e" class = "error" style = "display:none"><label>Enter valid password (at least one Capital, one small, one numeric and between length 8-15)</label></div>
 	 <label>Confirm Password</label><input type="password" name="cpwd" width="100px" required/>
+	 <div id="cpwd_e" class = "error" style = "display:none"><label>Confirm password wrong</label></div>
 	 <input class="btn btn-primary" type="submit" value="Sign Up" name="sign_up" align="middle" onClick="Validate()">
 	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
-	 <a style="font-size:20px" href="login/">Already a member? Login</a>
+	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/">Already a member? Login</a>
 
 </div>
 
@@ -54,7 +59,7 @@
 <!-- End of FORM -->
  
   <script src ="http://code.jquery.com/jquery-latest.js"></script>
-<script src="resources/Login/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/Login/js/bootstrap.min.js"></script>
 <script>
 function Validate(){
       var fname = document.forms["sign_up"]["fname"].value;
@@ -72,7 +77,8 @@ function Validate(){
 	  }
 	  else
 	  {
-	   return false;
+		  $("#fname_e").css('display','block');
+	   		ret = false;
 	  }
 	  if(lname.match(letters))
 	  {
@@ -80,7 +86,8 @@ function Validate(){
 	  }
 	  else
 	  {
-	   return false;
+		  $("#lname_e").css('display','block');
+		  ret = false;
 	  }
 	  if(cnum.match(phoneno))
 	  {
@@ -88,7 +95,8 @@ function Validate(){
 	  }
 	  else
 	  {
-	   return false;
+		  $("#cnum_e").css('display','block');
+	   ret = false;
 	  }
       if(in_pswd.match(pass))
       {
@@ -96,8 +104,8 @@ function Validate(){
       }
       else
       {
-       alert('Incorrect email or password');
-       return false;
+    	  $("#pwd_e").css('display','block');
+       ret = false;
       }
 	  
 	  if(c_pswd.match(in_pswd))
@@ -106,10 +114,11 @@ function Validate(){
 	  }
 	  else
 	  {
-	   alert('Confirm Password does not match');
-       return false;
+		  $("#cpwd_e").css('display','block');
+       ret = false;
 	  }
-	  return true;
+	  
+	  return ret;
 }
 </script>
   </body>
