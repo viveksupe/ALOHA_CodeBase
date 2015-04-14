@@ -63,19 +63,24 @@ public class WebSocketChatController {
 	 */
 	@OnMessage
 	public void onMessage(String message, Session session) throws JsonParseException, JsonMappingException, IOException  {
+		
 		ChatToken userChat;
 	     ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
 	     // IMPORTANT
 	     // without this option set adding new fields breaks old code
 	     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	     userChat = mapper.readValue(message, ChatToken.class);
-	     System.out.println(userChat.getChatMsg());
+	     System.out.print("Message: " +userChat.getChatMsg());
+	     System.out.print("ToUserID: " +userChat.getToUserID());
+	     System.out.println("FromUserID: " +userChat.getUserID());
+	
 		synchronized (clients) {
 			// Iterate over the connected sessions
 			// and broadcast the received message
 			for (Session client : clients) {
 				if (!client.equals(session)) {
 					try {
+						
 						client.getBasicRemote().sendText(message);
 					} catch (IOException ex) {
 						ex.printStackTrace();
