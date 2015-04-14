@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.aloha.common.entities.*;
+import com.aloha.common.entities.user.User;
 
 public class PostUI {
 	private String UserName;
