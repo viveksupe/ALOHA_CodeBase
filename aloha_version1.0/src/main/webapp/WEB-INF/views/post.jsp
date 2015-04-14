@@ -115,8 +115,9 @@ $(document).on('click','.feed-comment-count',function(){
                         <div class='like-entry-${element.getPostId()}'><span class='you-like-${element.getPostId()}'></span></div>		
                         <div class="comment-block-entry-${element.getPostId()}" style="display:none">
                         
-<jsp:include page="comment.jsp" >
-    <jsp:param name="comments" value="${element.getComments()}" />
+<c:set var="comments" value="${element.getComments()}" scope="request" />
+<jsp:include page="comment.jsp">
+  <jsp:param name="comments" value="comments"/>
 </jsp:include>
 
     					

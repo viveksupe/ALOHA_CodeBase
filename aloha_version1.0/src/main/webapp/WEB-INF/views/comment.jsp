@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set value="${param.comments}" var="comments" />
+
+
 <c:forEach items="${comments}" var="comment">
     <div class="feed-comment">
         <div class="feed-comment-list feed-comment-list-637">
@@ -17,16 +18,16 @@
                             <small>
                                 <b>
                                     <a href="http://feedstack.asia/renudeshmukh">
-                                        "${comment.getUserName()}"
+                                        ${comment.getUserName()}
                                     </a>
                                 </b>
                             </small>
-                            <small>15 hours ago</small>
+                            <small>${comment.getCommentDate()}</small>
 
                             <span class="feed-comment-delete" comment-id="202"><i class="fa fa-trash-o "></i></span>
                         </div>
                         <div class="feed-comment-text">
-                            My first comment
+                           ${comment.getCommentData()}
                         </div>
                     </div>
                 </div>
