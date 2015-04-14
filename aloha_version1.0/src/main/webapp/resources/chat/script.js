@@ -133,14 +133,14 @@ function display_popups() {
 }
 
 // creates markup for a new popup. Adds the id to popups array.
-function register_popup(id, name) {
+function register_popup(toid,fromid, name) {
 
 	for (var iii = 0; iii < popups.length; iii++) {
 		// already registered. Bring it to front.
-		if (id == popups[iii]) {
+		if (toid == popups[iii]) {
 			Array.remove(popups, iii);
 
-			popups.unshift(id);
+			popups.unshift(toid);
 
 			calculate_popups();
 
@@ -148,14 +148,14 @@ function register_popup(id, name) {
 		}
 	}
 	
-	var element = '<div class="msg_box" id="' + id + '">';
+	var element = '<div class="msg_box" id="' + toid + '">';
 	element = element + '<div class="msg_head" onclick=toggleBox();>' + name
 			+ '<div class="close" onclick=closeBox();>X</div></div><div class="msg_wrap">';
 	name = name.replace(/\s+/g, '');
 	element = element
 			+ '<div class="msg_body"> <div class="msg_a">This is from A</div> <div class="msg_b">This is from B</div><div class="msg_push"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'+name+'" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'+name+'").value,'+name+')>Send</button></td></tr></table></div>';
+			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'+name+'" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'+name+'").value,'+toid+')>Send</button></td></tr></table></div>';
 	// element = element + '<div class="popup-head-right"><a
 	// href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
 	element = element + '</div>';
@@ -164,7 +164,7 @@ function register_popup(id, name) {
 			.getElementsByTagName("body")[0].innerHTML
 			+ element;
 
-	popups.unshift(id);
+	popups.unshift(toid);
 
 	calculate_popups();
 
