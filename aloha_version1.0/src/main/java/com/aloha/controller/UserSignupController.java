@@ -1,5 +1,6 @@
 package com.aloha.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Locale;
 
@@ -14,9 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.User;
+import com.aloha.common.util.Secure_Hash;
 
 @Controller
-public class UserSignupController {
+public class UserSignupController extends Secure_Hash{
 private static final Logger logger = LoggerFactory.getLogger(UserSignupController.class);
 	
 	/**
@@ -35,11 +37,18 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 		UserDal ud = new UserDal();
 		User u = new User();
 	
+		String hashed_pwd = "";
+		try {
+			hashed_pwd = getHash(pwd);
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			model.addAttribute("Something went wrong please try again");
+		}
 		u.setFirstName(fname);
 		u.setLastName(lname);
-		u.setContactNumber(cnum);
-		u.setPassword(pwd);
-		
+		u.setContactNumber(cnum);		
+		u.setPassword(hashed_pwd);		
 		u.setIsLocked(0);
 		u.setIsVerified(0);
 		u.setEmail(email);

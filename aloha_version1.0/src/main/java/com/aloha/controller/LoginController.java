@@ -1,5 +1,6 @@
 package com.aloha.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.User;
+import com.aloha.common.util.Secure_Hash;
 @Controller
-public class LoginController {
+public class LoginController extends Secure_Hash{
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
 	/**
@@ -37,8 +39,16 @@ public class LoginController {
 		UserDal ud = new UserDal();
 		User res= null;
 		String ret = "Login";
+		String hashed_pwd = "";
 		try {
-			 res = ud.getPasswordByEmail(email,pwd);
+			hashed_pwd = getHash(pwd);
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			model.addAttribute("Something went wrong please try again");
+		}
+		try {
+			 res = ud.getPasswordByEmail(email,hashed_pwd);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			model.addAttribute("Something went wrong please try again");

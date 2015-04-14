@@ -11,6 +11,7 @@ import java.util.List;
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.User;
 
+
 /**
  * @author Milind
  *
@@ -198,7 +199,7 @@ public class UserDal {
 			ps.setString(2, pwd);
 			res = ps.executeQuery();
 			if(res.first())
-			{u = new User(res.getInt("userid"),res.getString("fname"), res.getString("lname"),
+			{u = new User(res.getInt("user_id"),res.getString("fname"), res.getString("lname"),
 			res.getString("contact_number"),
 			res.getString("email"), res.getString("password"),
 			res.getDate("bdate"), res.getInt("isVerified"),
@@ -209,6 +210,7 @@ public class UserDal {
 		}
 		catch(SQLException ex){
 			u = null;
+			System.out.println(""+ex.getMessage());
 			throw ex;
 		}
 		finally{
