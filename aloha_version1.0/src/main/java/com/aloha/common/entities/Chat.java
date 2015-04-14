@@ -1,6 +1,10 @@
 package com.aloha.common.entities;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+
+import com.aloha.common.dao_manager.dal.ChatDal;
 
 public class Chat {
 	private int chatID;
@@ -8,6 +12,7 @@ public class Chat {
 	private Date timestamp;
 	private int userID1;
 	private int userID2;
+	private ChatDal dal;
 	
 	public Chat(int chatID, String chatContent, Date timestamp, int userID1,
 			int userID2) {
@@ -55,5 +60,24 @@ public class Chat {
 		this.userID2 = userID2;
 	}
 	
-	
+	public int addChat(Chat chat) throws SQLException {
+
+		int success = dal.insertChat(chat);
+		return success;
+	}
+
+	public boolean deleteChat(int chatId) throws SQLException {
+		int result = dal.deleteChat(chatId);
+		if (result == 1)
+			return true;
+		else
+			return false;
+	}
+
+	public ArrayList<Chat> getChatUser(int userId1,int userId2) throws SQLException {
+		ArrayList<Chat> chats = new ArrayList<Chat>();
+		chats = dal.selectRecentFive(userId1,userId2);
+
+		return chats;
+	}
 }

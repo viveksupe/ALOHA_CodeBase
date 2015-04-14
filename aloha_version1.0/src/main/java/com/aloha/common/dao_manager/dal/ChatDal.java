@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.Chat;
 
 
 public class ChatDal {
@@ -15,14 +15,12 @@ public class ChatDal {
 	// write the queries for Post table
 	private String SELECT;
 	private String INSERT_CHAT;
-	private String UPDATE_CHAT;
 	private String DELETE_CHAT;
 
 	public ChatDal() {
-		SELECT = "SELECT chat.chat_id,chat.chatContent,chat.timestamp,chat.user_id1,chat.user_id2 FROM chat order by chat_id desc limit N";
-		INSERT_CHAT = "INSERT INTO post (post_content, hascomments, user_id) VALUES ( ?, ?, ?);";
-		UPDATE_CHAT = "UPDATE post SET post_content = ?, hascomments = ?, WHERE post_id = ?;";
-		DELETE_CHAT = "DELETE FROM post WHERE post_id = ?;";
+		SELECT = "SELECT chat.chat_id,chat.chatContent,chat.timestamp,chat.user_id1,chat.user_id2 FROM chat WHERE (chat.user_id1=? AND chat.user_id2=?)OR (chat.user_id1=? AND chat.user_id2=?) order by chat_id desc limit 5;";
+		INSERT_CHAT = "INSERT INTO chat (chat_id,chatContent,timestamp,user_id1,user_id2) VALUES ( ?, ?, ?,?,?);";
+		DELETE_CHAT = "DELETE chat post WHERE chat.chat_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
@@ -30,25 +28,27 @@ public class ChatDal {
 	 * @return List of users
 	 * @throws SQLException
 	 */
-	public ArrayList<User> selectRecentFive() throws SQLException {
+	public ArrayList<Chat> selectRecentFive(int userId1,int userId2) throws SQLException {
 		String SelectUsersAllStatement = SELECT;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(SelectUsersAllStatement);
+			ps.setInt(1,userId1 );
+			ps.setInt(2,userId2 );
+			ps.setInt(3,userId2 );
+			ps.setInt(4,userId1 );
 			rSet = ps.executeQuery();
-			ArrayList<User> users = new ArrayList<User>();
+			ArrayList<Chat> fiveChats = new ArrayList<Chat>();
 			while (rSet.next()) {
-				User u = new User(rSet.getInt("user_id"),
-						rSet.getString("fname"), rSet.getString("lname"),
-						rSet.getString("contact_number"),
-						rSet.getString("email"), rSet.getString("password"),
-						rSet.getDate("bdate"), rSet.getInt("isVerified"),
-						rSet.getInt("isLocked"), rSet.getDate("lastActive"));
-				users.add(u);
+				Chat u = new Chat(rSet.getInt("chat_id"),
+						rSet.getString("chatContent"), rSet.getTimestamp("timestamp"),
+						rSet.getInt("user_id1"),
+						rSet.getInt("user_id2"));
+				fiveChats.add(u);
 			}
-			return users;
+			return fiveChats;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -62,55 +62,20 @@ public class ChatDal {
 
 	}
 
-	public User selectUserByPrimaryKey(int id) throws SQLException {
-		String SelectUsersByPrimaryKeyStatement = SELECT
-				+ " where user.user_id=?;";
-		PreparedStatement ps = null;
-		ResultSet rSet = null;
-		try {
-			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(SelectUsersByPrimaryKeyStatement);
-			ps.setInt(1, id);
-			rSet = ps.executeQuery();
-			if (rSet.next()) {
-				User u = new User(rSet.getInt("user_id"),
-						rSet.getString("fname"), rSet.getString("lname"),
-						rSet.getString("contact_number"),
-						rSet.getString("email"), rSet.getString("password"),
-						rSet.getDate("bdate"), rSet.getInt("isVerified"),
-						rSet.getInt("isLocked"), rSet.getDate("lastActive"));
-				return u;
-			} else
-				return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if (rSet != null)
-				rSet.close();
-			if (ps != null)
-				ps.close();
-			con.close();
-		}
-	}
 
-	public int insertUser(User u) throws SQLException {
+	public int insertChat(Chat u) throws SQLException {
 		con = DatabaseHandlerSingleton.getDBConnection();
-		String insertUserStatement = INSERT_USER;
+		String insertUserStatement = INSERT_CHAT;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(insertUserStatement);
-			ps.setString(1, u.getFirstName());
-			ps.setString(2, u.getLastName());
-			ps.setString(3, u.getContactNumber());
-			ps.setString(4, u.getEmail());
-			ps.setString(5, u.getPassword());
-			ps.setDate(6, (java.sql.Date) u.getDateOfBirth());
-			ps.setInt(7, u.getIsVerified());
-			ps.setInt(8, u.getIsLocked());
-			ps.setDate(9, (java.sql.Date) u.getLastActive());
+			ps.setInt(1, u.getChatID());
+			ps.setString(2, u.getChatContent());
+			ps.setDate(3, (java.sql.Date)u.getTimestamp());
+			ps.setInt(4, u.getUserID1());
+			ps.setInt(5, u.getUserID2());
 
 			result = ps.executeUpdate();
 			return result;
@@ -124,37 +89,9 @@ public class ChatDal {
 		}
 	}
 
-	public int updateUser(User u) throws SQLException {
-		String updateUserStatement = UPDATE_USER;
-		PreparedStatement ps = null;
-		int result = -1;
-		try {
-			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(updateUserStatement);
-			ps.setString(1, u.getFirstName());
-			ps.setString(2, u.getLastName());
-			ps.setString(3, u.getContactNumber());
-			ps.setString(4, u.getEmail());
-			ps.setString(5, u.getPassword());
-			ps.setDate(6, (java.sql.Date) u.getDateOfBirth());
-			ps.setInt(7, u.getIsVerified());
-			ps.setInt(8, u.getIsLocked());
-			ps.setDate(9, (java.sql.Date) u.getLastActive());
-			ps.setInt(10, u.getUserId());
-			result = ps.executeUpdate();
-			return result;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if (ps != null)
-				ps.close();
-			con.close();
-		}
-	}
 
-	public int deleteUser(int id) throws SQLException {
-		String updateUserStatement = DELETE_USER;
+	public int deleteChat(int id) throws SQLException {
+		String updateUserStatement = DELETE_CHAT;
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
