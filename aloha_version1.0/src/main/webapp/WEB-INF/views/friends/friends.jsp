@@ -10,7 +10,7 @@
 <div class="member-body">
 <div class="header-member">
 		<i class="fa fa-space fa-group"></i> Friends
-		<span class="members-count">827</span>
+		<span class="members-count">${pageContext.request.contextPath})</span>
 	<span class="member-seach-span"><input type="text"
 							class="member-search" placeholder="search..."
 							root="http://feedstack.asia/"></span>
@@ -18,7 +18,7 @@
 <div class="root" root="http://feedstack.asia/" access-token=""></div>
 <div class="entry">
 						<div class="member-container">
-								<c:forEach items="${friends}" var="element">
+								<c:forEach items="${users}" var="element">
 						
 <div class="bcol-member-block">
 	<div class="member-image">
@@ -26,7 +26,7 @@
 		<img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
 	</div>
 	<div class="member-name">
-		<a href="http://feedstack.asia/renudeshmukh">${element.getUser1().firstName}</a>
+		<a href="http://feedstack.asia/renudeshmukh">${element.firstName}</a>
 	</div>
 </div>
 </c:forEach>
@@ -37,29 +37,6 @@
 			</div>
       </div>
 
-	<h1>This is the friends page. This page will contain the listing
-		of user's friends</h1>
-
-		<table border="1" align="center">
-		<tr>
-			<th>friendshipId</th>
-			<th>user1</th>
-			<th>user2</th>
-			<th>status</th>
-			<th>blocked_by</th>
-			<th>req_sent_by</th>
-		</tr>
-		<c:forEach items="${friends}" var="element">
-			<tr>
-				<td>${element.friendshipId}</td>
-				<td>${element.getUser1().firstName}</td>
-				<td>${element.user2}</td>
-				<td>${element.status}</td>
-				<td>${element.blocked_by}</td>
-				<td>${element.req_sent_by}</td>
-			</tr>
-		</c:forEach>
-	</table>
        </jsp:body>
 </t:GlobalTemplate>
 

@@ -5,14 +5,14 @@
 <head>
     <title>Aloha</title>
     <link rel="stylesheet" href="http://feedstack.asia/lib/font-awesome/css/font-awesome.css">
-    <link href="http://feedstack.asia/themes/simplex/css/bottle.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/feed-menu.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/menu.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/index.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/userlog.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/members.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/wall.css" rel="stylesheet">
-    <link href="http://feedstack.asia/themes/simplex/css/profile.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/bottle.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/feed-menu.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/menu.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/index.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/userlog.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/members.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/wall.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/profile.css" rel="stylesheet">
    
     <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>
@@ -25,11 +25,12 @@
         <div class="container-main pad-header">
             <div class="bcol-25 logo">
                 <a href="http://feedstack.asia/">
-                    <img src="http://feedstack.asia/img/logo.png">
+                    <img width="250px" height="42px"  src="${pageContext.request.contextPath}/resources/img/logo.png">
                 </a>
             </div>
             <div class="bcol-75 menu">
                 <span class="menu-text">+ menu</span>
+
                 <ul class="menu-bar">
                     <a href="/common"><li><i class="fa fa-space fa-home"></i>Home</li></a>
                     <a href="http://feedstack.asia/renudeshmukh">
@@ -38,14 +39,14 @@
                             </i>Profile
                         </li>
                     </a>
-                    <a href="friends"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
+                    <a href="${pageContext.request.contextPath}/friends/index"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
                     <a href="http://feedstack.asia/user/logout"><li><i class="fa fa-space fa-sign-out"></i>Logout</li></a>
                 </ul>
             </div>
             <div class="clear"></div>
         </div>
     </div>
-    <div class="body" align="center">
+    <div class="body">
           <jsp:doBody/>
     </div>
 
@@ -56,7 +57,7 @@
                     <ul class="ftr_menu">
                         <a href="http://feedstack.asia/"><li>Home</li></a>
                         <a href="http://feedstack.asia/about"><li>About</li></a>
-                        <a href="/post"><li>Scribble</li></a>
+                        <a href="post"><li>Scribble</li></a>
                         <a href="http://feedstack.asia/terms"><li>Terms of use</li></a>
                         <a href="http://feedstack.asia/contact"><li>contact</li></a>
                     </ul>

@@ -186,7 +186,18 @@ public class Friendship {
 	 * @param userid
 	 * @return
 	 */
-	public ArrayList<User> getUserFriends(int userid) {
+	public ArrayList<User> getUserFriends(User u) {
+		try {
+			ArrayList<Friendship> flist = fdal.selectFriendshipByUserId(u);
+			ArrayList<User> ulist = new ArrayList<User>();
+			for(Friendship f : flist){
+				ulist.add(f.getUser2());
+			}
+			return ulist;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -196,26 +207,6 @@ public class Friendship {
 	 */
 	public boolean updateFriendship(Friendship friendship) {
 		return false;
-	}
-
-	public List<Friendship> getFriendships(User u1) {
-		List<Friendship> flist = fdal.selectFriendshipAllByUser(u1.getUserId());		
-		for(Friendship friendship : flist){
-			//if the first user in friendship is himself then populate other user 
-			if(friendship.getUser1().getUserId()==u1.getUserId())
-				friendship.setUser2(udal.selectUserByPrimaryKey(friendship.getUser2().getUserId()));
-			else
-		}
-		try {
-			int res = fdal.insertFriendship(f);
-			if (res == 0)
-				result = true;
-			else
-				result = false;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
 
 	
