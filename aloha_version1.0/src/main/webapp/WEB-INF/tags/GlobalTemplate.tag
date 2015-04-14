@@ -25,7 +25,7 @@
         <div class="container-main pad-header">
             <div class="bcol-25 logo">
                 <a href="http://feedstack.asia/">
-                    <img src="http://feedstack.asia/img/logo.png">
+                    <img width="250px" height="42px"  src="${pageContext.request.contextPath}/resources/img/logo.png">
                 </a>
             </div>
             <div class="bcol-75 menu">
@@ -39,7 +39,7 @@
                             </i>Profile
                         </li>
                     </a>
-                    <a href="friends"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
+                    <a href="${pageContext.request.contextPath}/friends/index"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
                     <a href="http://feedstack.asia/user/logout"><li><i class="fa fa-space fa-sign-out"></i>Logout</li></a>
                 </ul>
             </div>
@@ -57,7 +57,7 @@
                     <ul class="ftr_menu">
                         <a href="http://feedstack.asia/"><li>Home</li></a>
                         <a href="http://feedstack.asia/about"><li>About</li></a>
-                        <a href="/post"><li>Scribble</li></a>
+                        <a href="post"><li>Scribble</li></a>
                         <a href="http://feedstack.asia/terms"><li>Terms of use</li></a>
                         <a href="http://feedstack.asia/contact"><li>contact</li></a>
                     </ul>

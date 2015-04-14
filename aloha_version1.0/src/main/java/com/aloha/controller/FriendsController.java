@@ -21,8 +21,13 @@ import com.aloha.common.entities.User;
 @Controller
 public class FriendsController {
 
+	@RequestMapping("friends/index")
+	public String index(Locale locale, Model model){
+		return "friends/index";
+	}
+	
 	@RequestMapping("friends")
-	public String index(Locale locale, Model model) throws SQLException {
+	public String displayFriends(Locale locale, Model model) throws SQLException {
 		// creating user to start working with and finding friends.
 		User u = new User();
 		Friendship f = new Friendship();
