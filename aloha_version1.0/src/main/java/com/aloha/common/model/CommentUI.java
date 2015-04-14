@@ -7,7 +7,7 @@ import java.util.Date;
 import com.aloha.common.dao_manager.dal.CommentDal;
 import com.aloha.common.entities.Comment;
 import com.aloha.common.entities.Post;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;
 
 public class CommentUI {
 	private int CommentId;

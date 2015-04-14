@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;
 
 /**
  * @author Milind FriendsController to handle the controls and flow of the
