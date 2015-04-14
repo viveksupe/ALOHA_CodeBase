@@ -27,9 +27,9 @@ public class PostDal {
 	private String DELETE_POST;
 
 	public PostDal() {
-		SELECT = "SELECT post.post_id, post.post_content, post.timestamp, post.hascomments, post.user_id FROM post";
-		INSERT_POST = "INSERT INTO post (post_content, hascomments, user_id) VALUES ( ?, ?, ?);";
-		UPDATE_POST = "UPDATE post SET post_content = ?, hascomments = ?, WHERE post_id = ?;";
+		SELECT = "SELECT post.post_id, post.post_content, post.timestamp, post.user_id FROM post";
+		INSERT_POST = "INSERT INTO post (post_content, user_id) VALUES ( ?, ?);";
+		UPDATE_POST = "UPDATE post SET post_content = ? WHERE post_id = ?;";
 		DELETE_POST = "DELETE FROM post WHERE post_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -47,7 +47,6 @@ public class PostDal {
 				Post post = new Post(rSet.getInt("post_id"),
 						rSet.getString("post_content"), 
 						rSet.getTimestamp("timestamp"),
-						rSet.getBoolean("hasComments"), 
 						null, null);
 
 				return post;
@@ -94,8 +93,7 @@ public class PostDal {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(insertUserStatement);
 			ps.setString(1, post.getPost());
-			ps.setBoolean(2, post.isHasComments());
-			ps.setInt(3, user_id);
+			ps.setInt(2, user_id);
 
 			result = ps.executeUpdate();
 			return result;
@@ -117,8 +115,7 @@ public class PostDal {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(updatePost);
 			ps.setString(1, post.getPost());
-			ps.setBoolean(2, post.isHasComments());
-			ps.setInt(3, post.getPostId());
+			ps.setInt(2, post.getPostId());
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
@@ -132,7 +129,7 @@ public class PostDal {
 	}
 
 	public ArrayList<Post> getPostsForUser(int userId) throws SQLException {
-		String getPostById = SELECT + " where post.user_id=?;";
+		String getPostById = SELECT + " where post.user_id=? order by post.timestamp desc;";
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -146,7 +143,7 @@ public class PostDal {
 						rSet.getInt("post_id"),
 						rSet.getString("post_content"), 
 						rSet.getTimestamp("timestamp"),
-						rSet.getBoolean("hasComments"), null, null);
+						null, null);
 				posts.add(post);
 			}
 			return posts;

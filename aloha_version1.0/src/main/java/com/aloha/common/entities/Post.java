@@ -12,7 +12,6 @@ public class Post {
 	private Date postDate;
 	private ArrayList<Comment> comments;
 	private LikeDislike likeStatistics;
-	private boolean hasComments;
 	private PostDal dal;
 
 	/**
@@ -22,7 +21,7 @@ public class Post {
 	 * @param comments
 	 * @param likeStatistics
 	 */
-	public Post(int postId, String post, Date postDate, boolean hasComments,
+	public Post(int postId, String post, Date postDate,
 			ArrayList<Comment> comments, LikeDislike likeStatistics) {
 		super();
 		this.postId = postId;
@@ -30,7 +29,6 @@ public class Post {
 		this.postDate = postDate;
 		this.comments = comments;
 		this.likeStatistics = likeStatistics;
-		this.hasComments = hasComments;
 		this.dal = new PostDal();
 	}
 
@@ -77,13 +75,6 @@ public class Post {
 		this.likeStatistics = likeStatistics;
 	}
 
-	public boolean isHasComments() {
-		return hasComments;
-	}
-
-	public void setHasComments(boolean hasComments) {
-		this.hasComments = hasComments;
-	}
 
 	// endregion gettersetter
 
@@ -131,18 +122,15 @@ public class Post {
 
 	public Post getPost(int postId) throws SQLException {
 		Post post = dal.getPostByPrimaryKey(postId);
-		if(post.hasComments = true)
-		{
-			Comment comm = new Comment();
-			post.comments = comm.getCommentsPost(postId);
-		}
+
+		Comment comm = new Comment();
+		post.comments = comm.getCommentsPost(postId);
+		
 		return post;
 	}
 
 	public ArrayList<Comment> getComments(int postId) {
-		if (this.hasComments) {
-		} else {
-		}
+		
 		return null;
 	}
 
@@ -154,9 +142,8 @@ public class Post {
 				.append(post).append("]\n").toString());
 		stringBuffer.append(new StringBuilder().append("[postdate=")
 				.append(postDate).append("]\n").toString());
-		stringBuffer.append(new StringBuilder().append("[hasComm=")
-				.append(hasComments).append("]\n").toString());
-		
+
+
 		return stringBuffer.toString();
 	}
 

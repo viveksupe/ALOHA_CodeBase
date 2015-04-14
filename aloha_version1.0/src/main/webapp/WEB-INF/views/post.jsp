@@ -3,6 +3,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
     <jsp:body>
+<script src="http://feedstack.asia/app/script/jquery.autosize.min.js"></script>
 
 <script>
 $(document).on('click','.feed-comment-count',function(){
@@ -25,6 +26,10 @@ $(document).on('click','.feed-comment-count',function(){
 			ele.hide();
 		}
 	});
+	
+$(function(){
+	$('textarea').autosize();
+});
 
 </script>
 
@@ -41,13 +46,29 @@ $(document).on('click','.feed-comment-count',function(){
             });
         </script>
         <div class="wall">
+		<div class="feed">
+		<div class="bcol-15">
+			<div class="feed-user mobile-hidden" username="renudeshmukh" name="Renuka Deshmukh" uid="845">
+				<a href="http://feedstack.asia/renudeshmukh">
+					<img src="http://feedstack.asia/img/user.jpg" class="feed-user-image"> 
+				</a>	
+			</div>
+		</div>
+		<div class="bcol-85">
+			<div class="feed-container">
+				<div class="feed-input">
+					<textarea class="feed-box" placeholder="" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
+					<div>
+						&nbsp;<img src="http://feedstack.asia/img/loading.gif" class="loading" style="display: none;">
+						<span class="right"><button class="post-btn">post</button></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
 
-            <div class="profile">
-                
-
-                <div class="clear"></div>
-            </div>
-        </div>
         <div class="profile-container-box">
             <script src="http://feedstack.asia/app/script/readmore.js"></script>
             <script src="http://feedstack.asia/app/script/popup.js"></script>
