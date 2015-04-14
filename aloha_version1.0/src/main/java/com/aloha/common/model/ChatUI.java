@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.aloha.common.entities.Chat;
 import com.aloha.common.entities.Post;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;
 
 public class ChatUI {
 	private String chatContent;

@@ -1,4 +1,4 @@
-var webSocket = new WebSocket('ws://localhost:8080/common/websocket');
+var webSocket = new WebSocket('ws://'+location.hostname+':'+ location.port+'/common/websocket');
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -47,11 +47,11 @@ function clickUserBox(event){
 	$('.msg_box').show();
 }
 
-function SendMsg(message,usrname){
+function SendMsg(message,toid,fromid){
 	//alert(message);
 	var obj = new Object();
-	obj.userID = null;
-	obj.toUserID = null;
+	obj.userID = fromid;
+	obj.toUserID = toid;
 	obj.chatMsg = message;
 	var jsonString = JSON
 			.stringify(obj);
@@ -155,7 +155,7 @@ function register_popup(toid,fromid, name) {
 	element = element
 			+ '<div class="msg_body"> <div class="msg_a">This is from A</div> <div class="msg_b">This is from B</div><div class="msg_push"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'+name+'" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'+name+'").value,'+toid+')>Send</button></td></tr></table></div>';
+			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'+name+'" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'+name+'").value,'+toid+','+fromid+')>Send</button></td></tr></table></div>';
 	// element = element + '<div class="popup-head-right"><a
 	// href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
 	element = element + '</div>';

@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Friendship;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;
 
 /**
  * @author Milind

@@ -12,7 +12,7 @@ import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;
 
 public class TestFriendshipDBHandler {
 	static final Logger logger = Logger.getLogger(TestFriendshipDBHandler.class

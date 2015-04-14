@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aloha.common.dao_manager.dal.*;
 import com.aloha.common.entities.*;
+import com.aloha.common.entities.user.User;
 import com.aloha.common.model.PostUI;
 
 @Controller

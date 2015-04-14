@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.entities.user.User;
 
 /**
  * @author Milind

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aloha.common.dao_manager.dal.UserDal;
-import com.aloha.common.entities.User;
+import com.aloha.common.entities.user.User;
 import com.aloha.common.util.Secure_Hash;
 
 @Controller

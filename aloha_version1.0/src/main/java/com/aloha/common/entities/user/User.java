@@ -1,6 +1,10 @@
-package com.aloha.common.entities;
+package com.aloha.common.entities.user;
 
+import java.sql.SQLException;
 import java.util.Date;
+
+import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.dao_manager.dal.UserEducationDal;
 
 public class User {
 	private int userId;
@@ -10,10 +14,12 @@ public class User {
 	private String email;
 	private String password;
 	private Date dateOfBirth;
+	private UserEducation u_ed;
 	private int isVerified;
 	private int isLocked;
 	private Date lastActive;
-
+	private UserDal ud;
+	private UserEducationDal edal;
 	public User() {
 		this.userId = 0;
 		this.firstName = null;
@@ -24,6 +30,8 @@ public class User {
 		this.isVerified = -1;
 		this.isLocked = -1;
 		this.lastActive = null;
+		ud = new UserDal();
+		edal = new UserEducationDal();
 	}
 	
 	public User(int id, String fName, String lName, String email, String pwd,
@@ -198,28 +206,68 @@ public class User {
 	public void setLastActive(Date lastActive) {
 		this.lastActive = lastActive;
 	}
-
-
-	public User getUser(int id) {
-
+	public UserEducation getEducationInfo() throws SQLException{
+		u_ed = new UserEducation();
+		u_ed = edal.selectUserEducationById(userId);
+		return u_ed;
+	}
+	public int addEducationInfo(String school, String area){
+		u_ed = new UserEducation();
+		u_ed.setEducation(school, area); 
+		int res = -1;
+		try {
+			res = edal.addEducationInfo(userId, u_ed);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	public int modifyEducationInfo(String school, String area){
+		u_ed.setEducation(school, area); 
+		int res = -1;
+		try {
+			res = edal.updateUserEducation(userId, u_ed);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	public int deleteEducation(){
+		int res = -1;
+		try {
+			res = edal.deleteUserEducation(userId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public User getUser(int id) throws SQLException {
+		User u_new = ud.selectUserByPrimaryKey(id);
 		// Add code to get user from DAL layer
-		return null;
+		return u_new;
 
 	}
 
-	public boolean deleteUser(int id) {
+	public int deleteUser(int id) throws SQLException {
 		// Add code to delete user by calling DAL method
-		return false;
+		int res = ud.deleteUser(id);
+		return res;
 	}
 
-	public User updateUser(User user) {
+	public int updateUser(User user) throws SQLException {
 		// Add code to call DAL method
-		return null;
+		int u_new = ud.updateUser(user);
+		return u_new;
 	}
 
-	public User addUser(User user) {
+	public int addUser(User user) throws SQLException {
 		// call to DAL
-		return null;
+		int res = ud.insertUser(user);
+		return res;
 	}
 
 	public String toString() {
