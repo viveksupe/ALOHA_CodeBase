@@ -19,7 +19,7 @@
 					<p><a href="#friends/online">Display Online friends</a></p>
 					<p><a href="#users/search">Search Users</a></p>
 					<p><a href="#friends/suggest">Suggest Friends</a></p>
-					
+					<p>Printing User from session: ${sessionUser} </p>
 					<div class="root" root="http://feedstack.asia/" access-token=""></div>	
 					<div class="entry">
 						<div class="member-container">
