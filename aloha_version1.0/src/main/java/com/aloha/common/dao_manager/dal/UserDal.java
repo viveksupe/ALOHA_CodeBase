@@ -197,11 +197,15 @@ public class UserDal {
 			ps.setString(1, email);
 			ps.setString(2, pwd);
 			res = ps.executeQuery();
-			u = new User(res.getInt("userid"),res.getString("fname"), res.getString("lname"),
+			if(res.first())
+			{u = new User(res.getInt("userid"),res.getString("fname"), res.getString("lname"),
 			res.getString("contact_number"),
 			res.getString("email"), res.getString("password"),
 			res.getDate("bdate"), res.getInt("isVerified"),
-			res.getInt("isLocked"), res.getDate("lastActive"));			
+			res.getInt("isLocked"), res.getDate("lastActive"));	
+			}
+			else
+				u = null;
 		}
 		catch(SQLException ex){
 			u = null;
