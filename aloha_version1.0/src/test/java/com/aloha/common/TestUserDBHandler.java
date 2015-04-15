@@ -1,5 +1,6 @@
 package com.aloha.common;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -9,7 +10,8 @@ import org.apache.log4j.Logger;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.dao_manager.dal.UserDal;
-import com.aloha.common.entities.user.User;;
+import com.aloha.common.entities.user.User;
+import com.aloha.common.util.Secure_Hash;
 
 public class TestUserDBHandler {
 	static final Logger logger = Logger.getLogger(TestUserDBHandler.class
@@ -26,11 +28,12 @@ public class TestUserDBHandler {
 		try {
 			TestUserDBHandler test = new TestUserDBHandler();
 			 //test.insertUser();
-			test.selectUser(6);
+			//test.selectUser(6);
 			// test.updateUser();
 			// test.selectUser(3);
 			// test.deleteUser(3);
-			//test.selectAllUsers();
+			test.showHash();
+			test.selectAllUsers();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -102,5 +105,15 @@ public class TestUserDBHandler {
 		if (res == 1)
 			System.out.println("row deleted successfully");
 	}
-
+	private void showHash()
+	{
+		String pswd = "Mrunal12345";
+		Secure_Hash sh = new Secure_Hash();
+		try {
+			System.out.println(sh.getHash(pswd));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
