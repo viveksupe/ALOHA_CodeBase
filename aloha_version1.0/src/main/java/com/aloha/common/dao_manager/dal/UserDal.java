@@ -50,12 +50,17 @@ public class UserDal {
 			rSet = ps.executeQuery();
 			ArrayList<User> users = new ArrayList<User>();
 			while (rSet.next()) {
-				User u = new User(rSet.getInt("user_id"),
-						rSet.getString("fname"), rSet.getString("lname"),
-						rSet.getString("contact_number"),
-						rSet.getString("email"), rSet.getString("password"),
-						rSet.getDate("bdate"), rSet.getInt("isVerified"),
-						rSet.getInt("isLocked"), rSet.getDate("lastActive"));
+				User u = new User();
+				u.setUserId(rSet.getInt("user_id"));
+				u.setFirstName(rSet.getString("fname"));
+				u.setLastName(rSet.getString("lname"));
+				u.setContactNumber(rSet.getString("contact_number"));
+				u.setEmail(rSet.getString("email"));
+				u.setPassword(rSet.getString("password"));
+				u.setDateOfBirth(rSet.getDate("bdate"));
+				u.setIsVerified(rSet.getInt("isVerified"));
+				u.setIsLocked(rSet.getInt("isLocked"));
+			    u.setLastActive(rSet.getDate("lastActive"));
 				users.add(u);
 			}
 			return users;
@@ -199,11 +204,18 @@ public class UserDal {
 			ps.setString(2, pwd);
 			res = ps.executeQuery();
 			if(res.first())
-			{u = new User(res.getInt("user_id"),res.getString("fname"), res.getString("lname"),
-			res.getString("contact_number"),
-			res.getString("email"), res.getString("password"),
-			res.getDate("bdate"), res.getInt("isVerified"),
-			res.getInt("isLocked"), res.getDate("lastActive"));	
+			{
+				u = new User();
+				u.setUserId(res.getInt("user_id"));
+				u.setFirstName(res.getString("fname"));
+				u.setLastName(res.getString("lname"));
+				u.setContactNumber(res.getString("contact_number"));
+				u.setEmail(res.getString("email"));
+				u.setPassword(res.getString("password"));
+				u.setDateOfBirth(res.getDate("bdate"));
+						u.setIsVerified(res.getInt("isVerified"));
+						u.setIsLocked(res.getInt("isLocked"));
+						u.setLastActive(res.getDate("lastActive"));
 			}
 			else
 				u = null;
