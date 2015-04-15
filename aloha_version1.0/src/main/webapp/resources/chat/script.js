@@ -22,6 +22,7 @@ function onMessage(event) {
 
 function onOpen(event) {
 	document.getElementById('messages').innerHTML = 'Connection established';
+	
 }
 
 function onError(event) {
@@ -79,7 +80,16 @@ function SendMsg(message,toid,fromid){
 
 	}
 
-
+function InitSendMsg(toid,fromid){
+	var obj = new Object();
+	obj.userID = fromid;
+	obj.toUserID = toid;
+	obj.chatMsg = "Initialtion Message";
+	var jsonString = JSON
+			.stringify(obj);
+	webSocket.send(jsonString);
+    alert("Sent Init");
+};
 
 
 // this function can remove a array element.

@@ -67,7 +67,7 @@ public class CommentDal {
 	}
 	
 	public ArrayList<Comment> getCommentForPost(int post_id) throws SQLException{
-		String getPostComms = SELECT + " where comment.post_id=?;";
+		String getPostComms = SELECT + " where comment.post_id=? order by comment.timestamp;";
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {

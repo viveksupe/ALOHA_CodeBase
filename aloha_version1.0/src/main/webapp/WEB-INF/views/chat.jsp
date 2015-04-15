@@ -16,13 +16,13 @@
 		<div class="chat_head">Chit Chat</div>
 		<div class="chat_body">
 			<div class="user" onlick=clickUserBox();>
-				<a href="javascript:register_popup(4,8, 'Vivek Supe');">
+				<a href="javascript:register_popup(4,8, 'Vivek Supe');InitSendMsg(4,8);">
 				
 				Vivek Supe
 			</a>
 			</div>
 			<div class="user">
-				<a href="javascript:register_popup(5,8, 'Renuka Deshmukh');">
+				<a href="javascript:register_popup(8,4, 'Renuka Deshmukh');InitSendMsg(8,4);">
 				
 				Renuka Deshmukh
 			</a>

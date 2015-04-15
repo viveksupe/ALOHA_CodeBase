@@ -17,7 +17,6 @@
     <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>
     <script src="http://feedstack.asia/themes/simplex/script/feed-menu.js"></script>
-    <script src="http://feedstack.asia/app/script/wall.js"></script>
    
 </head>
 <body>

@@ -3,7 +3,7 @@
 
 <c:forEach items="${comments}" var="comment">
     <div class="feed-comment">
-        <div class="feed-comment-list feed-comment-list-637">
+        <div class="feed-comment-list feed-comment-list-${comment.getPostId()}">
             <div class="feed-comment-block feed-comment-block-202">
                 <div class="bcol-20x">
                     <div class="feed-comment-user">
@@ -33,13 +33,13 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="feed-comment-entry feed-comment-entry-637"></div>
+            <div class="feed-comment-entry feed-comment-entry-${comment.getPostId()}"></div>
         </div>
            </div>
 
 </c:forEach>
 
-<div class="feed-comment-input" feed-id="637">
+<div class="feed-comment-input" feed-id="${comment.getPostId()}">
             <div class="bcol-20x">
                 <div class="feed-comment-user">
                     <a href="http://feedstack.asia/renudeshmukh">
@@ -49,7 +49,7 @@
             </div>
             <div class="bcol-80x">
                 <div class="feed-comment-input-box">
-                    <input type="text" class="feed-comment-input-entry " placeholder="Enter the comment...">
+                    <input type="text" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
                 </div>
             </div>
             <div class="clear"></div>
