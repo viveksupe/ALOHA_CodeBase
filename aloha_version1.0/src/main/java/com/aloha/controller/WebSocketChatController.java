@@ -2,13 +2,12 @@ package com.aloha.controller;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -34,9 +33,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 @ServerEndpoint(value = "/websocket")
 public class WebSocketChatController {
 
-	private static Set<Session> clients = Collections
-			.synchronizedSet(new HashSet<Session>());
-	private Map<Integer, Session> userIDToSessionMap = new ConcurrentHashMap<Integer, Session>();
+	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
+	private Map<Session,Integer> userIDToSessionMap = new ConcurrentHashMap<Session,Integer>();
+	
 
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session. The session
@@ -48,7 +47,7 @@ public class WebSocketChatController {
 		System.out.println(session.getId() + " has opened a connection");
 		// System.out.println(session.);
 		clients.add(session);
-
+		System.out.println(ses.getAttribute("sessionUser"));
 		/*
 		 * try { session.getBasicRemote().sendText("Connection Established"); }
 		 * catch (IOException ex) { ex.printStackTrace(); }
@@ -68,58 +67,31 @@ public class WebSocketChatController {
 	 * @throws ParseException
 	 */
 	@OnMessage
-	public void onMessage(String message, Session session)
-			throws JsonParseException, JsonMappingException, IOException {
+	public void onMessage(String message, Session session) throws JsonParseException, JsonMappingException, IOException {
 
+		//JSON Decoding
 		ChatToken userChat;
-		ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
-		// IMPORTANT
-		// without this option set adding new fields breaks old code
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-				false);
+		ObjectMapper mapper = new ObjectMapper(); 
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 		userChat = mapper.readValue(message, ChatToken.class);
-		System.out.print("Message: " + userChat.getChatMsg());
-		System.out.print("ToUserID: " + userChat.getToUserID());
-		System.out.println("FromUserID: " + userChat.getUserID());
-		Integer intKey = null;
-		for (Integer intr : userIDToSessionMap.keySet()) {
-			if(intr.intValue()==userChat.getUserID()){
-				intKey=intr;
-			}
+		// Putting JSON to Local Variables For Manipulation
+		String chatMessage=userChat.getChatMsg();
+		int ToUserID=userChat.getToUserID();
+		int FromUserID=userChat.getUserID();
+		System.out.println(chatMessage+"+"+ToUserID+"+"+FromUserID);
+		//Routing Starts
+		System.out.println(session.toString());
+		System.out.println(session.hashCode());
+		/*if(!userIDToSessionMap.containsKey(FromUserID)){
+			userIDToSessionMap.put(session,FromUserID);
 		}
-		if(intKey==null){
-			intKey=new Integer(userChat.getUserID());
-			userIDToSessionMap.put(intKey,session);
-		}
-		for (Integer intr : userIDToSessionMap.keySet()) {
-			if(intr.intValue()==userChat.getToUserID()){
-				intKey=intr;
-			}
-		}
-		if(intKey==null){
-			return;
-		}
-			if (userIDToSessionMap.containsKey(intKey)) {
-				// Register the nickname with the
-				//userIDToSessionMap.put(new Integer(userChat.getUserID()),session);
-			
 				try {
 
-					userIDToSessionMap.get(intKey).getBasicRemote().sendText(message);
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-				/*if(userIDToSessionMap.containsKey(userChat.getToUserID()))	
-				{
-					System.out.println("Testing");
-				}
-				try {
-
-					client.getBasicRemote().sendText(message);
+					//userIDToSessionMap.get(intKey).getBasicRemote().sendText(message);
 				} catch (IOException ex) {
 					ex.printStackTrace();
 				}*/
-				}
+				
 			} 
 		
 
@@ -133,6 +105,7 @@ public class WebSocketChatController {
 		userIDToSessionMap.remove(session);
 		System.out.println("Socket Session " + session.getId() + " has ended");
 		clients.remove(session);
+		//System.out.println(ses.getAttribute("sessionUser"));
 	}
 }
 /*
