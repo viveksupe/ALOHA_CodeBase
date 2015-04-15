@@ -192,6 +192,7 @@ public class UserDal {
 			con.close();
 		}
 	}
+	
 	public User getPasswordByEmail(String email, String pwd) throws SQLException{
 		String query = "select * from user where user.email = ? and user.password = ?;";
 		PreparedStatement ps = null;
@@ -233,4 +234,45 @@ public class UserDal {
 		
 		return u;
 	}
+	
+
+	public ArrayList<User> selectUsersByName(String name) throws SQLException {
+		String SelectUsersByPrimaryKeyStatement = SELECT
+				+ " where user.fname like '%?%';";
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(SelectUsersByPrimaryKeyStatement);
+			ps.setString(1, name);
+			rSet = ps.executeQuery();
+			ArrayList<User> users = new ArrayList<User>();
+			while (rSet.next()) {
+				User u = new User();
+				u.setUserId(rSet.getInt("user_id"));
+				u.setFirstName(rSet.getString("fname"));
+				u.setLastName(rSet.getString("lname"));
+				u.setContactNumber(rSet.getString("contact_number"));
+				u.setEmail(rSet.getString("email"));
+				u.setPassword(rSet.getString("password"));
+				u.setDateOfBirth(rSet.getDate("bdate"));
+				u.setIsVerified(rSet.getInt("isVerified"));
+				u.setIsLocked(rSet.getInt("isLocked"));
+			    u.setLastActive(rSet.getDate("lastActive"));
+				users.add(u);
+			}
+			return users;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
+	
 }
