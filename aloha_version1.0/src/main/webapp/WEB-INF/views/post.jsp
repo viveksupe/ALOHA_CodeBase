@@ -35,7 +35,7 @@ $(document).on('click','.feed-comment-count',function(){
 
 function isInvalidEntry() {
 	var value = $('#txtPost').val();
-    var pattern = new RegExp(/<script[\s\S]*?>[\s\S]*?<\/script>/g);
+    var pattern = new RegExp(/<[a-zA-Z]*script[\s\S]*?>[\s\S]*?<\/[a-zA-Z]*script>/g);
     return pattern.test(value);
 };
 
@@ -132,13 +132,13 @@ function savePost(){
                             </div>
                             <small>
                                 <span class="feed-view-count">
-                                    <a href="http://feedstack.asia/feed/${element.getPostId()}"><i class="fa fa-eye "></i> 1 views </a>
+                                    <a href="http://feedstack.asia/feed/${element.getPostId()}"><i class="fa fa-eye "></i> 1 Likes </a>
                                 </span>
                                 <span class="feed-like-count feed-like feed-like-${element.getPostId()}" liveuser-id="" feed-id='${element.getPostId()}'
                                       unlike='0' count='0'>
                                     <i class="fa fa-thumbs-o-up"></i>
                                     <span class="like-count-${element.getPostId()}">0</span>
-                                    <span class="likes-word-${element.getPostId()}"> Likes</span>
+                                    <span class="likes-word-${element.getPostId()}"> Dislikes</span>
                                 </span>
                                 <span class="feed-comment-count" feed-id='${element.getPostId()}'>
                                     <i class="fa fa-comment-o "></i>
@@ -153,9 +153,9 @@ function savePost(){
                         <div class='like-entry-${element.getPostId()}'><span class='you-like-${element.getPostId()}'></span></div>		
                         <div class="comment-block-entry-${element.getPostId()}" style="display:none">
                         
-<c:set var="comments" value="${element.getComments()}" scope="request" />
+<c:set var="post" value="${element}" scope="request" />
 <jsp:include page="comment.jsp">
-  <jsp:param name="comments" value="comments"/>
+  <jsp:param name="post" value="post"/>
 </jsp:include>
 
     					
