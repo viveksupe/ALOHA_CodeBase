@@ -25,19 +25,19 @@ public class TestPostDBHandler {
 		PostDal pDal = new PostDal();
 		
 		try{
-		Post post = new Post(-1, "This is my first post", new Date(new java.util.Date().getTime()), false, null, null);
+		Post post = new Post(-1, "This is my first post", new Date(new java.util.Date().getTime()), null, null);
 		int success = pDal.insertPost(post, 1);
 		if(success == 1)
 			System.out.println("Post 1 added !!");
 		else System.out.println("Post 1 add failed !!");
 		
-		post = new Post(-1, "This is my second post", new Date(new java.util.Date().getTime()), false, null, null);
+		post = new Post(-1, "This is my second post", new Date(new java.util.Date().getTime()), null, null);
 		success = pDal.insertPost(post, 1);
 		if(success == 1)
 			System.out.println("Post 2 added !!");
 		else System.out.println("Post 2 add failed !!");
 		
-		post = new Post(-1, "This is my third post", new Date(new java.util.Date().getTime()), false, null, null);
+		post = new Post(-1, "This is my third post", new Date(new java.util.Date().getTime()), null, null);
 		success = pDal.insertPost(post, 1);
 		if(success == 1)
 			System.out.println("Post 3 added !!");
@@ -65,7 +65,7 @@ public class TestPostDBHandler {
 		PostDal pDal = new PostDal();
 		
 		try {
-			Post post = new Post(2,"This is update post",new Date(new java.util.Date().getTime()),false,null,null);
+			Post post = new Post(2,"This is update post",new Date(new java.util.Date().getTime()),null,null);
 			int success = pDal.updatePost(post);
 			if(success == 1)
 				System.out.println("Updated");

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
-<c:forEach items="${comments}" var="comment">
+<c:forEach items="${post.getComments()}" var="comment">
     <div class="feed-comment">
         <div class="feed-comment-list feed-comment-list-${comment.getPostId()}">
             <div class="feed-comment-block feed-comment-block-202">
@@ -39,7 +39,7 @@
 
 </c:forEach>
 
-<div class="feed-comment-input" feed-id="${comment.getPostId()}">
+<div class="feed-comment-input" feed-id="${post.getPostId()}">
             <div class="bcol-20x">
                 <div class="feed-comment-user">
                     <a href="http://feedstack.asia/renudeshmukh">
@@ -49,7 +49,7 @@
             </div>
             <div class="bcol-80x">
                 <div class="feed-comment-input-box">
-                    <input type="text" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
+                    <input type="text" id= "comment${post.getPostId()}" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
                 </div>
             </div>
             <div class="clear"></div>

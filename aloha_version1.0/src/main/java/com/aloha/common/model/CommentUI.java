@@ -10,60 +10,60 @@ import com.aloha.common.entities.Post;
 import com.aloha.common.entities.user.User;
 
 public class CommentUI {
-	private int CommentId;
-	private String CommentData;
-	private Date CommentDate;
-	private String UserName;
-	private int UserId;
-	private int PostId;
+	private int commentId;
+	private String commentData;
+	private Date commentDate;
+	private String userName;
+	private int userId;
+	private int postId;
 
 	// region Getter Setter method
 	public int getCommentId() {
-		return CommentId;
+		return commentId;
 	}
 
 	public void setCommentId(int commentId) {
-		CommentId = commentId;
+		commentId = commentId;
 	}
 
 	public String getCommentData() {
-		return CommentData;
+		return commentData;
 	}
 
 	public void setCommentData(String commentData) {
-		CommentData = commentData;
+		commentData = commentData;
 	}
 
 	public Date getCommentDate() {
-		return CommentDate;
+		return commentDate;
 	}
 
 	public void setCommentDate(Date commentDate) {
-		CommentDate = commentDate;
+		commentDate = commentDate;
 	}
 
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		userName = userName;
 	}
 
 	public int getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public void setUserId(int userId) {
-		UserId = userId;
+		userId = userId;
 	}
 
 	public int getPostId() {
-		return PostId;
+		return postId;
 	}
 
 	public void setPostId(int postId) {
-		PostId = postId;
+		postId = postId;
 	}
 
 	// endregion
