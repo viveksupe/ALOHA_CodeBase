@@ -8,63 +8,63 @@ import com.aloha.common.entities.*;
 import com.aloha.common.entities.user.User;
 
 public class PostUI {
-	private String UserName;
-	private int UserId;
-	private String PostDate;
-	private String PostData;
-	private int PostId;
-	private ArrayList<CommentUI> Comments;
+	private String userName;
+	private int userId;
+	private String postDate;
+	private String postData;
+	private int postId;
+	private ArrayList<CommentUI> comments;
 	
 	//region Getter Setter Method
 	
 	
 	
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		userName = userName;
 	}
 
 	public int getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public void setUserId(int userId) {
-		UserId = userId;
+		userId = userId;
 	}
 
 	public String getPostDate() {
-		return PostDate;
+		return postDate;
 	}
 
 	public void setPostDate(String postDate) {
-		PostDate = postDate;
+		postDate = postDate;
 	}
 
 	public String getPostData() {
-		return PostData;
+		return postData;
 	}
 
 	public void setPostData(String postData) {
-		PostData = postData;
+		postData = postData;
 	}
 
 	public int getPostId() {
-		return PostId;
+		return postId;
 	}
 
 	public void setPostId(int postId) {
-		PostId = postId;
+		postId = postId;
 	}
 
 	public ArrayList<CommentUI> getComments() {
-		return Comments;
+		return comments;
 	}
 
 	public void setComments(ArrayList<CommentUI> comments) {
-		Comments = comments;
+		comments = comments;
 	}
 	
 	//endregion
@@ -100,7 +100,6 @@ public class PostUI {
 	}
 
 
-	
 	
 	
 }
