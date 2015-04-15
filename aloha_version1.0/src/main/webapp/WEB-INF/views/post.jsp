@@ -5,7 +5,8 @@
     <jsp:body>
 <script src="http://feedstack.asia/app/script/jquery.autosize.min.js"></script>
 
-<script>
+
+<script >
 $(document).on('click','.feed-comment-count',function(){
 		var feed_id = $(this).closest('.feed').attr('feed-id');
 		var container = $('.comment-block-entry-'+feed_id);
@@ -16,12 +17,6 @@ $(document).on('click','.feed-comment-count',function(){
 			container.slideUp();
 		}else{
 			ele.show();
-			//var posturl = $('.root').attr('root')+'feed/commentload.html';
-			//var posturl = '/comment.jsp';
-			//$.post(posturl,{'feed_id':feed_id},function(data){
-			//	container.html(data);
-			//	container.slideDown();
-			//});
 			container.slideDown();
 			ele.hide();
 		}
@@ -33,22 +28,79 @@ $(document).on('click','.feed-comment-count',function(){
 
 
 
-function isInvalidEntry() {
-	var value = $('#txtPost').val();
+function isInvalidEntry(value) {
+	
     var pattern = new RegExp(/<[a-zA-Z]*script[\s\S]*?>[\s\S]*?<\/[a-zA-Z]*script>/g);
     return pattern.test(value);
 };
 
 function savePost(){
-	if(!isInvalidEntry()){
-	alert($('#txtPost').val());
-	}
+var value = $('#txtPost').val();
+	if(!isInvalidEntry(value)){
+	   
+       var json = { postData : value};
+       
+       	$.ajax({
+    			  headers:{'Accept': 'application/json'},
+    			  method: "POST",
+    			  url: "http://localhost:8080/common/post/add",
+    			  data: { postData: "milind"},
+    			  success: function(data) { console.log(data);}
+    			});
+    		//window.location.href = "${pageContext.request.contextPath}/search/users?searchKey=" + $('#txtPost').val();
+    	
+         }
 	else{
 	alert("Scripts not allowed !!");
 	}
 };
 
+
+
+$(document).on('keypress', '.feed-comment-input-entry', function (event) {
+    if (!isInvalidEntry()) {
+        var feed_id = $(this).closest('.feed').attr('feed-id');
+        var lid = $(this).closest('.feed').attr('liveuser-id');
+        //var uid = $(this).closest('.feed').attr('uid');
+
+        var commentBox = $(this);
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var comment = commentBox.val();
+            if (comment) {
+                 var json = { "producer" : producer, "model" : model, "price": price};
+       
+    $.ajax({
+        url: $("#newSmartphoneForm").attr( "action"),
+        data: JSON.stringify(json),
+        type: "POST",
+         
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+        },
+        success: function(smartphone) {
+            //var respContent = "";
+             
+            //respContent += "<span class='success'>Smartphone was created: [";
+            //respContent += smartphone.producer + " : ";
+            //respContent += smartphone.model + " : " ;
+            //respContent += smartphone.price + "]</span>";
+             
+            //$("#sPhoneFromResponse").html(respContent);         
+        }
+    });
+               
+            }
+        }
+    } else {
+        alert("Scripts not allowed !!");
+    }
+});
+
+
 </script>
+
 
 
 <div class="container-main pad-20">
@@ -101,7 +153,7 @@ function savePost(){
             </style>
 
 <c:forEach items="${posts}" var="element">
-            <div class="feed feed-${element.getPostId()}" liveuser-id="" uid='845' feed-id='${element.getPostId()}'>
+            <div class="feed feed-${element.getPostId()}" liveuser-id="${element.getUserId()}"  feed-id='${element.getPostId()}'>
                 <div class="bcol-15">
                     <div class="feed-user mobile-hidden">
                         <a href="http://feedstack.asia/renudeshmukh">
