@@ -14,9 +14,9 @@
     <link href="${pageContext.request.contextPath}/resources/css/wall.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/profile.css" rel="stylesheet">
    
-    <script src="http://feedstack.asia/lib/jquery/jquery.js"></script>
-    <script src="http://feedstack.asia/themes/simplex/script/menu.js"></script>
-    <script src="http://feedstack.asia/themes/simplex/script/feed-menu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
    
 </head>
 <body>
