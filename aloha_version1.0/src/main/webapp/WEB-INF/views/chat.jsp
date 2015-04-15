@@ -11,22 +11,20 @@
 <script src="resources/chat/script.js"></script>
 </head>
 <body>
-		<div id="messages"></div>
+	<div id="messages"></div>
 	<div class="chat_box" onclick=toggleChatBox();>
 		<div class="chat_head">Chit Chat</div>
 		<div class="chat_body">
-			<div class="user" onlick=clickUserBox();>
-				<a href="javascript:register_popup(4,8, 'Vivek Supe');InitSendMsg(4,8);">
-				
-				Vivek Supe
-			</a>
-			</div>
-			<div class="user">
-				<a href="javascript:register_popup(8,4, 'Renuka Deshmukh');InitSendMsg(8,4);">
-				
-				Renuka Deshmukh
-			</a>
-			</div>
+
+
+			<c:forEach items="${onlineUsers}" var="user">
+				<div class="user" onlick=clickUserBox();>
+					<a
+						href="javascript:register_popup(${user.userId},${sessionUser.userId }, '${user.firstName} ${user.lastName}');">${user.firstName} ${user.lastName}</a>
+				</div>
+			</c:forEach>
+
+
 
 		</div>
 	</div>
