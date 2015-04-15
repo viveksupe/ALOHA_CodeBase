@@ -4,14 +4,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aloha.common.dao_manager.dal.*;
-import com.aloha.common.entities.*;
+import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.model.CommentUI;
 import com.aloha.common.model.PostUI;
 
 @Controller
@@ -32,5 +36,20 @@ public class PostController {
 		model.addAttribute("posts", posts);
 		
 		return "post";
+	}
+	
+	@RequestMapping(value="post/add", method=RequestMethod.POST)
+	public @ResponseBody boolean addPost(@RequestParam("postData") String post) throws SQLException{
+		
+		PostUI pui = new PostUI();
+		pui.addPost(post);
+		return true;
+	}
+	
+	@RequestMapping(value="comm/add", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void addComment(@RequestBody  CommentUI comm) throws SQLException{
+		
+		CommentUI cui = new CommentUI();
+		cui.addComment(comm);
 	}
 }

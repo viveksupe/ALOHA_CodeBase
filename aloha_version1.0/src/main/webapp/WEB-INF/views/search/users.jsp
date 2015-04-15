@@ -7,7 +7,16 @@
 <script>
 function savePost(){
 	alert($('#txtPost').val());
-	$.post( "${pageContext.request.contextPath}/search/users", { searchKey: "milind"} );
+	//$.post( "${pageContext.request.contextPath}/search/users", { searchKey: "milind"} );
+	$.ajax({
+		  headers:{'Accept': 'application/json'},
+		  method: "POST",
+		  url: "${pageContext.request.contextPath}/search/users",
+		  data: { searchKey: "milind"},
+		  success: function(data) { alert (data); 
+		  //$('#memberName').html(data)}
+		  $('.member-container').html(data)}
+		});
 	//window.location.href = "${pageContext.request.contextPath}/search/users?searchKey=" + $('#txtPost').val();
 };
 
@@ -35,7 +44,7 @@ function savePost(){
  
     <div class="container-main pad-20">
       <div class="app">
-        <script src="http://feedstack.asia/app/script/members.js"></script>
+<!--         <script src="http://feedstack.asia/app/script/members.js"></script> -->
         <div class="member-body">
           <div class="header-member">
             <i class="fa fa-space fa-group"></i> Search Users
@@ -48,9 +57,10 @@ function savePost(){
             </span>
           </div>
           <div class="root" root="http://feedstack.asia/" access-token=""></div>
+          <p id="memberName">fefe </p>
           <div class="entry">
             <div class="member-container">
-              <c:forEach items="${users}" var="element">
+<%--               <c:forEach items="${users}" var="element">
 
                 <div class="bcol-member-block">
                   <div class="member-image">
@@ -61,7 +71,7 @@ function savePost(){
                     <a href="http://feedstack.asia/renudeshmukh">${element.firstName}</a>
                   </div>
                 </div>
-              </c:forEach>
+              </c:forEach> --%>
               <div class="clear"></div>
             </div>
           </div>

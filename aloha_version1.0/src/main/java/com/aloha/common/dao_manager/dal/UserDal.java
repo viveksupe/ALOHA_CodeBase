@@ -238,13 +238,13 @@ public class UserDal {
 
 	public ArrayList<User> selectUsersByName(String name) throws SQLException {
 		String SelectUsersByPrimaryKeyStatement = SELECT
-				+ " where user.fname like '%?%';";
+				+ " where user.fname like '%" + name + "%';";
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(SelectUsersByPrimaryKeyStatement);
-			ps.setString(1, name);
+			//ps.setString(1, name);
 			rSet = ps.executeQuery();
 			ArrayList<User> users = new ArrayList<User>();
 			while (rSet.next()) {

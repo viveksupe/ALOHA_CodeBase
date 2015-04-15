@@ -18,13 +18,12 @@ public class PostUI {
 	//region Getter Setter Method
 	
 	
-	
 	public String getUserName() {
 		return userName;
 	}
 
 	public void setUserName(String userName) {
-		userName = userName;
+		this.userName = userName;
 	}
 
 	public int getUserId() {
@@ -32,7 +31,7 @@ public class PostUI {
 	}
 
 	public void setUserId(int userId) {
-		userId = userId;
+		this.userId = userId;
 	}
 
 	public String getPostDate() {
@@ -40,7 +39,7 @@ public class PostUI {
 	}
 
 	public void setPostDate(String postDate) {
-		postDate = postDate;
+		this.postDate = postDate;
 	}
 
 	public String getPostData() {
@@ -48,7 +47,7 @@ public class PostUI {
 	}
 
 	public void setPostData(String postData) {
-		postData = postData;
+		this.postData = postData;
 	}
 
 	public int getPostId() {
@@ -56,7 +55,7 @@ public class PostUI {
 	}
 
 	public void setPostId(int postId) {
-		postId = postId;
+		this.postId = postId;
 	}
 
 	public ArrayList<CommentUI> getComments() {
@@ -64,7 +63,7 @@ public class PostUI {
 	}
 
 	public void setComments(ArrayList<CommentUI> comments) {
-		comments = comments;
+		this.comments = comments;
 	}
 	
 	//endregion
@@ -99,7 +98,13 @@ public class PostUI {
 		
 	}
 
-
+	public boolean addPost(String post) throws SQLException{
+		Post p = new Post(-1,post,null,null,null);
+		int res = p.addPost(p, 1);
+		if(res==1)
+			return true;
+		else return false;
+	}
 	
 	
 }
