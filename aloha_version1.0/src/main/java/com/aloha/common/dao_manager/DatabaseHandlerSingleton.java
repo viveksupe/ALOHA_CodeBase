@@ -20,11 +20,11 @@ public class DatabaseHandlerSingleton {
 
 			// ask the DriverManager for a connection to the schema mysql with
 			// root privileges
-/*			con = DriverManager.getConnection(
-					"jdbc:mysql://sql3.freemysqlhosting.net:3306/sql373425",
-					"sql373425", "zB8*dV3%");*/
 			con = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/testdb", "root", "root");
+					"jdbc:mysql://sql3.freemysqlhosting.net:3306/sql373425",
+					"sql373425", "zB8*dV3%");
+			/*con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/testdb", "root", "root");*/
 			stmt = con.createStatement();
 
 		} catch (SQLException ex) {
