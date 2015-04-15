@@ -274,5 +274,46 @@ public class UserDal {
 		}
 	}
 
+	public boolean checkIfUniqueEmail(String email) throws SQLException {
+		String selectemail = "select * from user where user.email = ?;";
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(selectemail);
+			ps.setString(1,email);
+			rs = ps.executeQuery();
+			if(rs.next())
+				return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+
+		}
+		return false;
+	}
+
+	public void lockaccount(String email) throws SQLException {
+		// TODO Auto-generated method stub
+		String update = "UPDATE user SET isLocked = ? WHERE email = ?;";
+		PreparedStatement ps = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(update);
+			ps.setInt(1, 1);
+			ps.setString(2,email);
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			con.close();
+		}
+	}
+
 	
 }

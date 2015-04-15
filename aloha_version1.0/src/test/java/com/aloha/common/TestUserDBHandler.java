@@ -28,15 +28,13 @@ public class TestUserDBHandler {
 		try {
 			TestUserDBHandler test = new TestUserDBHandler();
 			 //test.insertUser();
-<<<<<<< HEAD
 			//test.selectUser(6);
-=======
-			test.selectUser(4);
->>>>>>> a5251d65418539819b8e248b665f99ff3eaef83e
+			//test.selectUser(4);
 			// test.updateUser();
 			// test.selectUser(3);
 			// test.deleteUser(3);
-			test.showHash();
+			//test.showHash();
+			System.out.println(test.checkemailexists("mmpagnis@umail.iu.edu"));
 			test.selectAllUsers();
 
 		} catch (SQLException e) {
@@ -45,6 +43,11 @@ public class TestUserDBHandler {
 			e.printStackTrace();
 		}
 
+	}
+
+	private boolean checkemailexists(String string) throws SQLException {
+		// TODO Auto-generated method stub
+		return ud.checkIfUniqueEmail(string);
 	}
 
 	private void selectAllUsers() throws SQLException {

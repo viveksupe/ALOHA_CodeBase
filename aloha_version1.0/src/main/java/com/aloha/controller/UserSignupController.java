@@ -45,28 +45,39 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 			e1.printStackTrace();
 			model.addAttribute("Something went wrong please try again");
 		}*/
-		u.setFirstName(fname);
-		u.setLastName(lname);
-		u.setContactNumber(cnum);		
-		//u.setPassword(hashed_pwd);
-		u.setPassword(pwd);
-		u.setIsLocked(0);
-		u.setIsVerified(0);
-		u.setEmail(email);
-		
-		int res =0;
+		boolean is_uniq = true;
 		try {
-			res = ud.insertUser(u);
-		} catch (SQLException e) {
+			is_uniq = ud.checkIfUniqueEmail(email);
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			((Model) model).addAttribute("headerMessage","Something went wrong");
-			return "sign_up";
+			e1.printStackTrace();
 		}
-		if(res==1)
-			((Model) model).addAttribute("headerMessage","Please login, you have successfully signed up");
-		//System.out.println("success");
+		if(!is_uniq)
+		{
+			u.setFirstName(fname);
+			u.setLastName(lname);
+			u.setContactNumber(cnum);		
+			//u.setPassword(hashed_pwd);
+			u.setPassword(pwd);
+			u.setIsLocked(0);
+			u.setIsVerified(0);
+			u.setEmail(email);
+		
+			int res =0;
+			try {
+				res = ud.insertUser(u);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				((Model) model).addAttribute("headerMessage","Something went wrong");
+				return "sign_up";
+			}
+			if(res==1)
+				((Model) model).addAttribute("headerMessage","Please login, you have successfully signed up");
+			//System.out.println("success");
+		}
+		else
+			((Model) model).addAttribute("headerMessage","Email already exists");
 		return "Login";
 	}
-	//public ModelAndView perform_sign_up(@ModelAttribute("user"))
 }

@@ -3,8 +3,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
 	<jsp:body>
-
-  <link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
+          <link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
 	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
 	
     <!--[if IE]>
@@ -20,17 +19,14 @@
   <div class="container">
 
 <!-- Start of FORM -->
-<form name="login" method="post" action="${pageContext.request.contextPath}/login">
+<form name="forgot" method="post" action="${pageContext.request.contextPath}/forgotpassword">
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
-	 <h2>Login</h2><br/>
+	 <h2>Forgot Password</h2><br/>
 	 <h6>${headerMessage}</h6>
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
-	 <label>Password</label><input type="password" name="pwd" width="100px" required/>
-	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle" onClick="checkPassword(document.login.Login)">
-	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
-	 <a style="font-size:11px" href="${pageContext.request.contextPath}/forgotpassword">Forgot Password?</a> <br/>
+	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle"><br/>
 	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/sign_up/">Not a member yet? Join Us</a>
 </div>
 
@@ -39,21 +35,9 @@
 </div>
 <!-- End of FORM -->
  
+  <script src ="http://code.jquery.com/jquery-latest.js"></script>
 <script src="${pageContext.request.contextPath}/resources/Login/js/bootstrap.min.js"></script>
-<script>
-function checkPassword(input){
-      var pass = /^(?:([A-Z])*([a-z])*(\d)*(\W)*){8,15}$/;
-      if(input.value.match(pass))
-      {
-       return true;
-      }
-      else
-      {
-       alert('Incorrect email or password');
-       return false;
-      }
-}
-</script>
-</jsp:body>
+        
+	</jsp:body>
 </t:GlobalTemplate>
 	
