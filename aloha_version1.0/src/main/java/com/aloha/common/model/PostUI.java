@@ -17,9 +17,7 @@ public class PostUI {
 	
 	//region Getter Setter Method
 	
-		
-	//endregion
-
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -67,6 +65,8 @@ public class PostUI {
 	public void setComments(ArrayList<CommentUI> comments) {
 		this.comments = comments;
 	}
+	
+	//endregion
 
 	public ArrayList<PostUI> getPostsForUser(User user){
 		

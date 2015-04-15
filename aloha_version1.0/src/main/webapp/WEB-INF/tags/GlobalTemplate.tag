@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <title>Aloha</title>
-    <link rel="stylesheet" href="http://feedstack.asia/lib/font-awesome/css/font-awesome.css">
+    <link href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet" >
     <link href="${pageContext.request.contextPath}/resources/css/bottle.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/feed-menu.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/resources/css/menu.css" rel="stylesheet">
