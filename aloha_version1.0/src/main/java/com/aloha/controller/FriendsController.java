@@ -20,25 +20,22 @@ import com.aloha.common.entities.user.User;
  *         friends module
  */
 @Controller
-@SessionAttributes("sessionUser")
+//@SessionAttributes("sessionUser")
 public class FriendsController {
 
 	@RequestMapping("friends/index")
-	public String index(Locale locale, Model model){
+	public String index(Locale locale, Model model,HttpSession session){
 		//fetching a user from database and putting in session. THis is a sample for development. 
 		//Later to be removed.
 		//Later the user will be fetched in the login page after user has successfully logged in.
-		User testuser=null;
-		UserDal ud = new UserDal();
-		try {
-			testuser = ud.selectUserByPrimaryKey(4);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		//Now is being fetched from the current logged in session user.
+		User testUser=null;
+		//testuser = ud.selectUserByPrimaryKey(4);
+		testUser = (User)session.getAttribute("sessionUser");
 		
 		
-		model.addAttribute("sessionUser",testuser);
+		//model.addAttribute("sessionUser",testuser);
 		return "friends/index";
 	}
 	

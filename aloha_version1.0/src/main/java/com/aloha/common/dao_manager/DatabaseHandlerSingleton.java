@@ -23,7 +23,7 @@ public class DatabaseHandlerSingleton {
 			con = DriverManager.getConnection(
 					"jdbc:mysql://sql3.freemysqlhosting.net:3306/sql373425",
 					"sql373425", "zB8*dV3%");
-/*			con = DriverManager.getConnection(
+			/*con = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/testdb", "root", "root");*/
 			stmt = con.createStatement();
 

@@ -4,17 +4,47 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
   <jsp:body>
+<script>
+function savePost(){
+	alert($('#txtPost').val());
+	$.post( "${pageContext.request.contextPath}/search/users", { searchKey: "milind"} );
+	//window.location.href = "${pageContext.request.contextPath}/search/users?searchKey=" + $('#txtPost').val();
+};
+
+</script>  
+
+<!--     <div class="container-main pad-20">
+      <div class="app">
+        <script src="http://feedstack.asia/app/script/members.js"></script>
+        <div class="member-body">
+          <div class="header-member">
+            <i class="fa fa-space fa-group"></i> Search Users
+          </div>
+          <input type="email" name="email" width="100px" id="txtPost" placeholder="Search..."  />          
+          <button class="post-btn" onclick="savePost()">Search</button>
+          <div class="entry">
+            <div class="member-container">
+              <div class="clear"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+ -->
+ 
     <div class="container-main pad-20">
       <div class="app">
         <script src="http://feedstack.asia/app/script/members.js"></script>
         <div class="member-body">
           <div class="header-member">
-            <i class="fa fa-space fa-group"></i> Friends of ${sessionUser.getFirstName()}
-            <span class="members-count">${pageContext.request.contextPath})</span>
+            <i class="fa fa-space fa-group"></i> Search Users
+            <span class="members-count"></span>
             <span class="member-seach-span">
               <input type="text"
 							class="member-search" placeholder="search..."
-							root="http://feedstack.asia/">
+							root="http://feedstack.asia/" id="txtPost">
+							<button class="post-btn" onclick="savePost()">Search</button>
             </span>
           </div>
           <div class="root" root="http://feedstack.asia/" access-token=""></div>
@@ -38,6 +68,7 @@
         </div>
       </div>
     </div>
+
 
   </jsp:body>
 </t:GlobalTemplate>
