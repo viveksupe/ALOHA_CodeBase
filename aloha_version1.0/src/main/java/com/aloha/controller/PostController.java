@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aloha.common.dao_manager.dal.*;
 import com.aloha.common.entities.*;
@@ -32,5 +33,4 @@ public class PostController {
 		
 		return "post";
 	}
-
 }

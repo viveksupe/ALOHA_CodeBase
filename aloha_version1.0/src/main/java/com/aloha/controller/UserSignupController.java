@@ -37,18 +37,19 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 		UserDal ud = new UserDal();
 		User u = new User();
 	
-		String hashed_pwd = "";
+		/*String hashed_pwd = "";
 		try {
 			hashed_pwd = getHash(pwd);
 		} catch (NoSuchAlgorithmException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			model.addAttribute("Something went wrong please try again");
-		}
+		}*/
 		u.setFirstName(fname);
 		u.setLastName(lname);
 		u.setContactNumber(cnum);		
-		u.setPassword(hashed_pwd);		
+		//u.setPassword(hashed_pwd);
+		u.setPassword(pwd);
 		u.setIsLocked(0);
 		u.setIsVerified(0);
 		u.setEmail(email);

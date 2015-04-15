@@ -27,9 +27,26 @@ $(document).on('click','.feed-comment-count',function(){
 		}
 	});
 	
-$(function(){
-	$('textarea').autosize();
-});
+/*$(function(){
+	//$('textarea').autosize();
+});*/
+
+
+
+function isInvalidEntry() {
+	var value = $('#txtPost').val();
+    var pattern = new RegExp(/<script[\s\S]*?>[\s\S]*?<\/script>/g);
+    return pattern.test(value);
+};
+
+function savePost(){
+	if(!isInvalidEntry()){
+	alert($('#txtPost').val());
+	}
+	else{
+	alert("Scripts not allowed !!");
+	}
+};
 
 </script>
 
@@ -57,10 +74,10 @@ $(function(){
 		<div class="bcol-85">
 			<div class="feed-container">
 				<div class="feed-input">
-					<textarea class="feed-box" placeholder="" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
+					<textarea class="feed-box" id="txtPost" placeholder="Scribble..." maxlength="500" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
 					<div>
 						&nbsp;<img src="http://feedstack.asia/img/loading.gif" class="loading" style="display: none;">
-						<span class="right"><button class="post-btn">post</button></span>
+						<span class="right"><button class="post-btn" onclick="savePost()">post</button></span>
 					</div>
 				</div>
 			</div>

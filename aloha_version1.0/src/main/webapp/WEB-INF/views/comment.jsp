@@ -49,7 +49,7 @@
             </div>
             <div class="bcol-80x">
                 <div class="feed-comment-input-box">
-                    <input type="text" class="feed-comment-input-entry " placeholder="Enter the comment...">
+                    <input type="text" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
                 </div>
             </div>
             <div class="clear"></div>
