@@ -30,12 +30,12 @@ public class TestFriendshipDBHandler {
 
 		try {
 			TestFriendshipDBHandler test = new TestFriendshipDBHandler();
-			test.insertFriendship();
+			//test.insertFriendship();
 			//test.selectFriendship(3);
 			//test.updateFriendship(3);
 			//test.selectFriendship(1);
 			//test.deleteFriendship(3);
-			//test.selectAllFriendships();
+			test.selectAllFriendships();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
