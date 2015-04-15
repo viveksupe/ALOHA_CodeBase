@@ -18,12 +18,15 @@ public class CommentUI {
 	private int postId;
 
 	// region Getter Setter method
+	
+	// endregion
+
 	public int getCommentId() {
 		return commentId;
 	}
 
 	public void setCommentId(int commentId) {
-		commentId = commentId;
+		this.commentId = commentId;
 	}
 
 	public String getCommentData() {
@@ -31,7 +34,7 @@ public class CommentUI {
 	}
 
 	public void setCommentData(String commentData) {
-		commentData = commentData;
+		this.commentData = commentData;
 	}
 
 	public Date getCommentDate() {
@@ -39,7 +42,7 @@ public class CommentUI {
 	}
 
 	public void setCommentDate(Date commentDate) {
-		commentDate = commentDate;
+		this.commentDate = commentDate;
 	}
 
 	public String getUserName() {
@@ -47,7 +50,7 @@ public class CommentUI {
 	}
 
 	public void setUserName(String userName) {
-		userName = userName;
+		this.userName = userName;
 	}
 
 	public int getUserId() {
@@ -55,7 +58,7 @@ public class CommentUI {
 	}
 
 	public void setUserId(int userId) {
-		userId = userId;
+		this.userId = userId;
 	}
 
 	public int getPostId() {
@@ -63,10 +66,8 @@ public class CommentUI {
 	}
 
 	public void setPostId(int postId) {
-		postId = postId;
+		this.postId = postId;
 	}
-
-	// endregion
 
 	public ArrayList<CommentUI> getCommentsForPost(User user, Post post) throws SQLException {
 
@@ -87,4 +88,13 @@ public class CommentUI {
 		return comments;
 	}
 
+	public boolean addComment(CommentUI comment) throws SQLException{
+		
+		Comment c = new Comment(-1,comment.getCommentData(),null, comment.getPostId(),comment.getUserId());
+		int res = c.addComment(c);
+		if(res==1)
+			return true;
+		else return false;
 	}
+
+}

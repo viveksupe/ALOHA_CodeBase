@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.aloha.common.dao_manager.dal.ChatDal;
 import com.aloha.common.entities.Chat;
+import java.sql.*;
 
 public class TestChatDBJHandler {
 

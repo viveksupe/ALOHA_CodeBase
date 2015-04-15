@@ -73,12 +73,10 @@ public class Comment {
 		this.dal = new CommentDal();
 	}
 
-	public Comment addComment(Comment comment) throws SQLException {
+	public int addComment(Comment comment) throws SQLException {
 		int result = dal.insertComment(comment);
-		if (result == 1)
-			return comment;
-		else
-			return null;
+		return result;
+		
 	}
 
 	public boolean deleteComment(int commId) throws SQLException {
