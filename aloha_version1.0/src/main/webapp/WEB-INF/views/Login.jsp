@@ -35,7 +35,8 @@
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
-	 <h2>Login</h2>
+	 <h2>Login</h2><br/>
+	 <h6>${headerMessage}</h6>
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
 	 <label>Password</label><input type="password" name="pwd" width="100px" required/>
 	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle" onClick="checkPassword(document.login.Login)">

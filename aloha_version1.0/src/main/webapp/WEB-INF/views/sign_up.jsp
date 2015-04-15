@@ -41,7 +41,6 @@
 	 <div id="fname_e" class = "error" style = "display:none"><label>Enter valid first name</label></div>
 	 <label>Last Name</label><input type="text" name="lname" width="100px"  required/>
 	 <div id="lname_e" class = "error" style = "display:none"><label>Enter valid last name</label></div>
-	 <label>Date of Birth</label><input type="text" id="datepicker">
 	 <label>Contact Number</label><input type="text" name="cnum" width="100px" />
 	 <div id="cnum_e" class = "error" style = "display:none"><label>Enter valid contact number</label></div>
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
@@ -52,7 +51,8 @@
 	 <input class="btn btn-primary" type="submit" value="Sign Up" name="sign_up" align="middle" onClick="Validate()">
 	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
 	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/">Already a member? Login</a>
-
+	<label>Date of Birth</label><input type="text" id="datepicker" name = "dob">
+	
 </div>
 
 
