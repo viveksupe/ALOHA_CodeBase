@@ -43,7 +43,7 @@ public class WebSocketChatController {
 	 *         we'll let the user know that the handshake was successful.
 	 */
 	@OnOpen
-	public void onOpen(Session session,HttpSession ses) {
+	public void onOpen(Session session) {
 		System.out.println(session.getId() + " has opened a connection");
 		// System.out.println(session.);
 		clients.add(session);
@@ -101,11 +101,11 @@ public class WebSocketChatController {
 	 * Note: you can't send messages to the client from this method
 	 */
 	@OnClose
-	public void onClose(Session session,HttpSession ses) {
+	public void onClose(Session session) {
 		userIDToSessionMap.remove(session);
 		System.out.println("Socket Session " + session.getId() + " has ended");
 		clients.remove(session);
-		System.out.println(ses.getAttribute("sessionUser"));
+		//System.out.println(ses.getAttribute("sessionUser"));
 	}
 }
 /*
