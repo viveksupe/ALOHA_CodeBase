@@ -23,7 +23,7 @@
     <div class="header">
         <div class="container-main pad-header">
             <div class="bcol-25 logo">
-                <a href="http://feedstack.asia/">
+                <a href="${pageContext.request.contextPath}">
                     <img width="250px" height="42px"  src="${pageContext.request.contextPath}/resources/img/logo.png">
                 </a>
             </div>
@@ -31,8 +31,10 @@
                 <span class="menu-text">+ menu</span>
 
                 <ul class="menu-bar">
-                    <a href="/common"><li><i class="fa fa-space fa-home"></i>Home</li></a>
-                    <a href="http://feedstack.asia/renudeshmukh">
+
+                    <a href="${pageContext.request.contextPath}/search/users"><li><i class="fa fa-space fa-search"></i>Search</li></a>
+                    <a href="${pageContext.request.contextPath}/post"><li><i class="fa fa-space fa-comments"></i>Posts</li></a>
+                    <a href="${pageContext.request.contextPath}/user_profile">
                         <li>
                             <i class="fa fa-space fa-user">
                             </i>Profile
