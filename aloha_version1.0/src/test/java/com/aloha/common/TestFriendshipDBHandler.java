@@ -27,7 +27,9 @@ public class TestFriendshipDBHandler {
 
 	public static void main(String[] args) {
 		Connection con = DatabaseHandlerSingleton.getDBConnection();
-
+		logger.info("OKOK");
+		logger.debug("OKOK_DEBUG");
+		logger.error("ERROR OCCURRED");
 		try {
 			TestFriendshipDBHandler test = new TestFriendshipDBHandler();
 			//test.insertFriendship();

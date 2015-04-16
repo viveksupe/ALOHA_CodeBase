@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,12 +24,18 @@ import com.aloha.common.entities.user.User;
 @Controller
 //@SessionAttributes("sessionUser")
 public class FriendsController {
+	private static final Logger logger = LoggerFactory
+			.getLogger(FriendsController.class);
 
 	@RequestMapping("friends/index")
 	public String index(Locale locale, Model model,HttpSession session){
 		//fetching a user from database and putting in session. THis is a sample for development. 
 		//Later to be removed.
 		//Later the user will be fetched in the login page after user has successfully logged in.
+		
+		logger.info("Entered friend index page INFO");
+		logger.debug("Entered friend index page DEBUG");
+		logger.error("Entered friend index page ERROR");
 		
 		//Now is being fetched from the current logged in session user.
 		User testUser=null;

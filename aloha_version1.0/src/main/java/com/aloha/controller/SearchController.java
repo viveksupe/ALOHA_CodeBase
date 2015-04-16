@@ -28,8 +28,8 @@ public class SearchController {
 		return "search/users";
 	}
 
-	@RequestMapping(value = "search/users", method = RequestMethod.POST)
-	public @ResponseBody String searchUsers(@RequestParam("searchKey") String searchKey,
+	@RequestMapping(value = "To be changed to later > search/users", method = RequestMethod.POST)
+	public @ResponseBody String OldsearchUsers(@RequestParam("searchKey") String searchKey,
 			Model model) {
 		logger.info("Entered Search Users POST method");
 		// TODO write a query in USERDAL and use it here. to return the users
@@ -53,6 +53,32 @@ public class SearchController {
 		//return ulist;
 		return string.toString();
 	}
+	
+
+	@RequestMapping(value = "search/users", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<User> searchUsers(@RequestParam("searchKey") String searchKey,
+			Model model) {
+		logger.info("Entered Search Users POST method");
+		// TODO write a query in USERDAL and use it here. to return the users
+		// list.
+		ArrayList<User> ulist=null;
+		UserDal ud = new UserDal();
+		try {
+			ulist= ud.selectUsersByName(searchKey);
+			model.addAttribute("users",ulist);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// TODO then create a global user view which will also fetch the users
+		// from the DB and their friendship from the DB. If friendship exists
+		// then add friend button should not be shown.
+		//return ulist;
+		return ulist;
+	}
+
 	
 	
 	public StringBuilder searchUserResultBuilder(ArrayList<User> ulist){
