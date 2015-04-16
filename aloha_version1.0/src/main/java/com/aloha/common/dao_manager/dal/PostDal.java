@@ -85,7 +85,6 @@ public class PostDal {
 	}
 
 	public int insertPost(Post post, int user_id) throws SQLException {
-		con = DatabaseHandlerSingleton.getDBConnection();
 		String insertUserStatement = INSERT_POST;
 		PreparedStatement ps = null;
 		int result = -1;
