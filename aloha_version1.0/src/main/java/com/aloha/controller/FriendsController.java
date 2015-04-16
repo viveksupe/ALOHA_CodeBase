@@ -11,7 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
@@ -76,4 +77,15 @@ public class FriendsController {
 		return "friends/friends";
 
 	}
+	
+	@RequestMapping(value = "friends/add", method = RequestMethod.POST)
+	public String addFriend(@RequestParam("userIdToAdd") int userId , Model model) {
+		logger.info("Entered addFriend POST");
+		
+		return "search/users";
+	}
+
+	
+	
+	
 }

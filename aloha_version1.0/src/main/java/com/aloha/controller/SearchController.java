@@ -4,9 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,7 +80,19 @@ public class SearchController {
 		return ulist;
 	}
 
-	
+	@RequestMapping(value = "profile", method = RequestMethod.GET)
+	public String display_user_profile(@RequestParam("userId") int id , Model model, HttpSession session){
+		User u = new User();
+		try {
+			u=u.getUser(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.addAttribute("user",u);
+		return "profile";
+	}
+
 	
 	public StringBuilder searchUserResultBuilder(ArrayList<User> ulist){
 		StringBuilder returnString = new StringBuilder();
