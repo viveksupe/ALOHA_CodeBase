@@ -30,4 +30,13 @@ public class LikeDislike {
 		LikeDislike likeDislike = lDal.GetPostLikeDislike(postId);
 		return likeDislike;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "LikeDislike [likes=" + likes + ", dislikes=" + dislikes
+				+ ", lDal=" + lDal + "]";
+	}
 }

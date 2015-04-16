@@ -48,9 +48,6 @@ var PostManager = new function() {
 			};
 
 			$.ajax({
-				headers : {
-					'Accept' : 'application/json'
-				},
 				method : "POST",
 				url : "http://localhost:8080/common/post/add",
 				data : {
@@ -72,11 +69,11 @@ var PostManager = new function() {
 			headers : {
 				'Accept' : 'application/json'
 			},
-			data : {
-				postData : "milind"
-			},
 			method : "POST",
-			url : "http://localhost:8080/common/post/getPost",
+			url : this.Root + "/post/getPost",
+			data : {
+				searchKey : "milind"
+			},
 			success : function(data) {
 				console.log('success');
 				$('#postContainer').setTemplateURL(

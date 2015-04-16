@@ -85,4 +85,14 @@ public class Like {
 		return lDal.updateLike(0, like.getLikeId());
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Like [likeId=" + likeId + ", type=" + type + ", userId="
+				+ userId + ", postId=" + postId + ", lDal=" + lDal + "]";
+	}
+
+	
 }

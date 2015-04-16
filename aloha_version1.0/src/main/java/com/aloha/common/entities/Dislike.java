@@ -6,6 +6,17 @@ import java.util.ArrayList;
 import com.aloha.common.dao_manager.dal.LikeDislikeDal;
 
 public class Dislike {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Dislike [dislikeId=" + dislikeId + ", type=" + type
+				+ ", userId=" + userId + ", postId=" + postId + ", lDal="
+				+ lDal + "]";
+	}
+
+
 	private int dislikeId;
 	private LikeType type;
 	private int userId;

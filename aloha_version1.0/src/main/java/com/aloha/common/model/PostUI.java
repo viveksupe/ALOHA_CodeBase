@@ -19,6 +19,20 @@ public class PostUI {
 	//region Getter Setter Method
 	
 	
+	/**
+	 * @return the likeStats
+	 */
+	public LikeDislike getLikeStats() {
+		return likeStats;
+	}
+
+	/**
+	 * @param likeStats the likeStats to set
+	 */
+	public void setLikeStats(LikeDislike likeStats) {
+		this.likeStats = likeStats;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -67,14 +81,6 @@ public class PostUI {
 		this.comments = comments;
 	}
 	
-	public LikeDislike getLikeStats() {
-		return likeStats;
-	}
-
-	public void setLikeStats(LikeDislike likeStats) {
-		this.likeStats = likeStats;
-	}
-
 	//endregion
 
 	public ArrayList<PostUI> getPostsForUser(User user){
