@@ -11,7 +11,6 @@ import java.util.List;
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.user.User;
 
-
 /**
  * @author Milind
  *
@@ -25,6 +24,7 @@ public class UserDal {
 	private String UPDATE_USER;
 	private String DELETE_USER;
 	private String SELECT_LOGIN;
+
 	/**
 	 * Constructor
 	 */
@@ -49,19 +49,21 @@ public class UserDal {
 			ps = con.prepareStatement(SelectUsersAllStatement);
 			rSet = ps.executeQuery();
 			ArrayList<User> users = new ArrayList<User>();
-			while (rSet.next()) {
-				User u = new User();
-				u.setUserId(rSet.getInt("user_id"));
-				u.setFirstName(rSet.getString("fname"));
-				u.setLastName(rSet.getString("lname"));
-				u.setContactNumber(rSet.getString("contact_number"));
-				u.setEmail(rSet.getString("email"));
-				u.setPassword(rSet.getString("password"));
-				u.setDateOfBirth(rSet.getDate("bdate"));
-				u.setIsVerified(rSet.getInt("isVerified"));
-				u.setIsLocked(rSet.getInt("isLocked"));
-			    u.setLastActive(rSet.getDate("lastActive"));
-				users.add(u);
+			if (rSet != null) {
+				while (rSet.next()) {
+					User u = new User();
+					u.setUserId(rSet.getInt("user_id"));
+					u.setFirstName(rSet.getString("fname"));
+					u.setLastName(rSet.getString("lname"));
+					u.setContactNumber(rSet.getString("contact_number"));
+					u.setEmail(rSet.getString("email"));
+					u.setPassword(rSet.getString("password"));
+					u.setDateOfBirth(rSet.getDate("bdate"));
+					u.setIsVerified(rSet.getInt("isVerified"));
+					u.setIsLocked(rSet.getInt("isLocked"));
+					u.setLastActive(rSet.getDate("lastActive"));
+					users.add(u);
+				}
 			}
 			return users;
 		} catch (SQLException e) {
@@ -94,11 +96,11 @@ public class UserDal {
 				u.setLastName(rSet.getString("lname"));
 				u.setContactNumber(rSet.getString("contact_number"));
 				u.setEmail(rSet.getString("email"));
-						u.setPassword(rSet.getString("password"));
+				u.setPassword(rSet.getString("password"));
 				u.setDateOfBirth(rSet.getDate("bdate"));
-						u.setIsVerified(rSet.getInt("isVerified"));
-						u.setIsLocked(rSet.getInt("isLocked"));
-						u.setLastActive(rSet.getDate("lastActive"));
+				u.setIsVerified(rSet.getInt("isVerified"));
+				u.setIsLocked(rSet.getInt("isLocked"));
+				u.setLastActive(rSet.getDate("lastActive"));
 				return u;
 			} else
 				return null;
@@ -192,20 +194,20 @@ public class UserDal {
 			con.close();
 		}
 	}
-	
-	public User getPasswordByEmail(String email, String pwd) throws SQLException{
+
+	public User getPasswordByEmail(String email, String pwd)
+			throws SQLException {
 		String query = "select * from user where user.email = ? and user.password = ?;";
 		PreparedStatement ps = null;
 		ResultSet res = null;
 		User u = null;
-		try{
+		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(query);
 			ps.setString(1, email);
 			ps.setString(2, pwd);
 			res = ps.executeQuery();
-			if(res.first())
-			{
+			if (res.first()) {
 				u = new User();
 				u.setUserId(res.getInt("user_id"));
 				u.setFirstName(res.getString("fname"));
@@ -214,27 +216,23 @@ public class UserDal {
 				u.setEmail(res.getString("email"));
 				u.setPassword(res.getString("password"));
 				u.setDateOfBirth(res.getDate("bdate"));
-						u.setIsVerified(res.getInt("isVerified"));
-						u.setIsLocked(res.getInt("isLocked"));
-						u.setLastActive(res.getDate("lastActive"));
-			}
-			else
+				u.setIsVerified(res.getInt("isVerified"));
+				u.setIsLocked(res.getInt("isLocked"));
+				u.setLastActive(res.getDate("lastActive"));
+			} else
 				u = null;
-		}
-		catch(SQLException ex){
+		} catch (SQLException ex) {
 			u = null;
-			System.out.println(""+ex.getMessage());
+			System.out.println("" + ex.getMessage());
 			throw ex;
-		}
-		finally{
+		} finally {
 			if (ps != null)
 				ps.close();
 			con.close();
 		}
-		
+
 		return u;
 	}
-	
 
 	public ArrayList<User> selectUsersByName(String name) throws SQLException {
 		String SelectUsersByPrimaryKeyStatement = SELECT
@@ -244,22 +242,24 @@ public class UserDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(SelectUsersByPrimaryKeyStatement);
-			//ps.setString(1, name);
+			// ps.setString(1, name);
 			rSet = ps.executeQuery();
 			ArrayList<User> users = new ArrayList<User>();
-			while (rSet.next()) {
-				User u = new User();
-				u.setUserId(rSet.getInt("user_id"));
-				u.setFirstName(rSet.getString("fname"));
-				u.setLastName(rSet.getString("lname"));
-				u.setContactNumber(rSet.getString("contact_number"));
-				u.setEmail(rSet.getString("email"));
-				u.setPassword(rSet.getString("password"));
-				u.setDateOfBirth(rSet.getDate("bdate"));
-				u.setIsVerified(rSet.getInt("isVerified"));
-				u.setIsLocked(rSet.getInt("isLocked"));
-			    u.setLastActive(rSet.getDate("lastActive"));
-				users.add(u);
+			if (rSet != null) {
+				while (rSet.next()) {
+					User u = new User();
+					u.setUserId(rSet.getInt("user_id"));
+					u.setFirstName(rSet.getString("fname"));
+					u.setLastName(rSet.getString("lname"));
+					u.setContactNumber(rSet.getString("contact_number"));
+					u.setEmail(rSet.getString("email"));
+					u.setPassword(rSet.getString("password"));
+					u.setDateOfBirth(rSet.getDate("bdate"));
+					u.setIsVerified(rSet.getInt("isVerified"));
+					u.setIsLocked(rSet.getInt("isLocked"));
+					u.setLastActive(rSet.getDate("lastActive"));
+					users.add(u);
+				}
 			}
 			return users;
 		} catch (SQLException e) {
@@ -281,15 +281,14 @@ public class UserDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(selectemail);
-			ps.setString(1,email);
+			ps.setString(1, email);
 			rs = ps.executeQuery();
-			if(rs.next())
+			if (rs.next())
 				return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 
 		}
 		return false;
@@ -303,17 +302,15 @@ public class UserDal {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(update);
 			ps.setInt(1, 1);
-			ps.setString(2,email);
+			ps.setString(2, email);
 			ps.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		finally {
+		} finally {
 			con.close();
 		}
 	}
 
-	
 }
