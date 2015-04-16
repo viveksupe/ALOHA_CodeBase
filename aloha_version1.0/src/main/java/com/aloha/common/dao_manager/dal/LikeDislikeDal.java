@@ -20,11 +20,13 @@ public class LikeDislikeDal {
 	private String SELECT;
 	private String INSERT;
 	private String UPDATE;
+	private String DELETE;
 
 	public LikeDislikeDal() {
 		SELECT = "SELECT likedislike.like_id, likedislike.like_type, likedislike.user_id, likedislike.post_id FROM likedislike";
 		INSERT = "INSERT INTO likedislike ( like_type, user_id, post_id) VALUES ( ?, ?, ?);";
 		UPDATE = "UPDATE likedislike SET like_type = ? WHERE like_id ?;";
+		DELETE = "DELETE FROM likedislike";
 
 		con = DatabaseHandlerSingleton.getDBConnection();
 
@@ -151,4 +153,24 @@ public class LikeDislikeDal {
 		}
 	}
 
+	public int deleteAllDataOfPost(int postId) throws SQLException{
+		String deleteStmt = DELETE + "where post_id = ?";
+
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(deleteStmt);
+			ps.setInt(1, postId);
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
 }

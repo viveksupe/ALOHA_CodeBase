@@ -69,11 +69,9 @@ public class Like {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ArrayList<Like> getLikes(int postId) {
-		return null;
-	}
 
-	public int Like(Like like) throws SQLException {
+
+	public int like(Like like) throws SQLException {
 		int likeId = like.getLikeId();
 		int result = -1;
 		if (likeId == -1)
@@ -83,7 +81,7 @@ public class Like {
 		return result;
 	}
 
-	public int UnLike(Like like) throws SQLException {
+	public int unLike(Like like) throws SQLException {
 		return lDal.updateLike(0, like.getLikeId());
 	}
 
