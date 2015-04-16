@@ -174,6 +174,7 @@ $(document).on('keypress', '.feed-comment-input-entry', function (event) {
                             <div class="bcol-90x">
                                 <div class="feed-title">
                                     <b><a href="http://feedstack.asia/renudeshmukh">${element.getUserName()}</a></b>
+                                    <span class="feed-delete"><i class="fa fa-trash-o "></i></span>
                                     <small class="feed-time-mobile mobile-visible">${element.getPostDate()} </small>
                                 </div>
                             </div>

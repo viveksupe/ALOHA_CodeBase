@@ -22,6 +22,7 @@ public class LikeDislike {
 	
 	public LikeDislike() {
 		// TODO Auto-generated constructor stub
+		this.lDal = new LikeDislikeDal();
 	}
 
 	public LikeDislike getPostLikeDislike(int postId) throws SQLException{
