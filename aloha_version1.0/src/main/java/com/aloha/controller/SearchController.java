@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.user.User;
 
 @Controller
@@ -83,13 +84,20 @@ public class SearchController {
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
 	public String display_user_profile(@RequestParam("userId") int id , Model model, HttpSession session){
 		User u = new User();
+		Friendship f =new Friendship();
 		try {
 			u=u.getUser(id);
+			User userInSession = (User) session.getAttribute("sessionUser");
+			int userInSessionId= -1;
+			if (userInSession != null) {
+				userInSessionId = userInSession.getUserId();
+			}
+			f=f.getExistingFriendship(userInSessionId, u.getUserId());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("user",u);
+		model.addAttribute("friendship",f);
 		return "profile";
 	}
 

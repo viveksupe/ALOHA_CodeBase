@@ -144,6 +144,7 @@ public class FriendshipDal {
 	public Friendship selectFriendshipByUsers(int userId1, int userId2)
 			throws SQLException {
 		String SelectFriendhipByUsersStatement = SELECT_FRIENDSHIP_BY_USERIDS;
+		UserDal ud=new UserDal();
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -156,11 +157,11 @@ public class FriendshipDal {
 			rSet = ps.executeQuery();
 			if (rSet.next()) {
 				Friendship friendship = new Friendship();
-				friendship.setUser1(new User());
-				friendship.setUser2(new User());
+				friendship.setUser1(ud.selectUserByPrimaryKey(rSet.getInt("user_id1")));
+				friendship.setUser2(ud.selectUserByPrimaryKey(rSet.getInt("user_id2")));
 				friendship.setFriendshipId(rSet.getInt("friendship_id"));
-				friendship.getUser1().setUserId(rSet.getInt("user_id1"));
-				friendship.getUser2().setUserId(rSet.getInt("user_id2"));
+				//friendship.getUser1().setUserId(rSet.getInt("user_id1"));
+				//friendship.getUser2().setUserId(rSet.getInt("user_id2"));
 				friendship.setStatus(rSet.getInt("friend_status_id"));
 				int request_sent_by = rSet.getInt("req_sent_by");
 				friendship

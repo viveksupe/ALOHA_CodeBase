@@ -79,7 +79,9 @@
 										<a href="#">
 										
 						<button id="addFriendBtn" class="btn btn-edit"
-											onclick="addFriend(${user.userId})">Add Friend</button>
+											onclick="addFriend(${user.userId})">
+											${friendship.status}
+											</button>
 					</a>	
 									</div>	
 			</div>
