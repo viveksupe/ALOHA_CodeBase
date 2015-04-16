@@ -1,12 +1,16 @@
 package com.aloha.common.entities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.aloha.common.dao_manager.dal.LikeDislikeDal;
 
 public class Dislike {
 	private int dislikeId;
 	private LikeType type;
 	private int userId;
 	private int postId;
+	private LikeDislikeDal lDal;
 	
 	//region
 	
@@ -62,13 +66,24 @@ public class Dislike {
 
 	public Dislike() {
 		// TODO Auto-generated constructor stub
+		
 	}
 
-	public ArrayList<Dislike> getDislikes(int postId){return null;}
+
+	public int dislike(Dislike dislike) throws SQLException{
+		int dlikeId = dislike.getDislikeId();
+		int result = -1;
+		if (dlikeId == -1)
+			result = lDal.insertDislike(dislike);
+		else
+			result = lDal.updateLike(2, dlikeId);
+		return result;
+
+	}
 	
-	public boolean dislike(int postId){return false;}
 	
-	
-	public boolean unDislike(int postId){return false;}
+	public int unDislike(Dislike dislike) throws SQLException{
+		return lDal.updateLike(0, dislike.getDislikeId());
+	}
 
 }
