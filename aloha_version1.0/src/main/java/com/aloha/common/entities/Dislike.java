@@ -11,14 +11,14 @@ public class Dislike {
 	 */
 	@Override
 	public String toString() {
-		return "Dislike [dislikeId=" + dislikeId + ", type=" + type
+		return "Dislike [dislikeId=" + dislikeId 
 				+ ", userId=" + userId + ", postId=" + postId + ", lDal="
 				+ lDal + "]";
 	}
 
 
 	private int dislikeId;
-	private LikeType type;
+	//private LikeType type;
 	private int userId;
 	private int postId;
 	private LikeDislikeDal lDal;
@@ -31,14 +31,6 @@ public class Dislike {
 
 	public void setDislikeId(int dislikeId) {
 		this.dislikeId = dislikeId;
-	}
-
-	public LikeType getType() {
-		return type;
-	}
-
-	public void setType(LikeType type) {
-		this.type = type;
 	}
 
 	public int getUserId() {
@@ -70,7 +62,7 @@ public class Dislike {
 	public Dislike(int dislikeId, LikeType type, int userId, int postId) {
 		super();
 		this.dislikeId = dislikeId;
-		this.type = type;
+		//this.type = type;
 		this.userId = userId;
 		this.postId = postId;
 	}

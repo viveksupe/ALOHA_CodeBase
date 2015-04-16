@@ -52,9 +52,7 @@
                         <div class='like-entry-{ $T.Post.postId}'><span class='you-like-{ $T.Post.postId}'></span></div>		
                         <div class="comment-block-entry-{ $T.Post.postId}" style="display:none">
                         
-
-
-{#foreach $T.Post.Comments as comment}
+{#foreach $T.Post.comments as comment}
     <div class="feed-comment">
         <div class="feed-comment-list feed-comment-list-{ $T.comment.commentId}">
             <div class="feed-comment-block feed-comment-block-202">
@@ -92,17 +90,19 @@
 
 {#/for}
 
-<div class="feed-comment-input" feed-id="{ $T.comment.postId}">
+
+
+<div class="feed-comment-input" feed-id="{ $T.Post.postId}">
             <div class="bcol-20x">
                 <div class="feed-comment-user">
-                    <a href="http://feedstack.asia/{ $T.comment.userId}">
+                    <a href="http://feedstack.asia/{ $T.Post.userId}">
                         <img src="http://feedstack.asia/img/user.jpg" class="feed-comment-user-image">
                     </a>
                 </div>
             </div>
             <div class="bcol-80x">
                 <div class="feed-comment-input-box">
-                    <input type="text" id= "comment{ $T.comment.postId}" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
+                    <input type="text" id= "comment{ $T.Post.postId}" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
                 </div>
             </div>
             <div class="clear"></div>
@@ -110,7 +110,7 @@
  
 
 
-//---------------------------------------------
+
 
     					
                         </div>

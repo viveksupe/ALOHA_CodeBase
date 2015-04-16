@@ -9,6 +9,22 @@ public class LikeDislike {
 	private ArrayList<Like> likes;
 	private ArrayList<Dislike> dislikes;
 	private LikeDislikeDal lDal;
+	public ArrayList<Like> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(ArrayList<Like> likes) {
+		this.likes = likes;
+	}
+
+	public ArrayList<Dislike> getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(ArrayList<Dislike> dislikes) {
+		this.dislikes = dislikes;
+	}
+
 	/**
 	 * @param likes
 	 * @param dislikes

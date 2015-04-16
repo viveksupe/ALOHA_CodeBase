@@ -56,14 +56,14 @@ public class LikeDislikeDal {
 					like.setLikeId(rSet.getInt("like_id"));
 					like.setPostId(rSet.getInt("post_id"));
 					like.setUserId(rSet.getInt("user_id"));
-					like.setType(LikeType.Like);
+					//like.setType(LikeType.Like);
 					likes.add(like);
 				} else if (likeType == 2) {
 					Dislike like = new Dislike();
 					like.setDislikeId(rSet.getInt("like_id"));
 					like.setPostId(rSet.getInt("post_id"));
 					like.setUserId(rSet.getInt("user_id"));
-					like.setType(LikeType.Dislike);
+					//like.setType(LikeType.Dislike);
 					dislikes.add(like);
 				}
 			}

@@ -7,7 +7,7 @@ import com.aloha.common.dao_manager.dal.LikeDislikeDal;
 
 public class Like {
 	private int likeId;
-	private LikeType type;
+	//private LikeType type;
 	private int userId;
 	private int postId;
 	private LikeDislikeDal lDal;
@@ -23,7 +23,7 @@ public class Like {
 	public Like(int likeId, LikeType type, int userId, int postId) {
 		super();
 		this.likeId = likeId;
-		this.type = type;
+		//this.type = type;
 		this.userId = userId;
 		this.postId = postId;
 		lDal = new LikeDislikeDal();
@@ -37,14 +37,6 @@ public class Like {
 
 	public void setLikeId(int likeId) {
 		this.likeId = likeId;
-	}
-
-	public LikeType getType() {
-		return type;
-	}
-
-	public void setType(LikeType type) {
-		this.type = type;
 	}
 
 	public int getUserId() {
@@ -90,7 +82,7 @@ public class Like {
 	 */
 	@Override
 	public String toString() {
-		return "Like [likeId=" + likeId + ", type=" + type + ", userId="
+		return "Like [likeId=" + likeId + ", userId="
 				+ userId + ", postId=" + postId + ", lDal=" + lDal + "]";
 	}
 

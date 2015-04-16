@@ -5,7 +5,9 @@
     <jsp:body>
 <script src="http://feedstack.asia/app/script/jquery.autosize.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/resources/js/jquery-jtemplates.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/post.js"></script>
+
 <script >
 
 $( document ).ready(function() {
