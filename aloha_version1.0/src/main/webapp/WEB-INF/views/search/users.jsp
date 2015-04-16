@@ -5,12 +5,12 @@
 <t:GlobalTemplate>
 	<jsp:body>
 <script>
-	$(document).on('keyup','.member-search',function (event) { savePost()});
+	$(document).on('keyup','.member-search',function (event) { searchUsers()});
 	/* $(function() {
 		$('.member-search').keyup(alert('oh yes'))
 	});
  */
-	function savePost() {
+	function searchUsers() {
 		//alert($('#txtPost').val());
 		var searchKeyValue = $('#txtPost').val();
 		if(searchKeyValue != ''){
@@ -31,7 +31,7 @@
 						for (i = 0; i < data.length; i++) {
 							$('.member-container')
 									.append(
-											"<div class=\"bcol-member-block\"> <div class=\"member-image\"> <a href=\"http://feedstack.asia/milpas999\"> <img src=\"http://feedstack.asia/img/user.jpg\" class=\"member\"> </a> </div> <div class=\"member-name\"> <a href=\"http://feedstack.asia/milpas999\">"
+											"<div class=\"bcol-member-block\"> <div class=\"member-image\"> <a href=\"${pageContext.request.contextPath}/profile?userId=" + data[i].userId + "\"> <img src=\"http://feedstack.asia/img/user.jpg\" class=\"member\"> </a> </div> <div class=\"member-name\"> <a href=\"${pageContext.request.contextPath}/profile?userId=" + data[i].userId + "\">"
 													+ data[i].firstName
 													+ " "
 													+ data[i].lastName
@@ -49,25 +49,6 @@
 	};
 </script>  
 
-<!--     <div class="container-main pad-20">
-      <div class="app">
-        <script src="http://feedstack.asia/app/script/members.js"></script>
-        <div class="member-body">
-          <div class="header-member">
-            <i class="fa fa-space fa-group"></i> Search Users
-          </div>
-          <input type="email" name="email" width="100px" id="txtPost" placeholder="Search..."  />          
-          <button class="post-btn" onclick="savePost()">Search</button>
-          <div class="entry">
-            <div class="member-container">
-              <div class="clear"></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
- -->
  
     <div class="container-main pad-20">
       <div class="app">
@@ -80,7 +61,7 @@
               <input type="text" class="member-search"
 							placeholder="search..." root="http://feedstack.asia/"
 							id="txtPost">
-							<button class="post-btn" onclick="savePost()">Search</button>
+							<button class="post-btn" onclick="searchUsers()">Search</button>
             </span>
           </div>
           <div class="root" root="http://feedstack.asia/"
