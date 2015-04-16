@@ -6,8 +6,9 @@ var PostManager = new function() {
 	this.init = function(root) {
 		// alert('in init');
 		this.Root = root;
-		this.commentEnterEvent();
 		this.getPosts();
+		
+		
 		// this.savePost();
 	};
 
@@ -38,9 +39,8 @@ var PostManager = new function() {
 	};
 
 	this.savePost = function() {
-		svar
-		value = $('#txtPost').val();
-		// var value = 'renuka';
+		
+		var value = $('#txtPost').val();
 		if (!this.isInvalidEntry(value)) {
 
 			var json = {
@@ -64,7 +64,7 @@ var PostManager = new function() {
 	};
 
 	this.getPosts = function() {
-
+		console.log(this.Root);
 		$.ajax({
 			headers : {
 				'Accept' : 'application/json'
@@ -77,8 +77,9 @@ var PostManager = new function() {
 			success : function(data) {
 				console.log('success');
 				$('#postContainer').setTemplateURL(
-						this.Root + '/WEB-INF/views/postTemplate.jsp');
-				$('#postContainer').processTemplate(data.posts);
+						PostManager.Root +	 '/resources/pages/postTemplate.jsp');
+				$('#postContainer').processTemplate(data);
+				PostManager.commentEnterEvent();
 			},
 			error : function(data) {
 				// alert(data);
