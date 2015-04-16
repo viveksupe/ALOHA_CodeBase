@@ -23,6 +23,56 @@ public class Like {
 		this.userId = userId;
 		this.postId = postId;
 	}
+	
+	//region
+
+	public int getLikeId() {
+		return likeId;
+	}
+
+
+
+	public void setLikeId(int likeId) {
+		this.likeId = likeId;
+	}
+
+
+
+	public LikeType getType() {
+		return type;
+	}
+
+
+
+	public void setType(LikeType type) {
+		this.type = type;
+	}
+
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+
+	public int getPostId() {
+		return postId;
+	}
+
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+
+	//endregion
+
 
 	public Like() {
 		// TODO Auto-generated constructor stub

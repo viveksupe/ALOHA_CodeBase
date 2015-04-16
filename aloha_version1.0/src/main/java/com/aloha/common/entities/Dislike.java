@@ -8,6 +8,42 @@ public class Dislike {
 	private int userId;
 	private int postId;
 	
+	//region
+	
+	public int getDislikeId() {
+		return dislikeId;
+	}
+
+	public void setDislikeId(int dislikeId) {
+		this.dislikeId = dislikeId;
+	}
+
+	public LikeType getType() {
+		return type;
+	}
+
+	public void setType(LikeType type) {
+		this.type = type;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getPostId() {
+		return postId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+	
+	//endregion
+
 	/**
 	 * @param dislikeId
 	 * @param type
