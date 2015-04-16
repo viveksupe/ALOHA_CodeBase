@@ -39,15 +39,20 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="post/add", method=RequestMethod.POST)
-	public @ResponseBody boolean addPost(@RequestParam("postData") String post) throws SQLException{
+	public @ResponseBody PostUI addPost(@RequestParam("postData") String post) throws SQLException{
+		
+		User u = new User();
+		UserDal ud = new UserDal();
+		u = ud.selectUserByPrimaryKey(1);
 		
 		PostUI pui = new PostUI();
-		pui.addPost(post);
-		return true;
+		pui = pui.addPost(post, u);
+		return pui;
 	}
 	
 	@RequestMapping(value="comm/add", method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void addComment(@RequestBody  CommentUI comm) throws SQLException{
+		
 		
 		CommentUI cui = new CommentUI();
 		cui.addComment(comm);

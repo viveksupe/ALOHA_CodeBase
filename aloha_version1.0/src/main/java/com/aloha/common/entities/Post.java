@@ -78,17 +78,17 @@ public class Post {
 
 	// endregion gettersetter
 
-	public int addPost(Post post, int user_id) throws SQLException {
+	public Post addPost(Post post, int user_id) throws SQLException {
 
-		int success = dal.insertPost(post, user_id);
-		return success;
+		return dal.insertPost(post, user_id);
+		
 	}
 
 	public boolean deletePost(int postId) throws SQLException {
 		int result = dal.deletePost(postId);
 		if (result == 1){
-			Comment comm = new Comment();
-			comm.deleteAllCommentsOnPost(postId);
+			//Comment comm = new Comment();
+			//comm.deleteAllCommentsOnPost(postId);
 			return true;}
 		else
 			return false;
