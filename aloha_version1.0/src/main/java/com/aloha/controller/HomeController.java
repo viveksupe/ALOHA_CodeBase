@@ -28,23 +28,23 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpSession session) {
-/*		logger.info("Welcome home! The client locale is {}.", locale);
+		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
 		String formattedDate = dateFormat.format(date);
 		
-		model.addAttribute("serverTime", formattedDate );*/
-		User u = new User();
+		model.addAttribute("serverTime", formattedDate );
+/*		User u = new User();
 		if(null==session.getAttribute("sessionUser")){
 			return "redirect:"+"login";
 		}else{
 			u = (User)session.getAttribute("sessionUser");
 		}
 		model.addAttribute("user",u);
-		return "user_profile";
-		//return "home";
+		return "user_profile";*/
+		return "home";
 	}
 	
 }
