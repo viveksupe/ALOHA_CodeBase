@@ -1,10 +1,14 @@
 package com.aloha.common.entities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.aloha.common.dao_manager.dal.LikeDislikeDal;
 
 public class LikeDislike {
 	private ArrayList<Like> likes;
 	private ArrayList<Dislike> dislikes;
+	private LikeDislikeDal lDal;
 	/**
 	 * @param likes
 	 * @param dislikes
@@ -13,15 +17,17 @@ public class LikeDislike {
 		super();
 		this.likes = likes;
 		this.dislikes = dislikes;
+		this.lDal = new LikeDislikeDal();
 	}
 	
-	public LikeDislike getPostLikeDislike(int postId){
-		Like like = new Like();
-		ArrayList<Like> likes = like.getLikes(postId);
-		
-		Dislike dislike = new Dislike();
-		ArrayList<Dislike> dislikes = dislike.getDislikes(postId);
-		
-		return new LikeDislike(likes, dislikes);
+	public LikeDislike() {
+		// TODO Auto-generated constructor stub
+		this.lDal = new LikeDislikeDal();
+	}
+
+	public LikeDislike getPostLikeDislike(int postId) throws SQLException{
+
+		LikeDislike likeDislike = lDal.GetPostLikeDislike(postId);
+		return likeDislike;
 	}
 }

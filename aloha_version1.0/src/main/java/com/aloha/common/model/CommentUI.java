@@ -73,7 +73,9 @@ public class CommentUI {
 
 		ArrayList<CommentUI> comments = new ArrayList<CommentUI>();
 		
-		
+		if(post.getComments()==null){
+			return new ArrayList<CommentUI>();
+		}
 		for (Comment comment : post.getComments()) {
 			CommentUI cui = new CommentUI();
 			cui.setCommentId(comment.getCommenttId());

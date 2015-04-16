@@ -14,6 +14,7 @@ public class PostUI {
 	private String postData;
 	private int postId;
 	private ArrayList<CommentUI> comments;
+	private LikeDislike likeStats;
 	
 	//region Getter Setter Method
 	
@@ -66,6 +67,14 @@ public class PostUI {
 		this.comments = comments;
 	}
 	
+	public LikeDislike getLikeStats() {
+		return likeStats;
+	}
+
+	public void setLikeStats(LikeDislike likeStats) {
+		this.likeStats = likeStats;
+	}
+
 	//endregion
 
 	public ArrayList<PostUI> getPostsForUser(User user){
@@ -84,7 +93,7 @@ public class PostUI {
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
 				pui.setComments(comm.getCommentsForPost(user, post));
-				
+				pui.setLikeStats(post.getLikeStatistics());
 				userPosts.add(pui);
 			}
 			
@@ -98,12 +107,24 @@ public class PostUI {
 		
 	}
 
-	public boolean addPost(String post) throws SQLException{
+	
+	public PostUI addPost(String post, User u) throws SQLException{
 		Post p = new Post(-1,post,null,null,null);
-		int res = p.addPost(p, 1);
-		if(res==1)
-			return true;
-		else return false;
+		p = p.addPost(p, 1);
+		return getPostUI(p, u);
+	}
+	
+	public PostUI getPostUI(Post post, User u) throws SQLException{
+		PostUI pui = new PostUI();
+		CommentUI cui = new CommentUI();
+		pui.setComments(cui.getCommentsForPost(u, post));
+		pui.setLikeStats(post.getLikeStatistics());
+		pui.setPostData(post.getPost());
+		pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
+		pui.setPostId(post.getPostId());
+		pui.setUserId(u.getUserId());
+		pui.setUserName(u.getFirstName() + " " + u.getLastName());
+		return pui;
 	}
 	
 	
