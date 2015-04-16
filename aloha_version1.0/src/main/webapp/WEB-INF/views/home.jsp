@@ -6,17 +6,14 @@
 	<div class="container-main pad-10">
 	<div class="bcol-20" ><h3>profile info</h3></div>
     <div class="app bcol-60"> 
-           <h1>Views Home Index</h1>
+           <h1>Scribbles/Wall</h1>
            <h1>
-<P>  The time on the server is ${serverTime}. </P>
  <P>	 <c:forEach items="${users}" var="element"> 
    <tr>
     <td>${element}</td>
    </tr>
  </c:forEach>
  </P>
- <img alt="ok" src="${pageContext.request.contextPath}/resources/img/glyphicons-halflings-white.png">
- <p> <a href="friends/">Friends List</a>
  <a href="login/">Login</a>
  		</p>
  		</div>
