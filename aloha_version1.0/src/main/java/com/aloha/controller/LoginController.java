@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.dao_manager.dal.UserEducationDal;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.entities.user.UserEducation;
 import com.aloha.common.model.UserUI;
+import com.aloha.common.util.ProfileImage;
 import com.aloha.common.util.Secure_Hash;
 
 @Controller
@@ -65,23 +67,11 @@ public class LoginController extends Secure_Hash{
 			UserDal ud = new UserDal();
 			User res= null;
 			String ret = "Login";
-			/*String hashed_pwd = "";
+
 			try {
-				hashed_pwd = getHash(pwd);
-			} catch (NoSuchAlgorithmException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				model.addAttribute("headerMessage","Something went wrong please try again");
-			}*/
-			try {
-				 //res = ud.getPasswordByEmail(email,hashed_pwd);
 				res = ud.getPasswordByEmail(email,pwd);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				model.addAttribute("headerMessage","Something went wrong please try again");
-			}
-			finally{
-				
 			}
 			if(res!=null)	
 			{
@@ -104,13 +94,18 @@ public class LoginController extends Secure_Hash{
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
 		UserEducation u_ed = new UserEducation();
+		ProfileImage pi = null;
 		if(null==session.getAttribute("sessionUser")){
 			return "redirect:"+"login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
-			UserEducationDal ed = new UserEducationDal();			
+			UserEducationDal ed = new UserEducationDal();
+			ImageDal pdal = new ImageDal();
 			try {
 				u_ed = ed.selectUserEducationById(u.getUserId());
+				pi = pdal.getProfileImage(u.getUserId());		
+				if(pi!=null)
+					pi.writeToResources();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.aloha.common.util;
 
+import javax.servlet.jsp.PageContext;
+
 public class ProfileImage {
 	public byte []img;
 	public long size;
@@ -28,5 +30,9 @@ public class ProfileImage {
 	}
 	public void setImg_id(int img_id) {
 		this.img_id = img_id;
+	}
+	public void writeToResources() {
+		// TODO Auto-generated method stub
+		
 	}
 }
