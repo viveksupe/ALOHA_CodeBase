@@ -13,6 +13,32 @@
 	$(function(){
 		 $('.tooltip').tooltipster();
 	});
+	
+    function acceptFriend(userId,acceptorId) {
+        console.log("userId"  +  userId);
+        console.log("acceptorId"  +  acceptorId);
+        $
+        .ajax({
+        headers : {
+        'Accept' : 'application/json'
+        },
+        method : "POST",
+        url : "${pageContext.request.contextPath}/friends/accept",
+        data : {
+        userIdToAccept : userId,
+        acceptor  : acceptorId
+        },
+        success : function(data) {
+        console.log('success');
+        $('#acceptFriendBtn_' + userId)
+        .html('Friend Request Accepted')
+        },
+        error : function(data){
+        console.log('error occurred');
+        console.log(data);
+        }
+        });
+        };
 </script>
 <div class="wall">
 	<h6>${headerMessage}</h6>
@@ -163,9 +189,6 @@
         <div class="clear"></div>
 
         </div>
-        <a href="${pageContext.request.contextPath}/chat">
-          <h6>chat</h6>
-        </a>
 
       </div>
       <div class="sidebar bcol-30">
@@ -189,7 +212,7 @@
                   </div> --%>
                   <div class="member-name">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.user2.userId}">${friend.user2.firstName}</a>
-                          <button id="acceptFriendBtn"
+                          <button id="acceptFriendBtn_${friend.user2.userId}"
 											class="btn btn-edit"
 											onclick="acceptFriend(${friend.user2.userId},${friend.user1.userId})">
                             Accept Friend

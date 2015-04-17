@@ -77,7 +77,7 @@ public class LoginController extends Secure_Hash{
 			{
 				ui.setUser(res);
 				model.addAttribute("sessionUser",ui);
-				return "redirect:"+"user_profile";				
+				return "redirect:"+"profile?userId=" + ui.getUserId();				
 			}
 			else
 				model.addAttribute("headerMessage","email or password does not match please try again");
