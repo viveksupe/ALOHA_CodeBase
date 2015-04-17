@@ -18,7 +18,7 @@ function onMessage(event) {
 	obj = JSON.parse(event.data);
 	document.getElementById('messages').innerHTML += '<br />Received message: '
 			+ obj.chatMsg;
-	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+obj.chatMsg);
+	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+obj.userID);
 }
 
 function onOpen(event) {
@@ -41,8 +41,9 @@ function toggleBox(event) {
 function toggleChatBox(event) {
 	$('.chat_body').slideToggle('slow');
 }
-function closeBox(event,toid) {
-	$('.msg_box').hide();
+function closeBox(toid) {
+	//alert("'#"+toid+"'");
+	$("'#"+toid+"'").remove();
 }
 function clickUserBox(event) {
 	$('.msg_wrap').show();
@@ -60,7 +61,7 @@ function SendMsg(message, toid, fromid) {
 	// alert(jsonString);
 	$(this).val('');
 	if (obj.chatMsg != '' && obj.chatMsg != "\n") {
-		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+fromid);
+		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+toid);
 		webSocket.send(jsonString);
 		document.getElementById('messages').innerHTML += '<br />Sent message: '
 				+ obj.chatMsg;
