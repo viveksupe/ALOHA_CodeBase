@@ -104,6 +104,12 @@ public class Comment {
 		return comm;
 	}
 
+	public int deleteAllCommentsOnPost(int postId) throws SQLException{
+		
+		int result = dal.deleteCommentsForPost(postId);
+		return result;
+	}
+	
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append(new StringBuilder().append("[commenttId=")

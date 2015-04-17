@@ -78,16 +78,18 @@ public class Post {
 
 	// endregion gettersetter
 
-	public int addPost(Post post, int user_id) throws SQLException {
+	public Post addPost(Post post, int user_id) throws SQLException {
 
-		int success = dal.insertPost(post, user_id);
-		return success;
+		return dal.insertPost(post, user_id);
+		
 	}
 
 	public boolean deletePost(int postId) throws SQLException {
 		int result = dal.deletePost(postId);
-		if (result == 1)
-			return true;
+		if (result == 1){
+			//Comment comm = new Comment();
+			//comm.deleteAllCommentsOnPost(postId);
+			return true;}
 		else
 			return false;
 	}
@@ -101,6 +103,8 @@ public class Post {
 			//{
 				Comment comm = new Comment();
 				post.comments = comm.getCommentsPost(post.getPostId());
+				LikeDislike ld = new LikeDislike();
+				post.likeStatistics = ld.getPostLikeDislike(post.getPostId());
 			//}
 			
 		}
@@ -125,6 +129,8 @@ public class Post {
 
 		Comment comm = new Comment();
 		post.comments = comm.getCommentsPost(postId);
+		LikeDislike ld = new LikeDislike();
+		post.likeStatistics = ld.getPostLikeDislike(post.getPostId());
 		
 		return post;
 	}

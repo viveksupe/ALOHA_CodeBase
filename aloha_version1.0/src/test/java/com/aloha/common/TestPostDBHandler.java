@@ -13,11 +13,11 @@ public class TestPostDBHandler {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//addPostTest();
+		addPostTest();
 		//selectPost();
 		//updatePost();
 		//getUserPostsTest();
-		deletePost();
+		//deletePost();
 	}
 	
 	public static void addPostTest()
@@ -25,23 +25,23 @@ public class TestPostDBHandler {
 		PostDal pDal = new PostDal();
 		
 		try{
-		Post post = new Post(-1, "This is my first post", new Date(new java.util.Date().getTime()), null, null);
-		int success = pDal.insertPost(post, 1);
-		if(success == 1)
-			System.out.println("Post 1 added !!");
-		else System.out.println("Post 1 add failed !!");
+		Post post = new Post(-1, "This is my new post", new Date(new java.util.Date().getTime()), null, null);
+		Post p1 = pDal.insertPost(post, 4);
+		if(p1 != null)
+			System.out.println(p1.toString());
+		else System.out.println("P1 null !!");
 		
-		post = new Post(-1, "This is my second post", new Date(new java.util.Date().getTime()), null, null);
-		success = pDal.insertPost(post, 1);
-		if(success == 1)
-			System.out.println("Post 2 added !!");
-		else System.out.println("Post 2 add failed !!");
+		post = new Post(-1, "This is my test post", new Date(new java.util.Date().getTime()), null, null);
+		Post p2 = pDal.insertPost(post, 5);
+		if(p2 != null)
+			System.out.println(p2.toString());
+		else System.out.println("p2 null");
 		
 		post = new Post(-1, "This is my third post", new Date(new java.util.Date().getTime()), null, null);
-		success = pDal.insertPost(post, 1);
-		if(success == 1)
-			System.out.println("Post 3 added !!");
-		else System.out.println("Post 3 add failed !!");
+		Post p3 = pDal.insertPost(post, 4);
+		if(p3 != null)
+			System.out.println(p3.toString());
+		else System.out.println("p3 null !!");
 		
 		}catch(Exception e){
 			e.printStackTrace();

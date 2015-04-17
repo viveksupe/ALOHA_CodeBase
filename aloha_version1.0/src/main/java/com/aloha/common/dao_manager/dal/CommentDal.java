@@ -28,7 +28,7 @@ public class CommentDal {
 		SELECT = "SELECT comment.comment_id, comment.comment_content,comment.timestamp, comment.post_id,comment.user_id FROM comment";
 		INSERT_COMM = "INSERT INTO comment ( comment_content, user_id, post_id) VALUES ( ?, ?, ?);";
 		UPDATE_COMM = "UPDATE comment SET comment_content = ?, user_id = ?, post_id = ?,timestamp=current_timestamp WHERE comment_id = ?;";
-		DELETE_COMM = "DELETE FROM comment WHERE comment_id = ?;";
+		DELETE_COMM = "DELETE FROM comment ";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 	
@@ -102,13 +102,33 @@ public class CommentDal {
 	}
 
 	public int deleteComment(int comment_id) throws SQLException{
-		String updateCommStatement = DELETE_COMM;
+		String deleteStmt = DELETE_COMM + " WHERE comment_id = ?";
 		PreparedStatement ps = null;
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(updateCommStatement);
+			ps = con.prepareStatement(deleteStmt);
 			ps.setInt(1, comment_id);
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+	
+	public int deleteCommentsForPost(int post_id) throws SQLException{
+		String deleteStmt = DELETE_COMM + " WHERE post_id = ?";
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(deleteStmt);
+			ps.setInt(1, post_id);
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {

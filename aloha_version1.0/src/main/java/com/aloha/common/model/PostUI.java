@@ -14,8 +14,11 @@ public class PostUI {
 	private String postData;
 	private int postId;
 	private ArrayList<CommentUI> comments;
+	private ArrayList<LikeUI> likes;
+	private ArrayList<DislikeUI> dislikes;
 	
 	//region Getter Setter Method
+	
 	
 	
 	public String getUserName() {
@@ -66,7 +69,24 @@ public class PostUI {
 		this.comments = comments;
 	}
 	
+	
+
+	public ArrayList<LikeUI> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(ArrayList<LikeUI> likes) {
+		this.likes = likes;
+	}
 	//endregion
+
+	public ArrayList<DislikeUI> getDislikes() {
+		return dislikes;
+	}
+
+	public void setDislikes(ArrayList<DislikeUI> dislikes) {
+		this.dislikes = dislikes;
+	}
 
 	public ArrayList<PostUI> getPostsForUser(User user){
 		
@@ -77,6 +97,7 @@ public class PostUI {
 		try {
 			posts = p.getPostsUser(user.getUserId());
 			for (Post post : posts) {
+				LikeDislike ld= post.getLikeStatistics();
 				PostUI pui = new PostUI();
 				pui.setUserName(user.getFirstName() + " " + user.getLastName());
 				pui.setUserId(user.getUserId());
@@ -84,7 +105,14 @@ public class PostUI {
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
 				pui.setComments(comm.getCommentsForPost(user, post));
-				
+
+				if(ld != null){
+					if(ld.getLikes() != null)
+						pui.setLikes(getLikes(ld.getLikes()));
+					if(ld.getDislikes() != null)
+						pui.setDislikes(getDislikes(ld.getDislikes()));
+					
+				}
 				userPosts.add(pui);
 			}
 			
@@ -98,13 +126,48 @@ public class PostUI {
 		
 	}
 
-	public boolean addPost(String post) throws SQLException{
+	
+	public PostUI addPost(String post, User u) throws SQLException{
 		Post p = new Post(-1,post,null,null,null);
-		int res = p.addPost(p, 1);
-		if(res==1)
-			return true;
-		else return false;
+		p = p.addPost(p, 1);
+		return getPostUI(p, u);
 	}
 	
+	public PostUI getPostUI(Post post, User u) throws SQLException{
+		PostUI pui = new PostUI();
+		CommentUI cui = new CommentUI();
+		LikeDislike ld= post.getLikeStatistics();
+		pui.setComments(cui.getCommentsForPost(u, post));
+		
+		pui.setPostData(post.getPost());
+		pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
+		pui.setPostId(post.getPostId());
+		pui.setUserId(u.getUserId());
+		pui.setUserName(u.getFirstName() + " " + u.getLastName());
+		
+		if(ld != null){
+			if(ld.getLikes() != null)
+				pui.setLikes(getLikes(ld.getLikes()));
+			if(ld.getDislikes() != null)
+				pui.setDislikes(getDislikes(ld.getDislikes()));
+			
+		}
+		return pui;
+	}
 	
+	public ArrayList<LikeUI> getLikes(ArrayList<Like> likes){
+		LikeUI lui = new LikeUI();
+		return lui.getLikesData(likes);
+	}
+	
+	public ArrayList<DislikeUI> getDislikes(ArrayList<Dislike> dislikes){
+		DislikeUI lui = new DislikeUI();
+		return lui.getDislikesData(dislikes);
+	}
+	
+	public boolean deletePost(int posId) throws SQLException{
+		Post p = new Post();
+		boolean result = p.deletePost(posId);
+		return result;
+	}
 }

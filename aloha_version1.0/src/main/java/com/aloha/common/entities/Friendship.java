@@ -2,7 +2,6 @@ package com.aloha.common.entities;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
@@ -27,10 +26,11 @@ public class Friendship {
 	 * 
 	 */
 	public Friendship() {
-		this.friendshipId = 0;
+		this.friendshipId = -1;
 		this.user1 = new User();
 		this.user2 = new User();
 		this.status = FriendshipStatus.Default;
+		this.req_sent_by = user1;
 	}
 
 	/**
@@ -111,7 +111,21 @@ public class Friendship {
 	 *            the status to set
 	 */
 	public void setStatus(int status) {
-		this.status.setStatus(status);
+		switch (status) {
+		case 0:
+			this.status=FriendshipStatus.Default;
+			break;
+		case 1:
+			this.status=FriendshipStatus.RequestSent;
+			break;
+		case 2:
+			this.status=FriendshipStatus.Friends;
+			break;
+		case 3:
+			this.status=FriendshipStatus.Blocked;
+			break;
+		}
+
 	}
 
 	/**
@@ -164,19 +178,25 @@ public class Friendship {
 	 * @param friendship
 	 * @return
 	 */
-	public boolean addFriendship(User user1, User user2) {
+	public boolean addFriendship(int requestorId, int requesteeId) {
 		boolean result = false;
-		Friendship f = new Friendship();
-		f.setUser1(user1);
-		f.setUser2(user2);
-		//f.setStatus(FriendshipStatus.Default);
-		//f.setReq_sent_by(user1);
+		Friendship f = null;
 		try {
-			int res = fdal.insertFriendship(f);
-			if (res == 0)
-				result = true;
-			else
-				result = false;
+			f = getExistingFriendship(requestorId, requesteeId);
+
+			if (f == null) {
+				f = new Friendship();
+				f.getUser1().setUserId(requestorId);
+				f.getUser2().setUserId(requesteeId);
+				f.setStatus(FriendshipStatus.RequestSent);
+				int res = fdal.insertFriendship(f);
+
+				if (res == 1)
+					result = true;
+				else
+					result = false;
+			}
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -191,7 +211,7 @@ public class Friendship {
 		try {
 			ArrayList<Friendship> flist = fdal.selectFriendshipByUserId(u);
 			ArrayList<User> ulist = new ArrayList<User>();
-			for(Friendship f : flist){
+			for (Friendship f : flist) {
 				ulist.add(f.getUser2());
 			}
 			return ulist;
@@ -210,7 +230,21 @@ public class Friendship {
 		return false;
 	}
 
-	
+	/**
+	 * @param friendship
+	 * @return
+	 */
+	public Friendship getExistingFriendship(int userId1, int userId2) {
+		try {
+			return fdal.selectFriendshipByUsers(userId1, userId2);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

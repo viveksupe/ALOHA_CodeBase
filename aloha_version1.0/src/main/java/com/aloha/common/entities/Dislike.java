@@ -1,13 +1,56 @@
 package com.aloha.common.entities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.aloha.common.dao_manager.dal.LikeDislikeDal;
+
 public class Dislike {
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Dislike [dislikeId=" + dislikeId 
+				+ ", userId=" + userId + ", postId=" + postId + ", lDal="
+				+ lDal + "]";
+	}
+
+
 	private int dislikeId;
-	private LikeType type;
+	//private LikeType type;
 	private int userId;
 	private int postId;
+	private LikeDislikeDal lDal;
 	
+	//region
+	
+	public int getDislikeId() {
+		return dislikeId;
+	}
+
+	public void setDislikeId(int dislikeId) {
+		this.dislikeId = dislikeId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getPostId() {
+		return postId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+	
+	//endregion
+
 	/**
 	 * @param dislikeId
 	 * @param type
@@ -19,20 +62,31 @@ public class Dislike {
 	public Dislike(int dislikeId, LikeType type, int userId, int postId) {
 		super();
 		this.dislikeId = dislikeId;
-		this.type = type;
+		//this.type = type;
 		this.userId = userId;
 		this.postId = postId;
 	}
 
 	public Dislike() {
 		// TODO Auto-generated constructor stub
+		
 	}
 
-	public ArrayList<Dislike> getDislikes(int postId){return null;}
+
+	public int dislike(Dislike dislike) throws SQLException{
+		int dlikeId = dislike.getDislikeId();
+		int result = -1;
+		if (dlikeId == -1)
+			result = lDal.insertDislike(dislike);
+		else
+			result = lDal.updateLike(2, dlikeId);
+		return result;
+
+	}
 	
-	public boolean dislike(int postId){return false;}
 	
-	
-	public boolean unDislike(int postId){return false;}
+	public int unDislike(Dislike dislike) throws SQLException{
+		return lDal.updateLike(0, dislike.getDislikeId());
+	}
 
 }

@@ -73,7 +73,9 @@ public class CommentUI {
 
 		ArrayList<CommentUI> comments = new ArrayList<CommentUI>();
 		
-		
+		if(post.getComments()==null){
+			return new ArrayList<CommentUI>();
+		}
 		for (Comment comment : post.getComments()) {
 			CommentUI cui = new CommentUI();
 			cui.setCommentId(comment.getCommenttId());
@@ -95,6 +97,12 @@ public class CommentUI {
 		if(res==1)
 			return true;
 		else return false;
+	}
+	
+	public boolean deleteComment(int commId) throws SQLException{
+		Comment c = new Comment();
+		boolean result = c.deleteComment(commId);
+		return result;
 	}
 
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Post;
 import com.aloha.common.entities.user.User;
+import com.mysql.jdbc.Statement;
 
 /**
  * @author Renuka
@@ -84,19 +85,24 @@ public class PostDal {
 		}
 	}
 
-	public int insertPost(Post post, int user_id) throws SQLException {
-		con = DatabaseHandlerSingleton.getDBConnection();
+	public Post insertPost(Post post, int user_id) throws SQLException {
 		String insertUserStatement = INSERT_POST;
 		PreparedStatement ps = null;
-		int result = -1;
+		
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(insertUserStatement);
+			ps = con.prepareStatement(insertUserStatement, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, post.getPost());
 			ps.setInt(2, user_id);
+			
 
-			result = ps.executeUpdate();
-			return result;
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				Post insertedPost = getPostByPrimaryKey(rs.getInt(1));
+				return insertedPost;
+			}
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -105,6 +111,7 @@ public class PostDal {
 				ps.close();
 			con.close();
 		}
+		return null;
 	}
 
 	public int updatePost(Post post) throws SQLException {

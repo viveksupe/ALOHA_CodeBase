@@ -3,44 +3,52 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
-  <jsp:body>
+	<jsp:body>
 <script>
-function savePost(){
-	alert($('#txtPost').val());
-	//$.post( "${pageContext.request.contextPath}/search/users", { searchKey: "milind"} );
-	$.ajax({
-		  headers:{'Accept': 'application/json'},
-		  method: "POST",
-		  url: "${pageContext.request.contextPath}/search/users",
-		  data: { searchKey: "milind"},
-		  success: function(data) { alert (data); 
-		  //$('#memberName').html(data)}
-		  $('.member-container').html(data)}
-		});
-	//window.location.href = "${pageContext.request.contextPath}/search/users?searchKey=" + $('#txtPost').val();
-};
-
+	$(document).on('keyup','.member-search',function (event) { searchUsers()});
+	/* $(function() {
+		$('.member-search').keyup(alert('oh yes'))
+	});
+ */
+	function searchUsers() {
+		//alert($('#txtPost').val());
+		var searchKeyValue = $('#txtPost').val();
+		if(searchKeyValue != ''){
+		//$.post( "${pageContext.request.contextPath}/search/users", { searchKey: "milind"} );
+		$
+				.ajax({
+					headers : {
+						'Accept' : 'application/json'
+					},
+					method : "POST",
+					url : "${pageContext.request.contextPath}/search/users",
+					data : {
+						searchKey : searchKeyValue
+					},
+					success : function(data) {
+						//alert(data.length);
+						$('.member-container').html('');
+						for (i = 0; i < data.length; i++) {
+							$('.member-container')
+									.append(
+											"<div class=\"bcol-member-block\"> <div class=\"member-image\"> <a href=\"${pageContext.request.contextPath}/profile?userId=" + data[i].userId + "\"> <img src=\"http://feedstack.asia/img/user.jpg\" class=\"member\"> </a> </div> <div class=\"member-name\"> <a href=\"${pageContext.request.contextPath}/profile?userId=" + data[i].userId + "\">"
+													+ data[i].firstName
+													+ " "
+													+ data[i].lastName
+													+ "</a> </div> </div>");
+						}
+						$('.member-container').append(
+								"<div class=\"clear\"></div>");
+					}
+				});
+		}
+		else{
+			$('.member-container').html('');
+		}
+		//window.location.href = "${pageContext.request.contextPath}/search/users?searchKey=" + $('#txtPost').val();
+	};
 </script>  
 
-<!--     <div class="container-main pad-20">
-      <div class="app">
-        <script src="http://feedstack.asia/app/script/members.js"></script>
-        <div class="member-body">
-          <div class="header-member">
-            <i class="fa fa-space fa-group"></i> Search Users
-          </div>
-          <input type="email" name="email" width="100px" id="txtPost" placeholder="Search..."  />          
-          <button class="post-btn" onclick="savePost()">Search</button>
-          <div class="entry">
-            <div class="member-container">
-              <div class="clear"></div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
- -->
  
     <div class="container-main pad-20">
       <div class="app">
@@ -50,14 +58,14 @@ function savePost(){
             <i class="fa fa-space fa-group"></i> Search Users
             <span class="members-count"></span>
             <span class="member-seach-span">
-              <input type="text"
-							class="member-search" placeholder="search..."
-							root="http://feedstack.asia/" id="txtPost">
-							<button class="post-btn" onclick="savePost()">Search</button>
+              <input type="text" class="member-search"
+							placeholder="search..." root="http://feedstack.asia/"
+							id="txtPost">
+							<button class="post-btn" onclick="searchUsers()">Search</button>
             </span>
           </div>
-          <div class="root" root="http://feedstack.asia/" access-token=""></div>
-          <p id="memberName">fefe </p>
+          <div class="root" root="http://feedstack.asia/"
+						access-token=""></div>
           <div class="entry">
             <div class="member-container">
 <%--               <c:forEach items="${users}" var="element">
@@ -72,7 +80,7 @@ function savePost(){
                   </div>
                 </div>
               </c:forEach> --%>
-              <div class="clear"></div>
+<!--               <div class="clear"></div> -->
             </div>
           </div>
         </div>
