@@ -24,11 +24,11 @@
 
               <img src="http://feedstack.asia/img/user.jpg"
                             class="profile-image-mobile" />
-              </div>
+            </div>
             <div class="bcol-30">
               <div class="feed-user mobile-hidden mobile-hidden-main-image">
                 <img src="http://feedstack.asia/img/user.jpg" class="profile-image" />
-			</div>
+              </div>
             </div>
             <div class="bcol-70">
               <div class="profile-container">
@@ -68,9 +68,56 @@
           <br></br>
 
         </div>
+        <a href="${pageContext.request.contextPath}/chat">
+          <h6>chat</h6>
+        </a>
+
       </div>
-      <a href="${pageContext.request.contextPath}/chat">
-      <h6>chat</h6></a>
+      <div class="sidebar bcol-30">
+
+        <style>
+        </style>
+        <link href="http://feedstack.asia/lib/expresscss/style.css" rel="stylesheet"></link>
+        <div class="notify-block">
+          <div>
+            <div class="notify-title">
+              <a href="http://feedstack.asia/milindhg/notifications">
+                Pending Friends Requests <span class="unread"> 0 unread</span>
+              </a>
+              <a>Request 1</a>
+              <br/>
+              <a>Request 2</a>
+            </div>
+          </div>
+        </div>
+        <style>
+        </style>
+        <div class="follower-container">
+          <div class="block">
+            <a href="http://feedstack.asia/milindhg/followers">
+              <div class="follower-title">
+                Followers <span class="follower-count">0</span>
+              </div>
+            </a>
+            <div class="well">No member is following</div>
+          </div>
+        </div>
+        <br/>
+
+        <style>
+        </style>
+        <div class="follower-container">
+          <div class="block">
+            <a href="http://feedstack.asia/milindhg/following">
+              <div class="follower-title">
+                Following <span class="follower-count">0</span>
+              </div>
+            </a>
+            <div class="well">Not Following any member</div>
+          </div>
+        </div>
+      </div>
+
       <div class="clear"></div>
 
     </div>

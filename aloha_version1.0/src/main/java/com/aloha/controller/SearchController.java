@@ -90,6 +90,16 @@ public class SearchController {
 		if (userInSession != null) {
 			userInSessionId = userInSession.getUserId();
 		}
+		if(userInSessionId==id){
+			try {
+				u=u.getUser(userInSessionId);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			model.addAttribute("user", u);
+			return "user_profile";
+		}
 		f = f.getExistingFriendship(userInSessionId, id);
 		if (null!=f && f.getFriendshipId() != -1) {
 			if (userInSessionId == f.getUser1().getUserId()) {
@@ -106,7 +116,6 @@ public class SearchController {
 				e.printStackTrace();
 			}
 		}
-		model.addAttribute("user", u);
 		model.addAttribute("friendship", f);
 		return "profile";
 	}
