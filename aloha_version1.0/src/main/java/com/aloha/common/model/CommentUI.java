@@ -98,5 +98,11 @@ public class CommentUI {
 			return true;
 		else return false;
 	}
+	
+	public boolean deleteComment(int commId) throws SQLException{
+		Comment c = new Comment();
+		boolean result = c.deleteComment(commId);
+		return result;
+	}
 
 }

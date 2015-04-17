@@ -96,6 +96,7 @@ var PostManager = new function() {
 		$('#postContainer').processTemplate(PostManager.Posts);
 		PostManager.commentEnterEvent();
 		PostManager.deletePostEvent();
+		PostManager.deleteCommentEvent();
 	};
 
 	this.deletePostEvent = function() {
@@ -120,7 +121,6 @@ var PostManager = new function() {
 							PostManager.Posts.splice(i,1);
 							break;
 						}
-							
 					}
 				},
 				error : function(data) {
@@ -131,6 +131,31 @@ var PostManager = new function() {
 		})
 	};
 
-	/* Feed delete Process */
+	this.deleteCommentEvent = function() {
+		$('.feed-comment-delete').click(function() {
+			var comm_id = $(this).attr('comment-id');
+
+			$.ajax({
+				headers : {
+					'Accept' : 'application/json'
+				},
+				method : "POST",
+				url : PostManager.Root + "/comm/del",
+				data : {
+					commId : comm_id
+				},
+				success : function(data) {
+
+					$('#commDiv'+comm_id).slideUp();
+					$('.commDiv'+comm_id).remove();
+					
+				},
+				error : function(data) {
+					// alert(data);
+					console.log(data);
+				}
+			});
+		})
+	};
 
 }
