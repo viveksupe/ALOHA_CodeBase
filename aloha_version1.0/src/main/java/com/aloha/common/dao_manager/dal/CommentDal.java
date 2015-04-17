@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Comment;
 import com.aloha.common.entities.Post;
+import com.mysql.jdbc.Statement;
 
 /**
  * @author Renuka
@@ -141,20 +142,25 @@ public class CommentDal {
 		}
 	}
 
-	public int insertComment(Comment comment) throws SQLException{
+	public Comment insertComment(Comment comment) throws SQLException{
 		con = DatabaseHandlerSingleton.getDBConnection();
 		String insertCommStatement = INSERT_COMM;
 		PreparedStatement ps = null;
-		int result = -1;
+		
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(insertCommStatement);
+			ps = con.prepareStatement(insertCommStatement, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, comment.getComment());
 			ps.setInt(2, comment.getUserId());
 			ps.setInt(3, comment.getPostId());
 			
-			result = ps.executeUpdate();
-			return result;
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				Comment insertedComm = getCommentByPrimaryKey(rs.getInt(1));
+				return insertedComm;
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -163,7 +169,7 @@ public class CommentDal {
 				ps.close();
 			con.close();
 		}
-		
+		return null;
 	}
 	
 	public int updateComment(Comment comment) throws SQLException{

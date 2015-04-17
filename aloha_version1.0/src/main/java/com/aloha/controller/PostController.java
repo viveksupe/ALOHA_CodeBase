@@ -44,9 +44,6 @@ public class PostController {
 		}
 		
 		return new ArrayList<PostUI>();
-		//posts.get(1).getPostData()
-		//model.addAttribute("posts", posts);
-		//PostListUI plui = new PostListUI(posts);
 	}
 	
 	@RequestMapping("post")
@@ -68,11 +65,11 @@ public class PostController {
 	}
 	
 	@RequestMapping(value="comm/add", method=RequestMethod.POST)
-	public void addComment(@RequestBody  CommentUI comm) throws SQLException{
+	public @ResponseBody CommentUI addComment(@RequestParam("commentData") String comm,@RequestParam("userId") int userId,@RequestParam("postId") int postId) throws SQLException{
+		CommentUI cui = new CommentUI(comm,userId,postId);
 		
-		
-		CommentUI cui = new CommentUI();
-		cui.addComment(comm);
+		cui = cui.addComment(cui);
+		return cui;
 	}
 	
 	@RequestMapping(value="post/del", method=RequestMethod.POST)

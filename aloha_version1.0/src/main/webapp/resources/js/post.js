@@ -39,7 +39,7 @@ var PostManager = new function() {
 		return pattern.test(value);
 	};
 
-	this.savePost = function() {
+	this.addPost = function() {
 
 		var value = $('#txtPost').val();
 		if (!this.isInvalidEntry(value)) {
@@ -52,10 +52,17 @@ var PostManager = new function() {
 				method : "POST",
 				url : "http://localhost:8080/common/post/add",
 				data : {
-					postData : "milind"
+					postData : value
 				},
 				success : function(data) {
-					console.log(data);
+					$('#txtPost').val('');
+					var posts = PostManager.Posts;
+					PostManager.Posts = [];
+					PostManager.Posts.push(data);
+					for (var i = 0; i < posts.length; i++) {
+						PostManager.Posts.push(posts[i]);
+					}
+					PostManager.renderPosts();
 				}
 			});
 
@@ -63,6 +70,51 @@ var PostManager = new function() {
 			alert("Scripts not allowed !!");
 		}
 	};
+
+	 this.addComment = function () {
+	        $('.feed-comment-input-entry').keyup(function (event) {
+	            var commentBox = $(this);
+	            var keycode = (event.keyCode ? event.keyCode : event.which);
+	            if (keycode == '13') {
+	            	var comment = commentBox.val();
+	                if (!PostManager.isInvalidEntry(comment)) {
+	                    
+	                    var feed_id = $(this).attr('feed-id');
+	                    var user_id = $(this).attr('user-id');
+	                    if (comment) {
+	                        $.ajax({
+	                            headers: {
+	                                'Accept': 'application/json'
+	                            },
+	                            url: PostManager.Root + "/comm/add",
+	                            method: "POST",
+	                            data: {
+	                                "commentData": comment,
+	                                "userId": user_id,
+	                                "postId": feed_id
+	                            },
+	                            success: function (data) {
+	                                for (var i = 0; i < PostManager.Posts.length; i++) {
+	                                    if (PostManager.Posts[i].postId == feed_id) {
+	                                        PostManager.Posts[i].comments.push(data);
+	                                        break;
+	                                    }
+	                                }
+	                                PostManager.renderPosts();
+	                                var container = $('.comment-block-entry-' + feed_id);
+	                                container.slideDown();
+	                            },
+	                            error: function (data) {
+	                                console.log(data);
+	                            }
+	                        });
+	                    }
+	                } else {
+	                    alert("Scripts not allowed !!");
+	                }
+	            }
+	        })
+	    };
 
 	this.getPosts = function() {
 		console.log(this.Root);
@@ -73,7 +125,7 @@ var PostManager = new function() {
 			method : "POST",
 			url : PostManager.Root + "/post/getPost",
 			data : {
-				searchKey : "milind"
+				searchKey : "ignore"
 			},
 			success : function(data) {
 				console.log('success');
@@ -97,6 +149,7 @@ var PostManager = new function() {
 		PostManager.commentEnterEvent();
 		PostManager.deletePostEvent();
 		PostManager.deleteCommentEvent();
+		PostManager.addComment();
 	};
 
 	this.deletePostEvent = function() {
@@ -114,11 +167,11 @@ var PostManager = new function() {
 				},
 				success : function(data) {
 
-					$('.feed-'+feed_id).slideUp();
-					$('.feed-'+feed_id).remove();
+					$('.feed-' + feed_id).slideUp();
+					$('.feed-' + feed_id).remove();
 					for (var i = 0; i < PostManager.Posts.length; i++) {
-						if(PostManager.Posts[i].postId == feed_id){
-							PostManager.Posts.splice(i,1);
+						if (PostManager.Posts[i].postId == feed_id) {
+							PostManager.Posts.splice(i, 1);
 							break;
 						}
 					}
@@ -146,9 +199,9 @@ var PostManager = new function() {
 				},
 				success : function(data) {
 
-					$('#commDiv'+comm_id).slideUp();
-					$('.commDiv'+comm_id).remove();
-					
+					$('#commDiv' + comm_id).slideUp();
+					$('.commDiv' + comm_id).remove();
+
 				},
 				error : function(data) {
 					// alert(data);

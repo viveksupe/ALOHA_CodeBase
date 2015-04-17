@@ -73,8 +73,8 @@ public class Comment {
 		this.dal = new CommentDal();
 	}
 
-	public int addComment(Comment comment) throws SQLException {
-		int result = dal.insertComment(comment);
+	public Comment addComment(Comment comment) throws SQLException {
+		Comment result = dal.insertComment(comment);
 		return result;
 		
 	}
