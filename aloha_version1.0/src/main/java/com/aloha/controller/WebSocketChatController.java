@@ -1,16 +1,10 @@
 package com.aloha.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSession;
@@ -27,10 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.aloha.common.dao_manager.dal.ChatDal;
 import com.aloha.common.entities.Chat;
 import com.aloha.common.entities.ChatToken;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.model.ChatUI;
+import com.aloha.common.model.UserUI;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -63,7 +58,7 @@ public class WebSocketChatController {
 		// System.out.println(sesi.getAttribute("sessionUser"));
 		logger.info("Welcome home! The client locale is {}.",
 				sesi.getAttribute("sessionUser"));
-		uID = ((User) sesi.getAttribute("sessionUser")).getUserId();
+		uID = ((UserUI) sesi.getAttribute("sessionUser")).getUserId();
 
 		// TODO get the user from onlline friends call to friends module.
 		// and then return the users list to the jsp page.
@@ -115,15 +110,15 @@ public class WebSocketChatController {
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
+	 * @throws SQLException 
 	 * @throws JSONException
 	 * 
 	 * @throws ParseException
 	 */
 	@OnMessage
 	public void onMessage(String message, Session session)
-			throws JsonParseException, JsonMappingException, IOException {
-		// Getting DAL
-		ChatDal pDal = new ChatDal();
+			throws JsonParseException, JsonMappingException, IOException, SQLException {
+		
 
 		// JSON Decoding
 		ChatToken userChat;
@@ -138,47 +133,15 @@ public class WebSocketChatController {
 		int FromUserID = userChat.getUserID();
 		System.out.println(chatMessage + "+" + ToUserID + "+" + FromUserID);
 		System.out.println(userIDToSessionMap.get(ToUserID));
-
-		// Getting Info from Database
-		try {
-			ArrayList<Chat> recentFivechat = pDal.selectRecentFive(ToUserID,
-					FromUserID);
-			for (Chat chat2 : recentFivechat) {
-				System.out.println(chat2.getChatContent());
-				String json = "";
-
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("userID", String.valueOf(chat2.getUserID1()));
-				map.put("toUserID", String.valueOf(chat2.getUserID1()));
-				map.put("chatMsg", chat2.getChatContent());
-				// convert map to JSON string
-				json = mapper.writeValueAsString(map);
-				System.out.println(json);
-				try {
-
-					userIDToSessionMap.get(FromUserID).getBasicRemote()
-							.sendText(json);
-					System.out.println("Message sent to " + ToUserID + ": "
-							+ json);
-					try {
-						Chat chat = new Chat(-1, chatMessage, null, ToUserID,
-								FromUserID);
-						int success = pDal.insertChat(chat);
-						if (success == 1)
-							System.out.println("Chat logged added !!");
-						else
-							System.out.println("Chat logged add failed !!");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		
+		//Setting Chat Object to insert into database
+		Chat cobj=new Chat();
+		cobj.setUserID1(ToUserID);
+		cobj.setUserID2(FromUserID);
+		cobj.setChatContent(chatMessage);
+		
+		ChatUI cui=new ChatUI();
+		cui.addChat(cobj);
 		// Routing Starts
 		if (userIDToSessionMap.containsKey(ToUserID)) {
 			try {
@@ -191,15 +154,7 @@ public class WebSocketChatController {
 				ex.printStackTrace();
 			}
 		}
-		// System.out.println(session.toString());
-		// System.out.println(session.hashCode());
-		/*
-		 * if(!userIDToSessionMap.containsKey(FromUserID)){
-		 * userIDToSessionMap.put(session,FromUserID); } try {
-		 * 
-		 * //userIDToSessionMap.get(intKey).getBasicRemote().sendText(message);
-		 * } catch (IOException ex) { ex.printStackTrace(); }
-		 */
+		
 
 	}
 
@@ -212,8 +167,6 @@ public class WebSocketChatController {
 	public void onClose(Session session) {
 		userIDToSessionMap.remove(uID);
 		System.out.println("Socket Session " + session.getId() + " has ended");
-		// clients.remove(session);
-		// userIDToSessionMap.put(uID, session);
-		// System.out.println(ses.getAttribute("sessionUser"));
+		
 	}
 }

@@ -2,11 +2,8 @@ package com.aloha.common.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.aloha.common.entities.Chat;
-import com.aloha.common.entities.Post;
-import com.aloha.common.entities.user.User;
 
 public class ChatUI {
 	private String chatContent;
@@ -38,30 +35,35 @@ public class ChatUI {
 		this.userID2 = userID2;
 	}
 	
-public ArrayList<ChatUI> getChatsForUser(User user1,User user2){
+public ArrayList<ChatUI> getChatsForUser(int user1,int user2){
 		
 		ArrayList<ChatUI> userChats = new ArrayList<ChatUI>();
 		Chat p = new Chat();
 		ArrayList<Chat> chats;
 		try {
-			chats = p.getChatUser(user1.getUserId(),user2.getUserId());
+			chats = p.getRecentFiveForChatUser(user1,user2);
 			for (Chat chat : chats) {
 				ChatUI cui = new ChatUI();
-				cui.setUserID1(user1.getUserId());
-				cui.setUserID2(user2.getUserId());
+				cui.setUserID1(chat.getUserID1());
+				cui.setUserID2(chat.getUserID2());
 				cui.setTimestamp(Helper.getLocalDate(chat.getTimestamp()));
 				cui.setChatContent(chat.getChatContent());
 				userChats.add(cui);
 			}
 			
-			return userChats;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 				
-		return null;
+		return userChats;
 		
 	}
+
+public int addChat(Chat chat) throws SQLException {
+	Chat p = new Chat();
+	int success = p.addChat(chat);
+	return success;
+}
 
 }

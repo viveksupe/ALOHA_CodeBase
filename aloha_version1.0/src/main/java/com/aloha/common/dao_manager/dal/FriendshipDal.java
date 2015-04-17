@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Friendship;
+import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
 
 /**
@@ -30,7 +31,7 @@ public class FriendshipDal {
 
 	private String SELECT_FRIENDSHIP_BY_USER1ID;
 	private String SELECT_FRIENDSHIP_BY_USER2ID;
-	private static final Logger logger =Logger.getLogger(FriendshipDal.class);
+	private static final Logger logger = Logger.getLogger(FriendshipDal.class);
 
 	/**
 	 * Constructor
@@ -160,9 +161,9 @@ public class FriendshipDal {
 			rSet = ps.executeQuery();
 			if (rSet != null) {
 				if (rSet.next()) {
-					int friendshipId=rSet.getInt("friendship_id");
-					int user_id1=rSet.getInt("user_id1");
-					int user_id2=rSet.getInt("user_id2");
+					int friendshipId = rSet.getInt("friendship_id");
+					int user_id1 = rSet.getInt("user_id1");
+					int user_id2 = rSet.getInt("user_id2");
 					int friendshipStatus = rSet.getInt("friend_status_id");
 					int request_sent_by = rSet.getInt("req_sent_by");
 					int blocked_by = rSet.getInt("blocked_by");
@@ -177,7 +178,7 @@ public class FriendshipDal {
 									.getUser1() : friendship.getUser2());
 					friendship
 							.setBlocked_by(friendship.getUser1().getUserId() == blocked_by ? friendship
-									.getUser1() : friendship.getUser2());					
+									.getUser1() : friendship.getUser2());
 					return friendship;
 				}
 			} else
@@ -347,7 +348,7 @@ public class FriendshipDal {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int deleteUser(int id) throws SQLException {
+	public int deleteFriendship(int id) throws SQLException {
 		String deleteFriendshipStatement = DELETE_FRIENDSHIP;
 		PreparedStatement ps = null;
 		int result = -1;
@@ -390,5 +391,38 @@ public class FriendshipDal {
 				rSet.getDate("lastActive"));
 		friendship.setUser2(otherUser);
 		return friendship;
+	}
+
+	public ArrayList<Friendship> selectPendingFriendRequests(User u)
+			throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		String SelectUsersByUID2 = SELECT_FRIENDSHIP_BY_USER2ID;
+		Friendship f;
+		ArrayList<Friendship> flist = new ArrayList<Friendship>();
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(SelectUsersByUID2);
+			ps.setInt(1, u.getUserId());
+			rSet = ps.executeQuery();
+			while (rSet.next()) {
+				f = populateFriendship(rSet, u);
+				
+				//add friend to return list only if it is a pending friends request.
+				if (f.getStatus() == FriendshipStatus.RequestSent) {
+					flist.add(f);
+				}
+			}
+			return flist;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
 	}
 }

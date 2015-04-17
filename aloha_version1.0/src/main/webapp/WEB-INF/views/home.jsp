@@ -1,9 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <t:GlobalTemplate>
-  <jsp:body>
-    <div class="container-main pad-10">
+	<jsp:body>
+	<div class="container-main pad-10">
       <div class="bcol-20" >
         <h3>profile info</h3>
       </div>

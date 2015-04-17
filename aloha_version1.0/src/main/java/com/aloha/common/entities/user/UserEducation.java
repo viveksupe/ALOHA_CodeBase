@@ -1,6 +1,7 @@
 package com.aloha.common.entities.user;
 
 public class UserEducation{
+	int ed_id;
 	String school;
 	String area;
 	public void setEducation(String school, String area){
@@ -18,5 +19,13 @@ public class UserEducation{
 	}
 	public String getArea(){
 		return area;
+	}
+	public int getID()
+	{
+		return ed_id;
+	}
+	public void setID(int id)
+	{
+		this.ed_id = id;
 	}
 }
