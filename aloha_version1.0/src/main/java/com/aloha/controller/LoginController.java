@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.dao_manager.dal.UserEducationDal;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.entities.user.UserEducation;
+import com.aloha.common.model.UserUI;
 import com.aloha.common.util.Secure_Hash;
 
 @Controller
@@ -32,19 +35,32 @@ public class LoginController extends Secure_Hash{
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String Login(Locale locale, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.", locale);
-		User u = new User();
+		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
 			return "Login";
 		}else{
-			u = (User)session.getAttribute("sessionUser");
+			u = (UserUI)session.getAttribute("sessionUser");
 		}
 		model.addAttribute("user",u);
 		return "user_profile";
+	}
+	@RequestMapping(value = "editprofile", method = RequestMethod.GET)
+	public String edit_profile(Locale locale, Model model, HttpSession session) {
+		logger.info("Welcome login! The client locale is {}.", locale);
+		UserUI u = new UserUI();
+		if(null==session.getAttribute("sessionUser")){
+			return "Login";
+		}else{
+			u = (UserUI)session.getAttribute("sessionUser");
+		}
+		model.addAttribute("user",u);
+		return "editprofile";
 	}
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String perform_login(@RequestParam("email") String email, @RequestParam("pwd") String pwd, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.");
 		User u = new User();
+		UserUI ui = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
 			UserDal ud = new UserDal();
 			User res= null;
@@ -69,40 +85,49 @@ public class LoginController extends Secure_Hash{
 			}
 			if(res!=null)	
 			{
-				model.addAttribute("sessionUser",res);
-				return "redirect:"+"user_profile";
-				
+				ui.setUser(res);
+				model.addAttribute("sessionUser",ui);
+				return "redirect:"+"user_profile";				
 			}
 			else
 				model.addAttribute("headerMessage","email or password does not match please try again");
 			return ret;
 			
 		}else{
-			u = (User)session.getAttribute("sessionUser");
-			model.addAttribute("user",u);
+			ui = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("user",ui);
 			return "user_profile";
 		}		
 	}
 	@RequestMapping(value = "user_profile", method = RequestMethod.GET)
 	public String display_user_profile(Locale locale, Model model, HttpSession session){
 		logger.info("Welcome login! The client locale is {}.", locale);
-		User u = new User();
+		UserUI u = new UserUI();
+		UserEducation u_ed = new UserEducation();
 		if(null==session.getAttribute("sessionUser")){
 			return "redirect:"+"login";
 		}else{
-			u = (User)session.getAttribute("sessionUser");
+			u = (UserUI)session.getAttribute("sessionUser");
+			UserEducationDal ed = new UserEducationDal();			
+			try {
+				u_ed = ed.selectUserEducationById(u.getUserId());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		model.addAttribute("user",u);
+		model.addAttribute("education",u_ed);
 		return "user_profile";
 	}
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.GET)
 	public String forgot_password_display(Locale locale, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.", locale);
-		User u = new User();
+		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
 			return "forgotpassword";
 		}else{
-			u = (User)session.getAttribute("sessionUser");
+			u = (UserUI)session.getAttribute("sessionUser");
 		}
 		model.addAttribute("user",u);
 		return "user_profile";
@@ -113,7 +138,7 @@ public class LoginController extends Secure_Hash{
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.POST)
 	public String forgot_password(@RequestParam("email") String email , Model model, HttpSession session){
 		logger.info("Welcome login! The client locale is {}.");
-		User u = new User();
+		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
 			UserDal ud = new UserDal();
 			try {
@@ -141,7 +166,7 @@ public class LoginController extends Secure_Hash{
 				return "forgotpassword";
 			}
 		}else{
-			u = (User)session.getAttribute("sessionUser");
+			u = (UserUI)session.getAttribute("sessionUser");
 			model.addAttribute("headerMessage","you are already logged in");
 		}
 		model.addAttribute("user",u);

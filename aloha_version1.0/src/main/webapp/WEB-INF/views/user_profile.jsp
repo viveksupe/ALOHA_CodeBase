@@ -15,7 +15,7 @@
 	});
 </script>
 <div class="wall">
-
+	<h6>${headerMessage}</h6>
 	<div class="profile">
 		<div class="profile-mobile-bg">
 
@@ -25,25 +25,22 @@
 				<img src="http://feedstack.asia/img/user.jpg" class="profile-image">
 			</div>
 		</div>
-		<div class="bcol-70">
-			<div class="profile-container">
+	<div class="bcol-70">
+		<div class="profile-container">
 				<div class="profile-name">
 					<div class="profile-name-span">${user.getFirstName()} ${user.getLastName()}</div>
 				</div>
-				<div class="profile-desc">
-					Hey people im a new entry to this website..hope to have fun..follow me to get updates.				</div>
-				
-				
+			<div class="profile-desc">
 				<div class="profile-buttons" uid="858" liveuser-id="858">
-						<a href="${pageContext.request.contextPath}/edit_profile">
+						<a href="${pageContext.request.contextPath}/editprofile">
 						<button class="btn btn-edit">Edit Profile</button>
 					</a>	
 				</div>	
 			</div>
 		</div>
-		<div class="clear"></div>
+		
 	</div>
-</div>	
+</div>
 <div class="profile-container-box">
 <script src="http://feedstack.asia/app/script/readmore.js"></script>
 <script src="http://feedstack.asia/app/script/popup.js"></script>
@@ -65,6 +62,18 @@
 <br>
 
 </div></div>
+<div class="container">
+			<div class= "feed-block">
+				<div class = "feed-title">About Me</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class= "feed-block">
+				<div class = "feed-title">Education</div>
+				<div class = "feed-title">${education.getSchool() } ${education.getArea()}</div>
+			</div>
+		</div>	
+
         <a href = "${pageContext.request.contextPath}/chat"><h6>chat</h6>
         <div class="clear"></div>
       </div>

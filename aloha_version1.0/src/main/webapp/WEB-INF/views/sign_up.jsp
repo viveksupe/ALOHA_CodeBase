@@ -69,11 +69,6 @@ function Validate(){
 	  return ret;
 }
 </script>
-<script>
-  $(function() {
-    $( "#datepicker" ).datepicker();
-  });
- </script>
     </jsp:body>
 </t:GlobalTemplate>
  

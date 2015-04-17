@@ -217,6 +217,7 @@ public class User {
 		int res = -1;
 		try {
 			res = edal.addEducationInfo(userId, u_ed);
+			u_ed.setID(res);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
