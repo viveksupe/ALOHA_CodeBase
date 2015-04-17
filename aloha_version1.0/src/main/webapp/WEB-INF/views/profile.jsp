@@ -31,12 +31,13 @@
 						userIdToAdd : userId
 					},
 					success : function(data) {
-						//alert(data.length);
-						$('.member-container').html('');
-						for (i = 0; i < data.length; i++) {
+							console.log('success');
 							$('#addFriendBtn')
-									.html('Friend Request Sent')			
-						}
+									.html('Friend Request Sent')		
+					},
+					error : function(data){
+						console.log('error occurred');
+						console.log(data);
 					}
 				});
 	};

@@ -31,6 +31,7 @@ public class Friendship {
 		this.user1 = new User();
 		this.user2 = new User();
 		this.status = FriendshipStatus.Default;
+		this.req_sent_by = user1;
 	}
 
 	/**
@@ -164,19 +165,25 @@ public class Friendship {
 	 * @param friendship
 	 * @return
 	 */
-	public boolean addFriendship(User user1, User user2) {
+	public boolean addFriendship(int requestorId, int requesteeId) {
 		boolean result = false;
-		Friendship f = new Friendship();
-		f.setUser1(user1);
-		f.setUser2(user2);
-		//f.setStatus(FriendshipStatus.Default);
-		//f.setReq_sent_by(user1);
+		Friendship f = null;
 		try {
-			int res = fdal.insertFriendship(f);
-			if (res == 0)
-				result = true;
-			else
-				result = false;
+			f = fdal.selectFriendshipByUsers(requestorId, requesteeId);
+
+			if (f == null) {
+				f=new Friendship();
+				f.getUser1().setUserId(requestorId);
+				f.getUser2().setUserId(requesteeId);
+				f.setStatus(FriendshipStatus.RequestSent);
+				int res = fdal.insertFriendship(f);
+
+				if (res == 1)
+					result = true;
+				else
+					result = false;
+			}
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -191,7 +198,7 @@ public class Friendship {
 		try {
 			ArrayList<Friendship> flist = fdal.selectFriendshipByUserId(u);
 			ArrayList<User> ulist = new ArrayList<User>();
-			for(Friendship f : flist){
+			for (Friendship f : flist) {
 				ulist.add(f.getUser2());
 			}
 			return ulist;
@@ -210,7 +217,6 @@ public class Friendship {
 		return false;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
