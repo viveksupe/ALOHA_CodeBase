@@ -70,23 +70,20 @@
           <div class="profile">
             <div class="profile-mobile-bg">
 
-              <img src="http://feedstack.asia/img/user.jpg"
+              <img src=${imgLocation}
                             class="profile-image-mobile" />
             </div>
             <div class="bcol-30">
               <div class="feed-user mobile-hidden mobile-hidden-main-image">
-                <img src="http://feedstack.asia/img/user.jpg" class="profile-image" />
+                <img src=${imgLocation} class="profile-image" />
               </div>
             </div>
             <div class="bcol-70">
               <div class="profile-container">
                 <div class="profile-name">
-                  <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()}</div>
+                  <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()} ${imgLocation}</div>
                 </div>
-                <div class="profile-desc">
-                  Hey people im a new entry to this website..hope to have fun..follow me to get updates.
-                </div>
-
+				<div> </div>
 
                 <div class="profile-buttons" uid="858" liveuser-id="858">
                   <a href="${pageContext.request.contextPath}/edit_profile">

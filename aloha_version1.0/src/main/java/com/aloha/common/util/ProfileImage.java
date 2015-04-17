@@ -1,6 +1,9 @@
 package com.aloha.common.util;
 
-import javax.servlet.jsp.PageContext;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ProfileImage {
 	public byte []img;
@@ -31,8 +34,21 @@ public class ProfileImage {
 	public void setImg_id(int img_id) {
 		this.img_id = img_id;
 	}
-	public void writeToResources() {
-		// TODO Auto-generated method stub
-		
+	public void writeToResources() throws IOException {
+		FileOutputStream fos = null;
+		try {
+ 			fos = new FileOutputStream("E://profile"+img_id+".jpeg");
+			fos.write(img);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+
+			fos.close();
+		}
 	}
 }

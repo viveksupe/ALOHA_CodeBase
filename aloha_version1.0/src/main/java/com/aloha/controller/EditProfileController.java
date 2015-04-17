@@ -3,6 +3,7 @@ package com.aloha.controller;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,10 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.model.UserUI;
 import com.aloha.common.util.FileUploadBean;
+import com.aloha.common.util.ProfileImage;
 
 @SuppressWarnings("deprecation")
 @Controller
@@ -41,20 +44,31 @@ public class EditProfileController{
 			map.addAttribute("user",u);
 			MultipartFile file = uploadForm.getFile();
 	        byte[] bytefile;
+	        ProfileImage pi = null;
+	        ImageDal pdal = new ImageDal();
 	        if (file != null) {
-	        	
 	        	System.out.println("uploaded");
 	        	try {
-					bytefile = file.getBytes();
-					FileOutputStream fos = new FileOutputStream("E://iu acad//some.jpg");
-		        	fos.write(bytefile);
-		        	fos.close();
-		        	
+	        		bytefile = file.getBytes();
+	        		pi = pdal.getProfileImage(u.getUserId());
+		        	if(pi!=null)
+		        	{
+		        		pdal.modifyImage(u.getUserId(), bytefile, pi.getImg_id());
+		        		pi.setImg(bytefile);
+		        	}
+		        	else
+		        		pi = pdal.insertImage(u.getUserId(), bytefile);
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 					map.addAttribute("headerMessage","failed to upload file");
-					return "user_profile";
+					return "redirect:"+"user_profile";
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					map.addAttribute("headerMessage","failed to upload file");
+					return "redirect:"+"user_profile";
 				}
 	        	  
 	       	 	map.addAttribute("headerMessage","success");
@@ -63,8 +77,8 @@ public class EditProfileController{
 	       		System.out.println(" not uploaded");
 	       		map.addAttribute("headerMessage","failed to upload file");
 	       }
-	
-	        return "user_profile";
+	        map.addAttribute("pi",pi);
+	        return "redirect:"+"user_profile";
 		}
 		  
 	        

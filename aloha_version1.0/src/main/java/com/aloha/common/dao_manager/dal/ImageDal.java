@@ -23,10 +23,10 @@ public class ImageDal {
 	private String DELETE;
 	public ImageDal()
 	{
-		SELECT = "select images.image_id, images.image, images.size from images where images.user_id=?";
-		INSERT = "insert into images values(images.user_id, images.image, images.size) from images";
-		UPDATE = "update images set images.image = ?, images.size = ? where images.user_id=? and images.image_id=?";
-		DELETE = "delete from images where images.user_id=?";
+		SELECT = "select images.image_id, images.image, images.size from images where images.user_id=?;";
+		INSERT = "insert into images(images.user_id, images.image, images.size) values(?, ?, ?);";
+		UPDATE = "update images set images.image = ?, images.size = ? where images.user_id=? and images.image_id=?;";
+		DELETE = "delete from images where images.user_id=?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 	public ProfileImage insertImage(int user_id, byte []image) throws SQLException
@@ -46,7 +46,7 @@ public class ImageDal {
 			FileInputStream fin = new FileInputStream(imgfile);
 			ps = con.prepareStatement(INSERT);
 			ps.setInt(1, user_id);
-			ps.setBinaryStream(2,(InputStream)fin,(int)imgfile.length());
+			ps.setBinaryStream(2,(InputStream)fin,imgfile.length());
 			ps.setLong(3,imgfile.length());
 			res = ps.executeUpdate();
 			if(res!=0)
@@ -93,7 +93,7 @@ public class ImageDal {
 			fos.close();
 			File imgfile = new File("tempPic.jpg");			  
 			FileInputStream fin = new FileInputStream(imgfile);
-			ps = con.prepareStatement(INSERT);
+			ps = con.prepareStatement(UPDATE);
 			ps.setInt(3, user_id);
 			ps.setBinaryStream(1,(InputStream)fin,(int)imgfile.length());
 			ps.setLong(2,imgfile.length());
@@ -156,14 +156,13 @@ public class ImageDal {
 				pi = new ProfileImage();
 				pi.setImg_id(rs.getInt(1));
 				InputStream in = rs.getBinaryStream(2);
-				byte image[] = null;
+				byte image[] = new byte[in.available()];
 				in.read(image);
 				pi.setImg(image);
 				pi.setSize(rs.getInt(3));
 				return pi;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

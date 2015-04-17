@@ -1,5 +1,6 @@
 package com.aloha.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 
@@ -105,14 +106,21 @@ public class LoginController extends Secure_Hash{
 				u_ed = ed.selectUserEducationById(u.getUserId());
 				pi = pdal.getProfileImage(u.getUserId());		
 				if(pi!=null)
+				{
 					pi.writeToResources();
+					model.addAttribute("imgLocation", "E://profile"+pi.getImg_id()+".jpeg");
+				}
 			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		model.addAttribute("user",u);
 		model.addAttribute("education",u_ed);
+		model.addAttribute("profileImageObject", pi);
 		return "user_profile";
 	}
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.GET)
