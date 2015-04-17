@@ -77,11 +77,19 @@
 				</div>
 				<div class="profile-buttons" uid="836" liveuser-id="836">
 										<a href="#">
-										
+				<c:choose>
+				<c:when test="empty ${empty friendship}">
 						<button id="addFriendBtn" class="btn btn-edit"
-											onclick="addFriend(${user.userId})">
+													onclick="addFriend(${user.userId})">
+											Add Friend
+											</button>
+				</c:when>
+				<c:otherwise>
+						<button id="addFriendBtn" class="btn btn-edit")">
 											${friendship.status}
 											</button>
+				</c:otherwise>
+				</c:choose>
 					</a>	
 									</div>	
 			</div>

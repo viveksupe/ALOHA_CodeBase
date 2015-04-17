@@ -26,7 +26,7 @@ public class Friendship {
 	 * 
 	 */
 	public Friendship() {
-		this.friendshipId = 0;
+		this.friendshipId = -1;
 		this.user1 = new User();
 		this.user2 = new User();
 		this.status = FriendshipStatus.Default;

@@ -24,7 +24,7 @@
         <div class="container-main pad-header">
             <div class="bcol-25 logo">
                 <a href="${pageContext.request.contextPath}">
-                    <img width="250px" height="42px"  src="${pageContext.request.contextPath}/resources/img/logo.png">
+                    <img width="50%" height="50%"  src="${pageContext.request.contextPath}/resources/img/logo.png">
                 </a>
             </div>
             <div class="bcol-75 menu">
@@ -40,7 +40,7 @@
                             </i>Profile
                         </li>
                     </a>
-                    <a href="${pageContext.request.contextPath}/friends/index"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
+                    <a href="${pageContext.request.contextPath}/friends"><li><i class="fa fa-space fa-group"></i>Friends</li></a>
                     <a href="http://feedstack.asia/user/logout"><li><i class="fa fa-space fa-sign-out"></i>Logout</li></a>
                 </ul>
             </div>

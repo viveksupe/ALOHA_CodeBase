@@ -58,12 +58,10 @@ public class FriendsController {
 		Friendship f = new Friendship();
 
 		// fetching my first user from the db to start adding friends
-		UserDal ud = new UserDal();
-		u = ud.selectUserByPrimaryKey(6);
 		ArrayList<User> ulist;
 		// Getting the user from session and fetching its friends from DB
 		if (null == session.getAttribute("sessionUser")) {
-			ulist = f.getUserFriends(u);
+			return "redirect:"+"login";
 		} else {
 			ulist = f
 					.getUserFriends((User) session.getAttribute("sessionUser"));
@@ -93,8 +91,8 @@ public class FriendsController {
 			requestorId = requestor.getUserId();
 		}
 		int requesteeId = userId;
-		if(f.addFriendship(requestorId, requesteeId))
-		return 1;
+		if (f.addFriendship(requestorId, requesteeId))
+			return 1;
 		return -1;
 	}
 
