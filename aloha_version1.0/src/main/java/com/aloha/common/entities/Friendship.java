@@ -2,7 +2,6 @@ package com.aloha.common.entities;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
@@ -27,7 +26,7 @@ public class Friendship {
 	 * 
 	 */
 	public Friendship() {
-		this.friendshipId = 0;
+		this.friendshipId = -1;
 		this.user1 = new User();
 		this.user2 = new User();
 		this.status = FriendshipStatus.Default;
@@ -112,7 +111,21 @@ public class Friendship {
 	 *            the status to set
 	 */
 	public void setStatus(int status) {
-		this.status.setStatus(status);
+		switch (status) {
+		case 0:
+			this.status=FriendshipStatus.Default;
+			break;
+		case 1:
+			this.status=FriendshipStatus.RequestSent;
+			break;
+		case 2:
+			this.status=FriendshipStatus.Friends;
+			break;
+		case 3:
+			this.status=FriendshipStatus.Blocked;
+			break;
+		}
+
 	}
 
 	/**
@@ -169,10 +182,10 @@ public class Friendship {
 		boolean result = false;
 		Friendship f = null;
 		try {
-			f = fdal.selectFriendshipByUsers(requestorId, requesteeId);
+			f = getExistingFriendship(requestorId, requesteeId);
 
 			if (f == null) {
-				f=new Friendship();
+				f = new Friendship();
 				f.getUser1().setUserId(requestorId);
 				f.getUser2().setUserId(requesteeId);
 				f.setStatus(FriendshipStatus.RequestSent);
@@ -215,6 +228,21 @@ public class Friendship {
 	 */
 	public boolean updateFriendship(Friendship friendship) {
 		return false;
+	}
+
+	/**
+	 * @param friendship
+	 * @return
+	 */
+	public Friendship getExistingFriendship(int userId1, int userId2) {
+		try {
+			return fdal.selectFriendshipByUsers(userId1, userId2);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/*

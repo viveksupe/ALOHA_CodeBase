@@ -88,4 +88,17 @@ public class PostController {
 		return result;
 	}
 	
+	@RequestMapping(value="comm/del", method=RequestMethod.POST)
+	public @ResponseBody boolean deleteComment(@RequestParam("commId") int commId){
+		CommentUI cui = new CommentUI();
+		boolean result = false;
+		try {
+			result = cui.deleteComment(commId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

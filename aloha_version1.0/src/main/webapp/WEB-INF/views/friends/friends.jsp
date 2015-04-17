@@ -15,23 +15,24 @@
               <input type="text"
 							class="member-search" placeholder="search..."
 							root="http://feedstack.asia/">
-            </span>
+              </span>
           </div>
           <div class="root" root="http://feedstack.asia/" access-token=""></div>
           <div class="entry">
             <div class="member-container">
-              <c:forEach items="${users}" var="element">
+              <c:forEach items="${users}" var="friend">
 
                 <div class="bcol-member-block">
                   <div class="member-image">
-                    <a href="http://feedstack.asia/renudeshmukh">
+                    <a href="${pageContext.request.contextPath}/profile?userId=${friend.userId}">
                       <img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
                   </div>
                   <div class="member-name">
-                    <a href="http://feedstack.asia/renudeshmukh">${element.firstName}</a>
+                    <a href="${pageContext.request.contextPath}/profile?userId=${friend.userId}">${friend.firstName}</a>
                   </div>
                 </div>
               </c:forEach>
+              
               <div class="clear"></div>
             </div>
           </div>
