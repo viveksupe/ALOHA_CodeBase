@@ -36,14 +36,6 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-/*		User u = new User();
-		if(null==session.getAttribute("sessionUser")){
-			return "redirect:"+"login";
-		}else{
-			u = (User)session.getAttribute("sessionUser");
-		}
-		model.addAttribute("user",u);
-		return "user_profile";*/
 		return "home";
 	}
 	

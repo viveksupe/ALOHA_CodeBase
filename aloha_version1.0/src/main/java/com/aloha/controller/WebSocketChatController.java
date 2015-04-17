@@ -2,16 +2,9 @@ package com.aloha.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSession;
@@ -28,11 +21,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.aloha.common.dao_manager.dal.ChatDal;
 import com.aloha.common.entities.Chat;
 import com.aloha.common.entities.ChatToken;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.ChatUI;
+import com.aloha.common.model.UserUI;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -65,7 +58,7 @@ public class WebSocketChatController {
 		// System.out.println(sesi.getAttribute("sessionUser"));
 		logger.info("Welcome home! The client locale is {}.",
 				sesi.getAttribute("sessionUser"));
-		uID = ((User) sesi.getAttribute("sessionUser")).getUserId();
+		uID = ((UserUI) sesi.getAttribute("sessionUser")).getUserId();
 
 		// TODO get the user from onlline friends call to friends module.
 		// and then return the users list to the jsp page.

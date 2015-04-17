@@ -19,15 +19,19 @@ import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.model.UserUI;
+import com.aloha.common.util.CommonUtils;
 
 @Controller
 public class SearchController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserSignupController.class);
+	CommonUtils commonUtils = new CommonUtils();
 
 	@RequestMapping(value = "search/users", method = RequestMethod.GET)
-	public String searchUsers(Locale locale, Model model) {
+	public String searchUsers(Locale locale, Model model,HttpSession session) {
 		logger.info("Entered Search Users GET");
+		
 		return "search/users";
 	}
 
@@ -35,8 +39,6 @@ public class SearchController {
 	public @ResponseBody String OldsearchUsers(
 			@RequestParam("searchKey") String searchKey, Model model) {
 		logger.info("Entered Search Users POST method");
-		// TODO write a query in USERDAL and use it here. to return the users
-		// list.
 		ArrayList<User> ulist = null;
 		UserDal ud = new UserDal();
 		try {
@@ -88,7 +90,8 @@ public class SearchController {
 		FriendshipDal fdal = new FriendshipDal(); 
 		Friendship f = new Friendship();
 		int userInSessionId = -1;
-		User userInSession = (User) session.getAttribute("sessionUser");
+		UserUI userUIInSession = (UserUI) session.getAttribute("sessionUser");
+		User userInSession = commonUtils.convertUserUIToUser(userUIInSession);
 		if (userInSession != null) {
 			userInSessionId = userInSession.getUserId();
 		}
