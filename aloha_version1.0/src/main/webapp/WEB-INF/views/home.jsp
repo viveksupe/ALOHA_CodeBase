@@ -18,9 +18,7 @@
  <p> <a href="friends/">Friends List</a>
  <a href="login/">Login</a>
  		</p>
-	</jsp:body>
-  <jsp:body>
-    <div class="container-main pad-10">
+	<div class="container-main pad-10">
       <div class="bcol-20" >
         <h3>profile info</h3>
       </div>
