@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
+import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.model.UserUI;
+import com.aloha.common.util.CommonUtils;
 
 /**
  * @author Milind FriendsController to handle the controls and flow of the
@@ -26,8 +28,10 @@ import com.aloha.common.entities.user.User;
 @Controller
 // @SessionAttributes("sessionUser")
 public class FriendsController {
+	
 	private static final Logger logger = LoggerFactory
 			.getLogger(FriendsController.class);
+	CommonUtils commonUtils = new CommonUtils();
 
 	@RequestMapping("friends/index")
 	public String index(Locale locale, Model model, HttpSession session) {
@@ -42,10 +46,10 @@ public class FriendsController {
 		logger.error("Entered friend index page ERROR");
 
 		// Now is being fetched from the current logged in session user.
-		User testUser = null;
+		UserUI testUser = null;
 		// testuser = ud.selectUserByPrimaryKey(4);
-		testUser = (User) session.getAttribute("sessionUser");
-
+		testUser = (UserUI) session.getAttribute("sessionUser");
+		
 		// model.addAttribute("sessionUser",testuser);
 		return "friends/index";
 	}
@@ -63,8 +67,9 @@ public class FriendsController {
 		if (null == session.getAttribute("sessionUser")) {
 			return "redirect:"+"login";
 		} else {
-			ulist = f
-					.getUserFriends((User) session.getAttribute("sessionUser"));
+			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
+			
+			ulist = f.getUserFriends(commonUtils.convertUserUIToUser(sessionUserUI));
 		}
 		model.addAttribute("users", ulist);
 
@@ -86,12 +91,39 @@ public class FriendsController {
 		logger.info("Entered addFriend POST");
 		Friendship f = new Friendship();
 		int requestorId = -1;
-		User requestor = (User) session.getAttribute("sessionUser");
+		UserUI requestor = (UserUI) session.getAttribute("sessionUser");
 		if (requestor != null) {
 			requestorId = requestor.getUserId();
+		}else{
+			//since user is not in session do nothing. Simply reject the friendship request.
+			return -1;
 		}
 		int requesteeId = userId;
 		if (f.addFriendship(requestorId, requesteeId))
+			return 1;
+		return -1;
+	}
+
+	
+	@RequestMapping(value = "friends/accept", method = RequestMethod.POST)
+	public @ResponseBody int acceptFriend(@RequestParam("userIdToAccept") int userId, @RequestParam("acceptor") int acceptorId,
+			Model model, HttpSession session) {
+		logger.info("Entered addFriend POST");
+		Friendship f = new Friendship();
+		f=f.getExistingFriendship(userId, acceptorId);
+		f.setStatus(FriendshipStatus.Friends);
+		if (f.updateFriendship(f))
+			return 1;
+		return -1;
+	}
+
+
+	@RequestMapping(value = "friends/remove", method = RequestMethod.POST)
+	public @ResponseBody int removeFriend(@RequestParam("friendshipIdToRemove") int fId,
+			Model model, HttpSession session) {
+		logger.info("Entered addFriend POST");
+		Friendship f = new Friendship();
+		if (f.deleteFriendship(fId))
 			return 1;
 		return -1;
 	}

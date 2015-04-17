@@ -21,6 +21,7 @@ public class Chat {
 		this.timestamp = timestamp;
 		this.userID1 = userID1;
 		this.userID2 = userID2;
+		this.dal=new ChatDal();
 	}
 	public Chat() {
 		this.chatID = 0;
@@ -28,6 +29,7 @@ public class Chat {
 		this.timestamp = null;
 		this.userID1 = 0;
 		this.userID2 = 0;
+		this.dal=new ChatDal();
 	}
 	public int getChatID() {
 		return chatID;
@@ -61,7 +63,7 @@ public class Chat {
 	}
 	
 	public int addChat(Chat chat) throws SQLException {
-
+		
 		int success = dal.insertChat(chat);
 		return success;
 	}
@@ -74,7 +76,7 @@ public class Chat {
 			return false;
 	}
 
-	public ArrayList<Chat> getChatUser(int userId1,int userId2) throws SQLException {
+	public ArrayList<Chat> getRecentFiveForChatUser(int userId1,int userId2) throws SQLException {
 		ArrayList<Chat> chats = new ArrayList<Chat>();
 		chats = dal.selectRecentFive(userId1,userId2);
 

@@ -15,18 +15,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.model.UserUI;
+import com.aloha.common.util.CommonUtils;
 
 @Controller
 public class SearchController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserSignupController.class);
+	CommonUtils commonUtils = new CommonUtils();
 
 	@RequestMapping(value = "search/users", method = RequestMethod.GET)
-	public String searchUsers(Locale locale, Model model) {
+	public String searchUsers(Locale locale, Model model,HttpSession session) {
 		logger.info("Entered Search Users GET");
+		
 		return "search/users";
 	}
 
@@ -34,8 +39,6 @@ public class SearchController {
 	public @ResponseBody String OldsearchUsers(
 			@RequestParam("searchKey") String searchKey, Model model) {
 		logger.info("Entered Search Users POST method");
-		// TODO write a query in USERDAL and use it here. to return the users
-		// list.
 		ArrayList<User> ulist = null;
 		UserDal ud = new UserDal();
 		try {
@@ -84,20 +87,31 @@ public class SearchController {
 	public String display_user_profile(@RequestParam("userId") int id,
 			Model model, HttpSession session) {
 		User u = new User();
+		FriendshipDal fdal = new FriendshipDal(); 
 		Friendship f = new Friendship();
 		int userInSessionId = -1;
-		User userInSession = (User) session.getAttribute("sessionUser");
+		UserUI userUIInSession = (UserUI) session.getAttribute("sessionUser");
+		User userInSession = commonUtils.convertUserUIToUser(userUIInSession);
 		if (userInSession != null) {
 			userInSessionId = userInSession.getUserId();
 		}
 		if(userInSessionId==id){
 			try {
 				u=u.getUser(userInSessionId);
+				model.addAttribute("user", u);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			model.addAttribute("user", u);
+			
+			ArrayList<Friendship> pendingRequests=null;
+			try {
+				pendingRequests = fdal.selectPendingFriendRequests(userInSession);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			model.addAttribute("pendingFriends",pendingRequests);
 			return "user_profile";
 		}
 		f = f.getExistingFriendship(userInSessionId, id);
@@ -116,6 +130,7 @@ public class SearchController {
 				e.printStackTrace();
 			}
 		}
+		model.addAttribute("user", u);
 		model.addAttribute("friendship", f);
 		return "profile";
 	}

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import com.aloha.common.dao_manager.dal.ChatDal;
 import com.aloha.common.entities.Chat;
+import com.aloha.common.model.ChatUI;
+
 import java.sql.*;
 
 public class TestChatDBJHandler {
@@ -15,8 +17,14 @@ public class TestChatDBJHandler {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//addChatTest();
-		selectChatTest();
-	
+		//selectChatTest();
+		ChatUI yiee=new ChatUI();
+		ArrayList<ChatUI> ar=new ArrayList<ChatUI>();
+		ar=yiee.getChatsForUser(4, 5);
+		for (ChatUI chat2 : ar) {
+			System.out.println(chat2.getChatContent());
+		}
+		
 	}
 	
 	public static void addChatTest()
