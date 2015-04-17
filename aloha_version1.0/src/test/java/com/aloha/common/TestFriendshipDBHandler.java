@@ -99,7 +99,7 @@ public class TestFriendshipDBHandler {
 	}
 
 	private void deleteFriendship(int id) throws SQLException {
-		int res = fd.deleteUser(id);
+		int res = fd.deleteFriendship(id);
 		if (res == 1)
 			System.out.println("row deleted successfully");
 	}
