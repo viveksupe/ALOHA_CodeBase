@@ -2,16 +2,16 @@
 <%@ page session="false"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
-  <jsp:body>
+	<jsp:body>
     <div class="container-main pad-20">
       <div class="app bcol-70">
 
         <!-- ToolTip -->
         <link
-                  href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css"
-                  rel="stylesheet"></link>
+					href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css"
+					rel="stylesheet"></link>
           <script
-                    src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
+					src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
 
           <script>
             $(function() {
@@ -41,6 +41,31 @@
             }
             });
             };
+            
+            function unFriend(friendshipId) {
+                console.log(friendshipId);
+                $
+                .ajax({
+                headers : {
+                'Accept' : 'application/json'
+                },
+                method : "POST",
+                url : "${pageContext.request.contextPath}/friends/remove",
+                data : {
+                friendshipIdToRemove : friendshipId
+                },
+                success : function(data) {
+                console.log('success');
+                $('#unFriendBtn')
+                .html('Friend Removed')
+                },
+                error : function(data){
+                console.log('error occurred');
+                console.log(data);
+                }
+                });
+                };
+
           </script>
 
           <div class="wall">
@@ -49,11 +74,13 @@
               <div class="profile-mobile-bg">
 
                 <img src="http://feedstack.asia/img/user.jpg"
-                              class="profile-image-mobile" />
+								class="profile-image-mobile" />
                 </div>
               <div class="bcol-30">
-                <div class="feed-user mobile-hidden mobile-hidden-main-image">
-                  <img src="http://feedstack.asia/img/user.jpg" class="profile-image" />
+                <div
+								class="feed-user mobile-hidden mobile-hidden-main-image">
+                  <img src="http://feedstack.asia/img/user.jpg"
+									class="profile-image" />
 			</div>
               </div>
               <div class="bcol-70">
@@ -76,22 +103,25 @@
 										<a href="http://feedstack.asia/milindhg/following"><span class="mb-link-span">Following</span></a>
 					<a href="http://feedstack.asia/milindhg/followers"><span class="mb-link-span">Followers</span></a> -->
                   </div>
-                  <div class="profile-buttons" uid="836" liveuser-id="836">
-                    <a href="#">
+                  <div class="profile-buttons" uid="836"
+									liveuser-id="836">
                       <c:choose>
                         <c:when test="${empty friendship}">
+                    	<a href="#">
                           <button id="addFriendBtn" class="btn btn-edit"
-                                        onclick="addFriend(${user.userId})">
+													onclick="addFriend(${user.userId})">
                             Add Friend
                           </button>
+                          </a>
                         </c:when>
                         <c:otherwise>
-                          <button id="addFriendBtn" class="btn btn-edit">
+                          
                             ${friendship.status}
+                          <button id="unFriendBtn" class="btn btn-edit" onclick="unFriend(${friendship.friendshipId})"> Unfriend
                           </button>
                         </c:otherwise>
                       </c:choose>
-                    </a>
+                    
                   </div>
                 </div>
               </div>
@@ -103,14 +133,14 @@
             <script src="http://feedstack.asia/app/script/popup.js"></script>
             <script src="http://feedstack.asia/app/script/wall.js"></script>
             <style>
-              .footer {
-              background: white;
-              }
+.footer {
+	background: white;
+}
 
-              .profile-container-box {
-              min-height: 210px;
-              }
-            </style>
+.profile-container-box {
+	min-height: 210px;
+}
+</style>
 
             <!-- <div class="login-popup popup"><b>Please Login to continue</b> <br>
 	<a href="http://feedstack.asia/user/login"><button class="btn btn-login">login</button></a>
@@ -119,7 +149,7 @@
 <div class="root" root="http://feedstack.asia/" access-token="1429169272g836"></div>
 	<div class="profile-card" count="0">Opps ! No  feeds yet </div> -->
 
-            <br/>
+            <br />
 
 </div>
         </div>

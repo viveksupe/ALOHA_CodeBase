@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.user.User;
@@ -84,6 +85,7 @@ public class SearchController {
 	public String display_user_profile(@RequestParam("userId") int id,
 			Model model, HttpSession session) {
 		User u = new User();
+		FriendshipDal fdal = new FriendshipDal(); 
 		Friendship f = new Friendship();
 		int userInSessionId = -1;
 		User userInSession = (User) session.getAttribute("sessionUser");
@@ -93,11 +95,20 @@ public class SearchController {
 		if(userInSessionId==id){
 			try {
 				u=u.getUser(userInSessionId);
+				model.addAttribute("user", u);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			model.addAttribute("user", u);
+			
+			ArrayList<Friendship> pendingRequests=null;
+			try {
+				pendingRequests = fdal.selectPendingFriendRequests(userInSession);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			model.addAttribute("pendingFriends",pendingRequests);
 			return "user_profile";
 		}
 		f = f.getExistingFriendship(userInSessionId, id);
@@ -116,6 +127,7 @@ public class SearchController {
 				e.printStackTrace();
 			}
 		}
+		model.addAttribute("user", u);
 		model.addAttribute("friendship", f);
 		return "profile";
 	}

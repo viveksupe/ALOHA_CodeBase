@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
+import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
 
 /**
@@ -89,9 +90,36 @@ public class FriendsController {
 		User requestor = (User) session.getAttribute("sessionUser");
 		if (requestor != null) {
 			requestorId = requestor.getUserId();
+		}else{
+			//since user is not in session do nothing. Simply reject the friendship request.
+			return -1;
 		}
 		int requesteeId = userId;
 		if (f.addFriendship(requestorId, requesteeId))
+			return 1;
+		return -1;
+	}
+
+	
+	@RequestMapping(value = "friends/accept", method = RequestMethod.POST)
+	public @ResponseBody int acceptFriend(@RequestParam("userIdToAccept") int userId, @RequestParam("acceptor") int acceptorId,
+			Model model, HttpSession session) {
+		logger.info("Entered addFriend POST");
+		Friendship f = new Friendship();
+		f=f.getExistingFriendship(userId, acceptorId);
+		f.setStatus(FriendshipStatus.Friends);
+		if (f.updateFriendship(f))
+			return 1;
+		return -1;
+	}
+
+
+	@RequestMapping(value = "friends/remove", method = RequestMethod.POST)
+	public @ResponseBody int removeFriend(@RequestParam("friendshipIdToRemove") int fId,
+			Model model, HttpSession session) {
+		logger.info("Entered addFriend POST");
+		Friendship f = new Friendship();
+		if (f.deleteFriendship(fId))
 			return 1;
 		return -1;
 	}

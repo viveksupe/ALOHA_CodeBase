@@ -113,16 +113,16 @@ public class Friendship {
 	public void setStatus(int status) {
 		switch (status) {
 		case 0:
-			this.status=FriendshipStatus.Default;
+			this.status = FriendshipStatus.Default;
 			break;
 		case 1:
-			this.status=FriendshipStatus.RequestSent;
+			this.status = FriendshipStatus.RequestSent;
 			break;
 		case 2:
-			this.status=FriendshipStatus.Friends;
+			this.status = FriendshipStatus.Friends;
 			break;
 		case 3:
-			this.status=FriendshipStatus.Blocked;
+			this.status = FriendshipStatus.Blocked;
 			break;
 		}
 
@@ -163,6 +163,15 @@ public class Friendship {
 	 * @return
 	 */
 	public boolean deleteFriendship(int fshipId) {
+		int res;
+		try {
+			res = fdal.deleteFriendship(fshipId);
+			if (res == 1)
+				return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
@@ -227,7 +236,20 @@ public class Friendship {
 	 * @return
 	 */
 	public boolean updateFriendship(Friendship friendship) {
-		return false;
+		boolean result = false;
+		Friendship f = null;
+		int res;
+		try {
+			res = fdal.updateFriendship(friendship);
+			if (res == 1)
+				result = true;
+			else
+				result = false;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	/**
