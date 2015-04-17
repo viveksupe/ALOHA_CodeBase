@@ -20,7 +20,7 @@
                             <div class="bcol-90x">
                                 <div class="feed-title">
                                     <b><a href="http://feedstack.asia/renudeshmukh">{ $T.Post.userName}</a></b>
-                                    <span class="feed-delete"><i class="fa fa-trash-o "></i></span>
+                                    <span class="feed-delete" feed-id="{ $T.Post.postId}"><i class="fa fa-trash-o "></i></span>
                                     <small class="feed-time-mobile mobile-visible">{ $T.Post.postDate} </small>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                         <div class="comment-block-entry-{ $T.Post.postId}" style="display:none">
                         
 {#foreach $T.Post.comments as comment}
-    <div class="feed-comment">
+    <div class="feed-comment" id="commDiv{ $T.comment.commentId}">
         <div class="feed-comment-list feed-comment-list-{ $T.comment.commentId}">
             <div class="feed-comment-block feed-comment-block-202">
                 <div class="bcol-20x">
@@ -75,7 +75,7 @@
                             </small>
                             <small>{ $T.comment.commentDate}</small>
 
-                            <span class="feed-comment-delete" comment-id="202"><i class="fa fa-trash-o "></i></span>
+                            <span class="feed-comment-delete" comment-id="{ $T.comment.commentId}"><i class="fa fa-trash-o "></i></span>
                         </div>
                         <div class="feed-comment-text">
                            { $T.comment.commentData}
