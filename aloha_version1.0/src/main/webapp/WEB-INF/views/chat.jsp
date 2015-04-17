@@ -9,6 +9,12 @@
 <link href="resources/chat/style.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="resources/chat/script.js"></script>
+<script>
+$( document ).ready(function(){
+	appRoot = "${pageContext.request.contextPath}";
+	console.log(appRoot);
+});
+</script>
 </head>
 <body>
 	<div id="messages"></div>

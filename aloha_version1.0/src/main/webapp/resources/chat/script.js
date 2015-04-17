@@ -1,4 +1,5 @@
-var webSocket = new WebSocket('ws://'+location.hostname+':'+ location.port+'/common/websocket');
+var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
+		+ '/common/websocket');
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -17,12 +18,12 @@ function onMessage(event) {
 	obj = JSON.parse(event.data);
 	document.getElementById('messages').innerHTML += '<br />Received message: '
 			+ obj.chatMsg;
-	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push');
+	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+obj.chatMsg);
 }
 
 function onOpen(event) {
 	document.getElementById('messages').innerHTML = 'Connection established';
-	
+
 }
 
 function onError(event) {
@@ -34,63 +35,49 @@ function onError(event) {
  * webSocket.send(txt); document.getElementById('messages').innerHTML += '<br />Sent
  * message: ' + txt; return false; }
  */
-function toggleBox(event){
+function toggleBox(event) {
 	$('.msg_wrap').slideToggle('slow');
 }
-function toggleChatBox(event){
+function toggleChatBox(event) {
 	$('.chat_body').slideToggle('slow');
 }
-function closeBox(event){
+function closeBox(event,toid) {
 	$('.msg_box').hide();
 }
-function clickUserBox(event){
+function clickUserBox(event) {
 	$('.msg_wrap').show();
 	$('.msg_box').show();
 }
 
-function SendMsg(message,toid,fromid){
-	//alert(message);
+function SendMsg(message, toid, fromid) {
+	// alert(message);
 	var obj = new Object();
 	obj.userID = fromid;
 	obj.toUserID = toid;
 	obj.chatMsg = message;
-	var jsonString = JSON
-			.stringify(obj);
+	var jsonString = JSON.stringify(obj);
 	// json = JSON.stringify(msg);
-	//alert(jsonString);
+	// alert(jsonString);
 	$(this).val('');
-	if (obj.chatMsg != ''
-			&& obj.chatMsg != "\n") {
-		$(
-				'<div class="msg_b">'
-						+ obj.chatMsg
-						+ '</div>')
-				.insertBefore(
-						'.msg_push');
+	if (obj.chatMsg != '' && obj.chatMsg != "\n") {
+		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+fromid);
 		webSocket.send(jsonString);
-		document
-				.getElementById('messages').innerHTML += '<br />Sent message: '
+		document.getElementById('messages').innerHTML += '<br />Sent message: '
 				+ obj.chatMsg;
 	}
-	$('.msg_body')
-			.scrollTop(
-					$('.msg_body')[0].scrollHeight);
-	
+	$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 
+}
 
-	}
-
-function InitSendMsg(toid,fromid){
+function InitSendMsg(toid, fromid) {
 	var obj = new Object();
 	obj.userID = fromid;
 	obj.toUserID = toid;
 	obj.chatMsg = "Initialtion Message";
-	var jsonString = JSON
-			.stringify(obj);
+	var jsonString = JSON.stringify(obj);
 	webSocket.send(jsonString);
-    alert("Sent Init");
+	alert("Sent Init");
 };
-
 
 // this function can remove a array element.
 Array.remove = function(array, from, to) {
@@ -143,7 +130,7 @@ function display_popups() {
 }
 
 // creates markup for a new popup. Adds the id to popups array.
-function register_popup(toid,fromid, name) {
+function register_popup(toid, fromid, name) {
 
 	for (var iii = 0; iii < popups.length; iii++) {
 		// already registered. Bring it to front.
@@ -157,15 +144,32 @@ function register_popup(toid,fromid, name) {
 			return;
 		}
 	}
-	
+
+	$.ajax({
+		method : "POST",
+		url : appRoot + "/chathistory",
+		data : {
+			touser : toid,
+			fromuser : fromid
+		}
+	}).done(function(msg) {
+		alert("Data Saved: " + msg);
+	});
+
 	var element = '<div class="msg_box" id="' + toid + '">';
-	element = element + '<div class="msg_head" onclick=toggleBox();>' + name
-			+ '<div class="close" onclick=closeBox();>X</div></div><div class="msg_wrap">';
+	element = element
+			+ '<div class="msg_head" onclick=toggleBox();>'
+			+ name
+			+ '<div class="close" onclick=closeBox('+toid+');>X</div></div><div class="msg_wrap" >';
 	name = name.replace(/\s+/g, '');
 	element = element
-			+ '<div class="msg_body"> <div class="msg_a">This is from A</div> <div class="msg_b">This is from B</div><div class="msg_push"></div></div>'
+			+ '<div class="msg_body" > <div class="msg_a">This is from A</div> <div class="msg_b">This is from B</div><div class="msg_push_' + toid + '"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'+name+'" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'+name+'").value,'+toid+','+fromid+')>Send</button></td></tr></table></div>';
+			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'
+			+ name
+			+ '" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'
+			+ name + '").value,' + toid + ',' + fromid
+			+ ')>Send</button></td></tr></table></div>';
 	// element = element + '<div class="popup-head-right"><a
 	// href="javascript:close_popup(\''+ id +'\');">&#10005;</a></div>';
 	element = element + '</div>';
