@@ -22,7 +22,7 @@ function onMessage(event) {
 }
 
 function onOpen(event) {
-	document.getElementById('messages').innerHTML = 'Connection established';
+	$('<div style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>').insertAfter('.chat_body');
 
 }
 
