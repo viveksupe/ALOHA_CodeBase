@@ -35,7 +35,6 @@ public class PostController {
 		try {
 			u = ud.selectUserByPrimaryKey(1);
 			PostUI pui = new PostUI();
-			Post post = new Post(-1, "This is my new post", new Date(new java.util.Date().getTime()), new ArrayList<Comment>(), null);
 			
 			ArrayList<PostUI> posts = pui.getPostsForUser(u);
 			return posts;
@@ -75,4 +74,18 @@ public class PostController {
 		CommentUI cui = new CommentUI();
 		cui.addComment(comm);
 	}
+	
+	@RequestMapping(value="post/del", method=RequestMethod.POST)
+	public @ResponseBody boolean deletePost(@RequestParam("postId") int postId){
+		PostUI pui = new PostUI();
+		boolean result = false;
+		try {
+			result = pui.deletePost(postId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

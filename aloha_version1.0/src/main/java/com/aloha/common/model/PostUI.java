@@ -164,4 +164,10 @@ public class PostUI {
 		DislikeUI lui = new DislikeUI();
 		return lui.getDislikesData(dislikes);
 	}
+	
+	public boolean deletePost(int posId) throws SQLException{
+		Post p = new Post();
+		boolean result = p.deletePost(posId);
+		return result;
+	}
 }
