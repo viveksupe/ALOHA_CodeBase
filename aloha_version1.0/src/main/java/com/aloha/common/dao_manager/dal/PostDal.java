@@ -26,12 +26,20 @@ public class PostDal {
 	private String INSERT_POST;
 	private String UPDATE_POST;
 	private String DELETE_POST;
+	private String SELECT_POSTS;
 
 	public PostDal() {
 		SELECT = "SELECT post.post_id, post.post_content, post.timestamp, post.user_id FROM post";
 		INSERT_POST = "INSERT INTO post (post_content, user_id) VALUES ( ?, ?);";
 		UPDATE_POST = "UPDATE post SET post_content = ? WHERE post_id = ?;";
 		DELETE_POST = "DELETE FROM post WHERE post_id = ?;";
+		SELECT_POSTS = "SELECT p.post_id,p.post_content,p.user_id,p.timestamp,u.fname,u.lname FROM post p "
+				+ "inner join user u on u.user_id = p.user_id where p.user_id in "
+				+ "(SELECT user_id1 FROM friendship where user_id2=? and friend_status_id =2 "
+				+ "union "
+				+ "SELECT user_id2 FROM friendship where user_id1=? and friend_status_id =2 "
+				+ "union select ?) order by timestamp desc;";
+
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
@@ -46,9 +54,9 @@ public class PostDal {
 			rSet = ps.executeQuery();
 			if (rSet.next()) {
 				Post post = new Post(rSet.getInt("post_id"),
-						rSet.getString("post_content"), 
-						rSet.getTimestamp("timestamp"),
-						null, null);
+						rSet.getString("post_content"),
+						rSet.getTimestamp("timestamp"), null, null,
+						rSet.getInt("user_id"));
 
 				return post;
 			} else
@@ -85,16 +93,16 @@ public class PostDal {
 		}
 	}
 
-	public Post insertPost(Post post, int user_id) throws SQLException {
+	public Post insertPost(Post post) throws SQLException {
 		String insertUserStatement = INSERT_POST;
 		PreparedStatement ps = null;
-		
+
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(insertUserStatement, Statement.RETURN_GENERATED_KEYS);
+			ps = con.prepareStatement(insertUserStatement,
+					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, post.getPost());
-			ps.setInt(2, user_id);
-			
+			ps.setInt(2, post.getUserId());
 
 			ps.executeUpdate();
 			ResultSet rs = ps.getGeneratedKeys();
@@ -102,7 +110,7 @@ public class PostDal {
 				Post insertedPost = getPostByPrimaryKey(rs.getInt(1));
 				return insertedPost;
 			}
-		
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -136,7 +144,8 @@ public class PostDal {
 	}
 
 	public ArrayList<Post> getPostsForUser(int userId) throws SQLException {
-		String getPostById = SELECT + " where post.user_id=? order by post.timestamp desc;";
+		String getPostById = SELECT
+				+ " where post.user_id=? order by post.timestamp desc;";
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -146,11 +155,9 @@ public class PostDal {
 			rSet = ps.executeQuery();
 			ArrayList<Post> posts = new ArrayList<Post>();
 			while (rSet.next()) {
-				Post post = new Post(
-						rSet.getInt("post_id"),
-						rSet.getString("post_content"), 
-						rSet.getTimestamp("timestamp"),
-						null, null);
+				Post post = new Post(rSet.getInt("post_id"),
+						rSet.getString("post_content"),
+						rSet.getTimestamp("timestamp"), null, null, userId);
 				posts.add(post);
 			}
 			return posts;
@@ -167,8 +174,41 @@ public class PostDal {
 		}
 	}
 
-	public ArrayList<User> getPostsForUserAndFriends(int userId) {
-		return null;
+	public ArrayList<Post> getPostsForUserAndFriends(int userId) throws SQLException {
+		String getStmt = SELECT_POSTS;
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(getStmt);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);
+			ps.setInt(3, userId);
+			rSet = ps.executeQuery();
+			ArrayList<Post> posts = new ArrayList<Post>();
+			while (rSet.next()) {
+				Post post = new Post(rSet.getInt("post_id"),
+						rSet.getString("post_content"),
+						rSet.getTimestamp("timestamp"), null, null,
+						rSet.getInt("user_id"));
+				String fName = rSet.getString("fname");
+				String lName = rSet.getString("lname");
+				post.setUserName(fName);
+				post.setUserSurname(lName);
+				posts.add(post);
+			}
+			return posts;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
 	}
 
 }

@@ -87,7 +87,7 @@ public class CommentUI {
 		this.postId = postId;
 	}
 
-	public ArrayList<CommentUI> getCommentsForPost(User user, Post post) throws SQLException {
+	public ArrayList<CommentUI> getCommentsForPost( Post post) throws SQLException {
 
 		ArrayList<CommentUI> comments = new ArrayList<CommentUI>();
 		
@@ -99,8 +99,8 @@ public class CommentUI {
 			cui.setCommentId(comment.getCommenttId());
 			cui.setCommentData(comment.getComment());
 			cui.setCommentDate(Helper.getLocalDate(comment.getCommentDate()));
-			cui.setUserName(user.getFirstName() + user.getLastName());
-			cui.setUserId(user.getUserId());
+			cui.setUserName("Renuka Deshmukh");
+			cui.setUserId(comment.getUserId());
 			cui.setPostId(post.getPostId());
 			comments.add(cui);
 		}

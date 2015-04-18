@@ -123,7 +123,7 @@ var PostManager = new function() {
 				'Accept' : 'application/json'
 			},
 			method : "POST",
-			url : PostManager.Root + "/post/getPost",
+			url : PostManager.Root + "/post/getAll",
 			data : {
 				searchKey : "ignore"
 			},

@@ -46,6 +46,27 @@ public class PostController {
 		return new ArrayList<PostUI>();
 	}
 	
+	@RequestMapping(value = "post/getAll", method=RequestMethod.POST)
+	public @ResponseBody ArrayList<PostUI> getAllPosts(@RequestParam("searchKey") String searchKey, Model model) {
+		
+		User u = new User();
+
+		// fetching my first user from the db to start adding friends
+		UserDal ud = new UserDal();
+		try {
+			u = ud.selectUserByPrimaryKey(1);
+			PostUI pui = new PostUI();
+			
+			ArrayList<PostUI> posts = pui.getPostsForUserAndFriends(1);
+			return posts;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return new ArrayList<PostUI>();
+	}
+	
 	@RequestMapping("post")
 	public String setup(Locale locale, Model model) throws SQLException{
 		
