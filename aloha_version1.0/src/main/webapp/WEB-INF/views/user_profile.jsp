@@ -63,28 +63,32 @@
             <div class="profile-mobile-bg">
 
 
-              <img src=${imgLocation}
-                            class="profile-image-mobile" />
+              <img src="${pageContext.request.contextPath}/userimages/${profileImageObject.img_id}" class="profile-image-mobile" />
             </div>
             <div class="bcol-30">
+            <!-- "feed-user mobile-hidden mobile-hidden-main-image" -->
               <div class="feed-user mobile-hidden mobile-hidden-main-image">
-                <img src=${imgLocation} class="profile-image" />
+              	<img src="http://feedstack.asia/img/user.jpg" class="profile-image">
 
               </div>
+              <div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/editprofile">
+                    <button class="btn btn-edit">Upload Picture</button>
+                  </a>
+                </div>
             </div>
             <div class="bcol-70">
               <div class="profile-container">
                 <div class="profile-name">
-                  <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()} ${imgLocation}</div>
+                  <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()} </div>
                 </div>
 				<div> </div>
-
-                <div class="profile-buttons" uid="858" liveuser-id="858">
-                  <a
-										href="${pageContext.request.contextPath}/edit_profile">
-                    <button class="btn btn-edit">Edit Profile</button>
+				<div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/editaccountdetails">
+                    <button class="btn btn-edit">Account Settings</button>
                   </a>
                 </div>
+                
               </div>
             </div>
             <div class="clear"></div>
@@ -107,16 +111,26 @@
 }
 </style>
 
-<div class="container">
+		<div class="container">
 			<div class= "feed-block">
 				<div class = "feed-title">About Me</div>
 			</div>
+			<div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/personalinfo">
+                    <button class="btn btn-edit">Edit Personal Information</button>
+                  </a>
+            </div>
 		</div>
 		<div class="container">
 			<div class= "feed-block">
 				<div class = "feed-title">Education</div>
 				<div class = "feed-title">${education.getSchool() } ${education.getArea()}</div>
 			</div>
+			<div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/educationinfo">
+                    <button class="btn btn-edit">Edit Education Details</button>
+                  </a>
+            </div>
 		</div>	
 
         <a href = "${pageContext.request.contextPath}/chat"><h6>chat</h6>

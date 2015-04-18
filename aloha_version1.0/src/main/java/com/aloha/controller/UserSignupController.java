@@ -2,12 +2,17 @@ package com.aloha.controller;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +36,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 		return "sign_up";
 	}
 	@RequestMapping(value = "login/sign_up", method = RequestMethod.POST)
-	public String perform_sign_up(@RequestParam("fname") String fname,@RequestParam("lname") String lname, @RequestParam("cnum") String cnum, @RequestParam("email") String email, @RequestParam("pwd") String pwd,@RequestParam("cpwd") String cpwd, Model model) {
+	public String perform_sign_up(@RequestParam("fname") String fname,@RequestParam("lname") String lname, @RequestParam("cnum") String cnum, @RequestParam("email") String email, @RequestParam("dob") Date dob, @RequestParam("pwd") String pwd,@RequestParam("cpwd") String cpwd, Model model) {
 		logger.info("Welcome Sign_up! The client locale is {}.");
 		
 		UserDal ud = new UserDal();
@@ -58,6 +63,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 			u.setLastName(lname);
 			u.setContactNumber(cnum);		
 			//u.setPassword(hashed_pwd);
+			u.setDateOfBirth(dob);
 			u.setPassword(pwd);
 			u.setIsLocked(0);
 			u.setIsVerified(0);
@@ -80,4 +86,11 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 			((Model) model).addAttribute("headerMessage","Email already exists");
 		return "Login";
 	}
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
 }

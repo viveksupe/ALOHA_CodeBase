@@ -37,7 +37,7 @@ public class ProfileImage {
 	public void writeToResources() throws IOException {
 		FileOutputStream fos = null;
 		try {
- 			fos = new FileOutputStream("E://profile"+img_id+".jpeg");
+ 			fos = new FileOutputStream("//resources//userimages"+img_id+".jpeg");
 			fos.write(img);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -6,6 +6,7 @@ import java.util.Date;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.dao_manager.dal.UserEducationDal;
 import com.aloha.common.dao_manager.dal.UserPersonalDal;
+import com.aloha.common.model.UserUI;
 
 public class User {
 	private int userId;
@@ -338,6 +339,15 @@ public class User {
 		stringBuffer.append(new StringBuilder().append("[lastActive=")
 				.append(lastActive).append("]\n").toString());
 		return stringBuffer.toString();
+	}
+
+	public void updatefromUI(UserUI u) {
+		// TODO Auto-generated method stub
+		this.contactNumber = u.getContactNumber();
+		this.dateOfBirth = u.getDateOfBirth();
+		this.userId = u.getUserId();
+		this.firstName = u.getFirstName();
+		this.lastName = u.getLastName();
 	}
 
 }

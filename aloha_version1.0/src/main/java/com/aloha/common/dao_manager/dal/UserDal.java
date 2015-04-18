@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,7 @@ public class UserDal {
 					u.setContactNumber(rSet.getString("contact_number"));
 					u.setEmail(rSet.getString("email"));
 					u.setPassword(rSet.getString("password"));
-					u.setDateOfBirth(rSet.getDate("bdate"));
+					u.setDateOfBirth(rSet.getTimestamp("bdate"));
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));
 					u.setLastActive(rSet.getDate("lastActive"));
@@ -108,7 +109,7 @@ public class UserDal {
 					u.setContactNumber(rSet.getString("contact_number"));
 					u.setEmail(rSet.getString("email"));
 					u.setPassword(rSet.getString("password"));
-					u.setDateOfBirth(rSet.getDate("bdate"));
+					u.setDateOfBirth(rSet.getTimestamp("bdate"));
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));
 					u.setLastActive(rSet.getDate("lastActive"));
@@ -179,10 +180,13 @@ public class UserDal {
 			ps.setString(3, u.getContactNumber());
 			ps.setString(4, u.getEmail());
 			ps.setString(5, u.getPassword());
-			ps.setDate(6, (java.sql.Date) u.getDateOfBirth());
+			long mili = 0;
+			mili = u.getDateOfBirth().getTime();
+			Timestamp ts = new Timestamp(mili);
+			ps.setTimestamp(6, ts);
 			ps.setInt(7, u.getIsVerified());
-			ps.setInt(8, u.getIsLocked());
-			ps.setDate(9, (java.sql.Date) u.getLastActive());
+			ps.setInt(8, u.getIsLocked());			
+			ps.setTimestamp(9, new Timestamp(u.getLastActive().getTime()));
 
 			result = ps.executeUpdate();
 			return result;
@@ -304,10 +308,10 @@ public class UserDal {
 					u.setContactNumber(rSet.getString("contact_number"));
 					u.setEmail(rSet.getString("email"));
 					u.setPassword(rSet.getString("password"));
-					u.setDateOfBirth(rSet.getDate("bdate"));
+					u.setDateOfBirth(rSet.getTimestamp("bdate"));
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));
-					u.setLastActive(rSet.getDate("lastActive"));
+					u.setLastActive(rSet.getTimestamp("lastActive"));
 					users.add(u);
 				}
 			}
@@ -329,6 +333,7 @@ public class UserDal {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(selectemail);
 			ps.setString(1, email);
@@ -339,7 +344,9 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-
+			if (ps != null)
+				ps.close();
+			con.close();
 		}
 		return false;
 	}
@@ -359,6 +366,33 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
+			con.close();
+		}
+	}
+
+	public int updateAccountInfo(User u) throws SQLException {
+		// TODO Auto-generated method stub
+		String updateUserStatement = UPDATE_USER;
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement("UPDATE user SET fname = ?, lname = ?, contact_number = ?, bdate = ? WHERE user_id = ?;");
+			ps.setString(1, u.getFirstName());
+			ps.setString(2, u.getLastName());
+			ps.setString(3, u.getContactNumber());
+			long mili = u.getDateOfBirth().getTime();
+			Timestamp ts = new Timestamp(mili);
+			ps.setTimestamp(4,ts);
+			ps.setInt(5, u.getUserId());
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
 			con.close();
 		}
 	}

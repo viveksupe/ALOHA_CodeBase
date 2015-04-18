@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.dao_manager.dal.UserEducationDal;
+import com.aloha.common.dao_manager.dal.UserPersonalDal;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.entities.user.UserEducation;
+import com.aloha.common.entities.user.UserPersonal;
 import com.aloha.common.model.UserUI;
 import com.aloha.common.util.ProfileImage;
 import com.aloha.common.util.Secure_Hash;
@@ -78,7 +80,7 @@ public class LoginController extends Secure_Hash{
 			{
 				ui.setUser(res);
 				model.addAttribute("sessionUser",ui);
-				return "redirect:"+"profile?userId=" + ui.getUserId();				
+				return "redirect:"+"user_profile";				
 			}
 			else
 				model.addAttribute("headerMessage","email or password does not match please try again");
@@ -87,7 +89,7 @@ public class LoginController extends Secure_Hash{
 		}else{
 			ui = (UserUI)session.getAttribute("sessionUser");
 			model.addAttribute("user",ui);
-			return "user_profile";
+			return "redirect:"+"user_profile";
 		}		
 	}
 	@RequestMapping(value = "user_profile", method = RequestMethod.GET)
@@ -95,32 +97,40 @@ public class LoginController extends Secure_Hash{
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
 		UserEducation u_ed = new UserEducation();
-		ProfileImage pi = null;
+		ProfileImage pi = new ProfileImage();
+		UserPersonal up = new UserPersonal();
+		System.out.println("controller");
 		if(null==session.getAttribute("sessionUser")){
 			return "redirect:"+"login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
 			UserEducationDal ed = new UserEducationDal();
 			ImageDal pdal = new ImageDal();
+			UserPersonalDal updal = new UserPersonalDal();			
 			try {
 				u_ed = ed.selectUserEducationById(u.getUserId());
-				pi = pdal.getProfileImage(u.getUserId());		
+				
+				/*pi = pdal.getProfileImage(u.getUserId());		
 				if(pi!=null)
 				{
 					pi.writeToResources();
-					model.addAttribute("imgLocation", "E://profile"+pi.getImg_id()+".jpeg");
-				}
+					model.addAttribute("imgLocation", "common//resources//userimages"+pi.getImg_id()+".jpeg");
+				}*/
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}
+			try{
+				up = updal.selectUserPersonalById(u.getUserId());
+			}
+			catch(SQLException ex){
+				ex.printStackTrace();
 			}
 		}
 		model.addAttribute("user",u);
 		model.addAttribute("education",u_ed);
-		model.addAttribute("profileImageObject", pi);
+		model.addAttribute("personal",up);
+		//model.addAttribute("profileImageObject", pi);
 		return "user_profile";
 	}
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.GET)
