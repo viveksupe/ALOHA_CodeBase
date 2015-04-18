@@ -13,6 +13,7 @@ import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.slf4j.Logger;
@@ -42,25 +43,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *                 name of the package and "echo" is the address to access this
  *                 class from the server
  */
+
+
+
 @SessionAttributes("sessionUser")
 @Controller
-@ServerEndpoint(value = "/websocket")
+@ServerEndpoint(value = "/websocket/{clientId}")
 public class WebSocketChatController {
 
 	// private static Set<Session> clients = Collections.synchronizedSet(new
 	// HashSet<Session>());
-	private static Map<Integer, Session> userIDToSessionMap = new ConcurrentHashMap<Integer, Session>();
+	private static volatile Map<Integer, Session> userIDToSessionMap = new ConcurrentHashMap<Integer, Session>();
 	static int uID = 100;
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
 
 	@RequestMapping("chat")
-	public String home(Model model, HttpSession sesi) {
+	public String home(Model model) { //, HttpSession sesi
 		// System.out.println(sesi.getAttribute("sessionUser"));
-		logger.info("Welcome home! The client locale is {}.",
+		/*logger.info("Welcome home! The client locale is {}.",
 				sesi.getAttribute("sessionUser"));
 		uID = ((UserUI) sesi.getAttribute("sessionUser")).getUserId();
-
+*/
 		// TODO get the user from onlline friends call to friends module.
 		// and then return the users list to the jsp page.
 
@@ -95,10 +99,10 @@ public class WebSocketChatController {
 	 *         we'll let the user know that the handshake was successful.
 	 */
 	@OnOpen
-	public void onOpen(Session session) {
+	public void onOpen(@PathParam("clientId") int clientId,Session session) {
 		System.out.println(session.getId() + " has opened a connection");
-		System.out.println(uID + ": =>" + session);
-		userIDToSessionMap.put(uID, session);
+		System.out.println(clientId + ": =>" + session);
+		userIDToSessionMap.put(clientId, session);
 		// System.out.println(sesi.getAttribute("sessionUser"));
 		/*
 		 * try { session.getBasicRemote().sendText("Connection Established"); }
@@ -156,6 +160,8 @@ public class WebSocketChatController {
 		ChatUI cui=new ChatUI();
 		cui.addChat(cobj);
 		// Routing Starts
+		System.out.println(userIDToSessionMap.keySet());
+		System.out.println(userIDToSessionMap.values());
 		if (userIDToSessionMap.containsKey(ToUserID)) {
 			try {
 
@@ -177,8 +183,8 @@ public class WebSocketChatController {
 	 * Note: you can't send messages to the client from this method
 	 */
 	@OnClose
-	public void onClose(Session session) {
-		userIDToSessionMap.remove(uID);
+	public void onClose(@PathParam("clientId") int clientId,Session session) {
+		userIDToSessionMap.remove(clientId);
 		System.out.println("Socket Session " + session.getId() + " has ended");
 		
 	}

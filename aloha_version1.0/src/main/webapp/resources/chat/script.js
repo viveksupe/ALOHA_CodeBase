@@ -1,5 +1,4 @@
-var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
-		+ '/common/websocket');
+var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port+ '/common/websocket/'+userID);
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -22,11 +21,12 @@ function onMessage(event) {
 	obj = JSON.parse(event.data);
 	document.getElementById('messages').innerHTML += '<br />Received message: '
 			+ obj.chatMsg;
-
-	register_popup(obj.userID, obj.toUserID, obj.Sendername);
-
-	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore(
-			'.msg_push_' + obj.userID);
+	if ($("#" + obj.userID).length == 0) {
+		register_popup(obj.userID, obj.toUserID, obj.Sendername);
+	} else {
+		$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore(
+				'.msg_push_' + obj.userID);
+	}
 }
 
 function onOpen(event) {
