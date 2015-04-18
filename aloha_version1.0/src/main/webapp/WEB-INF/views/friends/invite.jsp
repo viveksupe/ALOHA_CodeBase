@@ -3,6 +3,37 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
 	<jsp:body>
+	<script>
+	function inviteFriend() {
+				var emailAddr = $('#email').val();
+		if(emailAddr != '')
+		{
+		  $('#email').text('');
+		  console.log(emailAddr);
+		$.ajax({
+					headers : {
+						'Accept' : 'application/json'
+					},
+					method : "POST",
+					url : "${pageContext.request.contextPath}/friends/invite",
+					data : {
+						email : emailAddr
+					},
+					success : function(data) {
+							console.log(data);
+							$('#email').val('');
+							$('#inviteFriendStatus').html('Friend Invited');	
+					},
+					error : function(data){
+						console.log('error occurred');
+						console.log(data);
+					}
+				});
+		}
+	};
+		
+	
+	</script>
     	<div class="container-main pad-20">
 	        <div class="app">
 				<script src="http://feedstack.asia/app/script/members.js"></script>
@@ -12,9 +43,10 @@
 					</div>
 					<div class="entry" align="center" >Enter email address of your friends to invite them to Aloha
 					</br>
-					<input type="text" name="email" placeholder="Enter Email Address..." width="100px" pattern="^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,6}$" title = "please enter a valid email address" required/>
-	 <input class="btn btn-primary" type="button" value="Invite" name="sign_up" align="middle" >
-					
+					<input type="text" id="email"  name="email" placeholder="Enter Email Address..." width="100px" pattern="^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,6}$" title = "please enter a valid email address" required/>
+	 <input id="inviteFriendBtn" onclick="inviteFriend()" class="btn btn-primary" type="button" value="Invite" name="sign_up" align="middle" >
+						</br> <span id="inviteFriendStatus" ></span>
+					<div class="clear"></div>
 						</div>
 					</div>
 				</div>

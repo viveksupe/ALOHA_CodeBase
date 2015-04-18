@@ -10,7 +10,7 @@
         <div class="member-body">
           <div class="header-member">
             <i class="fa fa-space fa-group"></i> Friends of ${sessionUser.getFirstName()}
-            <span class="members-count">${pageContext.request.contextPath})</span>
+            <span class="members-count"> <a href="friends/invite"> invite more friends </a></span>
             <span class="member-seach-span">
               <input type="text"
 							class="member-search" placeholder="search..."

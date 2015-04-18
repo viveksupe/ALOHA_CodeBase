@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
-import javax.servlet.jsp.PageContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
@@ -181,21 +178,26 @@ public class FriendsController {
 	}
 
 	@RequestMapping(value = "friends/invite", method = RequestMethod.POST)
-	public @ResponseBody String inviteFriend(@RequestParam("email") String email,
-			Model model, HttpSession session) {
+	public @ResponseBody boolean inviteFriend(
+			@RequestParam("email") String email, Model model,
+			HttpSession session) {
 		UserUI u = new UserUI();
 		if (null == session.getAttribute("sessionUser")) {
-			return "redirect:" + "../login";
+			return false;
 		} else {
+
 			u = (UserUI) session.getAttribute("sessionUser");
-			SimpleMailMessage emailobj = new SimpleMailMessage();
-			emailobj.setTo(email);
-			emailobj.setSubject("Check out Aloha");
-			emailobj.setText("Hey Checkout Aloha - A brand new social networking portal \n Click Here to Go to Aloha.com");
-			emailobj.setFrom(u.getEmail());
-			mailSender.send(emailobj);
-			return "emailSent";
+			if (email.contains(",")) {
+				String[] emails = email.split(",");
+				for (String eachEmailAddr : emails) {
+					eachEmailAddr.trim();
+					commonUtils.mailSendUtil(mailSender, eachEmailAddr, u.getEmail());
+				}
+			}
+			else{
+				commonUtils.mailSendUtil(mailSender, email, u.getEmail());
+			}
+			return true;
 		}
 	}
-
 }
