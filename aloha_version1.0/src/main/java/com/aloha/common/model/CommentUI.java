@@ -15,6 +15,7 @@ public class CommentUI {
 	private String commentDate;
 	private String userName;
 	private int userId;
+	private int canDelete;
 	private int postId;
 	
 	
@@ -83,6 +84,14 @@ public class CommentUI {
 		this.commentDate = commentDate;
 	}
 
+	public int getCanDelete() {
+		return canDelete;
+	}
+
+	public void setCanDelete(int canDelete) {
+		this.canDelete = canDelete;
+	}
+
 	public void setPostId(int postId) {
 		this.postId = postId;
 	}
@@ -102,6 +111,16 @@ public class CommentUI {
 			cui.setUserName(comment.getUserName());
 			cui.setUserId(comment.getUserId());
 			cui.setPostId(comment.getPostId());
+			
+			//TODO
+			//User u = get user from session
+			//if u.userid == post.userid => set candelete == 1 for all comments of this posts.
+			//TODO - comment.getUserId() == logged-in user id => add condition is following if with an or clause
+			
+			if(comment.getUserId() == post.getUserId())
+				cui.setCanDelete(1);
+			else 	cui.setCanDelete(2);
+			
 			comments.add(cui);
 		}
 

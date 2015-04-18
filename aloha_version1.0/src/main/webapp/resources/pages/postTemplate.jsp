@@ -81,7 +81,9 @@
                             </small>
                             <small>{ $T.comment.commentDate}</small>
 
+							{#if $T.comment.canDelete == '1'}     
                             <span class="feed-comment-delete" comment-id="{ $T.comment.commentId}"><i class="fa fa-trash-o "></i></span>
+                            {#/if} 
                         </div>
                         <div class="feed-comment-text">
                            { $T.comment.commentData}
