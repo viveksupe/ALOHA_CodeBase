@@ -106,6 +106,7 @@ public class TestFriendshipDBHandler {
 	}
 
 	private void deleteFriendship(int id) throws SQLException {
+
 		int res = fd.deleteFriendship(id);
 		if (res == 1)
 			System.out.println("row deleted successfully");
@@ -130,7 +131,6 @@ public class TestFriendshipDBHandler {
 		        System.out.println("send failed, exception: " + mex);
 		    }
 	}
-	
 	
 
 }
