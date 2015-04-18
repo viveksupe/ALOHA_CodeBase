@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: sql3.freemysqlhosting.net
--- Generation Time: Apr 17, 2015 at 07:13 PM
+-- Generation Time: Apr 18, 2015 at 10:11 AM
 -- Server version: 5.5.40-0ubuntu0.12.04.1
 -- PHP Version: 5.3.28
 
@@ -35,22 +35,34 @@ CREATE TABLE IF NOT EXISTS `chat` (
   PRIMARY KEY (`chat_id`),
   KEY `FK_chat_1` (`user_id1`),
   KEY `FK_chat_2` (`user_id2`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=73 ;
 
 --
 -- Dumping data for table `chat`
 --
 
 INSERT INTO `chat` (`chat_id`, `chatContent`, `timestamp`, `user_id1`, `user_id2`) VALUES
-(1, 'Hello Vivek', '2015-04-13 00:00:00', 4, 5),
-(2, 'Hello Renuka', '2015-04-13 00:00:00', 5, 4),
-(3, 'Where are you?', '2015-04-13 00:00:00', 4, 5),
-(4, 'Hello Milind', '2015-04-14 03:06:16', 5, 8),
-(5, 'Hi renudesh', '2015-04-17 05:46:27', 4, 5),
-(6, 'wasup??', '2015-04-17 05:50:00', 4, 5),
-(15, 'Hii', '2015-04-17 06:55:45', 4, 4),
-(16, 'Hi', '2015-04-17 06:57:18', 4, 4),
-(17, 'Hellooz', '2015-04-17 06:57:37', 4, 4);
+(52, 'Hi Vivek this is renuka here..', '2015-04-18 06:23:42', 5, 4),
+(53, 'Hey Vivek(Renuka)', '2015-04-18 06:26:28', 5, 4),
+(54, 'Hi vivek..', '2015-04-18 06:44:35', 5, 22),
+(55, 'Hi', '2015-04-18 06:44:53', 5, 22),
+(56, 'hiii', '2015-04-18 06:48:55', 5, 22),
+(57, 'wassup??', '2015-04-18 06:49:09', 22, 5),
+(58, 'There??\n', '2015-04-18 06:51:36', 5, 22),
+(59, 'Hi Renuka...', '2015-04-18 06:53:14', 4, 5),
+(60, 'Wassup??', '2015-04-18 06:53:47', 5, 4),
+(61, 'Sahii awesome... :D', '2015-04-18 06:54:00', 5, 4),
+(62, 'Wella mala', '2015-04-18 06:54:11', 4, 5),
+(63, 'Hi jay', '2015-04-18 06:58:35', 4, 5),
+(64, 'Hi vivek', '2015-04-18 06:59:15', 5, 4),
+(65, 'Awesome', '2015-04-18 06:59:26', 5, 4),
+(66, 'Hi vivek here...wassup?', '2015-04-18 07:00:40', 4, 5),
+(67, 'Channa ghor ghrum :P', '2015-04-18 07:01:13', 5, 4),
+(68, 'Hii', '2015-04-18 07:03:30', 4, 5),
+(69, 'Heee', '2015-04-18 07:03:42', 4, 5),
+(70, 'hii', '2015-04-18 07:03:59', 4, 5),
+(71, 'hi', '2015-04-18 07:05:24', 5, 4),
+(72, 'hello\n', '2015-04-18 07:05:36', 5, 4);
 
 -- --------------------------------------------------------
 
@@ -95,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   PRIMARY KEY (`friendship_id`) USING BTREE,
   KEY `FK_friendship_1` (`user_id1`),
   KEY `FK_friendship_2` (`user_id2`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `friendship`
@@ -107,7 +119,8 @@ INSERT INTO `friendship` (`friendship_id`, `user_id1`, `user_id2`, `friend_statu
 (6, 4, 6, 2, 6, 4),
 (7, 6, 5, 1, -1, 6),
 (8, 6, 7, 1, -1, 6),
-(9, 6, 8, 1, -1, 6);
+(9, 6, 8, 1, -1, 6),
+(10, 28, 4, 2, 4, 28);
 
 -- --------------------------------------------------------
 
@@ -175,6 +188,33 @@ CREATE TABLE IF NOT EXISTS `LOGS` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `online_users`
+--
+
+CREATE TABLE IF NOT EXISTS `online_users` (
+  `user_id` int(10) unsigned NOT NULL COMMENT 'user id present means online',
+  UNIQUE KEY `user_id` (`user_id`),
+  KEY `FK_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This table tracks presence of online users. Entry means user is online.';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `personalinfo`
+--
+
+CREATE TABLE IF NOT EXISTS `personalinfo` (
+  `info_id` int(11) NOT NULL AUTO_INCREMENT,
+  `about_me` varchar(500) DEFAULT NULL,
+  `current_city` varchar(10) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`info_id`),
+  UNIQUE KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `post`
 --
 
@@ -220,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `isLocked` tinyint(1) NOT NULL DEFAULT '0',
   `lastactive` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dumping data for table `user`
@@ -230,7 +270,7 @@ INSERT INTO `user` (`user_id`, `fname`, `lname`, `contact_number`, `email`, `pas
 (1, 'DefaultUser', 'DefaultUser', '123456789', 'default@default.com', 'default', '1999-12-31', 0, 0, '2015-04-12 00:00:00'),
 (4, 'Renuka', 'Deshmukh', '1234567890', 'renudesh@umail.iu.edu', '123456', '2012-09-12', 0, 0, '2015-04-12 18:59:30'),
 (5, 'Vivek', 'Supe', '9087654321', 'vsupe@umail.iu.edu', '1234567', '2000-05-05', 0, 0, '2015-04-12 18:59:30'),
-(6, 'Mrunal', 'Pagnis', '3451236789', 'mmpagnis@umail.iu.edu', 'mrunalp', '2007-09-12', 0, 0, '2015-04-12 19:02:46'),
+(6, 'Sakshi', 'Pagnis', '3451236789', 'mmpagnis@umail.iu.edu', 'mrunalp', '2007-09-12', 0, 0, '2015-04-18 06:00:41'),
 (7, 'Amy', 'Fowler', '9871236540', 'amy.fowler@gmail.com', 'fowlera', '1994-12-07', 0, 0, '2015-04-12 19:02:46'),
 (8, 'Milind', 'Gokhale', '2468097531', 'mgokhale@umail.iu.edu', 'mmilind', '2005-10-02', 0, 0, '2015-04-12 19:07:35'),
 (9, 'Mrunalabcd', 'Pagnis', '8123695371', 'mmpagnis@indiana.edu', 'Mrunal123', NULL, 0, 0, NULL),
@@ -247,7 +287,9 @@ INSERT INTO `user` (`user_id`, `fname`, `lname`, `contact_number`, `email`, `pas
 (24, 'mrunal', 'Pagnis', '0123456789', 'mmpagnis@indiana.edu', 'Mrunal1234', NULL, 0, 0, NULL),
 (25, 'Mrunalabcd', 'oldolduser', '8123695371', 'abcd@somewhere.com', 'Mrunal123', NULL, 0, 0, NULL),
 (26, 'Mrunal', 'Pagnis', '8123695371', 'mmpagnis@indiana.edu', 'Mrunal123', NULL, 0, 0, NULL),
-(27, 'richa', 'singh', '8123695371', 'richaricha@gmail.com', 'Richa123', NULL, 0, 0, NULL);
+(27, 'richa', 'singh', '8123695371', 'richaricha@gmail.com', 'Richa123', NULL, 0, 0, NULL),
+(28, 'Vishal', 'Pradhan', '8128128128', 'vpradhan@iu.edu', 'Vpradhan1', NULL, 0, 0, NULL),
+(29, 'John', 'Nash', '1234567890', 'milindhg@yahoo.co.uk', 'MilindAloha1', NULL, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -293,8 +335,8 @@ ALTER TABLE `comment`
 -- Constraints for table `friendship`
 --
 ALTER TABLE `friendship`
-  ADD CONSTRAINT `FK_friendship_2` FOREIGN KEY (`user_id2`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_friendship_1` FOREIGN KEY (`user_id1`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `friendship_ibfk_4` FOREIGN KEY (`user_id2`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `friendship_ibfk_3` FOREIGN KEY (`user_id1`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `likedislike`
@@ -302,6 +344,12 @@ ALTER TABLE `friendship`
 ALTER TABLE `likedislike`
   ADD CONSTRAINT `FK_likedislike_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_likedislike_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `online_users`
+--
+ALTER TABLE `online_users`
+  ADD CONSTRAINT `online_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `post`
