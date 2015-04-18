@@ -9,49 +9,16 @@
 <script src="http://feedstack.asia/app/script/readmore.js"></script>
 <script src="http://feedstack.asia/app/script/popup.js"></script>
 <script src="http://feedstack.asia/app/script/wall.js"></script>
+<script src="http://feedstack.asia/app/script/profile.js"></script>
 <!-- ToolTip -->
-<link href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css" rel="stylesheet">
+<link href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css" rel="stylesheet" />
 <script src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
-        <script src="http://feedstack.asia/app/script/profile.js"></script>
-        <!-- ToolTip -->
-        <link
-					href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css"
-					rel="stylesheet" />
-        <script
-					src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
-        <script>
-          $(function() {
-          $('.tooltip').tooltipster();
-          });
-
-
-          function acceptFriend(userId,acceptorId) {
-          console.log("userId" +  userId);
-          console.log("acceptorId" + acceptorId);
-          $
-          .ajax({
-          headers : {
-          'Accept' : 'application/json'
-          },
-          method : "POST",
-          url : "${pageContext.request.contextPath}/friends/accept",
-          data : {
-          userIdToAccept : userId,
-          acceptor  : acceptorId
-          },
-          success : function(data) {
-          console.log('success');
-          $('#acceptFriendBtn')
-          .html('Friend Request Accepted')
-          },
-          error : function(data){
-          console.log('error occurred');
-          console.log(data);
-          }
-          });
-          };
-
-        </script>
+<script src="${pageContext.request.contextPath}/resources/js/friends.js" type="text/javascript"></script>
+<script>	
+	$(document).ready(function(){
+		FriendJS.init("${pageContext.request.contextPath}");
+	});	
+</script>
 
 
     <div class="container-main pad-20">
@@ -157,8 +124,7 @@
                   <div class="member-name">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.user2.userId}">${friend.user2.firstName}</a>
                           <button id="acceptFriendBtn_${friend.user2.userId}"
-											class="btn btn-edit"
-											onclick="acceptFriend(${friend.user2.userId},${friend.user1.userId})">
+											class="acceptFriendBtn btn btn-edit" userID="${friend.user2.userId}" acceptorID="${friend.user1.userId}" >
                             Accept Friend
                           </button>
 

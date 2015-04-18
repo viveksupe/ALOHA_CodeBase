@@ -35,10 +35,11 @@ public class FriendsController {
 			.getLogger(FriendsController.class);
 	CommonUtils commonUtils = new CommonUtils();
 	@Autowired
-    private JavaMailSender mailSender;
+	private JavaMailSender mailSender;
 
 	/**
 	 * Index page of friends for testing purposes
+	 * 
 	 * @param locale
 	 * @param model
 	 * @param session
@@ -56,6 +57,7 @@ public class FriendsController {
 	/**
 	 * 
 	 * friends listing Page
+	 * 
 	 * @param locale
 	 * @param model
 	 * @param session
@@ -93,6 +95,7 @@ public class FriendsController {
 	/**
 	 * 
 	 * Function to send friend request to an existing aloha user
+	 * 
 	 * @param userId
 	 * @param model
 	 * @param session
@@ -120,6 +123,7 @@ public class FriendsController {
 
 	/**
 	 * Function to accept pending friend request
+	 * 
 	 * @param userId
 	 * @param acceptorId
 	 * @param model
@@ -143,6 +147,7 @@ public class FriendsController {
 	/**
 	 * 
 	 * Function to remove friend from friendslist
+	 * 
 	 * @param fId
 	 * @param model
 	 * @param session
@@ -161,15 +166,38 @@ public class FriendsController {
 
 	@RequestMapping(value = "friends/invite", method = RequestMethod.GET)
 	public String inviteFriend(Locale locale, Model model, HttpSession session) {
-		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
-		if(null==session.getAttribute("sessionUser")){
-			return "login";
-		}else{
-			u = (UserUI)session.getAttribute("sessionUser");
+		if (null == session.getAttribute("sessionUser")) {
+			return "redirect:" + "../login";
+		} else {
+			u = (UserUI) session.getAttribute("sessionUser");
 		}
-		model.addAttribute("user",u);
-		return "invite";
+		model.addAttribute("user", u);
+
+		return "friends/invite";
 	}
-	
+
+	@RequestMapping(value = "friends/invite", method = RequestMethod.POST)
+	public @ResponseBody boolean inviteFriend(
+			@RequestParam("email") String email, Model model,
+			HttpSession session) {
+		UserUI u = new UserUI();
+		if (null == session.getAttribute("sessionUser")) {
+			return false;
+		} else {
+
+			u = (UserUI) session.getAttribute("sessionUser");
+			if (email.contains(",")) {
+				String[] emails = email.split(",");
+				for (String eachEmailAddr : emails) {
+					eachEmailAddr.trim();
+					commonUtils.mailSendUtil(mailSender, eachEmailAddr, u.getEmail());
+				}
+			}
+			else{
+				commonUtils.mailSendUtil(mailSender, email, u.getEmail());
+			}
+			return true;
+		}
+	}
 }

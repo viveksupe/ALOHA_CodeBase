@@ -3,6 +3,87 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
 	<jsp:body>
+        <script>
+          $(function() {
+          $('.tooltip').tooltipster();
+          });
+
+	function addFriend(userId) {
+		console.log(userId);
+		$
+				.ajax({
+					headers : {
+						'Accept' : 'application/json'
+					},
+					method : "POST",
+					url : "${pageContext.request.contextPath}/friends/add",
+					data : {
+						userIdToAdd : userId
+					},
+					success : function(data) {
+							console.log('success');
+							$('#addFriendBtn')
+									.html('Friend Request Sent')		
+					},
+					error : function(data){
+						console.log('error occurred');
+						console.log(data);
+					}
+				});
+	};
+	
+	
+          function acceptFriend(userId,acceptorId) {
+          console.log("userId" +  userId);
+          console.log("acceptorId" + acceptorId);
+          $
+          .ajax({
+          headers : {
+          'Accept' : 'application/json'
+          },
+          method : "POST",
+          url : "${pageContext.request.contextPath}/friends/accept",
+          data : {
+          userIdToAccept : userId,
+          acceptor  : acceptorId
+          },
+          success : function(data) {
+          console.log('success');
+          $('#acceptFriendBtn')
+          .html('Friend Request Accepted')
+          },
+          error : function(data){
+          console.log('error occurred');
+          console.log(data);
+          }
+          });
+          };
+
+           function unFriend(friendshipId) {
+                 console.log(friendshipId);
+                 $
+                 .ajax({
+                 headers : {
+                 'Accept' : 'application/json'
+                 },
+                 method : "POST",
+                 url : "${pageContext.request.contextPath}/friends/remove",
+                 data : {
+                 friendshipIdToRemove : friendshipId
+                 },
+                 success : function(data) {
+                 console.log('success');
+                 $('#unFriendBtn')
+                 .html('Friend Removed')
+                 },
+                 error : function(data){
+                 console.log('error occurred');
+                 console.log(data);
+                 }
+                 });
+                 };
+
+        </script>
     <div class="container-main pad-20">
       <div class="app bcol-70">
 
@@ -55,7 +136,8 @@
                         <c:otherwise>
                           
                             ${friendship.status}
-                          <button id="unFriendBtn" class="btn btn-edit" onclick="unFriend(${friendship.friendshipId})"> Unfriend
+                          <button id="unFriendBtn" class="btn btn-edit"
+												onclick="unFriend(${friendship.friendshipId})"> Unfriend
                           </button>
                         </c:otherwise>
                       </c:choose>
