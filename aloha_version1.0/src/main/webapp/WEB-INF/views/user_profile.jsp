@@ -9,23 +9,16 @@
 <script src="http://feedstack.asia/app/script/readmore.js"></script>
 <script src="http://feedstack.asia/app/script/popup.js"></script>
 <script src="http://feedstack.asia/app/script/wall.js"></script>
+<script src="http://feedstack.asia/app/script/profile.js"></script>
 <!-- ToolTip -->
-<link href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css" rel="stylesheet">
+<link href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css" rel="stylesheet" />
 <script src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
-        <script src="http://feedstack.asia/app/script/profile.js"></script>
-        <!-- ToolTip -->
-        <link
-					href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css"
-					rel="stylesheet" />
-        <script
-					src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/friends.js" type="text/javascript"></script>
-	<script>	
+<script src="${pageContext.request.contextPath}/resources/js/friends.js" type="text/javascript"></script>
+<script>	
 	$(document).ready(function(){
 		FriendJS.init("${pageContext.request.contextPath}");
-	});
-		
-	</script>
+	});	
+</script>
 
 
     <div class="container-main pad-20">
