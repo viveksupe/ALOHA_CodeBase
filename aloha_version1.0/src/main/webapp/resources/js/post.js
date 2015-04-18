@@ -187,7 +187,7 @@ var PostManager = new function() {
 	this.deleteCommentEvent = function() {
 		$('.feed-comment-delete').click(function() {
 			var comm_id = $(this).attr('comment-id');
-
+			var feed_id = $(this).attr('feed-id');
 			$.ajax({
 				headers : {
 					'Accept' : 'application/json'
@@ -201,6 +201,8 @@ var PostManager = new function() {
 
 					$('#commDiv' + comm_id).slideUp();
 					$('.commDiv' + comm_id).remove();
+					var count =parseInt($('.comment-count-'+feed_id).html())-1;
+					$('.comment-count-'+feed_id).html(count);
 
 				},
 				error : function(data) {
