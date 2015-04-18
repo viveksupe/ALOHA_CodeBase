@@ -79,4 +79,10 @@ public int addChat(Chat chat) throws SQLException {
 	return success;
 }
 
+public String getNameById(int uid) throws SQLException {
+	Chat p = new Chat();
+	String success = p.getFullNameByUID(uid);
+	return success;
+}
+
 }
