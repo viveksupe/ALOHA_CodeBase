@@ -2,11 +2,12 @@ var FriendJS = new function() {
 
 	this.root;	
 	
-	
 	this.init = function(root){ 
 		this.root=root;
 		this.inviteFriendEvent();
 		this.acceptFriendEvent();
+		this.addFriendEvent();
+		this.unFriendEvent();
 	}
 	
 	this.inviteFriendEvent=function(){
@@ -20,6 +21,20 @@ var FriendJS = new function() {
 			var userId = $(this).attr('userID');
 			var acceptorId = $(this).attr('acceptorID');
 			FriendJS.acceptFriend(userId, acceptorId);
+		});
+	};
+
+	this.addFriendEvent=function(){
+		$('#addFriendBtn').click(function () {
+			var userId = $(this).attr('userID');
+			FriendJS.addFriend(userId);
+		});
+	};
+
+	this.unFriendEvent=function(){
+		$('#unFriendBtn').click(function () {
+			var friendshipId = $(this).attr('friendshipId');
+			FriendJS.unFriend(friendshipId);
 		});
 	};
 

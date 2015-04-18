@@ -29,36 +29,27 @@ public class SearchController {
 	CommonUtils commonUtils = new CommonUtils();
 
 	@RequestMapping(value = "search/users", method = RequestMethod.GET)
-	public String searchUsers(Locale locale, Model model,HttpSession session) {
+	public String searchUsers(Locale locale, Model model, HttpSession session) {
 		logger.info("Entered Search Users GET");
-		
+
 		return "search/users";
 	}
 
-	@RequestMapping(value = "To be changed to later > search/users", method = RequestMethod.POST)
-	public @ResponseBody String OldsearchUsers(
-			@RequestParam("searchKey") String searchKey, Model model) {
-		logger.info("Entered Search Users POST method");
-		ArrayList<User> ulist = null;
-		UserDal ud = new UserDal();
-		try {
-			ulist = ud.selectUsersByName(searchKey);
-			model.addAttribute("users", ulist);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		StringBuilder string = searchUserResultBuilder(ulist);
-
-		// TODO then create a global user view which will also fetch the users
-		// from the DB and their friendship from the DB. If friendship exists
-		// then add friend button should not be shown.
-		// return ulist;
-		return string.toString();
-	}
-
+	/*
+	 * @RequestMapping(value = "To be changed to later > search/users", method =
+	 * RequestMethod.POST) public @ResponseBody String OldsearchUsers(
+	 * 
+	 * @RequestParam("searchKey") String searchKey, Model model) {
+	 * logger.info("Entered Search Users POST method"); ArrayList<User> ulist =
+	 * null; UserDal ud = new UserDal(); try { ulist =
+	 * ud.selectUsersByName(searchKey); model.addAttribute("users", ulist);
+	 * 
+	 * } catch (SQLException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * StringBuilder string = searchUserResultBuilder(ulist); return
+	 * string.toString(); }
+	 */
 	@RequestMapping(value = "search/users", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<User> searchUsers(
 			@RequestParam("searchKey") String searchKey, Model model) {
@@ -66,9 +57,11 @@ public class SearchController {
 		// TODO write a query in USERDAL and use it here. to return the users
 		// list.
 		ArrayList<User> ulist = null;
+		ArrayList<UserUI> uiList = null;
 		UserDal ud = new UserDal();
 		try {
 			ulist = ud.selectUsersByName(searchKey);
+
 			model.addAttribute("users", ulist);
 
 		} catch (SQLException e) {
@@ -87,41 +80,45 @@ public class SearchController {
 	public String display_user_profile(@RequestParam("userId") int id,
 			Model model, HttpSession session) {
 		User u = new User();
-		FriendshipDal fdal = new FriendshipDal(); 
+		FriendshipDal fdal = new FriendshipDal();
 		Friendship f = new Friendship();
 		int userInSessionId = -1;
+		if (null == session.getAttribute("sessionUser")) {
+			return "redirect:" + "login";
+		}
+
 		UserUI userUIInSession = (UserUI) session.getAttribute("sessionUser");
 		User userInSession = commonUtils.convertUserUIToUser(userUIInSession);
 		if (userInSession != null) {
 			userInSessionId = userInSession.getUserId();
 		}
-		if(userInSessionId==id){
+		if (userInSessionId == id) {
 			try {
-				u=u.getUser(userInSessionId);
+				u = u.getUser(userInSessionId);
 				model.addAttribute("user", u);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			ArrayList<Friendship> pendingRequests=null;
+
+			ArrayList<Friendship> pendingRequests = null;
 			try {
-				pendingRequests = fdal.selectPendingFriendRequests(userInSession);
+				pendingRequests = fdal
+						.selectPendingFriendRequests(userInSession);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			model.addAttribute("pendingFriends",pendingRequests);
+			model.addAttribute("pendingFriends", pendingRequests);
 			return "user_profile";
 		}
 		f = f.getExistingFriendship(userInSessionId, id);
-		if (null!=f && f.getFriendshipId() != -1) {
+		if (null != f && f.getFriendshipId() != -1) {
 			if (userInSessionId == f.getUser1().getUserId()) {
 				u = f.getUser2();
 			} else if (userInSessionId == f.getUser2().getUserId()) {
 				u = f.getUser1();
 			}
-
 		} else {
 			try {
 				u = u.getUser(id);

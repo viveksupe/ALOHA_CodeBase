@@ -4,12 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
-import com.aloha.common.entities.user.User;
-import com.aloha.common.entities.user.UserEducation;
 import com.aloha.common.entities.user.UserPersonal;
 
 public class UserPersonalDal {
@@ -19,14 +15,14 @@ public class UserPersonalDal {
 	private String UPDATE;
 	private String DELETE;
 	public UserPersonalDal() {
-		SELECT = "SELECT info_id, user_id, about_me, city FROM personalinfo;";
-		INSERT = "INSERT INTO personalinfo(user_id,about_me,city) VALUES (?, ?, ?);";
-		UPDATE = "UPDATE personalinfo SET about_me = ?, city = ? WHERE info_id = ?;";
+		SELECT = "SELECT info_id, user_id, about_me, current_city FROM personalinfo;";
+		INSERT = "INSERT INTO personalinfo(user_id,about_me,current_city) VALUES (?, ?, ?);";
+		UPDATE = "UPDATE personalinfo SET about_me = ?, current_city = ? WHERE info_id = ?;";
 		DELETE = "DELETE FROM personal_info WHERE user_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 	public UserPersonal selectUserPersonalById(int user_id) throws SQLException {
-		String SelectUsersPersonalAllStatement = "select info_id, about_me,city from personalinfo where user_id=?;";
+		String SelectUsersPersonalAllStatement = "select info_id, about_me,current_city from personalinfo where user_id=?;";
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -37,7 +33,7 @@ public class UserPersonalDal {
 			UserPersonal u = new UserPersonal();
 			if (rSet.next()) {
 				u.setAboutme(rSet.getString("about_me"));
-				u.setCity(rSet.getString("city"));
+				u.setCity(rSet.getString("current_city"));
 				u.setP_id(rSet.getInt("info_id"));
 			}
 			return u;
