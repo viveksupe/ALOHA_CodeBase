@@ -21,8 +21,7 @@
                                 <div class="feed-title">
                                     <b><a href="http://feedstack.asia/renudeshmukh">{ $T.Post.userName}</a></b>
                                     <span class="feed-delete" feed-id="{ $T.Post.postId}"><i class="fa fa-trash-o "></i></span>
-                                    <small class="feed-time-mobile mobile-visible">{
-							$T.Post.postDate} </small>
+                                    <small class="feed-time-mobile mobile-visible">{$T.Post.postDate} </small>
                                 </div>
                             </div>
 
@@ -31,19 +30,22 @@
                                 <div class='article'>{ $T.Post.postData}</div>
                             </div>
                             <small>
-                                <span class="feed-view-count">
-                                    <a href="http://feedstack.asia/feed/{ $T.Post.postId}"><i class="fa fa-eye "></i> 1 Likes </a>
+                                <span class="feed-like-count feed-like feed-like-{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}'
+                                      like='0' count='0'>
+                                    <i class="fa fa-thumbs-o-up"></i>
+                                    <span class="like-count-{ $T.Post.postId}">0</span>
+                                    <span class="likes-word-{ $T.Post.postId}">Likes</span>
                                 </span>
                                 <span class="feed-like-count feed-like feed-like-{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}'
                                       unlike='0' count='0'>
-                                    <i class="fa fa-thumbs-o-up"></i>
+                                    <i class="fa fa-thumbs-o-down"></i>
                                     <span class="like-count-{ $T.Post.postId}">0</span>
                                     <span class="likes-word-{ $T.Post.postId}"> Dislikes</span>
                                 </span>
                                 <span class="feed-comment-count" feed-id='{ $T.Post.postId}'>
                                     <i class="fa fa-comment-o "></i>
                                     <span class="comment-count-{ $T.Post.postId}">
-                                        1
+                                        { $T.Post.comments.length}
                                     </span> Comments
                                 </span>
                                 <span class="loading-likers" style="display:none"><img src="http://feedstack.asia/img/loading1.gif" /></span>
