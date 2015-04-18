@@ -19,35 +19,35 @@ public class TestCommentDBHandler {
 	public static void insertComment() {
 		try {
 			CommentDal cDal = new CommentDal();
-			Comment c = new Comment(-1, "Comment 11 on Post 1", null, 2, 1);
+			Comment c = new Comment(-1, "User 4 Commenting on Post 2", null, 2, 4);
 			Comment success = cDal.insertComment(c);
 			if (success != null)
 				System.out.println("Comment 1 added !!");
 			else
 				System.out.println("Comment 1 add failed !!");
 
-			c = new Comment(-1, "Comment 12 on Post 1", null, 2, 1);
+			c = new Comment(-1, "User 1 Replying on Post 2", null, 2, 1);
 			success = cDal.insertComment(c);
 			if (success != null)
 				System.out.println("Comment 2 added !!");
 			else
 				System.out.println("Comment 2 add failed !!");
 
-			c = new Comment(-1, "Comment 13 on Post 1", null, 2, 1);
+			c = new Comment(-1, "User 6 Commenting on Post 2", null, 2, 6);
 			success = cDal.insertComment(c);
 			if (success != null)
 				System.out.println("Comment 3 added !!");
 			else
 				System.out.println("Comment 3 add failed !!");
 
-			c = new Comment(-1, "Comment 11 on Post 4", null, 4, 1);
+			c = new Comment(-1, "User 6 Commenting on Post 4", null, 4, 6);
 			success = cDal.insertComment(c);
 			if (success != null)
 				System.out.println("Comment 4 added !!");
 			else
 				System.out.println("Comment 14 add failed !!");
 
-			c = new Comment(-1, "Comment 12 on Post 4", null, 4, 1);
+			c = new Comment(-1, "User 4 Replying on Post 2", null, 4, 4);
 			success = cDal.insertComment(c);
 			if (success != null)
 				System.out.println("Comment 5 added !!");
