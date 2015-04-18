@@ -7,8 +7,8 @@ public class ChatToken{
    	private String chatMsg;
    	private int toUserID;
    	private int userID;
-
- 	public String getChatMsg(){
+   	
+	public String getChatMsg(){
 		return this.chatMsg;
 	}
 	public void setChatMsg(String chatMsg){

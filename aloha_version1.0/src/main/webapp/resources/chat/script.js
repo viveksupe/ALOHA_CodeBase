@@ -13,23 +13,38 @@ webSocket.onmessage = function(event) {
 	onMessage(event)
 };
 
+webSocket.onclose = function(event) {
+	onClose(event)
+};
+
 function onMessage(event) {
 	var obj = new Object();
 	obj = JSON.parse(event.data);
 	document.getElementById('messages').innerHTML += '<br />Received message: '
 			+ obj.chatMsg;
+
+	register_popup(obj.userID, obj.toUserID, obj.Sendername);
+	
 	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+obj.userID);
 }
 
 function onOpen(event) {
-	$('<div style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>').insertAfter('.chat_body');
+	$('#status').remove();
+	$('<div id="status" style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>').insertAfter('.chat_body');
 
 }
 
 function onError(event) {
-	alert(event.data);
+	$('#status').remove();
+	$('<div id="status" style="background:white;position: relative;padding: 10px 30px;color:red;">Chat Server Offline ('+event.data+')</div>').insertAfter('.chat_body');
+	//alert(event.data);
 }
 
+function onClose(event) {
+	$('#status').remove();
+	$('<div id="status" style="background:white;position: relative;padding: 10px 30px;color:red;">Chat Server Offline</div>').insertAfter('.chat_body');
+	//alert(event.data);
+}
 /*
  * function send() { var txt = document.getElementById('inputmessage').value;
  * webSocket.send(txt); document.getElementById('messages').innerHTML += '<br />Sent
@@ -157,7 +172,7 @@ function register_popup(toid, fromid, name) {
 		       if (data.hasOwnProperty(ke)) {
 		            // console.log(data[ke].chatContent);
 		    	   if(data[ke].userID1==toid&&data[ke].userID2==fromid){
-		    		   $('<div class="msg_b">' + data[ke].chatContent + '</div>').insertBefore('.msg_push_'+data[ke].userID1); 
+		    		   $('<div class="msg_b">' + data[ke].chatContent + '</div>').insertBefore('.msg_push_'+data[ke].userID2); 
 		    	   }
 		    	   if(data[ke].userID1==fromid&&data[ke].userID2==toid){
 		    		   $('<div class="msg_a">' + data[ke].chatContent + '</div>').insertBefore('.msg_push_'+data[ke].userID2); 
@@ -184,7 +199,7 @@ function register_popup(toid, fromid, name) {
 			+ '<div class="close" onclick=closeBox('+toid+');>X</div></div><div class="msg_wrap_' + toid + '" >';
 	name = name.replace(/\s+/g, '');
 	element = element
-			+ '<div class="msg_body" > <div class="msg_a">This is from A</div> <div class="msg_b">This is from B</div><div class="msg_push_' + toid + '"></div></div>'
+			+ '<div class="msg_body" ><div class="msg_push_' + toid + '"></div></div>'
 	element = element
 			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'
 			+ name
