@@ -25,6 +25,7 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/wall.css"
 	rel="stylesheet">
+	
 <link
 	href="${pageContext.request.contextPath}/resources/css/profile.css"
 	rel="stylesheet">

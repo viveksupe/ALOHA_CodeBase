@@ -1,6 +1,5 @@
 package com.aloha.controller;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -83,24 +82,6 @@ public class EditProfileController{
 		  
 	        
     }
-	/*protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response,
-            Object command, BindException errors) throws Exception {
 
-        FileUploadBean bean = (FileUploadBean) command;
-        byte[] file = bean.getFile();
-        if (file == null) {
-             // hmm, that's strange, the user did not upload anything
-        	FileOutputStream fos = new FileOutputStream("E://some.out");
-        	fos.write(file);
-        }
-        
-        return super.onSubmit(request, response, command, errors);
-    }
-
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
-        throws ServletException {
-        binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-        
-    }*/
 
 }
