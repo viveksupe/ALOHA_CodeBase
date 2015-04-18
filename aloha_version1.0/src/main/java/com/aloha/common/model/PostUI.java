@@ -13,6 +13,7 @@ public class PostUI {
 	private String postDate;
 	private String postData;
 	private int postId;
+	private int canDelete;
 	private ArrayList<CommentUI> comments;
 	private ArrayList<LikeUI> likes;
 	private ArrayList<DislikeUI> dislikes;
@@ -67,6 +68,15 @@ public class PostUI {
 		this.comments = comments;
 	}
 
+	
+	public int getCanDelete() {
+		return canDelete;
+	}
+
+	public void setCanDelete(int canDelete) {
+		this.canDelete = canDelete;
+	}
+
 	public ArrayList<LikeUI> getLikes() {
 		return likes;
 	}
@@ -101,6 +111,10 @@ public class PostUI {
 				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
+				
+				if(user.getUserId() == post.getUserId())
+					pui.setCanDelete(1);
+				else pui.setCanDelete(2);
 				pui.setComments(comm.getCommentsForPost(post));
 
 				if (ld != null) {
@@ -140,6 +154,10 @@ public class PostUI {
 				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
+				if(userId == post.getUserId())
+					pui.setCanDelete(1);
+				else pui.setCanDelete(2);
+				
 				pui.setComments(comm.getCommentsForPost(post));
 
 				if (ld != null) {

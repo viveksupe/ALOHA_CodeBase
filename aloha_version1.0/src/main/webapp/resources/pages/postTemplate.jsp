@@ -20,7 +20,10 @@
                             <div class="bcol-90x">
                                 <div class="feed-title">
                                     <b><a href="http://feedstack.asia/renudeshmukh">{ $T.Post.userName}</a></b>
+                                    
+                                    {#if $T.Post.canDelete == '1'}
                                     <span class="feed-delete" feed-id="{ $T.Post.postId}"><i class="fa fa-trash-o "></i></span>
+                                      {#/if} 
                                     <small class="feed-time-mobile mobile-visible">{$T.Post.postDate} </small>
                                 </div>
                             </div>
