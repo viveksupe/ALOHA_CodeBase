@@ -99,9 +99,9 @@ public class CommentUI {
 			cui.setCommentId(comment.getCommenttId());
 			cui.setCommentData(comment.getComment());
 			cui.setCommentDate(Helper.getLocalDate(comment.getCommentDate()));
-			cui.setUserName("Renuka Deshmukh");
+			cui.setUserName(comment.getUserName());
 			cui.setUserId(comment.getUserId());
-			cui.setPostId(post.getPostId());
+			cui.setPostId(comment.getPostId());
 			comments.add(cui);
 		}
 

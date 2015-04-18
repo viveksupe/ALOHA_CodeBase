@@ -100,7 +100,7 @@ public class Comment {
 	}
 
 	public ArrayList<Comment> getCommentsPost(int postId) throws SQLException {
-		ArrayList<Comment> comments = dal.getCommentForPost(postId);
+		ArrayList<Comment> comments = dal.getCustomCommentForPost(postId);
 		return comments;
 	}
 
