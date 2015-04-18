@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,8 @@ public class FriendsController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FriendsController.class);
 	CommonUtils commonUtils = new CommonUtils();
+	@Autowired
+    private JavaMailSender mailSender;
 
 	@RequestMapping("friends/index")
 	public String index(Locale locale, Model model, HttpSession session) {
@@ -128,4 +132,17 @@ public class FriendsController {
 		return -1;
 	}
 
+	@RequestMapping(value = "friends/invite", method = RequestMethod.GET)
+	public String inviteFriend(Locale locale, Model model, HttpSession session) {
+		logger.info("Welcome login! The client locale is {}.", locale);
+		UserUI u = new UserUI();
+		if(null==session.getAttribute("sessionUser")){
+			return "login";
+		}else{
+			u = (UserUI)session.getAttribute("sessionUser");
+		}
+		model.addAttribute("user",u);
+		return "invite";
+	}
+	
 }
