@@ -91,8 +91,7 @@ public class LoginController extends Secure_Hash{
 		}		
 	}
 	@RequestMapping(value = "user_profile", method = RequestMethod.GET)
-	public String display_user_profile(Locale locale, Model model, HttpSession session){
-		logger.info("Welcome login! The client locale is {}.", locale);
+	public String display_user_profile(Model model, HttpSession session){
 		UserUI u = new UserUI();
 		UserEducation u_ed = new UserEducation();
 		ProfileImage pi = null;

@@ -29,6 +29,12 @@
         <div class="sidebar">
           <div class="follower-container">
             <div class="block">
+             <div class="follower-title">
+                <h3>Invite Friends</h3>
+             </div>Texbox and invite button
+            </div>
+          <div class="follower-container">
+            <div class="block">
               <div class="follower-title">
                 <h3>Friend requests</h3>
               </div>

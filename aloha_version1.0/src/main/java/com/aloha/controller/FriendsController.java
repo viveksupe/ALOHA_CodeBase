@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.PageContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
@@ -35,10 +38,11 @@ public class FriendsController {
 			.getLogger(FriendsController.class);
 	CommonUtils commonUtils = new CommonUtils();
 	@Autowired
-    private JavaMailSender mailSender;
+	private JavaMailSender mailSender;
 
 	/**
 	 * Index page of friends for testing purposes
+	 * 
 	 * @param locale
 	 * @param model
 	 * @param session
@@ -56,6 +60,7 @@ public class FriendsController {
 	/**
 	 * 
 	 * friends listing Page
+	 * 
 	 * @param locale
 	 * @param model
 	 * @param session
@@ -93,6 +98,7 @@ public class FriendsController {
 	/**
 	 * 
 	 * Function to send friend request to an existing aloha user
+	 * 
 	 * @param userId
 	 * @param model
 	 * @param session
@@ -120,6 +126,7 @@ public class FriendsController {
 
 	/**
 	 * Function to accept pending friend request
+	 * 
 	 * @param userId
 	 * @param acceptorId
 	 * @param model
@@ -143,6 +150,7 @@ public class FriendsController {
 	/**
 	 * 
 	 * Function to remove friend from friendslist
+	 * 
 	 * @param fId
 	 * @param model
 	 * @param session
@@ -161,15 +169,33 @@ public class FriendsController {
 
 	@RequestMapping(value = "friends/invite", method = RequestMethod.GET)
 	public String inviteFriend(Locale locale, Model model, HttpSession session) {
-		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
-		if(null==session.getAttribute("sessionUser")){
-			return "login";
-		}else{
-			u = (UserUI)session.getAttribute("sessionUser");
+		if (null == session.getAttribute("sessionUser")) {
+			return "redirect:" + "../login";
+		} else {
+			u = (UserUI) session.getAttribute("sessionUser");
 		}
-		model.addAttribute("user",u);
-		return "invite";
+		model.addAttribute("user", u);
+
+		return "friends/invite";
 	}
-	
+
+	@RequestMapping(value = "friends/invite", method = RequestMethod.POST)
+	public @ResponseBody String inviteFriend(@RequestParam("email") String email,
+			Model model, HttpSession session) {
+		UserUI u = new UserUI();
+		if (null == session.getAttribute("sessionUser")) {
+			return "redirect:" + "../login";
+		} else {
+			u = (UserUI) session.getAttribute("sessionUser");
+			SimpleMailMessage emailobj = new SimpleMailMessage();
+			emailobj.setTo(email);
+			emailobj.setSubject("Check out Aloha");
+			emailobj.setText("Hey Checkout Aloha - A brand new social networking portal \n Click Here to Go to Aloha.com");
+			emailobj.setFrom(u.getEmail());
+			mailSender.send(emailobj);
+			return "emailSent";
+		}
+	}
+
 }
