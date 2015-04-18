@@ -12,6 +12,7 @@ public class Comment {
 	private Date commentDate;
 	private int postId;
 	private int userId;
+	private String userName;
 	private CommentDal dal;
 
 	// region Getter Setter methods
@@ -33,6 +34,18 @@ public class Comment {
 
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setCommenttId(int commenttId) {
+		this.commenttId = commenttId;
 	}
 
 	public int getPostId() {
@@ -73,8 +86,8 @@ public class Comment {
 		this.dal = new CommentDal();
 	}
 
-	public int addComment(Comment comment) throws SQLException {
-		int result = dal.insertComment(comment);
+	public Comment addComment(Comment comment) throws SQLException {
+		Comment result = dal.insertComment(comment);
 		return result;
 		
 	}
@@ -87,7 +100,7 @@ public class Comment {
 	}
 
 	public ArrayList<Comment> getCommentsPost(int postId) throws SQLException {
-		ArrayList<Comment> comments = dal.getCommentForPost(postId);
+		ArrayList<Comment> comments = dal.getCustomCommentForPost(postId);
 		return comments;
 	}
 

@@ -12,6 +12,9 @@ public class Post {
 	private Date postDate;
 	private ArrayList<Comment> comments;
 	private LikeDislike likeStatistics;
+	private int userId;
+	private String userName;
+	private String userSurname;
 	private PostDal dal;
 
 	/**
@@ -22,13 +25,14 @@ public class Post {
 	 * @param likeStatistics
 	 */
 	public Post(int postId, String post, Date postDate,
-			ArrayList<Comment> comments, LikeDislike likeStatistics) {
+			ArrayList<Comment> comments, LikeDislike likeStatistics, int userId) {
 		super();
 		this.postId = postId;
 		this.post = post;
 		this.postDate = postDate;
 		this.comments = comments;
 		this.likeStatistics = likeStatistics;
+		this.userId = userId;
 		this.dal = new PostDal();
 	}
 
@@ -67,6 +71,34 @@ public class Post {
 		this.comments = comments;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserSurname() {
+		return userSurname;
+	}
+
+	public void setUserSurname(String userSurname) {
+		this.userSurname = userSurname;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setPostId(int postId) {
+		this.postId = postId;
+	}
+
 	public LikeDislike getLikeStatistics() {
 		return likeStatistics;
 	}
@@ -78,9 +110,9 @@ public class Post {
 
 	// endregion gettersetter
 
-	public Post addPost(Post post, int user_id) throws SQLException {
+	public Post addPost(Post post) throws SQLException {
 
-		return dal.insertPost(post, user_id);
+		return dal.insertPost(post);
 		
 	}
 
@@ -111,8 +143,21 @@ public class Post {
 		return posts;
 	}
 
-	public ArrayList<Post> getPostsFriends(int userId) {
-		return null;
+	public ArrayList<Post> getPostsFriends(int userId) throws SQLException {
+		ArrayList<Post> posts = new ArrayList<Post>();
+		posts = dal.getPostsForUserAndFriends(userId);
+		
+		for (Post post : posts) {
+			//if(post.hasComments = true)
+			//{
+				Comment comm = new Comment();
+				post.comments = comm.getCommentsPost(post.getPostId());
+				LikeDislike ld = new LikeDislike();
+				post.likeStatistics = ld.getPostLikeDislike(post.getPostId());
+			//}
+			
+		}
+		return posts;
 	}
 
 	public boolean updatePost(Post post) throws SQLException {

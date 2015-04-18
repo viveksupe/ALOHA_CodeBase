@@ -30,50 +30,51 @@ import com.aloha.common.util.CommonUtils;
 @Controller
 // @SessionAttributes("sessionUser")
 public class FriendsController {
-	
+
 	private static final Logger logger = LoggerFactory
 			.getLogger(FriendsController.class);
 	CommonUtils commonUtils = new CommonUtils();
 	@Autowired
     private JavaMailSender mailSender;
 
+	/**
+	 * Index page of friends for testing purposes
+	 * @param locale
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("friends/index")
 	public String index(Locale locale, Model model, HttpSession session) {
-		// fetching a user from database and putting in session. THis is a
-		// sample for development.
-		// Later to be removed.
-		// Later the user will be fetched in the login page after user has
-		// successfully logged in.
-
-		logger.info("Entered friend index page INFO");
-		logger.debug("Entered friend index page DEBUG");
-		logger.error("Entered friend index page ERROR");
-
 		// Now is being fetched from the current logged in session user.
 		UserUI testUser = null;
 		// testuser = ud.selectUserByPrimaryKey(4);
 		testUser = (UserUI) session.getAttribute("sessionUser");
-		
-		// model.addAttribute("sessionUser",testuser);
 		return "friends/index";
 	}
 
+	/**
+	 * 
+	 * friends listing Page
+	 * @param locale
+	 * @param model
+	 * @param session
+	 * @return
+	 * @throws SQLException
+	 */
 	@RequestMapping("friends")
 	public String displayFriends(Locale locale, Model model, HttpSession session)
 			throws SQLException {
-		// creating user to start working with and finding friends.
 		User u = new User();
 		Friendship f = new Friendship();
 
-		// fetching my first user from the db to start adding friends
 		ArrayList<User> ulist;
-		// Getting the user from session and fetching its friends from DB
 		if (null == session.getAttribute("sessionUser")) {
-			return "redirect:"+"login";
+			return "redirect:" + "login";
 		} else {
 			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
-			
-			ulist = f.getUserFriends(commonUtils.convertUserUIToUser(sessionUserUI));
+			ulist = f.getUserFriends(commonUtils
+					.convertUserUIToUser(sessionUserUI));
 		}
 		model.addAttribute("users", ulist);
 
@@ -89,6 +90,14 @@ public class FriendsController {
 
 	}
 
+	/**
+	 * 
+	 * Function to send friend request to an existing aloha user
+	 * @param userId
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "friends/add", method = RequestMethod.POST)
 	public @ResponseBody int addFriend(@RequestParam("userIdToAdd") int userId,
 			Model model, HttpSession session) {
@@ -98,8 +107,9 @@ public class FriendsController {
 		UserUI requestor = (UserUI) session.getAttribute("sessionUser");
 		if (requestor != null) {
 			requestorId = requestor.getUserId();
-		}else{
-			//since user is not in session do nothing. Simply reject the friendship request.
+		} else {
+			// since user is not in session do nothing. Simply reject the
+			// friendship request.
 			return -1;
 		}
 		int requesteeId = userId;
@@ -108,23 +118,40 @@ public class FriendsController {
 		return -1;
 	}
 
-	
+	/**
+	 * Function to accept pending friend request
+	 * @param userId
+	 * @param acceptorId
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "friends/accept", method = RequestMethod.POST)
-	public @ResponseBody int acceptFriend(@RequestParam("userIdToAccept") int userId, @RequestParam("acceptor") int acceptorId,
-			Model model, HttpSession session) {
+	public @ResponseBody int acceptFriend(
+			@RequestParam("userIdToAccept") int userId,
+			@RequestParam("acceptor") int acceptorId, Model model,
+			HttpSession session) {
 		logger.info("Entered addFriend POST");
 		Friendship f = new Friendship();
-		f=f.getExistingFriendship(userId, acceptorId);
+		f = f.getExistingFriendship(userId, acceptorId);
 		f.setStatus(FriendshipStatus.Friends);
 		if (f.updateFriendship(f))
 			return 1;
 		return -1;
 	}
 
-
+	/**
+	 * 
+	 * Function to remove friend from friendslist
+	 * @param fId
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "friends/remove", method = RequestMethod.POST)
-	public @ResponseBody int removeFriend(@RequestParam("friendshipIdToRemove") int fId,
-			Model model, HttpSession session) {
+	public @ResponseBody int removeFriend(
+			@RequestParam("friendshipIdToRemove") int fId, Model model,
+			HttpSession session) {
 		logger.info("Entered addFriend POST");
 		Friendship f = new Friendship();
 		if (f.deleteFriendship(fId))

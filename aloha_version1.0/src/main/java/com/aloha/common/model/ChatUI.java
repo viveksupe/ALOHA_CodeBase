@@ -2,6 +2,8 @@ package com.aloha.common.model;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.aloha.common.entities.Chat;
 
@@ -55,7 +57,18 @@ public ArrayList<ChatUI> getChatsForUser(int user1,int user2){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-				
+		
+		Collections.sort(userChats, new Comparator<ChatUI>() {
+		    public int compare(ChatUI a, ChatUI b) {
+		    	String time1 = a.getTimestamp();
+				String time2 = b.getTimestamp();
+
+				// ascending order (descending order would be: name2.compareTo(name1))
+				return time1.compareTo(time2);
+		    }
+		   
+		});
+		
 		return userChats;
 		
 	}
