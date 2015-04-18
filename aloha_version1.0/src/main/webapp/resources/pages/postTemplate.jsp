@@ -33,13 +33,13 @@
                                 <span class="feed-like-count feed-like feed-like-{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}'
                                       like='0' count='0'>
                                     <i class="fa fa-thumbs-o-up"></i>
-                                    <span class="like-count-{ $T.Post.postId}">0</span>
+                                    <span class="like-count-{ $T.Post.postId}">{ $T.Post.likes.length}</span>
                                     <span class="likes-word-{ $T.Post.postId}">Likes</span>
                                 </span>
                                 <span class="feed-like-count feed-like feed-like-{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}'
                                       unlike='0' count='0'>
                                     <i class="fa fa-thumbs-o-down"></i>
-                                    <span class="like-count-{ $T.Post.postId}">0</span>
+                                    <span class="like-count-{ $T.Post.postId}">{ $T.Post.dislikes.length}</span>
                                     <span class="likes-word-{ $T.Post.postId}"> Dislikes</span>
                                 </span>
                                 <span class="feed-comment-count" feed-id='{ $T.Post.postId}'>
