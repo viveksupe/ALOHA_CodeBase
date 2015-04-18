@@ -12,6 +12,7 @@ public class Comment {
 	private Date commentDate;
 	private int postId;
 	private int userId;
+	private String userName;
 	private CommentDal dal;
 
 	// region Getter Setter methods
@@ -33,6 +34,18 @@ public class Comment {
 
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public void setCommenttId(int commenttId) {
+		this.commenttId = commenttId;
 	}
 
 	public int getPostId() {
