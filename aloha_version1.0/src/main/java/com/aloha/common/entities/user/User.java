@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.dao_manager.dal.UserEducationDal;
+import com.aloha.common.dao_manager.dal.UserPersonalDal;
 
 public class User {
 	private int userId;
@@ -15,11 +16,13 @@ public class User {
 	private String password;
 	private Date dateOfBirth;
 	private UserEducation u_ed;
+	private UserPersonal pu;
 	private int isVerified;
 	private int isLocked;
 	private Date lastActive;
 	private UserDal ud;
 	private UserEducationDal edal;
+	private UserPersonalDal pdal;
 	public User() {
 		this.userId = 0;
 		this.firstName = null;
@@ -32,6 +35,7 @@ public class User {
 		this.lastActive = null;
 		ud = new UserDal();
 		edal = new UserEducationDal();
+		pdal = new UserPersonalDal();
 	}
 	
 	public User(int id, String fName, String lName, String email, String pwd,
@@ -205,6 +209,46 @@ public class User {
 	 */
 	public void setLastActive(Date lastActive) {
 		this.lastActive = lastActive;
+	}
+	public UserPersonal getPersonalInfo() throws SQLException{
+		pu = new UserPersonal();
+		pu = pdal.selectUserPersonalById(userId);
+		return pu;
+	}
+	public int addPersonalInfo(String aboutme, String city){
+		pu = new UserPersonal();
+		pu.setAboutme(aboutme);
+		pu.setCity(city);
+		int res = -1;
+		try {
+			pu = pdal.addPersonalInfo(userId, pu);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pu.getP_id();
+	}
+	public int modifyPersonalInfo(String aboutme, String city){
+		pu.setAboutme(aboutme);
+		pu.setCity(city);
+		int res = -1;
+		try {
+			res = pdal.updateUserPersonal(userId, pu);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
+	}
+	public int deletePersonal(){
+		int res = -1;
+		try {
+			res = pdal.deleteUserPersonal(userId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return res;
 	}
 	public UserEducation getEducationInfo() throws SQLException{
 		u_ed = new UserEducation();

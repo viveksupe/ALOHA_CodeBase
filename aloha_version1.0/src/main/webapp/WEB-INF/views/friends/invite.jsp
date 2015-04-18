@@ -6,6 +6,68 @@
     <div class="container-main pad-20">
       <div class="app bcol-70">
 
+        <!-- ToolTip -->
+        <link
+					href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css"
+					rel="stylesheet"></link>
+          <script
+					src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
+
+          <script>
+            $(function() {
+            $('.tooltip').tooltipster();
+            });
+
+            function addFriend(userId) {
+            console.log(userId);
+            $
+            .ajax({
+            headers : {
+            'Accept' : 'application/json'
+            },
+            method : "POST",
+            url : "${pageContext.request.contextPath}/friends/add",
+            data : {
+            userIdToAdd : userId
+            },
+            success : function(data) {
+            console.log('success');
+            $('#addFriendBtn')
+            .html('Friend Request Sent')
+            },
+            error : function(data){
+            console.log('error occurred');
+            console.log(data);
+            }
+            });
+            };
+            
+            function unFriend(friendshipId) {
+                console.log(friendshipId);
+                $
+                .ajax({
+                headers : {
+                'Accept' : 'application/json'
+                },
+                method : "POST",
+                url : "${pageContext.request.contextPath}/friends/remove",
+                data : {
+                friendshipIdToRemove : friendshipId
+                },
+                success : function(data) {
+                console.log('success');
+                $('#unFriendBtn')
+                .html('Friend Removed')
+                },
+                error : function(data){
+                console.log('error occurred');
+                console.log(data);
+                }
+                });
+                };
+
+          </script>
+
           <div class="wall">
 
             <div class="profile">
