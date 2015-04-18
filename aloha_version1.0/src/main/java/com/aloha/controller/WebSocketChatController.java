@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -65,14 +66,17 @@ public class WebSocketChatController {
 
 		User u1 = new User();
 		u1.setFirstName("Vivek");
+		u1.setLastName("Supe");
 		u1.setUserId(5);
 
 		User u2 = new User();
 		u2.setFirstName("Renuka");
+		u2.setLastName("Deshmukh");
 		u2.setUserId(4);
 
 		User u3 = new User();
 		u3.setFirstName("Milind");
+		u3.setLastName("Ghokale");
 		u3.setUserId(8);
 
 		ArrayList<User> onlineUsers = new ArrayList<User>();
@@ -134,6 +138,15 @@ public class WebSocketChatController {
 		System.out.println(chatMessage + "+" + ToUserID + "+" + FromUserID);
 		System.out.println(userIDToSessionMap.get(ToUserID));
 		
+		//Map to JSON to Send
+		ChatUI chatty = new ChatUI();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userID", Integer.toString(FromUserID));
+		map.put("toUserID", Integer.toString(ToUserID));
+		map.put("chatMsg", chatMessage);
+		map.put("Sendername", chatty.getNameById(FromUserID));
+		String sendMsgJson = mapper.writeValueAsString(map);
+		
 		//Setting Chat Object to insert into database
 		Chat cobj=new Chat();
 		cobj.setUserID1(ToUserID);
@@ -147,9 +160,9 @@ public class WebSocketChatController {
 			try {
 
 				userIDToSessionMap.get(ToUserID).getBasicRemote()
-						.sendText(message);
+						.sendText(sendMsgJson);
 				System.out.println("Message sent to " + ToUserID + ": "
-						+ message);
+						+ sendMsgJson);
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}

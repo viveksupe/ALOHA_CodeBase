@@ -75,6 +75,12 @@ public class Chat {
 		else
 			return false;
 	}
+	
+	public String getFullNameByUID(int id) throws SQLException {
+		String result = dal.getChatUserByID(id);
+		
+			return result;
+	}
 
 	public ArrayList<Chat> getRecentFiveForChatUser(int userId1,int userId2) throws SQLException {
 		ArrayList<Chat> chats = new ArrayList<Chat>();

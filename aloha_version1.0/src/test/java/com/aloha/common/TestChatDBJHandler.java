@@ -2,6 +2,7 @@ package com.aloha.common;
 
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.aloha.common.dao_manager.dal.ChatDal;
@@ -14,11 +15,12 @@ public class TestChatDBJHandler {
 
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		//addChatTest();
 		//selectChatTest();
 		ChatUI yiee=new ChatUI();
+		System.out.println(yiee.getNameById(6));
 		ArrayList<ChatUI> ar=new ArrayList<ChatUI>();
 		ar=yiee.getChatsForUser(4, 5);
 		for (ChatUI chat2 : ar) {
