@@ -18,11 +18,11 @@ function onMessage(event) {
 	obj = JSON.parse(event.data);
 	document.getElementById('messages').innerHTML += '<br />Received message: '
 			+ obj.chatMsg;
-	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+obj.chatMsg);
+	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+obj.userID);
 }
 
 function onOpen(event) {
-	document.getElementById('messages').innerHTML = 'Connection established';
+	$('<div style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>').insertAfter('.chat_body');
 
 }
 
@@ -35,17 +35,17 @@ function onError(event) {
  * webSocket.send(txt); document.getElementById('messages').innerHTML += '<br />Sent
  * message: ' + txt; return false; }
  */
-function toggleBox(event) {
-	$('.msg_wrap').slideToggle('slow');
+function toggleBox(toid) {
+	$(".msg_wrap_"+toid).slideToggle('slow');
 }
 function toggleChatBox(event) {
 	$('.chat_body').slideToggle('slow');
 }
-function closeBox(event,toid) {
-	$('.msg_box').hide();
+function closeBox(toid) {
+	$("#"+toid).hide();
 }
 function clickUserBox(event) {
-	$('.msg_wrap').show();
+	//$('.msg_wrap').show();
 	$('.msg_box').show();
 }
 
@@ -58,9 +58,9 @@ function SendMsg(message, toid, fromid) {
 	var jsonString = JSON.stringify(obj);
 	// json = JSON.stringify(msg);
 	// alert(jsonString);
-	$(this).val('');
+	$(".msg_input"+toid).val('');
 	if (obj.chatMsg != '' && obj.chatMsg != "\n") {
-		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+fromid);
+		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore('.msg_push_'+toid);
 		webSocket.send(jsonString);
 		document.getElementById('messages').innerHTML += '<br />Sent message: '
 				+ obj.chatMsg;
@@ -151,23 +151,44 @@ function register_popup(toid, fromid, name) {
 		data : {
 			touser : toid,
 			fromuser : fromid
-		}
-	}).done(function(msg) {
-		alert("Data Saved: " + msg);
-	});
+		},
+	success : function(data) {
+		for (var ke in data) {
+		       if (data.hasOwnProperty(ke)) {
+		            // console.log(data[ke].chatContent);
+		    	   if(data[ke].userID1==toid&&data[ke].userID2==fromid){
+		    		   $('<div class="msg_b">' + data[ke].chatContent + '</div>').insertBefore('.msg_push_'+data[ke].userID1); 
+		    	   }
+		    	   if(data[ke].userID1==fromid&&data[ke].userID2==toid){
+		    		   $('<div class="msg_a">' + data[ke].chatContent + '</div>').insertBefore('.msg_push_'+data[ke].userID2); 
+		    	   }
+		       }
+		} 
+	}
+	
+});
+	
+	/*).done(function(msg) {
+		
+		var obj = new Object();
+		obj = JSON.parse(msg);
+		alert("Data Saved: " + obj.chatContent);
+		
+		$('<div class="msg_a">' + obj.chatContent + '</div>').insertBefore('.msg_push_'+obj.userID1);
+	});*/
 
 	var element = '<div class="msg_box" id="' + toid + '">';
 	element = element
-			+ '<div class="msg_head" onclick=toggleBox();>'
+			+ '<div class="msg_head" onclick=toggleBox('+toid+');>'
 			+ name
-			+ '<div class="close" onclick=closeBox('+toid+');>X</div></div><div class="msg_wrap" >';
+			+ '<div class="close" onclick=closeBox('+toid+');>X</div></div><div class="msg_wrap_' + toid + '" >';
 	name = name.replace(/\s+/g, '');
 	element = element
 			+ '<div class="msg_body" > <div class="msg_a">This is from A</div> <div class="msg_b">This is from B</div><div class="msg_push_' + toid + '"></div></div>'
 	element = element
 			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'
 			+ name
-			+ '" class="msg_input" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'
+			+ '" class="msg_input'+toid+'" rows="2"></textarea></td><td width=20%><button class="sendBtn" onclick=SendMsg(document.getElementById("'
 			+ name + '").value,' + toid + ',' + fromid
 			+ ')>Send</button></td></tr></table></div>';
 	// element = element + '<div class="popup-head-right"><a

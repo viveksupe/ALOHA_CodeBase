@@ -4,6 +4,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
@@ -99,9 +106,31 @@ public class TestFriendshipDBHandler {
 	}
 
 	private void deleteFriendship(int id) throws SQLException {
-		/*int res = fd.deleteUser(id);
+
+		int res = fd.deleteFriendship(id);
 		if (res == 1)
 			System.out.println("row deleted successfully");
-	*/}
+	}
+	
+	public void mailTest(){
+		 Properties props = new Properties();
+		    props.put("mail.smtp.host", "my-mail-server");
+		    props.put("mail.from", "me@example.com");
+		    Session session = Session.getInstance(props, null);
+		    
+		    try {
+		        MimeMessage msg = new MimeMessage(session);
+		        msg.setFrom();
+		        msg.setRecipients(Message.RecipientType.TO,
+		                          "you@example.com");
+		        msg.setSubject("JavaMail hello world example");
+		        msg.setSentDate(new Date(System.currentTimeMillis()));
+		        msg.setText("Hello, world!\n");
+		        Transport.send(msg);
+		    } catch (MessagingException mex) {
+		        System.out.println("send failed, exception: " + mex);
+		    }
+	}
+	
 
 }

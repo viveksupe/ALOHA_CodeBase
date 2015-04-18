@@ -12,14 +12,32 @@ import com.aloha.common.entities.user.User;
 public class CommentUI {
 	private int commentId;
 	private String commentData;
-	private Date commentDate;
+	private String commentDate;
 	private String userName;
 	private int userId;
 	private int postId;
+	
+	
+
+	/**
+	 * @param commentData
+	 * @param userId
+	 * @param postId
+	 */
+	public CommentUI(String commentData, int userId, int postId) {
+		super();
+		this.commentData = commentData;
+		this.userId = userId;
+		this.postId = postId;
+	}
 
 	// region Getter Setter method
 	
 	// endregion
+
+	public CommentUI() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getCommentId() {
 		return commentId;
@@ -35,14 +53,6 @@ public class CommentUI {
 
 	public void setCommentData(String commentData) {
 		this.commentData = commentData;
-	}
-
-	public Date getCommentDate() {
-		return commentDate;
-	}
-
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
 	}
 
 	public String getUserName() {
@@ -65,11 +75,19 @@ public class CommentUI {
 		return postId;
 	}
 
+	public String getCommentDate() {
+		return commentDate;
+	}
+
+	public void setCommentDate(String commentDate) {
+		this.commentDate = commentDate;
+	}
+
 	public void setPostId(int postId) {
 		this.postId = postId;
 	}
 
-	public ArrayList<CommentUI> getCommentsForPost(User user, Post post) throws SQLException {
+	public ArrayList<CommentUI> getCommentsForPost( Post post) throws SQLException {
 
 		ArrayList<CommentUI> comments = new ArrayList<CommentUI>();
 		
@@ -80,23 +98,37 @@ public class CommentUI {
 			CommentUI cui = new CommentUI();
 			cui.setCommentId(comment.getCommenttId());
 			cui.setCommentData(comment.getComment());
-			cui.setCommentDate(comment.getCommentDate());
-			cui.setUserName(user.getFirstName() + user.getLastName());
-			cui.setUserId(user.getUserId());
-			cui.setPostId(post.getPostId());
+			cui.setCommentDate(Helper.getLocalDate(comment.getCommentDate()));
+			cui.setUserName(comment.getUserName());
+			cui.setUserId(comment.getUserId());
+			cui.setPostId(comment.getPostId());
 			comments.add(cui);
 		}
 
 		return comments;
 	}
 
-	public boolean addComment(CommentUI comment) throws SQLException{
+	public CommentUI commentToCommentUI(Comment comment) throws SQLException{
+		CommentUI cui = new CommentUI();
+		
+		User user = new User();
+		user = user.getUser(comment.getUserId());
+		
+		cui.setCommentId(comment.getCommenttId());
+		cui.setCommentData(comment.getComment());
+		cui.setCommentDate(Helper.getLocalDate(comment.getCommentDate()));
+		cui.setUserName(user.getFirstName() + user.getLastName());
+		cui.setUserId(comment.getUserId());
+		cui.setPostId(comment.getPostId());
+		return cui;
+	}
+	
+	public CommentUI addComment(CommentUI comment) throws SQLException{
 		
 		Comment c = new Comment(-1,comment.getCommentData(),null, comment.getPostId(),comment.getUserId());
-		int res = c.addComment(c);
-		if(res==1)
-			return true;
-		else return false;
+		Comment res = c.addComment(c);
+		return commentToCommentUI(res);
+		
 	}
 	
 	public boolean deleteComment(int commId) throws SQLException{

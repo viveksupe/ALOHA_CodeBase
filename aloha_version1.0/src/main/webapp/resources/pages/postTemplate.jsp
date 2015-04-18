@@ -21,7 +21,8 @@
                                 <div class="feed-title">
                                     <b><a href="http://feedstack.asia/renudeshmukh">{ $T.Post.userName}</a></b>
                                     <span class="feed-delete" feed-id="{ $T.Post.postId}"><i class="fa fa-trash-o "></i></span>
-                                    <small class="feed-time-mobile mobile-visible">{ $T.Post.postDate} </small>
+                                    <small class="feed-time-mobile mobile-visible">{
+							$T.Post.postDate} </small>
                                 </div>
                             </div>
 
@@ -102,7 +103,7 @@
             </div>
             <div class="bcol-80x">
                 <div class="feed-comment-input-box">
-                    <input type="text" id= "comment{ $T.Post.postId}" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
+                    <input type="text" id= "comment{ $T.Post.postId}" feed-id="{ $T.Post.postId}" user-id="{ $T.Post.userId}" class="feed-comment-input-entry " maxlength="500" placeholder="Enter the comment...">
                 </div>
             </div>
             <div class="clear"></div>

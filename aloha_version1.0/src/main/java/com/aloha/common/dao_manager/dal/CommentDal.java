@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.entities.Comment;
 import com.aloha.common.entities.Post;
+import com.mysql.jdbc.Statement;
 
 /**
  * @author Renuka
@@ -23,12 +24,14 @@ public class CommentDal {
 	private String INSERT_COMM;
 	private String UPDATE_COMM;
 	private String DELETE_COMM;
+	private String CUSTOM_SELECT;
 	
 	public CommentDal(){
 		SELECT = "SELECT comment.comment_id, comment.comment_content,comment.timestamp, comment.post_id,comment.user_id FROM comment";
 		INSERT_COMM = "INSERT INTO comment ( comment_content, user_id, post_id) VALUES ( ?, ?, ?);";
 		UPDATE_COMM = "UPDATE comment SET comment_content = ?, user_id = ?, post_id = ?,timestamp=current_timestamp WHERE comment_id = ?;";
 		DELETE_COMM = "DELETE FROM comment ";
+		CUSTOM_SELECT = "SELECT c.comment_id, c.comment_content,c.timestamp, c.post_id,c.user_id,u.fname,u.lname FROM comment c	inner join user u on c.user_id = u.user_id where c.post_id = ?";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 	
@@ -101,6 +104,45 @@ public class CommentDal {
 
 	}
 
+	public ArrayList<Comment> getCustomCommentForPost(int post_id) throws SQLException{
+		String getPostComms = CUSTOM_SELECT;
+		PreparedStatement ps = null;
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(getPostComms);
+			ps.setInt(1, post_id);
+			rSet = ps.executeQuery();
+			ArrayList<Comment> comms = new ArrayList<Comment>();
+			while (rSet.next()) {
+				Comment comm = new Comment(
+						rSet.getInt("comment_id"),
+						rSet.getString("comment_content"), 
+						rSet.getTimestamp("timestamp"),
+						rSet.getInt("post_id"), 
+						rSet.getInt("user_id"));
+				String fname = rSet.getString("fname");
+				String lname = rSet.getString("lname");
+				comm.setUserName(fname + " " + lname);
+
+				comms.add(comm);
+			}
+			return comms;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+
+	}
+
+
 	public int deleteComment(int comment_id) throws SQLException{
 		String deleteStmt = DELETE_COMM + " WHERE comment_id = ?";
 		PreparedStatement ps = null;
@@ -141,20 +183,25 @@ public class CommentDal {
 		}
 	}
 
-	public int insertComment(Comment comment) throws SQLException{
+	public Comment insertComment(Comment comment) throws SQLException{
 		con = DatabaseHandlerSingleton.getDBConnection();
 		String insertCommStatement = INSERT_COMM;
 		PreparedStatement ps = null;
-		int result = -1;
+		
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(insertCommStatement);
+			ps = con.prepareStatement(insertCommStatement, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, comment.getComment());
 			ps.setInt(2, comment.getUserId());
 			ps.setInt(3, comment.getPostId());
 			
-			result = ps.executeUpdate();
-			return result;
+			ps.executeUpdate();
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				Comment insertedComm = getCommentByPrimaryKey(rs.getInt(1));
+				return insertedComm;
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -163,7 +210,7 @@ public class CommentDal {
 				ps.close();
 			con.close();
 		}
-		
+		return null;
 	}
 	
 	public int updateComment(Comment comment) throws SQLException{

@@ -104,7 +104,45 @@ public class PostUI {
 				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
-				pui.setComments(comm.getCommentsForPost(user, post));
+				pui.setComments(comm.getCommentsForPost(post));
+
+				if(ld != null){
+					if(ld.getLikes() != null)
+						pui.setLikes(getLikes(ld.getLikes()));
+					if(ld.getDislikes() != null)
+						pui.setDislikes(getDislikes(ld.getDislikes()));
+					
+				}
+				userPosts.add(pui);
+			}
+			
+			return userPosts;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return null;
+		
+	}
+	
+public ArrayList<PostUI> getPostsForUserAndFriends(int userId){
+		
+		ArrayList<PostUI> userPosts = new ArrayList<PostUI>();
+		Post p = new Post();
+		CommentUI comm = new CommentUI();
+		ArrayList<Post> posts;
+		try {
+			posts = p.getPostsFriends(userId);
+			for (Post post : posts) {
+				LikeDislike ld= post.getLikeStatistics();
+				PostUI pui = new PostUI();
+				pui.setUserName(post.getUserName() + " " + post.getUserSurname());
+				pui.setUserId(post.getUserId());
+				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
+				pui.setPostData(post.getPost());
+				pui.setPostId(post.getPostId());
+				pui.setComments(comm.getCommentsForPost(post));
 
 				if(ld != null){
 					if(ld.getLikes() != null)
@@ -128,8 +166,8 @@ public class PostUI {
 
 	
 	public PostUI addPost(String post, User u) throws SQLException{
-		Post p = new Post(-1,post,null,null,null);
-		p = p.addPost(p, 1);
+		Post p = new Post(-1,post,null,null,null, u.getUserId());
+		p = p.addPost(p);
 		return getPostUI(p, u);
 	}
 	
@@ -137,7 +175,7 @@ public class PostUI {
 		PostUI pui = new PostUI();
 		CommentUI cui = new CommentUI();
 		LikeDislike ld= post.getLikeStatistics();
-		pui.setComments(cui.getCommentsForPost(u, post));
+		pui.setComments(cui.getCommentsForPost( post));
 		
 		pui.setPostData(post.getPost());
 		pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
