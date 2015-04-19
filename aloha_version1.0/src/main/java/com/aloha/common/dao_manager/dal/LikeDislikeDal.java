@@ -164,6 +164,7 @@ public class LikeDislikeDal {
 			ps.setInt(3, postId);
 			ps.setInt(4, likeType);
 			result = ps.executeUpdate();
+			
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
