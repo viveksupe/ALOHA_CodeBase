@@ -1,13 +1,26 @@
 package com.aloha.common.model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.aloha.common.dao_manager.dal.LikeDislikeDal;
 import com.aloha.common.entities.Like;
 
 public class LikeUI {
 	private int likeId;
 	private int postId;
 	private int userId;
+	
+	public LikeUI(int userId, int postId) {
+		super();
+		this.userId = userId;
+		this.postId = postId;
+		
+	}
+
+	public LikeUI() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public int getLikeId() {
 		return likeId;
@@ -44,5 +57,11 @@ public class LikeUI {
 			likeData.add(lui);
 		}
 		return likeData;
+	}
+
+	public int like(LikeUI lui) throws SQLException{
+		Like like = new Like(lui.getUserId(), lui.getPostId());
+		int status = like.likePost(like);
+		return status;
 	}
 }

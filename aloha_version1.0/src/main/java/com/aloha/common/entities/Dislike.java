@@ -66,6 +66,12 @@ public class Dislike {
 		this.userId = userId;
 		this.postId = postId;
 	}
+	
+	public Dislike( int userId, int postId) {
+		super();
+		this.userId = userId;
+		this.postId = postId;
+	}
 
 	public Dislike() {
 		// TODO Auto-generated constructor stub
@@ -73,7 +79,7 @@ public class Dislike {
 	}
 
 
-	public int dislike(Dislike dislike) throws SQLException{
+	public int dislikePost(Dislike dislike) throws SQLException{
 		int dlikeId = dislike.getDislikeId();
 		int result = -1;
 		if (dlikeId == -1)

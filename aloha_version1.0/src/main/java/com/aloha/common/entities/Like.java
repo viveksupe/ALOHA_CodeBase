@@ -28,6 +28,13 @@ public class Like {
 		this.postId = postId;
 		lDal = new LikeDislikeDal();
 	}
+	
+	public Like(int userId, int postId) {
+		super();
+		this.userId = userId;
+		this.postId = postId;
+		lDal = new LikeDislikeDal();
+	}
 
 	// region
 
@@ -63,7 +70,7 @@ public class Like {
 
 
 
-	public int like(Like like) throws SQLException {
+	public int likePost(Like like) throws SQLException {
 		int likeId = like.getLikeId();
 		int result = -1;
 		if (likeId == -1)
