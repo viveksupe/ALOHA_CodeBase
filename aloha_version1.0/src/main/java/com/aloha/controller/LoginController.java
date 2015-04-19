@@ -1,6 +1,5 @@
 package com.aloha.controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 
@@ -22,6 +21,7 @@ import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.dao_manager.dal.UserEducationDal;
 import com.aloha.common.dao_manager.dal.UserPersonalDal;
+import com.aloha.common.entities.OnlineUsers;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.entities.user.UserEducation;
 import com.aloha.common.entities.user.UserPersonal;
@@ -79,6 +79,8 @@ public class LoginController extends Secure_Hash{
 			if(res!=null)	
 			{
 				ui.setUser(res);
+				OnlineUsers olUsers = new OnlineUsers();
+				olUsers.addUserAsOnline(res.getUserId());
 				model.addAttribute("sessionUser",ui);
 				return "redirect:"+"user_profile";				
 			}

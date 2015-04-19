@@ -85,7 +85,7 @@ public class OnlineUserDal {
 		}
 	}
 
-	public int insertPost(int id) throws SQLException {
+	public int insertOnlineUser(int id) throws SQLException {
 		String insertUserQuery = INSERT;
 		PreparedStatement ps = null;
 		int result = -1;
