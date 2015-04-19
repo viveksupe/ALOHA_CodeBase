@@ -35,9 +35,13 @@
                             <small>
                             	<span class="feed-like-count feed-like feed-like-{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}' user-id="{ $T.Post.userId}"
                                       like='0' count='0'>
+                                      {#if $T.Post.userLikeType == 1}
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <span class="likes-word-{ $T.Post.postId}">Liked</span>
+                                    {#else}
                                     <i class="fa fa-thumbs-o-up"></i>
-                                    
                                     <span class="likes-word-{ $T.Post.postId}">Like</span>
+                                    {#/if}
                                 </span>
                                 <span class="feed-like-count feed-likes feed-like-count-{ $T.Post.postId}"  liveuser-id="" feed-id='{ $T.Post.postId}'
                                       like='0' count='0'>
@@ -47,9 +51,13 @@
                                 </span>
                                 <span class="feed-like-count feed-dislike feed-dislike-{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}' user-id="{ $T.Post.userId}"
                                       unlike='0' count='0'>
+                                      {#if $T.Post.userLikeType == 2}
+                                      <i class="fa fa-thumbs-down"></i>
+                                    <span class="likes-word-{ $T.Post.postId}">Disliked</span>
+                                      {#else}
                                     <i class="fa fa-thumbs-o-down"></i>
-                                   
                                     <span class="likes-word-{ $T.Post.postId}">Dislike</span>
+                                     {#/if}
                                 </span>
                                 <span class="feed-like-count feed-likes feed-dislike-count{ $T.Post.postId}" liveuser-id="" feed-id='{ $T.Post.postId}' 
                                       unlike='0' count='0'>

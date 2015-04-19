@@ -152,18 +152,16 @@ public class PostUI {
 						pui.setNumDislikes(ld.getDislikes().size());
 					else pui.setNumDislikes(0);
 					
-					
+					pui.setUserLikeType(0);
 					if (ld.getLikes() != null) {
-						pui.setLikes(getLikes(ld.getLikes()));
-						for (LikeUI lui : pui.getLikes()) {
-							if (lui.getUserId() == userId)
+						for (Like like : ld.getLikes()) {
+							if (like.getUserId() == userId)
 								pui.setUserLikeType(1);
 						}
 					}
 					if (ld.getDislikes() != null) {
-						pui.setDislikes(getDislikes(ld.getDislikes()));
-						for (DislikeUI dui : pui.getDislikes()) {
-							if (dui.getUserId() == userId)
+						for (Dislike dislike : ld.getDislikes()) {
+							if (dislike.getUserId() == userId)
 								pui.setUserLikeType(2);
 						}
 					}
@@ -214,23 +212,19 @@ public class PostUI {
 							pui.setNumDislikes(ld.getDislikes().size());
 						else pui.setNumDislikes(0);
 						
-					
-					
-					if (ld.getLikes() != null) {
-						pui.setLikes(getLikes(ld.getLikes()));
-						for (LikeUI lui : pui.getLikes()) {
-							if (lui.getUserId() == userId)
-								pui.setUserLikeType(1);
+						pui.setUserLikeType(0);
+						if (ld.getLikes() != null) {
+							for (Like like : ld.getLikes()) {
+								if (like.getUserId() == userId)
+									pui.setUserLikeType(1);
+							}
 						}
-					}
-					if (ld.getDislikes() != null) {
-						pui.setDislikes(getDislikes(ld.getDislikes()));
-						for (DislikeUI dui : pui.getDislikes()) {
-							if (dui.getUserId() == userId)
-								pui.setUserLikeType(2);
+						if (ld.getDislikes() != null) {
+							for (Dislike dislike : ld.getDislikes()) {
+								if (dislike.getUserId() == userId)
+									pui.setUserLikeType(2);
+							}
 						}
-					}
-
 				}
 				userPosts.add(pui);
 			}
@@ -271,24 +265,19 @@ public class PostUI {
 					pui.setNumDislikes(ld.getDislikes().size());
 				else pui.setNumDislikes(0);
 				
-			
-			
-			
-			if (ld.getLikes() != null) {
-				pui.setLikes(getLikes(ld.getLikes()));
-				for (LikeUI lui : pui.getLikes()) {
-					if (lui.getUserId() == u.getUserId())
-						pui.setUserLikeType(1);
+				pui.setUserLikeType(0);
+				if (ld.getLikes() != null) {
+					for (Like like : ld.getLikes()) {
+						if (like.getUserId() == userId)
+							pui.setUserLikeType(1);
+					}
 				}
-			}
-			if (ld.getDislikes() != null) {
-				pui.setDislikes(getDislikes(ld.getDislikes()));
-				for (DislikeUI dui : pui.getDislikes()) {
-					if (dui.getUserId() == u.getUserId())
-						pui.setUserLikeType(2);
+				if (ld.getDislikes() != null) {
+					for (Dislike dislike : ld.getDislikes()) {
+						if (dislike.getUserId() == userId)
+							pui.setUserLikeType(2);
+					}
 				}
-			}
-
 		}
 		return pui;
 	}

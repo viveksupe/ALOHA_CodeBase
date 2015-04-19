@@ -231,15 +231,20 @@ var PostManager = new function() {
 					var postId = $(this).attr('feed-id');
 					var userId = $(this).attr('user-id');
 					var likeType = -1;
+					var counter = 0;
 					var elem = $(this).find("i").hasClass("fa-thumbs-o-up");
 					if (elem == true) {
 						$(this).find("i").removeClass("fa-thumbs-o-up")
 								.addClass("fa-thumbs-up");
 						$(this).find("span").html('Liked');
+						
+						if($('.feed-dislike-' + postId).find("i").hasClass("fa-thumbs-down")){
 						$('.feed-dislike-' + postId).find("i").removeClass(
 								"fa-thumbs-down").addClass("fa-thumbs-o-down");
 						$('.feed-dislike-' + postId).find("span").html(
 								'Dislike');
+						counter = 1;
+						}
 						likeType = 1;
 
 					} else {
@@ -274,6 +279,10 @@ var PostManager = new function() {
 													.html()) - 1;
 											$('.like-count-' + postId).html(count);
 										}
+										
+										var cnt = parseInt($('.dislike-count-' + postId)
+												.html()) - counter;
+										$('.dislike-count-' + postId).html(cnt);
 									}
 
 								},
@@ -292,15 +301,20 @@ var PostManager = new function() {
 					var postId = $(this).attr('feed-id');
 					var userId = $(this).attr('user-id');
 					var likeType = -1;
-					
+					var counter = 0;
 					var elem = $(this).find("i").hasClass("fa-thumbs-o-down");
 					if (elem == true) {
 						$(this).find("i").removeClass("fa-thumbs-o-down")
 								.addClass("fa-thumbs-down");
 						$(this).find("span").html('Disliked');
+						
+						if($('.feed-like-' + postId).find("i").hasClass("fa-thumbs-up")){
 						$('.feed-like-' + postId).find("i").removeClass(
 								"fa-thumbs-up").addClass("fa-thumbs-o-up");
 						$('.feed-like-' + postId).find("span").html('Like');
+						counter = 1;
+						}
+						
 						likeType = 2;
 
 					} else {
@@ -308,6 +322,7 @@ var PostManager = new function() {
 								.addClass("fa-thumbs-o-down");
 						$(this).find("span").html('Dislike');
 						likeType = 0;
+						
 					}
 					
 					$
@@ -334,6 +349,10 @@ var PostManager = new function() {
 											.html()) - 1;
 									$('.dislike-count-' + postId).html(count);
 								}
+								
+								var cnt = parseInt($('.like-count-' + postId)
+										.html()) - counter;
+								$('.like-count-' + postId).html(cnt);
 							}
 
 						},
