@@ -150,6 +150,8 @@ var PostManager = new function() {
 		PostManager.deletePostEvent();
 		PostManager.deleteCommentEvent();
 		PostManager.addComment();
+		PostManager.scribbleLike();
+		PostManager.scribbleDislike();
 	};
 
 	this.deletePostEvent = function() {
@@ -210,6 +212,42 @@ var PostManager = new function() {
 					console.log(data);
 				}
 			});
+		})
+	};
+	
+	this.scribbleLike = function(){
+		$('.feed-like').click(function(){
+			var postId = $(this).attr('feed-id');
+			 var elem = $(this).find( "i" ).hasClass( "fa-thumbs-o-up" );
+			if(elem == true ){
+				$(this).find( "i" ).removeClass("fa-thumbs-o-up").addClass("fa-thumbs-up");
+				$(this).find( "span" ).html('Liked');
+				$('.feed-dislike-' + postId).find( "i" ).removeClass("fa-thumbs-down").addClass("fa-thumbs-o-down");
+				$('.feed-dislike-' + postId).find( "span" ).html('Dislike');
+				
+			}
+			else{
+				$(this).find( "i" ).removeClass("fa-thumbs-up").addClass("fa-thumbs-o-up");
+				$(this).find( "span" ).html('Like');
+			}
+		})
+	};
+	
+	this.scribbleDislike = function(){
+		$('.feed-dislike').click(function(){
+			var postId = $(this).attr('feed-id');
+			 var elem = $(this).find( "i" ).hasClass( "fa-thumbs-o-down" );
+			if(elem == true ){
+				$(this).find( "i" ).removeClass("fa-thumbs-o-down").addClass("fa-thumbs-down");
+				$(this).find( "span" ).html('Disliked');
+				$('.feed-like-' + postId).find( "i" ).removeClass("fa-thumbs-up").addClass("fa-thumbs-o-up");
+				$('.feed-like-' + postId).find( "span" ).html('Like');
+				
+			}
+			else{
+				$(this).find( "i" ).removeClass("fa-thumbs-down").addClass("fa-thumbs-o-down");
+				$(this).find( "span" ).html('Dislike');
+			}
 		})
 	};
 
