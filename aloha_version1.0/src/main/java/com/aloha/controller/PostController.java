@@ -19,6 +19,8 @@ import com.aloha.common.entities.Comment;
 import com.aloha.common.entities.Post;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.CommentUI;
+import com.aloha.common.model.DislikeUI;
+import com.aloha.common.model.LikeUI;
 import com.aloha.common.model.PostUI;
 
 
@@ -119,4 +121,29 @@ public class PostController {
 		return result;
 	}
 	
+	@RequestMapping(value="post/like", method=RequestMethod.POST)
+	public @ResponseBody int likePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId,@RequestParam("likeType") int likeType ){
+		LikeUI lui = new LikeUI();
+		int result = -1;
+		try {
+			result = lui.toggleLike(likeType, postId, userId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@RequestMapping(value="post/dislike", method=RequestMethod.POST)
+	public @ResponseBody int dislikePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId, @RequestParam("likeType") int dislikeType){
+		DislikeUI lui = new DislikeUI();
+		int result = -1;
+		try {
+			result = lui.toggleDislike(dislikeType, postId, userId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

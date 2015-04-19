@@ -38,15 +38,15 @@ public class FriendshipDal {
 	 */
 	public FriendshipDal() {
 		SELECTALL = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship;";
-		SELECTALL_FRIENDSHIPS_OF_USER = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship where friendship.user_id1 = ? or friendship.user_id2 = ?;";
+		SELECTALL_FRIENDSHIPS_OF_USER = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship where friendship.user_id1 = ? or friendship.user_id2 = ? and friendship.friend_status_id=2;";
 		SELECT_FRIENDSHIP_BY_PKEY = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE friendship.friendship_id = ?;";
-		SELECT_FRIENDSHIP_BY_USERIDS = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE (friendship.user_id1=? && friendship.user_id2=?) or  (friendship.user_id2=? && friendship.user_id1=?) ;";
+		SELECT_FRIENDSHIP_BY_USERIDS = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE (friendship.user_id1=? && friendship.user_id2=?) or  (friendship.user_id2=? && friendship.user_id1=?) and friendship.friend_status_id=2 ;";
 		INSERT_FRIENDSHIP = "INSERT INTO friendship(user_id1, user_id2, friend_status_id, blocked_by, req_sent_by) VALUES(?, ?, ?, ?, ?);";
 		UPDATE_FRIENDSHIP = "UPDATE friendship SET user_id1 = ? , user_id2 = ? , friend_status_id = ? , blocked_by = ? , req_sent_by = ? WHERE friendship_id = ?;";
 		DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE friendship.friendship_id = ?;";
 
-		SELECT_FRIENDSHIP_BY_USER1ID = "SELECT F.*,U.* FROM friendship F inner join user U on F.user_id2=U.user_id where F.user_id1=?;";
-		SELECT_FRIENDSHIP_BY_USER2ID = "SELECT F.*,U.* FROM friendship F inner join user U  on F.user_id1=U.user_id where F.user_id2=?;";
+		SELECT_FRIENDSHIP_BY_USER1ID = "SELECT F.*,U.* FROM friendship F inner join user U on F.user_id2=U.user_id where F.user_id1=? and F.friend_status_id=2;";
+		SELECT_FRIENDSHIP_BY_USER2ID = "SELECT F.*,U.* FROM friendship F inner join user U  on F.user_id1=U.user_id where F.user_id2=? and F.friend_status_id=2;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 

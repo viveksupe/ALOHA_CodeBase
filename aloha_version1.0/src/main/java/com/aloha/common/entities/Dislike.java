@@ -11,34 +11,33 @@ public class Dislike {
 	 */
 	@Override
 	public String toString() {
-		return "Dislike [dislikeId=" + dislikeId 
-				+ ", userId=" + userId + ", postId=" + postId + ", lDal="
+		return "Dislike [userId=" + userId + ", postId=" + postId + ", lDal="
 				+ lDal + "]";
 	}
 
 
-	private int dislikeId;
-	//private LikeType type;
+	private int type;
 	private int userId;
 	private int postId;
 	private LikeDislikeDal lDal;
 	
 	//region
 	
-	public int getDislikeId() {
-		return dislikeId;
-	}
-
-	public void setDislikeId(int dislikeId) {
-		this.dislikeId = dislikeId;
-	}
-
+	
 	public int getUserId() {
 		return userId;
 	}
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public int getPostId() {
@@ -59,34 +58,27 @@ public class Dislike {
 	 * @param likeCount
 	 * @param dislikeCount
 	 */
-	public Dislike(int dislikeId, LikeType type, int userId, int postId) {
+	public Dislike(int type, int userId, int postId) {
 		super();
-		this.dislikeId = dislikeId;
-		//this.type = type;
+		this.type = type;
 		this.userId = userId;
 		this.postId = postId;
+		lDal = new LikeDislikeDal();
+	}
+	
+	public Dislike( int userId, int postId) {
+		super();
+		this.userId = userId;
+		this.postId = postId;
+		lDal = new LikeDislikeDal();
 	}
 
 	public Dislike() {
 		// TODO Auto-generated constructor stub
-		
+		lDal = new LikeDislikeDal();
 	}
 
-
-	public int dislike(Dislike dislike) throws SQLException{
-		int dlikeId = dislike.getDislikeId();
-		int result = -1;
-		if (dlikeId == -1)
-			result = lDal.insertDislike(dislike);
-		else
-			result = lDal.updateLike(2, dlikeId);
-		return result;
-
+	public int dislikeOrUndislikePost(Dislike dislike) throws SQLException{
+		return lDal.insertOrUpdate(dislike.getType(), dislike.getPostId(), dislike.getUserId());
 	}
-	
-	
-	public int unDislike(Dislike dislike) throws SQLException{
-		return lDal.updateLike(0, dislike.getDislikeId());
-	}
-
 }

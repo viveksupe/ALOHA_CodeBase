@@ -19,15 +19,15 @@ public class LikeDislikeDal {
 	// write the queries for Post table
 	private String SELECT;
 	private String INSERT;
-	private String UPDATE;
 	private String DELETE;
+	private String INSERT_OR_UPDATE;
 
 	public LikeDislikeDal() {
-		SELECT = "SELECT likedislike.like_id, likedislike.like_type, likedislike.user_id, likedislike.post_id FROM likedislike";
+		SELECT = "SELECT  likedislike.like_type, likedislike.user_id, likedislike.post_id FROM likedislike";
 		INSERT = "INSERT INTO likedislike ( like_type, user_id, post_id) VALUES ( ?, ?, ?);";
-		UPDATE = "UPDATE likedislike SET like_type = ? WHERE like_id ?;";
 		DELETE = "DELETE FROM likedislike";
-
+		INSERT_OR_UPDATE = "INSERT INTO likedislike (like_type, user_id, post_id) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE like_type = ?;";
+		
 		con = DatabaseHandlerSingleton.getDBConnection();
 
 	}
@@ -53,14 +53,14 @@ public class LikeDislikeDal {
 
 				if (likeType == 1) {
 					Like like = new Like();
-					like.setLikeId(rSet.getInt("like_id"));
+					like.setType(rSet.getInt("like_type"));
 					like.setPostId(rSet.getInt("post_id"));
 					like.setUserId(rSet.getInt("user_id"));
 					//like.setType(LikeType.Like);
 					likes.add(like);
 				} else if (likeType == 2) {
 					Dislike like = new Dislike();
-					like.setDislikeId(rSet.getInt("like_id"));
+					like.setType(rSet.getInt("like_type"));
 					like.setPostId(rSet.getInt("post_id"));
 					like.setUserId(rSet.getInt("user_id"));
 					//like.setType(LikeType.Dislike);
@@ -81,30 +81,7 @@ public class LikeDislikeDal {
 		}
 	}
 
-	public int updateLike(int type, int likeId) throws SQLException {
-
-		String updateStmt = UPDATE;
-
-		PreparedStatement ps = null;
-		int result = -1;
-		try {
-			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(updateStmt);
-			ps.setInt(1, type);
-			ps.setInt(2, likeId);
-			result = ps.executeUpdate();
-			return result;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			if (ps != null)
-				ps.close();
-			con.close();
-		}
-	}
-
-	
+		
 	public int insertLike(Like like) throws SQLException {
 
 		String insertStmt = INSERT;
@@ -172,5 +149,31 @@ public class LikeDislikeDal {
 				ps.close();
 			con.close();
 		}
+	}
+	
+	public int insertOrUpdate(int likeType, int postId, int userId) throws SQLException{
+		String insertStmt = INSERT_OR_UPDATE;
+
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(insertStmt);
+			ps.setInt(1, likeType);
+			ps.setInt(2, userId);
+			ps.setInt(3, postId);
+			ps.setInt(4, likeType);
+			result = ps.executeUpdate();
+			
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+
 	}
 }

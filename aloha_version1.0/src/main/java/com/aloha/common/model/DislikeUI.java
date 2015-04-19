@@ -1,5 +1,6 @@
 package com.aloha.common.model;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.aloha.common.entities.Dislike;
@@ -10,6 +11,17 @@ public class DislikeUI {
 	private int postId;
 	private int userId;
 	
+	public DislikeUI(int userId, int postId) {
+		super();
+		this.userId = userId;
+		this.postId = postId;
+		
+	}
+
+	public DislikeUI() {
+		// TODO Auto-generated constructor stub
+	}
+
 	
 	public int getDislikeId() {
 		return dislikeId;
@@ -35,11 +47,17 @@ public class DislikeUI {
 		ArrayList<DislikeUI> dislikeData = new ArrayList<DislikeUI>();
 		for (Dislike dl : dislikes) {
 			DislikeUI lui = new DislikeUI();
-			lui.setDislikeId(dl.getDislikeId());
 			lui.setPostId(dl.getPostId());
 			lui.setUserId(dl.getUserId());
 			dislikeData.add(lui);
 		}
 		return dislikeData;
+	}
+
+	
+	public int toggleDislike(int dislikeType, int postId, int userId) throws SQLException{
+		Dislike dislike = new Dislike(dislikeType, userId,postId);
+		int status = dislike.dislikeOrUndislikePost(dislike);
+		return status;
 	}
 }

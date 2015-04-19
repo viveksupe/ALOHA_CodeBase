@@ -6,8 +6,7 @@ import java.util.*;
 import com.aloha.common.dao_manager.dal.LikeDislikeDal;
 
 public class Like {
-	private int likeId;
-	//private LikeType type;
+	private int type;
 	private int userId;
 	private int postId;
 	private LikeDislikeDal lDal;
@@ -20,10 +19,16 @@ public class Like {
 	 * @param likeCount
 	 * @param dislikeCount
 	 */
-	public Like(int likeId, LikeType type, int userId, int postId) {
+	public Like(int type,  int userId, int postId) {
 		super();
-		this.likeId = likeId;
-		//this.type = type;
+		this.type = type;
+		this.userId = userId;
+		this.postId = postId;
+		lDal = new LikeDislikeDal();
+	}
+	
+	public Like(int userId, int postId) {
+		super();
 		this.userId = userId;
 		this.postId = postId;
 		lDal = new LikeDislikeDal();
@@ -31,15 +36,7 @@ public class Like {
 
 	// region
 
-	public int getLikeId() {
-		return likeId;
-	}
-
-	public void setLikeId(int likeId) {
-		this.likeId = likeId;
-	}
-
-	public int getUserId() {
+		public int getUserId() {
 		return userId;
 	}
 
@@ -57,33 +54,32 @@ public class Like {
 
 	// endregion
 
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public Like() {
 		// TODO Auto-generated constructor stub
 	}
 
 
 
-	public int like(Like like) throws SQLException {
-		int likeId = like.getLikeId();
-		int result = -1;
-		if (likeId == -1)
-			result = lDal.insertLike(like);
-		else
-			result = lDal.updateLike(1, likeId);
-		return result;
-	}
-
-	public int unLike(Like like) throws SQLException {
-		return lDal.updateLike(0, like.getLikeId());
-	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Like [likeId=" + likeId + ", userId="
+		return "Like [ userId="
 				+ userId + ", postId=" + postId + ", lDal=" + lDal + "]";
+	}
+	
+	public int likeOrUnlikePost(Like like) throws SQLException{
+		return lDal.insertOrUpdate(like.getType(), like.getPostId(), like.getUserId());
 	}
 
 	

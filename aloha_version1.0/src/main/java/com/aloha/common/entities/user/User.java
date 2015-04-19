@@ -1,6 +1,7 @@
 package com.aloha.common.entities.user;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.aloha.common.dao_manager.dal.UserDal;
@@ -24,6 +25,7 @@ public class User {
 	private UserDal ud;
 	private UserEducationDal edal;
 	private UserPersonalDal pdal;
+
 	public User() {
 		this.userId = 0;
 		this.firstName = null;
@@ -38,9 +40,10 @@ public class User {
 		edal = new UserEducationDal();
 		pdal = new UserPersonalDal();
 	}
-	
+
 	public User(int id, String fName, String lName, String email, String pwd,
-			String contactNumber, Date dob, int isVerified, int isLocked, Date lastActive) {
+			String contactNumber, Date dob, int isVerified, int isLocked,
+			Date lastActive) {
 		this.userId = id;
 		this.firstName = fName;
 		this.lastName = lName;
@@ -52,7 +55,6 @@ public class User {
 		this.lastActive = lastActive;
 	}
 
-
 	/**
 	 * @return the userId
 	 */
@@ -60,14 +62,13 @@ public class User {
 		return userId;
 	}
 
-
 	/**
-	 * @param userId the userId to set
+	 * @param userId
+	 *            the userId to set
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
 
 	/**
 	 * @return the firstName
@@ -76,14 +77,13 @@ public class User {
 		return firstName;
 	}
 
-
 	/**
-	 * @param firstName the firstName to set
+	 * @param firstName
+	 *            the firstName to set
 	 */
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
 
 	/**
 	 * @return the lastName
@@ -92,14 +92,13 @@ public class User {
 		return lastName;
 	}
 
-
 	/**
-	 * @param lastName the lastName to set
+	 * @param lastName
+	 *            the lastName to set
 	 */
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
 
 	/**
 	 * @return the contactNumber
@@ -108,14 +107,13 @@ public class User {
 		return contactNumber;
 	}
 
-
 	/**
-	 * @param contactNumber the contactNumber to set
+	 * @param contactNumber
+	 *            the contactNumber to set
 	 */
 	public void setContactNumber(String contactNumber) {
 		this.contactNumber = contactNumber;
 	}
-
 
 	/**
 	 * @return the email
@@ -124,14 +122,13 @@ public class User {
 		return email;
 	}
 
-
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	/**
 	 * @return the password
@@ -140,14 +137,13 @@ public class User {
 		return password;
 	}
 
-
 	/**
-	 * @param password the password to set
+	 * @param password
+	 *            the password to set
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	/**
 	 * @return the dateOfBirth
@@ -156,14 +152,13 @@ public class User {
 		return dateOfBirth;
 	}
 
-
 	/**
-	 * @param dateOfBirth the dateOfBirth to set
+	 * @param dateOfBirth
+	 *            the dateOfBirth to set
 	 */
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-
 
 	/**
 	 * @return the isVerified
@@ -172,14 +167,13 @@ public class User {
 		return isVerified;
 	}
 
-
 	/**
-	 * @param isVerified the isVerified to set
+	 * @param isVerified
+	 *            the isVerified to set
 	 */
 	public void setIsVerified(int isVerified) {
 		this.isVerified = isVerified;
 	}
-
 
 	/**
 	 * @return the isLocked
@@ -188,14 +182,13 @@ public class User {
 		return isLocked;
 	}
 
-
 	/**
-	 * @param isLocked the isLocked to set
+	 * @param isLocked
+	 *            the isLocked to set
 	 */
 	public void setIsLocked(int isLocked) {
 		this.isLocked = isLocked;
 	}
-
 
 	/**
 	 * @return the lastActive
@@ -204,19 +197,21 @@ public class User {
 		return lastActive;
 	}
 
-
 	/**
-	 * @param lastActive the lastActive to set
+	 * @param lastActive
+	 *            the lastActive to set
 	 */
 	public void setLastActive(Date lastActive) {
 		this.lastActive = lastActive;
 	}
-	public UserPersonal getPersonalInfo() throws SQLException{
+
+	public UserPersonal getPersonalInfo() throws SQLException {
 		pu = new UserPersonal();
 		pu = pdal.selectUserPersonalById(userId);
 		return pu;
 	}
-	public int addPersonalInfo(String aboutme, String city){
+
+	public int addPersonalInfo(String aboutme, String city) {
 		pu = new UserPersonal();
 		pu.setAboutme(aboutme);
 		pu.setCity(city);
@@ -229,7 +224,8 @@ public class User {
 		}
 		return pu.getP_id();
 	}
-	public int modifyPersonalInfo(String aboutme, String city){
+
+	public int modifyPersonalInfo(String aboutme, String city) {
 		pu.setAboutme(aboutme);
 		pu.setCity(city);
 		int res = -1;
@@ -241,7 +237,8 @@ public class User {
 		}
 		return res;
 	}
-	public int deletePersonal(){
+
+	public int deletePersonal() {
 		int res = -1;
 		try {
 			res = pdal.deleteUserPersonal(userId);
@@ -251,14 +248,16 @@ public class User {
 		}
 		return res;
 	}
-	public UserEducation getEducationInfo() throws SQLException{
+
+	public UserEducation getEducationInfo() throws SQLException {
 		u_ed = new UserEducation();
 		u_ed = edal.selectUserEducationById(userId);
 		return u_ed;
 	}
-	public int addEducationInfo(String school, String area){
+
+	public int addEducationInfo(String school, String area) {
 		u_ed = new UserEducation();
-		u_ed.setEducation(school, area); 
+		u_ed.setEducation(school, area);
 		int res = -1;
 		try {
 			res = edal.addEducationInfo(userId, u_ed);
@@ -269,8 +268,9 @@ public class User {
 		}
 		return res;
 	}
-	public int modifyEducationInfo(String school, String area){
-		u_ed.setEducation(school, area); 
+
+	public int modifyEducationInfo(String school, String area) {
+		u_ed.setEducation(school, area);
 		int res = -1;
 		try {
 			res = edal.updateUserEducation(userId, u_ed);
@@ -280,7 +280,8 @@ public class User {
 		}
 		return res;
 	}
-	public int deleteEducation(){
+
+	public int deleteEducation() {
 		int res = -1;
 		try {
 			res = edal.deleteUserEducation(userId);
@@ -290,7 +291,7 @@ public class User {
 		}
 		return res;
 	}
-	
+
 	public User getUser(int id) throws SQLException {
 		User u_new = ud.selectUserByPrimaryKey(id);
 		// Add code to get user from DAL layer
@@ -348,6 +349,24 @@ public class User {
 		this.userId = u.getUserId();
 		this.firstName = u.getFirstName();
 		this.lastName = u.getLastName();
+	}
+
+	/**
+	 * 
+	 * Method to get users given their firstname as input.
+	 * @param name
+	 * @return
+	 */
+	public ArrayList<User> getUsersByName(String name) {
+		ArrayList<User> users = null;
+		try {
+			users = ud.selectUsersByName(name);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return users;
+
 	}
 
 }
