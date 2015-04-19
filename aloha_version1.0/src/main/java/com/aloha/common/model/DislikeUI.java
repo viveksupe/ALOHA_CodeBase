@@ -47,7 +47,6 @@ public class DislikeUI {
 		ArrayList<DislikeUI> dislikeData = new ArrayList<DislikeUI>();
 		for (Dislike dl : dislikes) {
 			DislikeUI lui = new DislikeUI();
-			lui.setDislikeId(dl.getDislikeId());
 			lui.setPostId(dl.getPostId());
 			lui.setUserId(dl.getUserId());
 			dislikeData.add(lui);
@@ -55,11 +54,6 @@ public class DislikeUI {
 		return dislikeData;
 	}
 
-	public int dislike(DislikeUI lui) throws SQLException{
-		Dislike dislike = new Dislike(lui.getUserId(), lui.getPostId());
-		int status = dislike.dislikePost(dislike);
-		return status;
-	}
 	
 	public int toggleDislike(int dislikeType, int postId, int userId) throws SQLException{
 		Dislike dislike = new Dislike(dislikeType,postId, userId);

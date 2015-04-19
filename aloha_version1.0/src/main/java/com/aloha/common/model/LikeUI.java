@@ -51,7 +51,6 @@ public class LikeUI {
 		ArrayList<LikeUI> likeData = new ArrayList<LikeUI>();
 		for (Like like : likes) {
 			LikeUI lui = new LikeUI();
-			lui.setLikeId(like.getLikeId());
 			lui.setPostId(like.getPostId());
 			lui.setUserId(like.getUserId());
 			likeData.add(lui);
@@ -59,14 +58,9 @@ public class LikeUI {
 		return likeData;
 	}
 
-	public int like(LikeUI lui) throws SQLException{
-		Like like = new Like(lui.getUserId(), lui.getPostId());
-		int status = like.likePost(like);
-		return status;
-	}
 	
 	public int toggleLike(int likeType, int postId, int userId) throws SQLException{
-		Like like = new Like(likeType,postId,userId);
+		Like like = new Like(likeType,userId,postId);
 		int status = like.likeOrUnlikePost(like);
 		return status;
 	}
