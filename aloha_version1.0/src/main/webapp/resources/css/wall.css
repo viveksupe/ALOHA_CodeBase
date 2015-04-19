@@ -226,6 +226,11 @@ font: 14px/21px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 .feed-like{
 	cursor:pointer;
 }
+
+.feed-likes{
+	cursor:pointer;
+}
+
 .hidden{
 	display:none;
 }
