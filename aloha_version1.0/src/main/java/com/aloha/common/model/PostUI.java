@@ -18,6 +18,8 @@ public class PostUI {
 	private ArrayList<LikeUI> likes;
 	private ArrayList<DislikeUI> dislikes;
 	private int userLikeType;
+	private int numLikes;
+	private int numDislikes;
 
 	// region Getter Setter Method
 
@@ -67,6 +69,22 @@ public class PostUI {
 
 	public void setComments(ArrayList<CommentUI> comments) {
 		this.comments = comments;
+	}
+
+	public int getNumLikes() {
+		return numLikes;
+	}
+
+	public void setNumLikes(int numLikes) {
+		this.numLikes = numLikes;
+	}
+
+	public int getNumDislikes() {
+		return numDislikes;
+	}
+
+	public void setNumDislikes(int numDislikes) {
+		this.numDislikes = numDislikes;
 	}
 
 	public int getUserLikeType() {
@@ -119,7 +137,7 @@ public class PostUI {
 				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
-
+				
 				if (user.getUserId() == post.getUserId())
 					pui.setCanDelete(1);
 				else
@@ -127,6 +145,14 @@ public class PostUI {
 				pui.setComments(comm.getCommentsForPost(post));
 
 				if (ld != null) {
+					if (ld.getLikes() != null) 
+					pui.setNumLikes(ld.getLikes().size());
+					else pui.setNumLikes(0);
+					if (ld.getDislikes() != null) 
+						pui.setNumDislikes(ld.getDislikes().size());
+					else pui.setNumDislikes(0);
+					
+					
 					if (ld.getLikes() != null) {
 						pui.setLikes(getLikes(ld.getLikes()));
 						for (LikeUI lui : pui.getLikes()) {
@@ -181,6 +207,15 @@ public class PostUI {
 				pui.setComments(comm.getCommentsForPost(post));
 
 				if (ld != null) {
+					if (ld.getLikes() != null) 
+						pui.setNumLikes(ld.getLikes().size());
+						else pui.setNumLikes(0);
+						if (ld.getDislikes() != null) 
+							pui.setNumDislikes(ld.getDislikes().size());
+						else pui.setNumDislikes(0);
+						
+					
+					
 					if (ld.getLikes() != null) {
 						pui.setLikes(getLikes(ld.getLikes()));
 						for (LikeUI lui : pui.getLikes()) {
@@ -229,6 +264,16 @@ public class PostUI {
 		pui.setUserName(u.getFirstName() + " " + u.getLastName());
 		pui.setUserLikeType(0);
 		if (ld != null) {
+			if (ld.getLikes() != null) 
+				pui.setNumLikes(ld.getLikes().size());
+				else pui.setNumLikes(0);
+				if (ld.getDislikes() != null) 
+					pui.setNumDislikes(ld.getDislikes().size());
+				else pui.setNumDislikes(0);
+				
+			
+			
+			
 			if (ld.getLikes() != null) {
 				pui.setLikes(getLikes(ld.getLikes()));
 				for (LikeUI lui : pui.getLikes()) {
