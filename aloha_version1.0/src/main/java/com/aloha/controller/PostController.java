@@ -121,12 +121,12 @@ public class PostController {
 		return result;
 	}
 	
-	@RequestMapping(value="like", method=RequestMethod.POST)
-	public @ResponseBody int likePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId){
-		LikeUI lui = new LikeUI(userId,postId);
+	@RequestMapping(value="post/like", method=RequestMethod.POST)
+	public @ResponseBody int likePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId,@RequestParam("likeType") int likeType ){
+		LikeUI lui = new LikeUI();
 		int result = -1;
 		try {
-			result = lui.like(lui);
+			result = lui.toggleLike(likeType, postId, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -134,12 +134,12 @@ public class PostController {
 		return result;
 	}
 	
-	@RequestMapping(value="dislike", method=RequestMethod.POST)
-	public @ResponseBody int dislikePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId){
-		DislikeUI lui = new DislikeUI(userId,postId);
+	@RequestMapping(value="post/dislike", method=RequestMethod.POST)
+	public @ResponseBody int dislikePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId, @RequestParam("likeType") int dislikeType){
+		DislikeUI lui = new DislikeUI();
 		int result = -1;
 		try {
-			result = lui.dislike(lui);
+			result = lui.toggleDislike(dislikeType, postId, userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
