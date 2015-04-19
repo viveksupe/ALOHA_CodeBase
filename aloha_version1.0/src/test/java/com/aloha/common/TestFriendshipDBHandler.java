@@ -13,6 +13,8 @@ import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.dao_manager.dal.FriendshipDal;
@@ -20,12 +22,15 @@ import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.util.CommonUtils;
 
 public class TestFriendshipDBHandler {
 	static final Logger logger = Logger.getLogger(TestFriendshipDBHandler.class
 			.toString());
 	UserDal ud;
 	FriendshipDal fd;
+	@Autowired
+	private JavaMailSender mailSender;
 
 	public TestFriendshipDBHandler() {
 		ud = new UserDal();
@@ -42,9 +47,10 @@ public class TestFriendshipDBHandler {
 			//test.insertFriendship();
 			//test.selectFriendship(3);
 			//test.updateFriendship(3);
-			//test.selectFriendship(1);
+			test.selectFriendship(4);
 			//test.deleteFriendship(3);
-			test.selectAllFriendships();
+			//test.selectAllFriendships();
+			test.sendMailToFriend(5,"Online friends has been integrated with chat :D :D ");
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,6 +137,17 @@ public class TestFriendshipDBHandler {
 		        System.out.println("send failed, exception: " + mex);
 		    }
 	}
-	
+
+	public void sendMailToFriend(int id,String mailContent){
+		CommonUtils commonUtils = new CommonUtils();
+		User u =null;
+		try {
+			u = ud.selectUserByPrimaryKey(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		commonUtils.mailSendUtil(mailSender, u.getEmail(), "milindhg@gmail.com", mailContent);
+	}
 
 }
