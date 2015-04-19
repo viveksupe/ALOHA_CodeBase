@@ -267,6 +267,17 @@ public class Friendship {
 		return null;
 	}
 
+	public ArrayList<Friendship> getPendingFriendshipRequest(User user) {
+		ArrayList<Friendship> pendingFriendshipRequests=null;
+		try {
+			pendingFriendshipRequests=fdal.selectPendingFriendRequests(user);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pendingFriendshipRequests;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

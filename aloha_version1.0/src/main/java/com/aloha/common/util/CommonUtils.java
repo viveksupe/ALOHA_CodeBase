@@ -23,11 +23,11 @@ public class CommonUtils {
 		return user;
 	}
 
-	public void mailSendUtil(JavaMailSender mailSender, String emailTo, String emailFrom) {
+	public void mailSendUtil(JavaMailSender mailSender, String emailTo, String emailFrom,String mailContent) {
 		SimpleMailMessage emailobj = new SimpleMailMessage();
 		emailobj.setTo(emailTo);
 		emailobj.setSubject("Check out Aloha");
-		emailobj.setText("Hey Checkout Aloha - A brand new social networking portal \n Click Here to Go to Aloha.com");
+		emailobj.setText(mailContent);
 		emailobj.setFrom(emailFrom);
 		mailSender.send(emailobj);
 	}

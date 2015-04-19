@@ -9,49 +9,16 @@
 <script src="http://feedstack.asia/app/script/readmore.js"></script>
 <script src="http://feedstack.asia/app/script/popup.js"></script>
 <script src="http://feedstack.asia/app/script/wall.js"></script>
+<script src="http://feedstack.asia/app/script/profile.js"></script>
 <!-- ToolTip -->
-<link href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css" rel="stylesheet">
+<link href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css" rel="stylesheet" />
 <script src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
-        <script src="http://feedstack.asia/app/script/profile.js"></script>
-        <!-- ToolTip -->
-        <link
-					href="http://feedstack.asia/app/script/tooltip/css/tooltipster.css"
-					rel="stylesheet" />
-        <script
-					src="http://feedstack.asia/app/script/tooltip/js/jquery.tooltipster.min.js"></script>
-        <script>
-          $(function() {
-          $('.tooltip').tooltipster();
-          });
-
-
-          function acceptFriend(userId,acceptorId) {
-          console.log("userId" +  userId);
-          console.log("acceptorId" + acceptorId);
-          $
-          .ajax({
-          headers : {
-          'Accept' : 'application/json'
-          },
-          method : "POST",
-          url : "${pageContext.request.contextPath}/friends/accept",
-          data : {
-          userIdToAccept : userId,
-          acceptor  : acceptorId
-          },
-          success : function(data) {
-          console.log('success');
-          $('#acceptFriendBtn')
-          .html('Friend Request Accepted')
-          },
-          error : function(data){
-          console.log('error occurred');
-          console.log(data);
-          }
-          });
-          };
-
-        </script>
+<script src="${pageContext.request.contextPath}/resources/js/friends.js" type="text/javascript"></script>
+<script>	
+	$(document).ready(function(){
+		FriendJS.init("${pageContext.request.contextPath}");
+	});	
+</script>
 
 
     <div class="container-main pad-20">
@@ -63,28 +30,37 @@
             <div class="profile-mobile-bg">
 
 
-              <img src=${imgLocation}
-                            class="profile-image-mobile" />
+              <img src="${pageContext.request.contextPath}/userimages/${profileImageObject.img_id}" class="profile-image-mobile" />
             </div>
             <div class="bcol-30">
+            <!-- "feed-user mobile-hidden mobile-hidden-main-image" -->
               <div class="feed-user mobile-hidden mobile-hidden-main-image">
-                <img src=${imgLocation} class="profile-image" />
+              	<img src="http://feedstack.asia/img/user.jpg" class="profile-image">
 
               </div>
+              <div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/editprofile">
+                    <button class="btn btn-edit">Upload Picture</button>
+                  </a>
+                </div>
             </div>
             <div class="bcol-70">
               <div class="profile-container">
                 <div class="profile-name">
-                  <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()} ${imgLocation}</div>
+                  <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()} </div>
                 </div>
-				<div> </div>
-
-                <div class="profile-buttons" uid="858" liveuser-id="858">
-                  <a
-										href="${pageContext.request.contextPath}/edit_profile">
-                    <button class="btn btn-edit">Edit Profile</button>
+				<div class="profile-desc"> 
+					<div>Brith Date: ${user.getDateOfBirth()} </div>
+					<div>Contact: ${user.getContactNumber()} </div>
+					<div>Email: ${user.getEmail()} </div>
+				</div>
+				<div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/editaccountdetails">
+                    <button class="btn btn-edit">Account Settings</button>
                   </a>
+                    <button class="btn btn-edit">Make Account Details Private</button>
                 </div>
+                
               </div>
             </div>
             <div class="clear"></div>
@@ -107,16 +83,31 @@
 }
 </style>
 
-<div class="container">
+		<div class="container">
 			<div class= "feed-block">
 				<div class = "feed-title">About Me</div>
+				<div class = "feed-title">${personal.getAboutme()}</div>
 			</div>
+			<div class= "feed-block">
+				<div class = "feed-title">Lives In</div>
+				<div class = "feed-title">${personal.getCity()}</div>
+			</div>
+			<div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/personalinfo">
+                    <button class="btn btn-edit">Edit Personal Information</button>
+                  </a>
+            </div>
 		</div>
 		<div class="container">
 			<div class= "feed-block">
 				<div class = "feed-title">Education</div>
 				<div class = "feed-title">${education.getSchool() } ${education.getArea()}</div>
 			</div>
+			<div class="profile-buttons" uid="858" liveuser-id="858">
+                  <a href="${pageContext.request.contextPath}/educationinfo">
+                    <button class="btn btn-edit">Edit Education Details</button>
+                  </a>
+            </div>
 		</div>	
 
         <a href = "${pageContext.request.contextPath}/chat"><h6>chat</h6>
@@ -143,8 +134,7 @@
                   <div class="member-name">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.user2.userId}">${friend.user2.firstName}</a>
                           <button id="acceptFriendBtn_${friend.user2.userId}"
-											class="btn btn-edit"
-											onclick="acceptFriend(${friend.user2.userId},${friend.user1.userId})">
+											class="acceptFriendBtn btn btn-edit" userID="${friend.user2.userId}" acceptorID="${friend.user1.userId}" >
                             Accept Friend
                           </button>
 

@@ -4,52 +4,15 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
 	<jsp:body>
-<script>
-	$(document).on('keyup','.member-search',function (event) { searchUsers()});
-	/* $(function() {
-		$('.member-search').keyup(alert('oh yes'))
-	});
- */
-	function searchUsers() {
-		//alert($('#txtPost').val());
-		var searchKeyValue = $('#txtPost').val();
-		if(searchKeyValue != ''){
-		//$.post( "${pageContext.request.contextPath}/search/users", { searchKey: "milind"} );
-		$
-				.ajax({
-					headers : {
-						'Accept' : 'application/json'
-					},
-					method : "POST",
-					url : "${pageContext.request.contextPath}/search/users",
-					data : {
-						searchKey : searchKeyValue
-					},
-					success : function(data) {
-						//alert(data.length);
-						$('.member-container').html('');
-						for (i = 0; i < data.length; i++) {
-							$('.member-container')
-									.append(
-											"<div class=\"bcol-member-block\"> <div class=\"member-image\"> <a href=\"${pageContext.request.contextPath}/profile?userId=" + data[i].userId + "\"> <img src=\"http://feedstack.asia/img/user.jpg\" class=\"member\"> </a> </div> <div class=\"member-name\"> <a href=\"${pageContext.request.contextPath}/profile?userId=" + data[i].userId + "\">"
-													+ data[i].firstName
-													+ " "
-													+ data[i].lastName
-													+ "</a> </div> </div>");
-						}
-						$('.member-container').append(
-								"<div class=\"clear\"></div>");
-					}
-				});
-		}
-		else{
-			$('.member-container').html('');
-		}
-		//window.location.href = "${pageContext.request.contextPath}/search/users?searchKey=" + $('#txtPost').val();
-	};
-</script>  
+	<script
+			src="${pageContext.request.contextPath}/resources/js/search.js"
+			type="text/javascript"></script>
+	<script>
+		$(document).ready(function() {
+			SearchJS.init("${pageContext.request.contextPath}");
+		});
+	</script>
 
- 
     <div class="container-main pad-20">
       <div class="app">
 <!--         <script src="http://feedstack.asia/app/script/members.js"></script> -->
@@ -61,26 +24,14 @@
               <input type="text" class="member-search"
 							placeholder="search..." root="http://feedstack.asia/"
 							id="txtPost">
-							<button class="post-btn" onclick="searchUsers()">Search</button>
+							<button id="searchBtn" class="post-btn" >Search</button>
             </span>
           </div>
           <div class="root" root="http://feedstack.asia/"
 						access-token=""></div>
           <div class="entry">
             <div class="member-container">
-<%--               <c:forEach items="${users}" var="element">
-
-                <div class="bcol-member-block">
-                  <div class="member-image">
-                    <a href="http://feedstack.asia/renudeshmukh">
-                      <img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
-                  </div>
-                  <div class="member-name">
-                    <a href="http://feedstack.asia/renudeshmukh">${element.firstName}</a>
-                  </div>
-                </div>
-              </c:forEach> --%>
-<!--               <div class="clear"></div> -->
+            	<!-- Here comes the dynamic users display from the javascript. -->
             </div>
           </div>
         </div>

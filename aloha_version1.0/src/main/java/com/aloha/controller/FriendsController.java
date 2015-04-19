@@ -80,14 +80,6 @@ public class FriendsController {
 		}
 		model.addAttribute("users", ulist);
 
-		/*
-		 * // fetching the friends of current user u FriendshipDal fd = new
-		 * FriendshipDal();
-		 * 
-		 * List<Friendship> flist = fd.selectFriendshipAllByUser(u.getUserId());
-		 * model.addAttribute("friends", flist);
-		 */
-
 		return "friends/friends";
 
 	}
@@ -187,15 +179,17 @@ public class FriendsController {
 		} else {
 
 			u = (UserUI) session.getAttribute("sessionUser");
+			String mailContent = "Hey Checkout Aloha - A brand new social networking portal \n Click Here to Go to Aloha.com";
 			if (email.contains(",")) {
 				String[] emails = email.split(",");
 				for (String eachEmailAddr : emails) {
 					eachEmailAddr.trim();
-					commonUtils.mailSendUtil(mailSender, eachEmailAddr, u.getEmail());
+					commonUtils.mailSendUtil(mailSender, eachEmailAddr,
+							u.getEmail(), mailContent);
 				}
-			}
-			else{
-				commonUtils.mailSendUtil(mailSender, email, u.getEmail());
+			} else {
+				commonUtils.mailSendUtil(mailSender, email, u.getEmail(),
+						mailContent);
 			}
 			return true;
 		}
