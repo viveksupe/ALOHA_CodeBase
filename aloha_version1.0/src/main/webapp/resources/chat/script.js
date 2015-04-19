@@ -1,4 +1,5 @@
-var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port+ '/common/websocket/'+userID);
+var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
+		+ '/common/websocket/' + userID);
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -27,6 +28,16 @@ function onMessage(event) {
 		$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore(
 				'.msg_push_' + obj.userID);
 	}
+}
+
+function fileSent(toid, fromid) {
+	var obj = new Object();
+	obj.userID = fromid;
+	obj.toUserID = toid;
+	obj.chatMsg = '<a href="http://' + location.hostname + ':' + location.port
+		+ '/common/downloadFile?filename=' +$("#filenameID").val().replace(/.+[\\\/]/, "") +'">File Received</a>'; //document.getElementById('filenameID').value
+	var jsonString = JSON.stringify(obj);
+	webSocket.send(jsonString);
 }
 
 function onOpen(event) {
@@ -220,7 +231,7 @@ function register_popup(toid, fromid, name) {
 	element = element + '<div class="msg_body" ><div class="msg_push_' + toid
 			+ '"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'
+			+ '<div class="msg_footer"><form action="process" method="POST" enctype="multipart/form-data"><input type="file" name="upload_file" id="filenameID"/><br/><input type="submit" value="Upload" onclick=fileSent('+toid+','+fromid+') /></form><table><tr><td width=80%><textarea id="'
 			+ name
 			+ '" class="msg_input'
 			+ toid

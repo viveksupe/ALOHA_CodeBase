@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.entities.Chat;
 import com.aloha.common.entities.ChatToken;
@@ -44,7 +45,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *                 class from the server
  */
 
-//@SessionAttributes("sessionUser")
+@SessionAttributes("sessionUser")
 @Controller
 @ServerEndpoint(value = "/websocket/{clientId}")
 public class WebSocketChatController {
