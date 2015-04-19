@@ -63,17 +63,19 @@ public class Dislike {
 		this.type = type;
 		this.userId = userId;
 		this.postId = postId;
+		lDal = new LikeDislikeDal();
 	}
 	
 	public Dislike( int userId, int postId) {
 		super();
 		this.userId = userId;
 		this.postId = postId;
+		lDal = new LikeDislikeDal();
 	}
 
 	public Dislike() {
 		// TODO Auto-generated constructor stub
-		
+		lDal = new LikeDislikeDal();
 	}
 
 	public int dislikeOrUndislikePost(Dislike dislike) throws SQLException{

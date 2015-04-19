@@ -283,13 +283,16 @@ var PostManager = new function() {
 								}
 							});
 
-				})
+				});
 	};
 
 	this.scribbleDislike = function() {
 		$('.feed-dislike').click(
 				function() {
 					var postId = $(this).attr('feed-id');
+					var userId = $(this).attr('user-id');
+					var likeType = -1;
+					
 					var elem = $(this).find("i").hasClass("fa-thumbs-o-down");
 					if (elem == true) {
 						$(this).find("i").removeClass("fa-thumbs-o-down")
@@ -298,13 +301,48 @@ var PostManager = new function() {
 						$('.feed-like-' + postId).find("i").removeClass(
 								"fa-thumbs-up").addClass("fa-thumbs-o-up");
 						$('.feed-like-' + postId).find("span").html('Like');
+						likeType = 2;
 
 					} else {
 						$(this).find("i").removeClass("fa-thumbs-down")
 								.addClass("fa-thumbs-o-down");
 						$(this).find("span").html('Dislike');
+						likeType = 0;
 					}
-				})
+					
+					$
+					.ajax({
+						headers : {
+							'Accept' : 'application/json'
+						},
+						method : "POST",
+						url : PostManager.Root + "/post/dislike",
+						data : {
+							likeType : likeType,
+							postId : postId,
+							userId : userId
+						},
+						success : function(data) {
+
+							if(data == 1 || data == 2){
+								if(likeType == 2){
+								var count = parseInt($('.dislike-count-' + postId)
+										.html()) + 1;
+								$('.dislike-count-' + postId).html(count);}
+								else{
+									var count = parseInt($('.dislike-count-' + postId)
+											.html()) - 1;
+									$('.dislike-count-' + postId).html(count);
+								}
+							}
+
+						},
+						error : function(data) {
+							// alert(data);
+							console.log(data);
+						}
+					});
+				});
 	};
 
 }
