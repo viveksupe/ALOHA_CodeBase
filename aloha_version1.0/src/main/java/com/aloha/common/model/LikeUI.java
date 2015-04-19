@@ -64,4 +64,10 @@ public class LikeUI {
 		int status = like.likePost(like);
 		return status;
 	}
+	
+	public int toggleLike(int likeType, int postId, int userId) throws SQLException{
+		Like like = new Like(likeType,postId,userId);
+		int status = like.likeOrUnlikePost(like);
+		return status;
+	}
 }
