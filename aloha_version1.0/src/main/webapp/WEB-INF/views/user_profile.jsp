@@ -17,9 +17,20 @@
 <script>	
 	$(document).ready(function(){
 		FriendJS.init("${pageContext.request.contextPath}");
+	
 	});	
 </script>
-
+<script>
+function display_pform(){
+	$('#personalform').css('display','block');
+	$('#displaypersonalinfo').css('display','none');
+}
+</script>
+<script>
+function savepersonalinfo(){
+	$('#personalform').css('display','block');	
+}
+</script>
 
     <div class="container-main pad-20">
 
@@ -30,12 +41,12 @@
             <div class="profile-mobile-bg">
 
 
-              <img src="${pageContext.request.contextPath}/userimages/${profileImageObject.img_id}" class="profile-image-mobile" />
+              <img src="" class="profile-image-mobile" />
             </div>
             <div class="bcol-30">
             <!-- "feed-user mobile-hidden mobile-hidden-main-image" -->
               <div class="feed-user mobile-hidden mobile-hidden-main-image">
-              	<img src="http://feedstack.asia/img/user.jpg" class="profile-image">
+              	<img id="profileimage" userId="${user.getUserId()}" src="${pageContext.request.contextPath}/displayimage?id=${user.getUserId()}" class="profile-image">
 
               </div>
               <div class="profile-buttons" uid="858" liveuser-id="858">
@@ -84,19 +95,35 @@
 </style>
 
 		<div class="container">
-			<div class= "feed-block">
+			<div class = "container" id="displaypersonalinfo" style="display:block;">
+				<div class= "feed-block">
+					<div class = "feed-title">About Me</div>
+					<div class = "feed-title">${personal.getAboutme()}</div>
+				</div>
+				<div class= "feed-block">
+					<div class = "feed-title">Lives In</div>
+					<div class = "feed-title">${personal.getCity()}</div>
+				</div>
+				<div class="profile-buttons" uid="858" liveuser-id="858">
+	                  
+	                    <button class="btn btn-edit" onClick="display_pform()">Edit Personal Information</button>
+	                 
+	            </div>
+	        </div>
+			<div class= "feed-block" id="personalform" style="display:none;">
+				<form id="savepersonalinfo">
+				
 				<div class = "feed-title">About Me</div>
-				<div class = "feed-title">${personal.getAboutme()}</div>
-			</div>
-			<div class= "feed-block">
+				<textarea class="feed-box" placeholder="hey friends I am a new user!" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
+				
 				<div class = "feed-title">Lives In</div>
-				<div class = "feed-title">${personal.getCity()}</div>
+				<input type="text" name="livesin" width="100px" size = "15" pattern="[a-zA-Z]{1,10}" title = "please enter only characters" required/>
+				<div class="profile-buttons" uid="858" liveuser-id="858">
+					<button class="btn btn-edit" type="submit" onSubmit="savePersonalInfo()">Save</button>
+				</div>
+				</form>
 			</div>
-			<div class="profile-buttons" uid="858" liveuser-id="858">
-                  <a href="${pageContext.request.contextPath}/personalinfo">
-                    <button class="btn btn-edit">Edit Personal Information</button>
-                  </a>
-            </div>
+			
 		</div>
 		<div class="container">
 			<div class= "feed-block">

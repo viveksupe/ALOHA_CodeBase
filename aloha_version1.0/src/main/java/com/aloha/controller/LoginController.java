@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Locale;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -104,17 +107,11 @@ public class LoginController extends Secure_Hash{
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
 			UserEducationDal ed = new UserEducationDal();
-			ImageDal pdal = new ImageDal();
+
 			UserPersonalDal updal = new UserPersonalDal();			
 			try {
 				u_ed = ed.selectUserEducationById(u.getUserId());
 				
-				/*pi = pdal.getProfileImage(u.getUserId());		
-				if(pi!=null)
-				{
-					pi.writeToResources();
-					model.addAttribute("imgLocation", "common//resources//userimages"+pi.getImg_id()+".jpeg");
-				}*/
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -129,9 +126,32 @@ public class LoginController extends Secure_Hash{
 		model.addAttribute("user",u);
 		model.addAttribute("education",u_ed);
 		model.addAttribute("personal",up);
-		//model.addAttribute("profileImageObject", pi);
+		
 		return "user_profile";
 	}
+	@RequestMapping(value = "displayimage", method = RequestMethod.GET)
+	void display_image(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String id = request.getParameter("id");
+        System.out.println(id);
+        int user_id = Integer.parseInt(id);
+        ImageDal imd = new ImageDal();
+        ProfileImage pi = null;
+		try {
+			pi = imd.getProfileImage(user_id);
+			response.setContentType("image/jpeg");
+            response.getOutputStream().write( pi.img);
+            response.getOutputStream().close();
+       
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		    response.getWriter().println("Sample text");
+            response.getWriter().close();
+		}
+             
+    }
+	
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.GET)
 	public String forgot_password_display(Locale locale, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.", locale);

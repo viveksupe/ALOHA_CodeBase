@@ -118,7 +118,7 @@ public class UserPersonalDal {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
-		} finally {
+		} finally {			
 			if (ps != null)
 				ps.close();
 			con.close();
