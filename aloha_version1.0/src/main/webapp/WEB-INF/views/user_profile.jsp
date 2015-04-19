@@ -49,11 +49,16 @@
                 <div class="profile-name">
                   <div class="profile-name-span">${user.getFirstName()} ${user.getLastName()} </div>
                 </div>
-				<div> </div>
+				<div class="profile-desc"> 
+					<div>Brith Date: ${user.getDateOfBirth()} </div>
+					<div>Contact: ${user.getContactNumber()} </div>
+					<div>Email: ${user.getEmail()} </div>
+				</div>
 				<div class="profile-buttons" uid="858" liveuser-id="858">
                   <a href="${pageContext.request.contextPath}/editaccountdetails">
                     <button class="btn btn-edit">Account Settings</button>
                   </a>
+                    <button class="btn btn-edit">Make Account Details Private</button>
                 </div>
                 
               </div>
@@ -81,6 +86,11 @@
 		<div class="container">
 			<div class= "feed-block">
 				<div class = "feed-title">About Me</div>
+				<div class = "feed-title">${personal.getAboutme()}</div>
+			</div>
+			<div class= "feed-block">
+				<div class = "feed-title">Lives In</div>
+				<div class = "feed-title">${personal.getCity()}</div>
 			</div>
 			<div class="profile-buttons" uid="858" liveuser-id="858">
                   <a href="${pageContext.request.contextPath}/personalinfo">
