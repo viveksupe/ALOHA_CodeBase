@@ -20,10 +20,9 @@ public class Like {
 	 * @param likeCount
 	 * @param dislikeCount
 	 */
-	public Like(int likeId, LikeType type, int userId, int postId) {
+	public Like(int likeId,  int userId, int postId) {
 		super();
 		this.likeId = likeId;
-		//this.type = type;
 		this.userId = userId;
 		this.postId = postId;
 		lDal = new LikeDislikeDal();
@@ -91,6 +90,10 @@ public class Like {
 	public String toString() {
 		return "Like [likeId=" + likeId + ", userId="
 				+ userId + ", postId=" + postId + ", lDal=" + lDal + "]";
+	}
+	
+	public int likeOrUnlikePost(Like like) throws SQLException{
+		return lDal.insertOrUpdate(like.getLikeId(), like.getPostId(), like.getUserId());
 	}
 
 	

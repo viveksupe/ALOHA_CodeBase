@@ -59,10 +59,9 @@ public class Dislike {
 	 * @param likeCount
 	 * @param dislikeCount
 	 */
-	public Dislike(int dislikeId, LikeType type, int userId, int postId) {
+	public Dislike(int dislikeId, int userId, int postId) {
 		super();
 		this.dislikeId = dislikeId;
-		//this.type = type;
 		this.userId = userId;
 		this.postId = postId;
 	}
@@ -95,4 +94,7 @@ public class Dislike {
 		return lDal.updateLike(0, dislike.getDislikeId());
 	}
 
+	public int dislikeOrUndislikePost(Dislike dislike) throws SQLException{
+		return lDal.insertOrUpdate(dislike.getDislikeId(), dislike.getPostId(), dislike.getUserId());
+	}
 }
