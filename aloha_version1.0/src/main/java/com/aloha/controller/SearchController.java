@@ -31,21 +31,16 @@ public class SearchController {
 	@RequestMapping(value = "search/users", method = RequestMethod.GET)
 	public String searchUsers(Locale locale, Model model, HttpSession session) {
 		logger.info("Entered Search Users GET");
-
+		if(null==session.getAttribute("sessionUser")){
+			return "redirect:" + "/login";
+		}
 		return "search/users";
 	}
 
-	/*
-	 * @RequestMapping(value = "To be changed to later > search/users", method =
-	 * RequestMethod.POST) public @ResponseBody String OldsearchUsers(
-	 * 
-	 * @RequestParam("searchKey") String searchKey, Model model) {
-	 * 
-	 * } catch (SQLException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 * 
-	 * StringBuilder string = searchUserResultBuilder(ulist); return
-	 * string.toString(); }
+	/**
+	 * @param searchKey
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "search/users", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<User> searchUsers(
@@ -64,10 +59,6 @@ public class SearchController {
 			e.printStackTrace();
 		}
 
-		// TODO then create a global user view which will also fetch the users
-		// from the DB and their friendship from the DB. If friendship exists
-		// then add friend button should not be shown.
-		// return ulist;
 		return ulist;
 	}
 
@@ -121,6 +112,7 @@ public class SearchController {
 		return "profile";
 	}
 
+	@Deprecated
 	public StringBuilder searchUserResultBuilder(ArrayList<User> ulist) {
 		StringBuilder returnString = new StringBuilder();
 		returnString.append("<div class=\"bcol-member-block\">");
