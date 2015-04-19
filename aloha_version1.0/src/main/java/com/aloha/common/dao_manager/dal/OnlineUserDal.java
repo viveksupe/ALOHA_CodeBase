@@ -35,9 +35,9 @@ public class OnlineUserDal {
 		SELECT_ONLINE_USERS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE user.user_id in (SELECT online_users.user_id FROM online_users);";
 		SELECT_ONLINE_FRIENDS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive from user where user_id in ("
 				+ "SELECT user_id from online_users"
-				+ " where user_id in (SELECT friendship.user_id1 FROM friendship where friendship.user_id2 = ?"
+				+ " where user_id in (SELECT friendship.user_id1 FROM friendship where friendship.user_id2 = ? and friendship.friend_status_id=2"
 				+ " union"
-				+ " SELECT friendship.user_id2 FROM friendship where friendship.user_id1 = ?));";
+				+ " SELECT friendship.user_id2 FROM friendship where friendship.user_id1 = ? and friendship.friend_status_id=2));";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 

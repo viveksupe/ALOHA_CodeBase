@@ -290,9 +290,9 @@ public class UserDal {
 
 	public ArrayList<User> selectUsersByName(String name) throws SQLException {
 		String SelectUsersByPrimaryKeyStatement = SELECT
-				+ " where user.fname ? or user.lname ?";
+				+ " where user.fname like ? or user.lname like ? ;";
 		PreparedStatement ps = null;
-		String likeClause = "like '%" + name + "%';";
+		String likeClause = "%" + name + "%";
 		ResultSet rSet = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
