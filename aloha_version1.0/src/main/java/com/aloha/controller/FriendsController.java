@@ -80,14 +80,6 @@ public class FriendsController {
 		}
 		model.addAttribute("users", ulist);
 
-		/*
-		 * // fetching the friends of current user u FriendshipDal fd = new
-		 * FriendshipDal();
-		 * 
-		 * List<Friendship> flist = fd.selectFriendshipAllByUser(u.getUserId());
-		 * model.addAttribute("friends", flist);
-		 */
-
 		return "friends/friends";
 
 	}

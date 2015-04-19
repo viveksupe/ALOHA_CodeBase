@@ -40,9 +40,6 @@ public class SearchController {
 	 * RequestMethod.POST) public @ResponseBody String OldsearchUsers(
 	 * 
 	 * @RequestParam("searchKey") String searchKey, Model model) {
-	 * logger.info("Entered Search Users POST method"); ArrayList<User> ulist =
-	 * null; UserDal ud = new UserDal(); try { ulist =
-	 * ud.selectUsersByName(searchKey); model.addAttribute("users", ulist);
 	 * 
 	 * } catch (SQLException e) { // TODO Auto-generated catch block
 	 * e.printStackTrace(); }
@@ -54,8 +51,6 @@ public class SearchController {
 	public @ResponseBody ArrayList<User> searchUsers(
 			@RequestParam("searchKey") String searchKey, Model model) {
 		logger.info("Entered Search Users POST method");
-		// TODO write a query in USERDAL and use it here. to return the users
-		// list.
 		ArrayList<User> ulist = null;
 		ArrayList<UserUI> uiList = null;
 		UserDal ud = new UserDal();
@@ -78,7 +73,7 @@ public class SearchController {
 
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
 	public String display_user_profile(@RequestParam("userId") int id,
-			Model model, HttpSession session) {
+			Model model, HttpSession session) throws SQLException {
 		User u = new User();
 		FriendshipDal fdal = new FriendshipDal();
 		Friendship f = new Friendship();
@@ -102,13 +97,7 @@ public class SearchController {
 			}
 
 			ArrayList<Friendship> pendingRequests = null;
-			try {
-				pendingRequests = fdal
-						.selectPendingFriendRequests(userInSession);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			pendingRequests = f.getPendingFriendshipRequest(userInSession);
 			model.addAttribute("pendingFriends", pendingRequests);
 			return "user_profile";
 		}

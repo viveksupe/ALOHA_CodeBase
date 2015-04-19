@@ -30,7 +30,7 @@ public class OnlineUserDal {
 
 	public OnlineUserDal() {
 		SELECT = "SELECT online_users.user_id FROM online_users";
-		INSERT = "INSERT INTO online_users (user_id) VALUES (?);";
+		INSERT = "INSERT INTO online_users (user_id) VALUES (?) ON DUPLICATE KEY UPDATE user_id = ?;";
 		DELETE = "DELETE FROM online_users WHERE user_id = ?;";
 		SELECT_ONLINE_USERS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE user.user_id in (SELECT online_users.user_id FROM online_users);";
 		SELECT_ONLINE_FRIENDS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive from user where user_id in ("
@@ -91,12 +91,10 @@ public class OnlineUserDal {
 		int result = -1;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
-			ps = con.prepareStatement(insertUserQuery,
-					Statement.RETURN_GENERATED_KEYS);
+			ps = con.prepareStatement(insertUserQuery);
 			ps.setInt(1, id);
-			ps.executeUpdate();
-			ResultSet rs = ps.getGeneratedKeys();
-			result = rs.getInt("user_id");
+			ps.setInt(2, id);
+			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -22,9 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.aloha.common.dao_manager.dal.OnlineUserDal;
 import com.aloha.common.entities.Chat;
 import com.aloha.common.entities.ChatToken;
+import com.aloha.common.entities.OnlineUsers;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.ChatUI;
 import com.aloha.common.model.UserUI;
@@ -57,7 +57,7 @@ public class WebSocketChatController {
 			.getLogger(HomeController.class);
 
 	@RequestMapping("chat")
-	public String home(Model model,HttpSession session) { // , HttpSession sesi
+	public String home(Model model,HttpSession session) throws SQLException { // , HttpSession sesi
 		// System.out.println(sesi.getAttribute("sessionUser"));
 		/*
 		 * logger.info("Welcome home! The client locale is {}.",
@@ -85,14 +85,9 @@ public class WebSocketChatController {
 		
 		
 		ArrayList<User> onlineUsers = null;
-		OnlineUserDal olDal = new OnlineUserDal();
+		OnlineUsers olUsers = new OnlineUsers();
 		
-		try {
-			onlineUsers = olDal.selectOnlineFriends(curSessionUser.getUserId());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		onlineUsers = olUsers.getOnlineFriends(curSessionUser.getUserId());
 
 		/*
 		 * onlineUsers.add(u1); onlineUsers.add(u2); onlineUsers.add(u3);

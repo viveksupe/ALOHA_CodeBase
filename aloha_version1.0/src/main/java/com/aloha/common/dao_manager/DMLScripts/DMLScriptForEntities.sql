@@ -1,8 +1,6 @@
-CREATE DATABASE `sql373425` /*!40100 DEFAULT CHARACTER SET latin1 */;
-use sql373425;
-DROP TABLE IF EXISTS `sql373425`.`user`;
+use testdb;
 
-CREATE TABLE  `sql373425`.`user` (
+CREATE TABLE  `testdb`.`user` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `fname` varchar(20) NOT NULL,
   `lname` varchar(20) NOT NULL,
@@ -15,9 +13,9 @@ CREATE TABLE  `sql373425`.`user` (
   `lastactive` datetime NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-DROP TABLE IF EXISTS `sql373425`.`chat`;
+DROP TABLE IF EXISTS `testdb`.`chat`;
 
-CREATE TABLE  `sql373425`.`chat` (
+CREATE TABLE  `testdb`.`chat` (
   `chat_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `chatContent` varchar(250) NOT NULL,
   `timestamp` datetime NOT NULL,
@@ -30,15 +28,15 @@ CREATE TABLE  `sql373425`.`chat` (
   CONSTRAINT `FK_chat_2` FOREIGN KEY (`user_id2`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `sql373425`.`friend_status`;
-CREATE TABLE  `sql373425`.`friend_status` (
+DROP TABLE IF EXISTS `testdb`.`friend_status`;
+CREATE TABLE  `testdb`.`friend_status` (
   `status_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `desc` varchar(45) NOT NULL,
   PRIMARY KEY (`status_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `sql373425`.`friendship`;
-CREATE TABLE  `sql373425`.`friendship` (
+DROP TABLE IF EXISTS `testdb`.`friendship`;
+CREATE TABLE  `testdb`.`friendship` (
   `friendship_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id1` int(10) unsigned NOT NULL,
   `user_id2` int(10) unsigned NOT NULL,
@@ -52,8 +50,8 @@ CREATE TABLE  `sql373425`.`friendship` (
   CONSTRAINT `FK_friendship_1` FOREIGN KEY (`user_id1`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `sql373425`.`post`;
-CREATE TABLE  `sql373425`.`post` (
+DROP TABLE IF EXISTS `testdb`.`post`;
+CREATE TABLE  `testdb`.`post` (
   `post_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `post_content` varchar(500) NOT NULL,
   `hascomments` tinyint(1) NOT NULL DEFAULT '0',
@@ -65,8 +63,8 @@ CREATE TABLE  `sql373425`.`post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `sql373425`.`likedislike`;
-CREATE TABLE  `sql373425`.`likedislike` (
+DROP TABLE IF EXISTS `testdb`.`likedislike`;
+CREATE TABLE  `testdb`.`likedislike` (
   `like_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `like_type` tinyint(1) NOT NULL DEFAULT '0',
   `user_id` int(10) unsigned NOT NULL,
@@ -78,8 +76,8 @@ CREATE TABLE  `sql373425`.`likedislike` (
   CONSTRAINT `FK_likedislike_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `sql373425`.`comment`;
-CREATE TABLE  `sql373425`.`comment` (
+DROP TABLE IF EXISTS `testdb`.`comment`;
+CREATE TABLE  `testdb`.`comment` (
   `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `comment_content` varchar(500) NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
