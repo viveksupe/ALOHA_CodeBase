@@ -56,7 +56,7 @@ public class DislikeUI {
 
 	
 	public int toggleDislike(int dislikeType, int postId, int userId) throws SQLException{
-		Dislike dislike = new Dislike(dislikeType,postId, userId);
+		Dislike dislike = new Dislike(dislikeType, userId,postId);
 		int status = dislike.dislikeOrUndislikePost(dislike);
 		return status;
 	}
