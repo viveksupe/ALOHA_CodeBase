@@ -35,9 +35,9 @@ public class OnlineUserDal {
 		SELECT_ONLINE_USERS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE user.user_id in (SELECT online_users.user_id FROM online_users);";
 		SELECT_ONLINE_FRIENDS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive from user where user_id in ("
 				+ "SELECT user_id from online_users"
-				+ "where user_id in (SELECT friendship.user_id1 FROM friendship where friendship.user_id2 = ?"
-				+ "union"
-				+ "SELECT friendship.user_id2 FROM friendship where friendship.user_id1 = ?));";
+				+ " where user_id in (SELECT friendship.user_id1 FROM friendship where friendship.user_id2 = ?"
+				+ " union"
+				+ " SELECT friendship.user_id2 FROM friendship where friendship.user_id1 = ?));";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
@@ -109,7 +109,7 @@ public class OnlineUserDal {
 	}
 
 	public ArrayList<User> selectOnlineUsers() throws SQLException {
-		String selectOnlineUsersQuery = SELECT;
+		String selectOnlineUsersQuery = SELECT_ONLINE_USERS;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -146,13 +146,15 @@ public class OnlineUserDal {
 		}
 	}
 
-	public ArrayList<User> selectOnlineFriends() throws SQLException {
-		String selectOnlineFriendsQuery = SELECT;
+	public ArrayList<User> selectOnlineFriends(int userId) throws SQLException {
+		String selectOnlineFriendsQuery = SELECT_ONLINE_FRIENDS;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(selectOnlineFriendsQuery);
+			ps.setInt(1, userId);
+			ps.setInt(2, userId);
 			rSet = ps.executeQuery();
 			ArrayList<User> users = new ArrayList<User>();
 			if (rSet != null) {
