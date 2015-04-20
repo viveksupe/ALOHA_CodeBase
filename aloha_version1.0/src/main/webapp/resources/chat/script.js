@@ -22,8 +22,8 @@ webSocket.onclose = function(event) {
 function onMessage(event) {
 	var obj = new Object();
 	obj = JSON.parse(event.data);
-	document.getElementById('messages').innerHTML += '<br />Received message: '
-			+ obj.chatMsg;
+	/*document.getElementById('messages').innerHTML += '<br />Received message: '
+			+ obj.chatMsg;*/
 	if ($("#" + obj.userID).length == 0) {
 		register_popup(obj.userID, obj.toUserID, obj.Sendername);
 	} else {
@@ -47,7 +47,8 @@ function fileSent(toid, fromid) {
 }
 
 function onOpen(event) {
-	$('#status').remove();
+	$('.chat_body').slideToggle('slow');
+	//$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>')
 			.insertAfter('.chat_body');
@@ -55,7 +56,7 @@ function onOpen(event) {
 }
 
 function onError(event) {
-	$('#status').remove();
+	//$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:red;">Chat Server Offline ('
 					+ event.data + ')</div>').insertAfter('.chat_body');
@@ -63,7 +64,7 @@ function onError(event) {
 }
 
 function onClose(event) {
-	$('#status').remove();
+	//$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:red;">Chat Server Offline</div>')
 			.insertAfter('.chat_body');
@@ -102,8 +103,8 @@ function SendMsg(message, toid, fromid) {
 		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore(
 				'.msg_push_' + toid);
 		webSocket.send(jsonString);
-		document.getElementById('messages').innerHTML += '<br />Sent message: '
-				+ obj.chatMsg;
+		/*document.getElementById('messages').innerHTML += '<br />Sent message: '
+				+ obj.chatMsg;*/
 	}
 	$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 

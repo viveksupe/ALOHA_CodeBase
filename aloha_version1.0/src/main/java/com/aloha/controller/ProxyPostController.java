@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.model.GetCommentUI;
 import com.aloha.common.model.GetLikeStatusUI;
@@ -19,6 +20,7 @@ import com.aloha.common.model.GetPostsUI;
 import com.aloha.common.model.GetStatusUI;
 
 @Controller
+@SessionAttributes("sessionUser")
 public class ProxyPostController implements IPostController {
 
 	private PostController postController;
