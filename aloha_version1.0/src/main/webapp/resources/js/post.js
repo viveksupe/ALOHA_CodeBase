@@ -2,12 +2,15 @@ var PostManager = new function() {
 
 	this.Posts = [];
 	this.Root = '';
+	this.DateTimeForPaging='';
 
 	this.Comments = [];
 
 	this.init = function(root) {
 		// alert('in init');
 		this.Root = root;
+		var d = new Date();
+		this.DateTimeForPaging = d.toUTCString();
 		this.getPosts();
 
 		// this.savePost();
@@ -145,7 +148,7 @@ var PostManager = new function() {
 			method : "POST",
 			url : PostManager.Root + "/post/getAll",
 			data : {
-				searchKey : "ignore"
+				datetime : PostManager.DateTimeForPaging
 			},
 			success : function(data) {
 				if (data.statusCode == 0) {
