@@ -3,6 +3,7 @@ package com.aloha.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,7 +33,7 @@ import com.mysql.jdbc.StringUtils;
 public class PostController implements IPostController {
 	
 	//@RequestMapping(value = "post/getAll", method=RequestMethod.POST)
-	public @ResponseBody GetPostsUI getAllPosts(@RequestParam("searchKey") String searchKey, Model model, HttpSession session) {
+	public @ResponseBody GetPostsUI getAllPosts(@RequestParam("datetime") String searchKey, Model model, HttpSession session) {
 		
 		GetPostsUI gui = new GetPostsUI();
 		UserUI userUIInSession = (UserUI) session.getAttribute("sessionUser");

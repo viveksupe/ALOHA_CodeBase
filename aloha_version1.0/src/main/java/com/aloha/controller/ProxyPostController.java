@@ -1,6 +1,7 @@
 package com.aloha.controller;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.model.GetCommentUI;
 import com.aloha.common.model.GetLikeStatusUI;
@@ -19,6 +21,7 @@ import com.aloha.common.model.GetPostsUI;
 import com.aloha.common.model.GetStatusUI;
 
 @Controller
+@SessionAttributes("sessionUser")
 public class ProxyPostController implements IPostController {
 
 	private PostController postController;
@@ -32,7 +35,7 @@ public class ProxyPostController implements IPostController {
 	@RequestMapping(value = "post/getAll", method = RequestMethod.POST)
 	@Override
 	public @ResponseBody GetPostsUI getAllPosts(
-			@RequestParam("searchKey") String searchKey, Model model,
+			@RequestParam("datetime") String searchKey, Model model,
 			HttpSession session) {
 		// TODO Auto-generated method stub
 		GetPostsUI gui = new GetPostsUI();

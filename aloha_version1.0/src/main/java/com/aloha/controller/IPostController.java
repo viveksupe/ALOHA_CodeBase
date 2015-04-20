@@ -1,5 +1,7 @@
 package com.aloha.controller;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
@@ -13,7 +15,7 @@ import com.aloha.common.model.GetStatusUI;
 public interface IPostController {
 
 	
-	public GetPostsUI getAllPosts(String searchKey, Model model, HttpSession session);
+	public GetPostsUI getAllPosts(String datetime, Model model, HttpSession session);
 	
 	public GetPostUI addPost(String post, HttpSession session);
 	
