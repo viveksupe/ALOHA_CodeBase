@@ -176,7 +176,7 @@
     <img id="gull" src="https://bit.ly/static/graphics/gull-404.png" />
 
     <ul class="bottomLinkList">
-        <li><a href="/">Home</a></li>
+        <li><a href="${pageContext.request.contextPath}">Home</a></li>
         <li><a href="mailto:support@aloha.com">Contact Us</a></li>
         <li class="copy">&copy; 2015 ALOHA<span class="tm">TM</span></li>
     </ul>

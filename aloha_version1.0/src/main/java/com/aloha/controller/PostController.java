@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,62 +20,33 @@ import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Comment;
 import com.aloha.common.entities.Post;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.entities.user.UserInfo;
 import com.aloha.common.model.CommentUI;
 import com.aloha.common.model.DislikeUI;
 import com.aloha.common.model.LikeUI;
 import com.aloha.common.model.PostUI;
+import com.aloha.common.model.UserUI;
 
 
 @Controller
 public class PostController {
 	
-	@RequestMapping(value = "post/getPost", method=RequestMethod.POST)
-	public @ResponseBody ArrayList<PostUI> displayPosts(@RequestParam("searchKey") String searchKey, Model model) {
+	//@RequestMapping(value = "post/getAll", method=RequestMethod.POST)
+	public @ResponseBody ArrayList<PostUI> getAllPosts(@RequestParam("searchKey") String searchKey, Model model, HttpSession session) {
 		
-		User u = new User();
-
-		// fetching my first user from the db to start adding friends
-		UserDal ud = new UserDal();
-		try {
-			u = ud.selectUserByPrimaryKey(1);
-			PostUI pui = new PostUI();
-			
-			ArrayList<PostUI> posts = pui.getPostsForUser(u);
-			return posts;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		UserUI userUIInSession = (UserUI) session.getAttribute("sessionUser");
 		
-		return new ArrayList<PostUI>();
+		PostUI pui = new PostUI();
+		
+		ArrayList<PostUI> posts = pui.getPostsForUserAndFriends(userUIInSession.getUserId());
+		return posts;
 	}
 	
-	@RequestMapping(value = "post/getAll", method=RequestMethod.POST)
-	public @ResponseBody ArrayList<PostUI> getAllPosts(@RequestParam("searchKey") String searchKey, Model model) {
-		
-		User u = new User();
-
-		// fetching my first user from the db to start adding friends
-		UserDal ud = new UserDal();
-		try {
-			u = ud.selectUserByPrimaryKey(1);
-			PostUI pui = new PostUI();
-			
-			ArrayList<PostUI> posts = pui.getPostsForUserAndFriends(1);
-			return posts;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return new ArrayList<PostUI>();
-	}
-	
-	@RequestMapping("post")
-	public String setup(Locale locale, Model model) throws SQLException{
-		
-		return "postContainer";
-	}
+//	@RequestMapping("post")
+//	public String setup(Locale locale, Model model) throws SQLException{
+//		
+//		return "postContainer";
+//	}
 	
 	@RequestMapping(value="post/add", method=RequestMethod.POST)
 	public @ResponseBody PostUI addPost(@RequestParam("postData") String post) throws SQLException{
