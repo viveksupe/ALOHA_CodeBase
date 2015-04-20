@@ -2,6 +2,7 @@ package com.aloha.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -51,9 +52,9 @@ public class FriendsController {
 		UserUI testUser = null;
 		// testuser = ud.selectUserByPrimaryKey(4);
 		testUser = (UserUI) session.getAttribute("sessionUser");
-		model.addAttribute("globalstatus","logout");
-		model.addAttribute("globalstatuslink","logout");
-		
+		model.addAttribute("globalstatus", "logout");
+		model.addAttribute("globalstatuslink", "logout");
+
 		return "friends/index";
 	}
 
@@ -75,17 +76,17 @@ public class FriendsController {
 
 		ArrayList<User> ulist;
 		if (null == session.getAttribute("sessionUser")) {
-			model.addAttribute("globalstatus","login");
-			model.addAttribute("globalstatuslink","login");
-			
+			model.addAttribute("globalstatus", "login");
+			model.addAttribute("globalstatuslink", "login");
+
 			return "redirect:" + "login";
 		} else {
 			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
 			ulist = f.getUserFriends(commonUtils
 					.convertUserUIToUser(sessionUserUI));
-			model.addAttribute("globalstatus","logout");
-			model.addAttribute("globalstatuslink","logout");
-			
+			model.addAttribute("globalstatus", "logout");
+			model.addAttribute("globalstatuslink", "logout");
+
 		}
 		model.addAttribute("users", ulist);
 
@@ -203,4 +204,62 @@ public class FriendsController {
 			return true;
 		}
 	}
+
+	@RequestMapping("friends/suggestions")
+	public String displayFriendsSuggestions(Locale locale, Model model,
+			HttpSession session) throws SQLException {
+		// hashmap to store user id and count.
+		HashMap<Integer, Integer> immediateFriends = new HashMap<Integer, Integer>();
+
+		User u = new User();
+		Friendship f = new Friendship();
+
+		ArrayList<User> ulist;
+		if (null == session.getAttribute("sessionUser")) {
+			model.addAttribute("globalstatus", "login");
+			model.addAttribute("globalstatuslink", "login");
+
+			return "redirect:" + "login";
+		} else {
+			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
+			ulist = f.getUserFriends(commonUtils
+					.convertUserUIToUser(sessionUserUI));
+			for (User friend : ulist) {
+				immediateFriends.putIfAbsent(friend.getUserId(), 1);
+				/*
+				 * if (!immediateFriends.containsKey(friend.getUserId())) {
+				 * immediateFriends.put(friend.getUserId(), 1); } else {
+				 * immediateFriends.put(friend.getUserId(),
+				 * immediateFriends.get(friend.getUserId() + 1)); }
+				 */
+			}
+
+			HashMap<Integer, Integer> totalFriendSuggestions = new HashMap<Integer, Integer>();
+			for (User friend : ulist) {
+				ArrayList<User> friendsOfFriends = f.getUserFriends(friend);
+				for (User eachFriend : friendsOfFriends) {
+					if (!immediateFriends.containsKey(eachFriend.getUserId())) {
+						if (!totalFriendSuggestions.containsKey(eachFriend
+								.getUserId())) {
+							totalFriendSuggestions.put(eachFriend.getUserId(),
+									1);
+						} else {
+							totalFriendSuggestions.put(eachFriend.getUserId(),
+									totalFriendSuggestions.get(eachFriend
+											.getUserId() + 1));
+						}
+					}
+				}
+			}
+
+			model.addAttribute("globalstatus", "logout");
+			model.addAttribute("globalstatuslink", "logout");
+
+		}
+		model.addAttribute("users", ulist);
+
+		return "friends/suggestions";
+
+	}
+
 }
