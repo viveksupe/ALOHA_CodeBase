@@ -26,7 +26,7 @@
 	 <h2>Forgot Password</h2><br/>
 	 <h6>${headerMessage}</h6>
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
-	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle"><br/>
+	 <input class="btn btn-primary" type="submit" value="submit" name="submit" align="middle"><br/>
 	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/sign_up/">Not a member yet? Join Us</a>
 </div>
 

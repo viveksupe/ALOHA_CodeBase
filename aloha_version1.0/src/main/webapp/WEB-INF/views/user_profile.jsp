@@ -27,8 +27,22 @@ function display_pform(){
 }
 </script>
 <script>
-function savepersonalinfo(){
-	$('#personalform').css('display','block');	
+function display_eform(){
+	$('#educationform').css('display','block');
+	$('#displayeducationinfo').css('display','none');
+}
+</script>
+
+<script>
+function savePersonalInfo(){
+	$('#personalform').css('display','none');
+	$('#displaypersonalinfo').css('display','block');
+}
+</script>
+<script>
+function saveEducationInfo(){
+	$('#educationform').css('display','none');
+	$('#displaypersonalinfo').css('display','block');
 }
 </script>
 
@@ -111,32 +125,40 @@ function savepersonalinfo(){
 	            </div>
 	        </div>
 			<div class= "feed-block" id="personalform" style="display:none;">
-				<form id="savepersonalinfo">
-				
-				<div class = "feed-title">About Me</div>
-				<textarea class="feed-box" placeholder="hey friends I am a new user!" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
-				
-				<div class = "feed-title">Lives In</div>
-				<input type="text" name="livesin" width="100px" size = "15" pattern="[a-zA-Z]{1,10}" title = "please enter only characters" required/>
-				<div class="profile-buttons" uid="858" liveuser-id="858">
-					<button class="btn btn-edit" type="submit" onSubmit="savePersonalInfo()">Save</button>
-				</div>
+				<form id="savepersonalinfo" action="${pageContext.request.contextPath}/personalinfo" method="post">				
+					<div class = "feed-title">About Me</div>
+					<textarea name="aboutme" class="feed-box" form="savepersonalinfo" placeholder="hey friends I am a new user!" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
+					
+					<div class = "feed-title">Lives In</div>
+					<input type="text" name="livesin" width="100px" size = "15" pattern="[a-zA-Z]{1,10}" title = "please enter only characters" required/>
+					<div class="profile-buttons" uid="858" liveuser-id="858">
+							<button class="btn btn-edit" type="submit" onSubmit="savePersonalInfo()">Save</button>
+					</div>
 				</form>
 			</div>
 			
 		</div>
-		<div class="container">
-			<div class= "feed-block">
+		<div class="container" id="displayeducationinfo" style="display:block;">
+			<div class= "feed-block" style="display:block;">
 				<div class = "feed-title">Education</div>
-				<div class = "feed-title">${education.getSchool() } ${education.getArea()}</div>
+				<div class = "feed-title">${education.getSchool()} ${education.getArea()}</div>
 			</div>
 			<div class="profile-buttons" uid="858" liveuser-id="858">
-                  <a href="${pageContext.request.contextPath}/educationinfo">
-                    <button class="btn btn-edit">Edit Education Details</button>
-                  </a>
+                     <button class="btn btn-edit" onClick="display_eform()">Edit Education Details</button>
             </div>
 		</div>	
-
+		<div class= "feed-block" id="educationform" style="display:none;">
+				<form id="saveeducationinfo" action="${pageContext.request.contextPath}/educationinfo" method="post">				
+					<div class = "feed-title">School</div>
+					<input type="text" name="school" width="100px" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					
+					<div class = "feed-title">Area</div>
+					<input type="text" name="area" width="100px" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					<div class="profile-buttons" uid="858" liveuser-id="858">
+							<button class="btn btn-edit" type="submit" onSubmit="saveEducationInfo()">Save</button>
+					</div>
+				</form>
+		</div>
         <a href = "${pageContext.request.contextPath}/chat"><h6>chat</h6>
         <div class="clear"></div>
 
