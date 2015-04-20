@@ -50,9 +50,13 @@ public class EditProfileController{
 	public String edit_profile(Locale locale, Model model, HttpSession session) {
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",u);
 		return "editprofile";
@@ -62,9 +66,13 @@ public class EditProfileController{
 	public String save(FileUploadBean uploadForm, Model map, HttpSession session) {
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			map.addAttribute("globalstatus","login");
+			map.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
+			map.addAttribute("globalstatus","logout");
+			map.addAttribute("globalstatuslink","logout");
 			map.addAttribute("user",u);
 			MultipartFile file = uploadForm.getFile();
 	        byte[] bytefile;
@@ -111,11 +119,15 @@ public class EditProfileController{
 	public String show_page(Model map,HttpSession session){
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			map.addAttribute("globalstatus","login");
+			map.addAttribute("globalstatuslink","login");
 			return "Login";
 		}
 		else
 		{
 			u = (UserUI)session.getAttribute("sessionUser");
+			map.addAttribute("globalstatus","logout");
+			map.addAttribute("globalstatuslink","logout");
 		}
 		map.addAttribute("user",u);
 		return "editaccountdetails";
@@ -126,10 +138,14 @@ public class EditProfileController{
 		String res = "";
 		EditProfileService eps = new EditProfileService();
 		if(null==session.getAttribute("sessionUser")){
+			map.addAttribute("globalstatus","login");
+			map.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
 			res = eps.save_account_details(fname, lname, cnum, dob, u);
+			map.addAttribute("globalstatus","logout");
+			map.addAttribute("globalstatuslink","logout");
 			map.addAttribute("user",u);
 		}
 	    return "redirect:"+"user_profile";		
@@ -147,11 +163,15 @@ public class EditProfileController{
 		EditProfileService eps = new EditProfileService();
 		
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			return "Login";
 		}
 		else
 		{
 			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 			int res = eps.saveeducation(school, area, u);
 		}
 		model.addAttribute("user",u);
@@ -163,11 +183,17 @@ public class EditProfileController{
 		EditProfileService eps = new EditProfileService();
 		
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			
 			return "Login";
 		}
 		else
 		{
 			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+			
 			int res = eps.savepersonal(aboutme, city, u);
 			
 		}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.aloha.common.entities.user.User;
+import com.aloha.common.model.UserUI;
 
 /**
  * Handles requests for the application home page.
@@ -36,6 +37,17 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
+		UserUI u = new UserUI();
+		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			return "Login";
+		}else{
+			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+		}
+		model.addAttribute("user",u);
 		return "home";
 	}
 	

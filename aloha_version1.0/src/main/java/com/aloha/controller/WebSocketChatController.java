@@ -80,6 +80,9 @@ public class WebSocketChatController {
 		 */
 		
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			
 			return "redirect:" + "login";
 		}
 		UserUI curSessionUser = (UserUI) session.getAttribute("sessionUser");
@@ -94,7 +97,9 @@ public class WebSocketChatController {
 		 * onlineUsers.add(u1); onlineUsers.add(u2); onlineUsers.add(u3);
 		 */
 		model.addAttribute("onlineUsers", onlineUsers);
-
+		model.addAttribute("globalstatus","logout");
+		model.addAttribute("globalstatuslink","logout");
+		
 		return "chat";
 	}
 

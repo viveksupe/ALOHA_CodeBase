@@ -47,9 +47,13 @@ public class LoginController extends Secure_Hash{
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",u);
 		return "user_profile";
@@ -70,8 +74,12 @@ public class LoginController extends Secure_Hash{
 			{
 				model.addAttribute("sessionUser",ui);
 			}
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 		}else{			
 			ui = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",ui);
 		
@@ -79,41 +87,6 @@ public class LoginController extends Secure_Hash{
 	}
 
 	
-/*
- * old login method	
- */
-/*public String perform_login(@RequestParam("email") String email, @RequestParam("pwd") String pwd, Model model, HttpSession session) {
-		logger.info("Welcome login! The client locale is {}.");
-		User u = new User();
-		UserUI ui = new UserUI();
-		if(null==session.getAttribute("sessionUser")){
-			UserDal ud = new UserDal();
-			User res= null;
-			String ret = "Login";
-
-			try {
-				res = ud.getPasswordByEmail(email,pwd);
-			} catch (SQLException e) {
-				model.addAttribute("headerMessage","Something went wrong please try again");
-			}
-			if(res!=null)	
-			{
-				ui.setUser(res);
-				OnlineUsers olUsers = new OnlineUsers();
-				olUsers.addUserAsOnline(res.getUserId());
-				model.addAttribute("sessionUser",ui);
-				return "redirect:"+"user_profile";				
-			}
-			else
-				model.addAttribute("headerMessage","email or password does not match please try again");
-			return ret;
-			
-		}else{
-			ui = (UserUI)session.getAttribute("sessionUser");
-			model.addAttribute("user",ui);
-			return "redirect:"+"user_profile";
-		}		
-	}*/
 	
 	@RequestMapping(value = "user_profile", method = RequestMethod.GET)
 	public String display_user_profile(Model model, HttpSession session){
@@ -122,11 +95,15 @@ public class LoginController extends Secure_Hash{
 		UserPersonal up = null;
 		LoginService login_service = new LoginService();
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			return "redirect:"+"login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
 			u_ed = login_service.getEducation(u);
-			up = login_service.get_personal(u);				
+			up = login_service.get_personal(u);		
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("education",u_ed);
 		model.addAttribute("personal",up);
@@ -169,9 +146,13 @@ public class LoginController extends Secure_Hash{
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			return "forgotpassword";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",u);
 		return "user_profile";
@@ -205,11 +186,15 @@ public class LoginController extends Secure_Hash{
 				res = email+"no such user exists";
 			}
 			model.addAttribute("headerMessage",res);
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			return "forgotpassword";
 		}
 		else{
 			u = (UserUI)session.getAttribute("sessionUser");
 			model.addAttribute("headerMessage","you are already logged in");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",u);
 		return "redirect:"+"logout";
