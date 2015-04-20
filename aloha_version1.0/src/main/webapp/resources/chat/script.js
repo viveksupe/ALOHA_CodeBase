@@ -35,7 +35,7 @@ function fileSent(toid, fromid) {
 	obj.userID = fromid;
 	obj.toUserID = toid;
 	obj.chatMsg = '<a href="http://' + location.hostname + ':' + location.port
-		+ '/common/downloadFile?filename=' +$("#filenameID").val().replace(/.+[\\\/]/, "") +'">File Received</a>'; //document.getElementById('filenameID').value
+		+ '/common/downloadFile?filename=' +$("#filenameID").val().replace(/.+[\\\/]/, "") +'" target="_blank"">File Received</a>'; //document.getElementById('filenameID').value
 	var jsonString = JSON.stringify(obj);
 	webSocket.send(jsonString);
 }

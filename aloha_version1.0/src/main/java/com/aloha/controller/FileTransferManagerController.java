@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
@@ -29,8 +30,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class FileTransferManagerController {
 
 	@RequestMapping(value = "process", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.OK)
-	public String save(HttpServletRequest request) throws Exception {
+	@ResponseBody
+	public void save(HttpServletRequest request) throws Exception {
 		String path = "C:\\imgupload\\";
 		/*path = path.substring(0, path.indexOf("\\build"));
 		path = path + "\\web\\upload\\";*/
@@ -49,7 +50,7 @@ public class FileTransferManagerController {
 			e.printStackTrace();
 			//return "fail";
 		}
-		return "chat";
+		//return "chat";
 	}
 	
 	@RequestMapping("/downloadFile")
