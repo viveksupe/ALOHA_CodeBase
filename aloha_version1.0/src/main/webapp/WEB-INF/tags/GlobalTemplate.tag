@@ -25,7 +25,7 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/wall.css"
 	rel="stylesheet">
-	
+
 <link
 	href="${pageContext.request.contextPath}/resources/css/profile.css"
 	rel="stylesheet">
@@ -34,7 +34,17 @@
 <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
-
+<link href="resources/chat/style.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>var userID=${sessionUser.userId};</script>
+<script src="resources/chat/script.js"></script>
+<script>
+$( document ).ready(function(){
+	appRoot = "${pageContext.request.contextPath}";
+	console.log(appRoot);
+	
+});
+</script>
 </head>
 <body>
 	<div class="header">
@@ -68,7 +78,23 @@
 	<div class="body">
 		<jsp:doBody />
 	</div>
+	<div class="chat_box" onclick=toggleChatBox();>
+		<div class="chat_head">Chit Chat</div>
+		<div class="chat_body">
 
+
+			<c:forEach items="${onlineUsers}" var="user">
+				<div class="user" onlick=clickUserBox();>
+					<a
+						href="javascript:register_popup(${user.userId},${sessionUser.userId }, '${user.firstName} ${user.lastName}');">${user.firstName}
+						${user.lastName}</a>
+				</div>
+			</c:forEach>
+
+
+
+		</div>
+	</div>
 	<div class="footer">
 		<div class="container-main pad-20">
 			<div class="ftrr">
