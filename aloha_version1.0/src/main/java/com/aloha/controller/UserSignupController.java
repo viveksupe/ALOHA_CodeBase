@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.sal.SignupService;
 import com.aloha.common.util.Secure_Hash;
 
 @Controller
@@ -38,51 +39,18 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 	@RequestMapping(value = "login/sign_up", method = RequestMethod.POST)
 	public String perform_sign_up(@RequestParam("fname") String fname,@RequestParam("lname") String lname, @RequestParam("cnum") String cnum, @RequestParam("email") String email, @RequestParam("dob") Date dob, @RequestParam("pwd") String pwd,@RequestParam("cpwd") String cpwd, Model model) {
 		logger.info("Welcome Sign_up! The client locale is {}.");
-		
-		UserDal ud = new UserDal();
-		User u = new User();
-	
-		/*String hashed_pwd = "";
-		try {
-			hashed_pwd = getHash(pwd);
-		} catch (NoSuchAlgorithmException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			model.addAttribute("Something went wrong please try again");
-		}*/
-		boolean is_uniq = true;
-		try {
-			is_uniq = ud.checkIfUniqueEmail(email);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		if(!is_uniq)
+		SignupService signupService = new SignupService();
+		int res = signupService.perform_sign_up(fname, lname, cnum, email, dob, pwd, cpwd);
+		if(res==0)
 		{
-			u.setFirstName(fname);
-			u.setLastName(lname);
-			u.setContactNumber(cnum);		
-			//u.setPassword(hashed_pwd);
-			u.setDateOfBirth(dob);
-			u.setPassword(pwd);
-			u.setIsLocked(0);
-			u.setIsVerified(0);
-			u.setEmail(email);
-		
-			int res =0;
-			try {
-				res = ud.insertUser(u);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				((Model) model).addAttribute("headerMessage","Something went wrong");
-				return "sign_up";
-			}
-			if(res==1)
-				((Model) model).addAttribute("headerMessage","Please login, you have successfully signed up");
+			((Model) model).addAttribute("headerMessage","Something went wrong");
+			return "sign_up";
+		}
+		else if(res==1){
+			((Model) model).addAttribute("headerMessage","Please login, you have successfully signed up");
 			//System.out.println("success");
 		}
-		else
+		else if(res==-1)
 			((Model) model).addAttribute("headerMessage","Email already exists");
 		return "Login";
 	}

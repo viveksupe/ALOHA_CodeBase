@@ -17,9 +17,34 @@
 <script>	
 	$(document).ready(function(){
 		FriendJS.init("${pageContext.request.contextPath}");
+	
 	});	
 </script>
+<script>
+function display_pform(){
+	$('#personalform').css('display','block');
+	$('#displaypersonalinfo').css('display','none');
+}
+</script>
+<script>
+function display_eform(){
+	$('#educationform').css('display','block');
+	$('#displayeducationinfo').css('display','none');
+}
+</script>
 
+<script>
+function savePersonalInfo(){
+	$('#personalform').css('display','none');
+	$('#displaypersonalinfo').css('display','block');
+}
+</script>
+<script>
+function saveEducationInfo(){
+	$('#educationform').css('display','none');
+	$('#displaypersonalinfo').css('display','block');
+}
+</script>
 
     <div class="container-main pad-20">
 
@@ -30,12 +55,12 @@
             <div class="profile-mobile-bg">
 
 
-              <img src="${pageContext.request.contextPath}/userimages/${profileImageObject.img_id}" class="profile-image-mobile" />
+              <img src="" class="profile-image-mobile" />
             </div>
             <div class="bcol-30">
             <!-- "feed-user mobile-hidden mobile-hidden-main-image" -->
               <div class="feed-user mobile-hidden mobile-hidden-main-image">
-              	<img src="http://feedstack.asia/img/user.jpg" class="profile-image">
+              	<img id="profileimage" userId="${user.getUserId()}" src="${pageContext.request.contextPath}/displayimage?id=${user.getUserId()}" class="profile-image">
 
               </div>
               <div class="profile-buttons" uid="858" liveuser-id="858">
@@ -84,32 +109,56 @@
 </style>
 
 		<div class="container">
-			<div class= "feed-block">
-				<div class = "feed-title">About Me</div>
-				<div class = "feed-title">${personal.getAboutme()}</div>
+			<div class = "container" id="displaypersonalinfo" style="display:block;">
+				<div class= "feed-block">
+					<div class = "feed-title">About Me</div>
+					<div class = "feed-title">${personal.getAboutme()}</div>
+				</div>
+				<div class= "feed-block">
+					<div class = "feed-title">Lives In</div>
+					<div class = "feed-title">${personal.getCity()}</div>
+				</div>
+				<div class="profile-buttons" uid="858" liveuser-id="858">
+	                  
+	                    <button class="btn btn-edit" onClick="display_pform()">Edit Personal Information</button>
+	                 
+	            </div>
+	        </div>
+			<div class= "feed-block" id="personalform" style="display:none;">
+				<form id="savepersonalinfo" action="${pageContext.request.contextPath}/personalinfo" method="post">				
+					<div class = "feed-title">About Me</div>
+					<textarea name="aboutme" class="feed-box" form="savepersonalinfo" placeholder="hey friends I am a new user!" value="${personal.getAboutme() }" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
+					
+					<div class = "feed-title">Lives In</div>
+					<input type="text" name="livesin" value="${personal.getAboutme() }" width="100px" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					<div class="profile-buttons" uid="858" liveuser-id="858">
+							<button class="btn btn-edit" type="submit" onSubmit="savePersonalInfo()">Save</button>
+					</div>
+				</form>
 			</div>
-			<div class= "feed-block">
-				<div class = "feed-title">Lives In</div>
-				<div class = "feed-title">${personal.getCity()}</div>
-			</div>
-			<div class="profile-buttons" uid="858" liveuser-id="858">
-                  <a href="${pageContext.request.contextPath}/personalinfo">
-                    <button class="btn btn-edit">Edit Personal Information</button>
-                  </a>
-            </div>
+			
 		</div>
-		<div class="container">
-			<div class= "feed-block">
+		<div class="container" id="displayeducationinfo" style="display:block;">
+			<div class= "feed-block" style="display:block;">
 				<div class = "feed-title">Education</div>
-				<div class = "feed-title">${education.getSchool() } ${education.getArea()}</div>
+				<div class = "feed-title">${education.getSchool()} ${education.getArea()}</div>
 			</div>
 			<div class="profile-buttons" uid="858" liveuser-id="858">
-                  <a href="${pageContext.request.contextPath}/educationinfo">
-                    <button class="btn btn-edit">Edit Education Details</button>
-                  </a>
+                     <button class="btn btn-edit" onClick="display_eform()">Edit Education Details</button>
             </div>
 		</div>	
-
+		<div class= "feed-block" id="educationform" style="display:none;">
+				<form id="saveeducationinfo" action="${pageContext.request.contextPath}/educationinfo" method="post">				
+					<div class = "feed-title">School</div>
+					<input type="text" name="school" value="${education.getSchool()}" width="100px" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					
+					<div class = "feed-title">Area</div>
+					<input type="text" name="area" width="100px" value="${education.getArea()}" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					<div class="profile-buttons" uid="858" liveuser-id="858">
+							<button class="btn btn-edit" type="submit" onSubmit="saveEducationInfo()">Save</button>
+					</div>
+				</form>
+		</div>
         <a href = "${pageContext.request.contextPath}/chat"><h6>chat</h6>
         <div class="clear"></div>
 

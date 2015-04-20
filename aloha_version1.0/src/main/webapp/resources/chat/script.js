@@ -1,4 +1,5 @@
-var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port+ '/common/websocket/'+userID);
+var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
+		+ '/common/websocket/' + userID);
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -27,6 +28,18 @@ function onMessage(event) {
 		$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore(
 				'.msg_push_' + obj.userID);
 	}
+}
+
+function fileSent(toid, fromid) {
+	var obj = new Object();
+	obj.userID = fromid;
+	obj.toUserID = toid;
+	obj.chatMsg = '<a href="http://' + location.hostname + ':' + location.port
+		+ '/common/downloadFile?filename=' +$("#filenameID_"+toid).val().replace(/.+[\\\/]/, "") +'" target="_blank"">File Received</a>'; //document.getElementById('filenameID').value
+	var jsonString = JSON.stringify(obj);
+	webSocket.send(jsonString);
+	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore(
+			'.msg_push_' + obj.userID);
 }
 
 function onOpen(event) {
@@ -92,15 +105,23 @@ function SendMsg(message, toid, fromid) {
 
 }
 
-function InitSendMsg(toid, fromid) {
-	var obj = new Object();
-	obj.userID = fromid;
-	obj.toUserID = toid;
-	obj.chatMsg = "Initialtion Message";
-	var jsonString = JSON.stringify(obj);
-	webSocket.send(jsonString);
-	alert("Sent Init");
-};
+function ProcessImageToSend() {
+	$
+	.ajax({
+		method : "POST",
+		url : appRoot + "/process",
+		data : {
+			image:document.getElementById(id).files[0]
+		},
+		success : function(data) {
+			alert("Image Uploaded Successfully!");
+		}
+
+	});
+
+}
+
+
 
 // this function can remove a array element.
 Array.remove = function(array, from, to) {
@@ -220,7 +241,7 @@ function register_popup(toid, fromid, name) {
 	element = element + '<div class="msg_body" ><div class="msg_push_' + toid
 			+ '"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><table><tr><td width=80%><textarea id="'
+			+ '<div class="msg_footer"><form action="process" method="POST" enctype="multipart/form-data"><input type="file" name="upload_file" id="filenameID_'+toid+'"/><br/><input type="submit" value="Upload" onclick="fileSent('+toid+','+fromid+')" /></form><table><tr><td width=80%><textarea id="'
 			+ name
 			+ '" class="msg_input'
 			+ toid
