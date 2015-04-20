@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aloha.common.model.CommentUI;
+import com.aloha.common.model.GetPostsUI;
 import com.aloha.common.model.PostUI;
 import com.aloha.common.model.ResponseUI;
 import com.aloha.common.model.UserUI;
@@ -31,15 +32,19 @@ public class ProxyPostController implements IPostController {
 	
 	@RequestMapping(value = "post/getAll", method=RequestMethod.POST)
 	@Override
-	public @ResponseBody ArrayList<PostUI> getAllPosts(@RequestParam("searchKey") String searchKey, Model model,
+	public @ResponseBody GetPostsUI getAllPosts(@RequestParam("searchKey") String searchKey, Model model,
 			HttpSession session) {
 		// TODO Auto-generated method stub
+		GetPostsUI gui = new GetPostsUI();
 		boolean isValid = validateSessionUser(session);
 		if(isValid){
 		postController = new PostController();
-		return postController.getAllPosts(searchKey, model,session);
+		ArrayList<PostUI > posts  = postController.getAllPosts(searchKey, model,session);
+		gui.setPosts(posts);
+		return gui;
 		}
-		
+		gui.setStatusCode(-1);
+		return gui;
 	}
 
 

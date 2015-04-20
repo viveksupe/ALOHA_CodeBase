@@ -136,12 +136,15 @@ var PostManager = new function() {
 				searchKey : "ignore"
 			},
 			success : function(data) {
-				console.log('success');
-				for (var i = 0; i < data.length; i++) {
-					PostManager.Posts.push(data[i]);
+				if(data.statusCode == 0){
+				for (var i = 0; i < data.posts.length; i++) {
+					PostManager.Posts.push(data.posts[i]);
 				}
 
 				PostManager.renderPosts();
+				}else {
+					window.location.replace(PostManager.Root + "/login");
+				}
 			},
 			error : function(data) {
 				// alert(data);

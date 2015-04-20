@@ -16,13 +16,14 @@ import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.CommentUI;
 import com.aloha.common.model.DislikeUI;
+import com.aloha.common.model.GetPostsUI;
 import com.aloha.common.model.LikeUI;
 import com.aloha.common.model.PostUI;
 
 public interface IPostController {
 
 	
-	public ArrayList<PostUI> getAllPosts(String searchKey, Model model, HttpSession session);
+	public GetPostsUI getAllPosts(String searchKey, Model model, HttpSession session);
 	
 	
 	
