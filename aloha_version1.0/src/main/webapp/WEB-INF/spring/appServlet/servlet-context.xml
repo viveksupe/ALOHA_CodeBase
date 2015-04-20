@@ -37,11 +37,8 @@
 		</beans:property>
 	</beans:bean>
 
-		<!-- lets use the Commons-based implementation of the MultipartResolver 
-			interface -->
-	<beans:bean id="multipartResolver"
-			class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-
+	<!-- lets use the Commons-based implementation of the MultipartResolver 
+		interface -->
 
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -50,6 +47,14 @@
 	</beans:bean>
 
 	<context:component-scan base-package="com.aloha.controller" />
+
+	<!-- <beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		setting maximum upload size
+		<beans:property name="maxUploadSize" value="25000000" />
+
+	</beans:bean> -->
 
 	<mvc:annotation-driven />
 
