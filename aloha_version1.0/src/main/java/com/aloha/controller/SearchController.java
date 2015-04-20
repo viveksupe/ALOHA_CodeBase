@@ -28,7 +28,7 @@ public class SearchController {
 			.getLogger(UserSignupController.class);
 	CommonUtils commonUtils = new CommonUtils();
 
-	@RequestMapping(value = "search/users", method = RequestMethod.GET)
+	@RequestMapping(value = "search", method = RequestMethod.GET)
 	public String searchUsers(Locale locale, Model model, HttpSession session) {
 		logger.info("Entered Search Users GET");
 		if(null==session.getAttribute("sessionUser")){
@@ -50,7 +50,7 @@ public class SearchController {
 	 */
 	@RequestMapping(value = "search/users", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<User> searchUsers(
-			@RequestParam("searchKey") String searchKey, Model model) {
+			@RequestParam("searchKey") String searchKey, Model model, HttpSession session) {
 		logger.info("Entered Search Users POST method");
 		ArrayList<User> ulist = null;
 		ArrayList<UserUI> uiList = null;

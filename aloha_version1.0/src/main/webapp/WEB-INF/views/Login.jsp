@@ -1,9 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-<t:GlobalTemplate>
-	<jsp:body>
-
+<%-- <%@taglib prefix="t" tagdir="/WEB-INF/tags"%> --%>
+<%-- <t:GlobalTemplate>
+	<jsp:body> --%>
+<!DOCTYPE link PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<body>
   <link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
 	<link href="${pageContext.request.contextPath}/resources/Login/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
 	
@@ -11,7 +13,6 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   <style type="text/css">
-
  
 .container {
 		   margin-top:50px;		   
@@ -54,6 +55,8 @@ function checkPassword(input){
       }
 }
 </script>
-</jsp:body>
+</body>
+</html>
+<%-- </jsp:body>
 </t:GlobalTemplate>
-	
+ --%>	

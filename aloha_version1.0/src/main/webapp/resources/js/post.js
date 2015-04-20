@@ -55,14 +55,19 @@ var PostManager = new function() {
 					postData : value
 				},
 				success : function(data) {
-					$('#txtPost').val('');
-					var posts = PostManager.Posts;
-					PostManager.Posts = [];
-					PostManager.Posts.push(data);
-					for (var i = 0; i < posts.length; i++) {
-						PostManager.Posts.push(posts[i]);
+					if (data.statusCode == 0) {
+
+						$('#txtPost').val('');
+						var posts = PostManager.Posts;
+						PostManager.Posts = [];
+						PostManager.Posts.push(data.post);
+						for (var i = 0; i < posts.length; i++) {
+							PostManager.Posts.push(posts[i]);
+						}
+						PostManager.renderPosts();
+					} else {
+						window.location.replace(PostManager.Root + "/login");
 					}
-					PostManager.renderPosts();
 				}
 			});
 
@@ -70,7 +75,7 @@ var PostManager = new function() {
 			alert("Scripts not allowed !!");
 		}
 	};
-	
+
 	this.addComment = function() {
 		$('.feed-comment-input-entry')
 				.keyup(
@@ -95,22 +100,29 @@ var PostManager = new function() {
 													method : "POST",
 													data : {
 														"commentData" : comment,
-														"userId" : user_id,
 														"postId" : feed_id
 													},
 													success : function(data) {
-														for (var i = 0; i < PostManager.Posts.length; i++) {
-															if (PostManager.Posts[i].postId == feed_id) {
-																PostManager.Posts[i].comments
-																		.push(data);
-																break;
+														if (data.statusCode == 0) {
+
+															for (var i = 0; i < PostManager.Posts.length; i++) {
+																if (PostManager.Posts[i].postId == feed_id) {
+																	PostManager.Posts[i].comments
+																			.push(data.comment);
+																	break;
+																}
 															}
+															PostManager
+																	.renderPosts();
+															var container = $('.comment-block-entry-'
+																	+ feed_id);
+															container
+																	.slideDown();
+														} else {
+															window.location
+																	.replace(PostManager.Root
+																			+ "/login");
 														}
-														PostManager
-																.renderPosts();
-														var container = $('.comment-block-entry-'
-																+ feed_id);
-														container.slideDown();
 													},
 													error : function(data) {
 														console.log(data);
@@ -136,13 +148,13 @@ var PostManager = new function() {
 				searchKey : "ignore"
 			},
 			success : function(data) {
-				if(data.statusCode == 0){
-				for (var i = 0; i < data.posts.length; i++) {
-					PostManager.Posts.push(data.posts[i]);
-				}
+				if (data.statusCode == 0) {
+					for (var i = 0; i < data.posts.length; i++) {
+						PostManager.Posts.push(data.posts[i]);
+					}
 
-				PostManager.renderPosts();
-				}else {
+					PostManager.renderPosts();
+				} else {
 					window.location.replace(PostManager.Root + "/login");
 				}
 			},
@@ -179,14 +191,18 @@ var PostManager = new function() {
 					postId : feed_id
 				},
 				success : function(data) {
+					if (data.statusCode == 0) {
 
-					$('.feed-' + feed_id).slideUp();
-					$('.feed-' + feed_id).remove();
-					for (var i = 0; i < PostManager.Posts.length; i++) {
-						if (PostManager.Posts[i].postId == feed_id) {
-							PostManager.Posts.splice(i, 1);
-							break;
+						$('.feed-' + feed_id).slideUp();
+						$('.feed-' + feed_id).remove();
+						for (var i = 0; i < PostManager.Posts.length; i++) {
+							if (PostManager.Posts[i].postId == feed_id) {
+								PostManager.Posts.splice(i, 1);
+								break;
+							}
 						}
+					} else {
+						window.location.replace(PostManager.Root + "/login");
 					}
 				},
 				error : function(data) {
@@ -212,13 +228,16 @@ var PostManager = new function() {
 							commId : comm_id
 						},
 						success : function(data) {
-
+							if(data.statusCode == 0){
+							
 							$('#commDiv' + comm_id).slideUp();
 							$('.commDiv' + comm_id).remove();
 							var count = parseInt($('.comment-count-' + feed_id)
 									.html()) - 1;
 							$('.comment-count-' + feed_id).html(count);
-
+							}else {
+								window.location.replace(PostManager.Root + "/login");
+							}
 						},
 						error : function(data) {
 							// alert(data);
@@ -229,142 +248,180 @@ var PostManager = new function() {
 	};
 
 	this.scribbleLike = function() {
-		$('.feed-like').click(
-				function() {
-					var postId = $(this).attr('feed-id');
-					var userId = $(this).attr('user-id');
-					var likeType = -1;
-					var counter = 0;
-					var elem = $(this).find("i").hasClass("fa-thumbs-o-up");
-					if (elem == true) {
-						$(this).find("i").removeClass("fa-thumbs-o-up")
-								.addClass("fa-thumbs-up");
-						$(this).find("span").html('Liked');
-						
-						if($('.feed-dislike-' + postId).find("i").hasClass("fa-thumbs-down")){
-						$('.feed-dislike-' + postId).find("i").removeClass(
-								"fa-thumbs-down").addClass("fa-thumbs-o-down");
-						$('.feed-dislike-' + postId).find("span").html(
-								'Dislike');
-						counter = 1;
-						}
-						likeType = 1;
+		$('.feed-like')
+				.click(
+						function() {
+							var postId = $(this).attr('feed-id');
+							var userId = $(this).attr('user-id');
+							var likeType = -1;
+							var counter = 0;
+							var elem = $(this).find("i").hasClass(
+									"fa-thumbs-o-up");
+							if (elem == true) {
+								$(this).find("i").removeClass("fa-thumbs-o-up")
+										.addClass("fa-thumbs-up");
+								$(this).find("span").html('Liked');
 
-					} else {
-						$(this).find("i").removeClass("fa-thumbs-up").addClass(
-								"fa-thumbs-o-up");
-						$(this).find("span").html('Like');
-						likeType = 0;
-					}
-					
-
-					$
-							.ajax({
-								headers : {
-									'Accept' : 'application/json'
-								},
-								method : "POST",
-								url : PostManager.Root + "/post/like",
-								data : {
-									likeType : likeType,
-									postId : postId,
-									userId : userId
-								},
-								success : function(data) {
-
-									if(data == 1 || data == 2){
-										if(likeType == 1){
-										var count = parseInt($('.like-count-' + postId)
-												.html()) + 1;
-										$('.like-count-' + postId).html(count);}
-										else{
-											var count = parseInt($('.like-count-' + postId)
-													.html()) - 1;
-											$('.like-count-' + postId).html(count);
-										}
-										
-										var cnt = parseInt($('.dislike-count-' + postId)
-												.html()) - counter;
-										$('.dislike-count-' + postId).html(cnt);
-									}
-
-								},
-								error : function(data) {
-									// alert(data);
-									console.log(data);
+								if ($('.feed-dislike-' + postId).find("i")
+										.hasClass("fa-thumbs-down")) {
+									$('.feed-dislike-' + postId).find("i")
+											.removeClass("fa-thumbs-down")
+											.addClass("fa-thumbs-o-down");
+									$('.feed-dislike-' + postId).find("span")
+											.html('Dislike');
+									counter = 1;
 								}
-							});
+								likeType = 1;
 
-				});
+							} else {
+								$(this).find("i").removeClass("fa-thumbs-up")
+										.addClass("fa-thumbs-o-up");
+								$(this).find("span").html('Like');
+								likeType = 0;
+							}
+
+							$
+									.ajax({
+										headers : {
+											'Accept' : 'application/json'
+										},
+										method : "POST",
+										url : PostManager.Root + "/post/like",
+										data : {
+											likeType : likeType,
+											postId : postId,
+											
+										},
+										success : function(data) {
+											if(data.statusCode == 0){
+											if (data.actionStatus == 1 || data.actionStatus == 2) {
+												if (likeType == 1) {
+													var count = parseInt($(
+															'.like-count-'
+																	+ postId)
+															.html()) + 1;
+													$('.like-count-' + postId)
+															.html(count);
+												} else {
+													var count = parseInt($(
+															'.like-count-'
+																	+ postId)
+															.html()) - 1;
+													$('.like-count-' + postId)
+															.html(count);
+												}
+
+												var cnt = parseInt($(
+														'.dislike-count-'
+																+ postId)
+														.html())
+														- counter;
+												$('.dislike-count-' + postId)
+														.html(cnt);
+											}
+											}else {
+												window.location.replace(PostManager.Root + "/login");
+											}
+										},
+										error : function(data) {
+											// alert(data);
+											console.log(data);
+										}
+									});
+
+						});
 	};
 
 	this.scribbleDislike = function() {
-		$('.feed-dislike').click(
-				function() {
-					var postId = $(this).attr('feed-id');
-					var userId = $(this).attr('user-id');
-					var likeType = -1;
-					var counter = 0;
-					var elem = $(this).find("i").hasClass("fa-thumbs-o-down");
-					if (elem == true) {
-						$(this).find("i").removeClass("fa-thumbs-o-down")
-								.addClass("fa-thumbs-down");
-						$(this).find("span").html('Disliked');
-						
-						if($('.feed-like-' + postId).find("i").hasClass("fa-thumbs-up")){
-						$('.feed-like-' + postId).find("i").removeClass(
-								"fa-thumbs-up").addClass("fa-thumbs-o-up");
-						$('.feed-like-' + postId).find("span").html('Like');
-						counter = 1;
-						}
-						
-						likeType = 2;
+		$('.feed-dislike')
+				.click(
+						function() {
+							var postId = $(this).attr('feed-id');
+							var userId = $(this).attr('user-id');
+							var likeType = -1;
+							var counter = 0;
+							var elem = $(this).find("i").hasClass(
+									"fa-thumbs-o-down");
+							if (elem == true) {
+								$(this).find("i").removeClass(
+										"fa-thumbs-o-down").addClass(
+										"fa-thumbs-down");
+								$(this).find("span").html('Disliked');
 
-					} else {
-						$(this).find("i").removeClass("fa-thumbs-down")
-								.addClass("fa-thumbs-o-down");
-						$(this).find("span").html('Dislike');
-						likeType = 0;
-						
-					}
-					
-					$
-					.ajax({
-						headers : {
-							'Accept' : 'application/json'
-						},
-						method : "POST",
-						url : PostManager.Root + "/post/dislike",
-						data : {
-							likeType : likeType,
-							postId : postId,
-							userId : userId
-						},
-						success : function(data) {
-
-							if(data == 1 || data == 2){
-								if(likeType == 2){
-								var count = parseInt($('.dislike-count-' + postId)
-										.html()) + 1;
-								$('.dislike-count-' + postId).html(count);}
-								else{
-									var count = parseInt($('.dislike-count-' + postId)
-											.html()) - 1;
-									$('.dislike-count-' + postId).html(count);
+								if ($('.feed-like-' + postId).find("i")
+										.hasClass("fa-thumbs-up")) {
+									$('.feed-like-' + postId).find("i")
+											.removeClass("fa-thumbs-up")
+											.addClass("fa-thumbs-o-up");
+									$('.feed-like-' + postId).find("span")
+											.html('Like');
+									counter = 1;
 								}
-								
-								var cnt = parseInt($('.like-count-' + postId)
-										.html()) - counter;
-								$('.like-count-' + postId).html(cnt);
+
+								likeType = 2;
+
+							} else {
+								$(this).find("i").removeClass("fa-thumbs-down")
+										.addClass("fa-thumbs-o-down");
+								$(this).find("span").html('Dislike');
+								likeType = 0;
+
 							}
 
-						},
-						error : function(data) {
-							// alert(data);
-							console.log(data);
-						}
-					});
-				});
+							$
+									.ajax({
+										headers : {
+											'Accept' : 'application/json'
+										},
+										method : "POST",
+										url : PostManager.Root
+												+ "/post/dislike",
+										data : {
+											likeType : likeType,
+											postId : postId,
+											
+										},
+										success : function(data) {
+											if(data.statusCode == 0){
+
+											if (data.actionStatus == 1 || data.actionStatus == 2) {
+												if (likeType == 2) {
+													var count = parseInt($(
+															'.dislike-count-'
+																	+ postId)
+															.html()) + 1;
+													$(
+															'.dislike-count-'
+																	+ postId)
+															.html(count);
+												} else {
+													var count = parseInt($(
+															'.dislike-count-'
+																	+ postId)
+															.html()) - 1;
+													$(
+															'.dislike-count-'
+																	+ postId)
+															.html(count);
+												}
+
+												var cnt = parseInt($(
+														'.like-count-' + postId)
+														.html())
+														- counter;
+												$('.like-count-' + postId)
+														.html(cnt);
+											}
+											}else {
+												window.location.replace(PostManager.Root + "/login");
+											}
+										},
+										error : function(data) {
+											// alert(data);
+											console.log(data);
+										}
+									});
+						});
 	};
 
 }
