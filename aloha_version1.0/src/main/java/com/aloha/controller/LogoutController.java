@@ -10,12 +10,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.aloha.common.model.UserUI;
+
 @Controller
 @SessionAttributes("sessionUser")
 public class LogoutController {
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	@RequestMapping("logout")
 	public String sign_up(Model model, HttpSession session) {
-		model.addAttribute("sessionUser",null);
-		return "home";
+		LogoutService logoutService = new LogoutService();
+		if(null==session.getAttribute("sessionUser")){
+			
+		}	
+		else
+		{
+			UserUI ui = (UserUI)session.getAttribute("sessionUser");
+			logoutService.setLastActive(ui);
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+		}
+		//UserUI ui=null;
+		session.setAttribute("sessionUser", null);
+		session.invalidate();
+		model.asMap().clear();
+		return "Login";
 	}
 }

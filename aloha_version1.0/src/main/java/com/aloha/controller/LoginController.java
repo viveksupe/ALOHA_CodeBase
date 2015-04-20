@@ -56,7 +56,7 @@ public class LoginController extends Secure_Hash{
 			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",u);
-		return "user_profile";
+		return "redirect:"+"user_profile";
 	}
 	
 	/*
