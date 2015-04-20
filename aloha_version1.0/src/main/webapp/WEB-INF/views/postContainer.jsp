@@ -53,8 +53,7 @@ $( document ).ready(function() {
 </div>
 
         <div class="profile-container-box">
-            <script src="http://feedstack.asia/app/script/readmore.js"></script>
-            <script src="http://feedstack.asia/app/script/popup.js"></script>
+            
             
             <style>
                 .footer {
@@ -69,12 +68,7 @@ $( document ).ready(function() {
 <div id="postContainer">
 
 </div>
-            <div class="bcol-15">&nbsp;</div>
-            <div class="bcol-85">
-                <div class="no-feeds">No more Feeds</div>
-            </div>
-            <div class="clear"></div>
-            <br>
+           
 
         </div>
     </div>
