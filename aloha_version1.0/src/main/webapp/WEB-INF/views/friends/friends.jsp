@@ -9,12 +9,13 @@
         <script src="http://feedstack.asia/app/script/members.js"></script>
         <div class="member-body">
           <div class="header-member">
-            <i class="fa fa-space fa-group"></i> Friends of ${sessionUser.getFirstName()}
-            <span class="members-count"> <a href="friends/invite"> invite more friends </a></span>
+            <i class="fa fa-space fa-group"></i> Friends of ${user.firstName}
+            <span class="members-count"> </span>
             <span class="member-seach-span">
-              <input type="text"
+            <a href="friends/invite"> invite more friends </a>
+<!--               <input type="text"
 							class="member-search" placeholder="search..."
-							root="http://feedstack.asia/">
+							root="http://feedstack.asia/"> -->
               </span>
           </div>
           <div class="root" root="http://feedstack.asia/" access-token=""></div>
@@ -28,7 +29,7 @@
                       <img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
                   </div>
                   <div class="member-name">
-                    <a href="${pageContext.request.contextPath}/profile?userId=${friend.userId}">${friend.firstName}</a>
+                    <a href="${pageContext.request.contextPath}/profile?userId=${friend.userId}">${friend.firstName} ${friend.lastName}</a>
                   </div>
                 </div>
               </c:forEach>

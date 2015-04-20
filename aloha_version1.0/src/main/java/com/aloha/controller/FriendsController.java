@@ -84,6 +84,7 @@ public class FriendsController {
 			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
 			ulist = f.getUserFriends(commonUtils
 					.convertUserUIToUser(sessionUserUI));
+			model.addAttribute("user",sessionUserUI);
 			model.addAttribute("globalstatus", "logout");
 			model.addAttribute("globalstatuslink", "logout");
 
