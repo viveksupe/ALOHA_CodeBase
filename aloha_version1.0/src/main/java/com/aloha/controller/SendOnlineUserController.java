@@ -10,12 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.entities.OnlineUsers;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.UserUI;
 
 @Controller
+@SessionAttributes("sessionUser")
 public class SendOnlineUserController {
 
 	
