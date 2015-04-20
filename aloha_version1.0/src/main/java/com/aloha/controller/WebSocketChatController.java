@@ -57,52 +57,6 @@ public class WebSocketChatController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
 
-	@RequestMapping("chat")
-	public String home(Model model,HttpSession session) throws SQLException { // , HttpSession sesi
-		// System.out.println(sesi.getAttribute("sessionUser"));
-		/*
-		 * logger.info("Welcome home! The client locale is {}.",
-		 * sesi.getAttribute("sessionUser")); uID = ((UserUI)
-		 * sesi.getAttribute("sessionUser")).getUserId();
-		 */
-		// TODO get the user from onlline friends call to friends module.
-		// and then return the users list to the jsp page.
-
-		/*
-		 * User u1 = new User(); u1.setFirstName("Vivek");
-		 * u1.setLastName("Supe"); u1.setUserId(5);
-		 * 
-		 * User u2 = new User(); u2.setFirstName("Renuka");
-		 * u2.setLastName("Deshmukh"); u2.setUserId(4);
-		 * 
-		 * User u3 = new User(); u3.setFirstName("Milind");
-		 * u3.setLastName("Ghokale"); u3.setUserId(8);
-		 */
-		
-		if(null==session.getAttribute("sessionUser")){
-			model.addAttribute("globalstatus","login");
-			model.addAttribute("globalstatuslink","login");
-			
-			return "redirect:" + "login";
-		}
-		UserUI curSessionUser = (UserUI) session.getAttribute("sessionUser");
-		
-		
-		ArrayList<User> onlineUsers = null;
-		OnlineUsers olUsers = new OnlineUsers();
-		
-		onlineUsers = olUsers.getOnlineFriends(curSessionUser.getUserId());
-
-		/*
-		 * onlineUsers.add(u1); onlineUsers.add(u2); onlineUsers.add(u3);
-		 */
-		model.addAttribute("onlineUsers", onlineUsers);
-		model.addAttribute("globalstatus","logout");
-		model.addAttribute("globalstatuslink","logout");
-		
-		return "chat";
-	}
-
 	/**
 	 * @OnOpen allows us to intercept the creation of a new session. The session
 	 *         class allows us to send data to the user. In the method onOpen,

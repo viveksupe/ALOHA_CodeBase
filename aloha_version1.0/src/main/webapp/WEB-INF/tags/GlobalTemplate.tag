@@ -42,8 +42,9 @@
 $( document ).ready(function(){
 	appRoot = "${pageContext.request.contextPath}";
 	console.log(appRoot);
-	
+	sendOnlineFriends(userID);
 });
+
 </script>
 </head>
 <body>
@@ -78,18 +79,12 @@ $( document ).ready(function(){
 	<div class="body">
 		<jsp:doBody />
 	</div>
-	<div class="chat_box" onclick=toggleChatBox();>
-		<div class="chat_head">Chit Chat</div>
+	<div class="chat_box" onclick="toggleChatBox();">
+		<div class="chat_head" >Chit Chat</div>
 		<div class="chat_body">
 
 
-			<c:forEach items="${onlineUsers}" var="user">
-				<div class="user" onlick=clickUserBox();>
-					<a
-						href="javascript:register_popup(${user.userId},${sessionUser.userId }, '${user.firstName} ${user.lastName}');">${user.firstName}
-						${user.lastName}</a>
-				</div>
-			</c:forEach>
+				
 
 
 
