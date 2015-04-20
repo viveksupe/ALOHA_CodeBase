@@ -17,7 +17,7 @@ public class UserPersonalDal {
 	public UserPersonalDal() {
 		SELECT = "SELECT info_id, user_id, about_me, current_city FROM personalinfo;";
 		INSERT = "INSERT INTO personalinfo(user_id,about_me,current_city) VALUES (?, ?, ?);";
-		UPDATE = "UPDATE personalinfo SET about_me = ?, current_city = ? WHERE info_id = ?;";
+		UPDATE = "UPDATE personalinfo SET about_me = ?, current_city = ? WHERE user_id = ?;";
 		DELETE = "DELETE FROM personal_info WHERE user_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -30,8 +30,9 @@ public class UserPersonalDal {
 			ps = con.prepareStatement(SelectUsersPersonalAllStatement);
 			ps.setInt(1, user_id);
 			rSet = ps.executeQuery();
-			UserPersonal u = new UserPersonal();
-			if (rSet.next()) {
+			UserPersonal u = null;
+			if (rSet.first()) {
+				u  = new UserPersonal();
 				u.setAboutme(rSet.getString("about_me"));
 				u.setCity(rSet.getString("current_city"));
 				u.setP_id(rSet.getInt("info_id"));
@@ -112,7 +113,7 @@ public class UserPersonalDal {
 			ps = con.prepareStatement(updatestatement);
 			ps.setString(1, pu.getAboutme());
 			ps.setString(2,  pu.getCity());
-			ps.setInt(3, pu.getP_id());
+			ps.setInt(3, id);
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {

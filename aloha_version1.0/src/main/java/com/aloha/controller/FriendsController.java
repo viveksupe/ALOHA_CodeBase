@@ -51,6 +51,9 @@ public class FriendsController {
 		UserUI testUser = null;
 		// testuser = ud.selectUserByPrimaryKey(4);
 		testUser = (UserUI) session.getAttribute("sessionUser");
+		model.addAttribute("globalstatus","logout");
+		model.addAttribute("globalstatuslink","logout");
+		
 		return "friends/index";
 	}
 
@@ -72,11 +75,17 @@ public class FriendsController {
 
 		ArrayList<User> ulist;
 		if (null == session.getAttribute("sessionUser")) {
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			
 			return "redirect:" + "login";
 		} else {
 			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
 			ulist = f.getUserFriends(commonUtils
 					.convertUserUIToUser(sessionUserUI));
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+			
 		}
 		model.addAttribute("users", ulist);
 

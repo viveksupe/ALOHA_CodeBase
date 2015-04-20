@@ -20,7 +20,7 @@ public class UserEducationDal {
 	public UserEducationDal() {
 		SELECT = "SELECT e_id, user_id, school, area FROM users_education";
 		INSERT_education = "INSERT INTO users_education(user_id,school,area) VALUES (?, ?, ?);";
-		UPDATE_education = "UPDATE users_education SET school = ?, area = ? WHERE e_id = ?;";
+		UPDATE_education = "UPDATE users_education SET school = ?, area = ? WHERE user_id = ?;";
 		DELETE_education = "DELETE FROM user_education WHERE user_id = ?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -43,11 +43,11 @@ public class UserEducationDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (rSet != null)
+			/*if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 
 	}
@@ -134,7 +134,7 @@ public class UserEducationDal {
 			ps = con.prepareStatement(updatestatement);
 			ps.setString(1, ed.getSchool());
 			ps.setString(2, ed.getArea());
-			ps.setInt(3, ed.getID());
+			ps.setInt(3, id);
 			result = ps.executeUpdate();
 			return result;
 		} catch (SQLException e) {

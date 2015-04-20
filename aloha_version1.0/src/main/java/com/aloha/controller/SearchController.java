@@ -32,8 +32,14 @@ public class SearchController {
 	public String searchUsers(Locale locale, Model model, HttpSession session) {
 		logger.info("Entered Search Users GET");
 		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			
 			return "redirect:" + "/login";
 		}
+		model.addAttribute("globalstatus","logout");
+		model.addAttribute("globalstatuslink","logout");
+		
 		return "search/users";
 	}
 
@@ -70,6 +76,9 @@ public class SearchController {
 		Friendship f = new Friendship();
 		int userInSessionId = -1;
 		if (null == session.getAttribute("sessionUser")) {
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			
 			return "redirect:" + "login";
 		}
 
@@ -109,6 +118,9 @@ public class SearchController {
 		}
 		model.addAttribute("user", u);
 		model.addAttribute("friendship", f);
+		model.addAttribute("globalstatus","logout");
+		model.addAttribute("globalstatuslink","logout");
+		
 		return "profile";
 	}
 

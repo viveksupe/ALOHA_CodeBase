@@ -58,8 +58,8 @@
 					</a>
 					<a href="${pageContext.request.contextPath}/friends"><li><i
 							class="fa fa-space fa-group"></i>Friends</li></a>
-					<a href="http://feedstack.asia/user/logout"><li><i
-							class="fa fa-space fa-sign-out"></i>Logout</li></a>
+					<a href="${pageContext.request.contextPath}/${globalstatuslink}"><li><i
+							class="fa fa-space fa-sign-out"></i>${globalstatus }</li></a>
 				</ul>
 			</div>
 			<div class="clear"></div>

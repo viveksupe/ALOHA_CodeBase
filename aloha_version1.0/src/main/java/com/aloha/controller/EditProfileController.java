@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +31,13 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.dao_manager.dal.UserEducationDal;
+import com.aloha.common.dao_manager.dal.UserPersonalDal;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.entities.user.UserEducation;
+import com.aloha.common.entities.user.UserPersonal;
 import com.aloha.common.model.UserUI;
+import com.aloha.common.sal.EditProfileService;
 import com.aloha.common.util.FileUploadBean;
 import com.aloha.common.util.ProfileImage;
 
@@ -40,13 +46,33 @@ import com.aloha.common.util.ProfileImage;
 @SessionAttributes("sessionUser")
 public class EditProfileController{
 	
+	@RequestMapping(value = "editprofile", method = RequestMethod.GET)
+	public String edit_profile(Locale locale, Model model, HttpSession session) {
+		UserUI u = new UserUI();
+		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			return "Login";
+		}else{
+			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+		}
+		model.addAttribute("user",u);
+		return "editprofile";
+	}
+	
 	@RequestMapping(value = "uploadform", method = RequestMethod.POST)
 	public String save(FileUploadBean uploadForm, Model map, HttpSession session) {
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			map.addAttribute("globalstatus","login");
+			map.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
+			map.addAttribute("globalstatus","logout");
+			map.addAttribute("globalstatuslink","logout");
 			map.addAttribute("user",u);
 			MultipartFile file = uploadForm.getFile();
 	        byte[] bytefile;
@@ -93,11 +119,15 @@ public class EditProfileController{
 	public String show_page(Model map,HttpSession session){
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
+			map.addAttribute("globalstatus","login");
+			map.addAttribute("globalstatuslink","login");
 			return "Login";
 		}
 		else
 		{
 			u = (UserUI)session.getAttribute("sessionUser");
+			map.addAttribute("globalstatus","logout");
+			map.addAttribute("globalstatuslink","logout");
 		}
 		map.addAttribute("user",u);
 		return "editaccountdetails";
@@ -105,29 +135,17 @@ public class EditProfileController{
 	@RequestMapping(value = "editaccountdetails", method = RequestMethod.POST)
 	public String save_account_details(@RequestParam("fname") String fname,@RequestParam("lname") String lname, @RequestParam("cnum") String cnum, @RequestParam("dob") Date dob, Model map, HttpSession session) {
 		UserUI u = new UserUI();
-		User update_u = new User();
-		UserDal ud = new UserDal();
+		String res = "";
+		EditProfileService eps = new EditProfileService();
 		if(null==session.getAttribute("sessionUser")){
+			map.addAttribute("globalstatus","login");
+			map.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			u = (UserUI)session.getAttribute("sessionUser");
-			u.setFirstName(fname);
-			u.setLastName(lname);
-			u.setContactNumber(cnum);		
-			u.setDateOfBirth(dob);
-			update_u.updatefromUI(u);
-			int res =0;
-			try {
-				res = ud.updateAccountInfo(update_u);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-				((Model) map).addAttribute("headerMessage","Something went wrong");
-				return "redirect"+"user_profile";
-			}
-			if(res==1)
-				((Model) map).addAttribute("headerMessage","you have successfully updated");
-			//System.out.println("success");
+			res = eps.save_account_details(fname, lname, cnum, dob, u);
+			map.addAttribute("globalstatus","logout");
+			map.addAttribute("globalstatuslink","logout");
 			map.addAttribute("user",u);
 		}
 	    return "redirect:"+"user_profile";		
@@ -138,4 +156,48 @@ public class EditProfileController{
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
+	
+	@RequestMapping(value="educationinfo", method=RequestMethod.POST)
+	public String saveeducation(@RequestParam("school") String school, @RequestParam("area") String area, Model model, HttpSession session){
+		UserUI u = new UserUI();
+		EditProfileService eps = new EditProfileService();
+		
+		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			return "Login";
+		}
+		else
+		{
+			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+			int res = eps.saveeducation(school, area, u);
+		}
+		model.addAttribute("user",u);
+		return "redirect:"+"user_profile";
+	}
+	@RequestMapping(value="personalinfo", method=RequestMethod.POST)
+	public String savepersonal(@RequestParam("aboutme") String aboutme, @RequestParam("livesin") String city, Model model, HttpSession session){
+		UserUI u = new UserUI();
+		EditProfileService eps = new EditProfileService();
+		
+		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			
+			return "Login";
+		}
+		else
+		{
+			u = (UserUI)session.getAttribute("sessionUser");
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+			
+			int res = eps.savepersonal(aboutme, city, u);
+			
+		}
+		model.addAttribute("user",u);
+		return "redirect:"+"user_profile";
+	}
 }
