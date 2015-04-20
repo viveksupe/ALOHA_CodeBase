@@ -36,7 +36,16 @@
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
 <link href="resources/chat/style.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script>var userID=${sessionUser.userId};</script>
+<script>
+try {
+	var userID=${sessionUser.userId};
+}
+catch(err) {
+	window.location.replace("/common/error404");
+}
+
+
+</script>
 <script src="resources/chat/script.js"></script>
 <script>
 $( document ).ready(function(){
