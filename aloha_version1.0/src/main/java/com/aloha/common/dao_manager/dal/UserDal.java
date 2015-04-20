@@ -71,11 +71,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (rSet != null)
+			if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 
 	}
@@ -121,11 +121,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (rSet != null)
+			if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 
 	}
@@ -159,11 +159,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (rSet != null)
+			if(rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 	}
 
@@ -194,9 +194,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (ps != null)
+			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 	}
 
@@ -223,9 +223,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (ps != null)
+			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 	}
 
@@ -243,9 +243,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (ps != null)
+			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 	}
 
@@ -280,9 +280,9 @@ public class UserDal {
 			System.out.println("" + ex.getMessage());
 			throw ex;
 		} finally {
-			/*if (ps != null)
+			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 
 		return u;
@@ -322,11 +322,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (rSet != null)
+			if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 	}
 
@@ -346,9 +346,9 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			/*if (ps != null)
+			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
 		}
 		return false;
 	}
@@ -368,7 +368,7 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			//con.close();
+			con.close();
 		}
 	}
 
@@ -393,9 +393,30 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			/*if (ps != null)
+			if (ps != null)
 				ps.close();
-			con.close();*/
+			con.close();
+		}
+	}
+
+	public int setLastActive(int userId, Timestamp lastactive) throws SQLException {
+		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement("UPDATE user SET lastactive=? WHERE user_id = ?;");
+			ps.setTimestamp(1,lastactive);
+			ps.setInt(2, userId);
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
 		}
 	}
 
