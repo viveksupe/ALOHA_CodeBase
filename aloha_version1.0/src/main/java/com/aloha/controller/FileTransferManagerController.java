@@ -31,7 +31,7 @@ public class FileTransferManagerController {
 
 	@RequestMapping(value = "process", method = RequestMethod.POST)
 	@ResponseBody
-	public void save(HttpServletRequest request) throws Exception {
+	public String save(HttpServletRequest request) throws Exception {
 		String path = "C:\\imgupload\\";
 		/*path = path.substring(0, path.indexOf("\\build"));
 		path = path + "\\web\\upload\\";*/
@@ -50,7 +50,7 @@ public class FileTransferManagerController {
 			e.printStackTrace();
 			//return "fail";
 		}
-		//return "chat";
+		return "<h1>File Upload Was Successful Check Chat For Link For Download</h1>";
 	}
 	
 	@RequestMapping("/downloadFile")
