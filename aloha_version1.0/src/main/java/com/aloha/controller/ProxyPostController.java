@@ -63,13 +63,13 @@ public class ProxyPostController implements IPostController {
 
 	@Override
 	@RequestMapping(value="comm/add", method=RequestMethod.POST)
-	public @ResponseBody GetCommentUI addComment(@RequestParam("commentData") String comm,@RequestParam("userId") int userId,@RequestParam("postId") int postId, HttpSession session) {
+	public @ResponseBody GetCommentUI addComment(@RequestParam("commentData") String comm,@RequestParam("postId") int postId, HttpSession session) {
 		// TODO Auto-generated method stub
 		GetCommentUI gui = new GetCommentUI();
 		boolean isValid = validateSessionUser(session);
 		if (isValid) {
 			postController = new PostController();
-			gui = postController.addComment(comm, userId, postId, session);
+			gui = postController.addComment(comm, postId, session);
 			return gui;
 		}
 		gui.setStatusCode(-1);
@@ -108,14 +108,14 @@ public class ProxyPostController implements IPostController {
 
 	@Override
 	@RequestMapping(value="post/like", method=RequestMethod.POST)
-	public @ResponseBody GetLikeStatusUI likePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId,@RequestParam("likeType") int likeType,HttpSession session) {
+	public @ResponseBody GetLikeStatusUI likePost(@RequestParam("postId") int postId,@RequestParam("likeType") int likeType,HttpSession session) {
 		// TODO Auto-generated method stub
 		GetLikeStatusUI gui = new GetLikeStatusUI();
 		
 		boolean isValid = validateSessionUser(session);
 		if (isValid) {
 			postController = new PostController();
-			gui = postController.likePost(postId, userId, likeType, session);
+			gui = postController.likePost(postId, likeType, session);
 			return gui;
 		}
 		gui.setStatusCode(-1);
@@ -124,13 +124,13 @@ public class ProxyPostController implements IPostController {
 
 	@Override
 	@RequestMapping(value="post/dislike", method=RequestMethod.POST)
-	public @ResponseBody GetLikeStatusUI dislikePost(@RequestParam("postId") int postId,@RequestParam("userId") int userId, @RequestParam("likeType") int dislikeType, HttpSession session) {
+	public @ResponseBody GetLikeStatusUI dislikePost(@RequestParam("postId") int postId, @RequestParam("likeType") int dislikeType, HttpSession session) {
 		// TODO Auto-generated method stub
 		GetLikeStatusUI gui = new GetLikeStatusUI();
 		boolean isValid = validateSessionUser(session);
 		if (isValid) {
 			postController = new PostController();
-			gui = postController.dislikePost(postId, userId, dislikeType, session);
+			gui = postController.dislikePost(postId, dislikeType, session);
 			return gui;
 		}
 		gui.setStatusCode(-1);
