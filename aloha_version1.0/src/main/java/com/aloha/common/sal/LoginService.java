@@ -190,5 +190,16 @@ public class LoginService extends Secure_Hash{
 		}
 		return 0;
 	}
+
+	public void unlockAccount(int userId) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		try {
+			ud.unlockAccount(userId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }
