@@ -69,7 +69,26 @@ $( document ).ready(function() {
 
 </div>
  <div id="moreContainer">
+	
+ <div class="no-more-feeds" style="display:none">
+ <div class="bcol-15">&nbsp;</div>
+            <div class="bcol-85">
+                <div class="no-feeds">No more Feeds</div>
+            </div>
+            <div class="clear"></div>
+            <br>
+ </div>
+ 
+  <div class="more-feeds" >
+ <div class="bcol-15">&nbsp;</div>
+            <div class="bcol-85">
+                <div class="no-feeds">Next</div>
+            </div>
+            <div class="clear"></div>
+            <br>
+ </div>
 
+	
 </div>          
 
         </div>

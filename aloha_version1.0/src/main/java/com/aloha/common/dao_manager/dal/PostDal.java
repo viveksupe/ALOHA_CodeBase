@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,7 +39,7 @@ public class PostDal {
 				+ "(SELECT user_id1 FROM friendship where user_id2=? and friend_status_id =2 "
 				+ "union "
 				+ "SELECT user_id2 FROM friendship where user_id1=? and friend_status_id =2 "
-				+ "union select ?) order by timestamp desc;";
+				+ "union select ?) and timestamp < ? order by timestamp desc limit 2;";
 
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -174,7 +175,7 @@ public class PostDal {
 		}
 	}
 
-	public ArrayList<Post> getPostsForUserAndFriends(int userId) throws SQLException {
+	public ArrayList<Post> getPostsForUserAndFriends(int userId, Timestamp time) throws SQLException {
 		String getStmt = SELECT_POSTS;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
@@ -184,6 +185,7 @@ public class PostDal {
 			ps.setInt(1, userId);
 			ps.setInt(2, userId);
 			ps.setInt(3, userId);
+			ps.setTimestamp(4, time);
 			rSet = ps.executeQuery();
 			ArrayList<Post> posts = new ArrayList<Post>();
 			while (rSet.next()) {

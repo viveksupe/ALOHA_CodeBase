@@ -28,4 +28,6 @@ public interface IPostController {
 	public GetLikeStatusUI likePost( int postId, int likeType, HttpSession session );
 
 	public GetLikeStatusUI dislikePost( int postId, int dislikeType, HttpSession session);
+	
+	
 }

@@ -2,6 +2,7 @@ package com.aloha.common;
 
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import com.aloha.common.dao_manager.dal.PostDal;
@@ -18,7 +19,7 @@ public class TestPostDBHandler {
 		//updatePost();
 		//getUserPostsTest();
 		//deletePost();
-		getUserAndFriendsPostsTest();
+		//getUserAndFriendsPostsTest();
 	}
 	
 	public static void addPostTest()
@@ -96,21 +97,21 @@ public class TestPostDBHandler {
 		}
 	}
 	
-	public static void getUserAndFriendsPostsTest(){
-		PostDal pDal = new PostDal();
-		
-		try {
-			ArrayList<Post> posts = pDal.getPostsForUserAndFriends(1);
-			
-			if(posts != null){
-				for (Post post : posts) {
-					System.out.println( post.toString());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void getUserAndFriendsPostsTest(){
+//		PostDal pDal = new PostDal();
+//		
+//		try {
+//			ArrayList<Post> posts = pDal.getPostsForUserAndFriends(1, new );
+//			
+//			if(posts != null){
+//				for (Post post : posts) {
+//					System.out.println( post.toString());
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	
 	public static void deletePost(){

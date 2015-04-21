@@ -1,4 +1,4 @@
-{#if $T.length < 20}
+{#if $T.length < 2}
 <div class="no-more-feeds">
  <div class="bcol-15">&nbsp;</div>
             <div class="bcol-85">

@@ -19,6 +19,7 @@ import com.aloha.common.model.GetLikeStatusUI;
 import com.aloha.common.model.GetPostUI;
 import com.aloha.common.model.GetPostsUI;
 import com.aloha.common.model.GetStatusUI;
+import com.aloha.common.model.UserUI;
 
 @Controller
 @SessionAttributes("sessionUser")
@@ -27,8 +28,15 @@ public class ProxyPostController implements IPostController {
 	private PostController postController;
 
 	@RequestMapping("post")
-	public String setup(Locale locale, Model model) throws SQLException {
-
+	public String setup(Locale locale, Model model, HttpSession session) throws SQLException {
+		if(null==session.getAttribute("sessionUser")){
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
+			return "Login";
+		}else{
+			model.addAttribute("globalstatus","logout");
+			model.addAttribute("globalstatuslink","logout");
+		}
 		return "postContainer";
 	}
 
@@ -145,5 +153,10 @@ public class ProxyPostController implements IPostController {
 			return false;
 		}
 		return true;
+	}
+	
+	@RequestMapping(value="/validate", method=RequestMethod.POST)
+	public boolean validateSessionUser(@RequestParam("key") String key,HttpSession session) {
+		return validateSessionUser(session);
 	}
 }

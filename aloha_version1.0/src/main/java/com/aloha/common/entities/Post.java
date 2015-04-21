@@ -1,6 +1,7 @@
 package com.aloha.common.entities;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -143,18 +144,20 @@ public class Post {
 		return posts;
 	}
 
-	public ArrayList<Post> getPostsFriends(int userId) throws SQLException {
+	public ArrayList<Post> getPostsFriends(int userId, String tstamp) throws SQLException {
 		ArrayList<Post> posts = new ArrayList<Post>();
-		posts = dal.getPostsForUserAndFriends(userId);
+		
+		java.util.Date date= new java.util.Date();
+		 Timestamp ts = new Timestamp(date.getTime());
+		 if(!tstamp.isEmpty())
+			  ts = Timestamp.valueOf(tstamp);
+		posts = dal.getPostsForUserAndFriends(userId, ts);
 		
 		for (Post post : posts) {
-			//if(post.hasComments = true)
-			//{
 				Comment comm = new Comment();
 				post.comments = comm.getCommentsPost(post.getPostId());
 				LikeDislike ld = new LikeDislike();
 				post.likeStatistics = ld.getPostLikeDislike(post.getPostId());
-			//}
 			
 		}
 		return posts;

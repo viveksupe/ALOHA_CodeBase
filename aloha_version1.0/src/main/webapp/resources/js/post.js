@@ -7,14 +7,37 @@ var PostManager = new function() {
 	this.Comments = [];
 
 	this.init = function(root) {
-		// alert('in init');
 		this.Root = root;
-		var d = new Date();
-		this.DateTimeForPaging = d.toUTCString();
+		this.validateSession();
+		
 		this.getPosts();
 
 		// this.savePost();
 	};
+	
+	this.validateSession = function() {
+
+		$.ajax({
+			headers : {
+				'Accept' : 'application/json'
+			},
+			method : "POST",
+			data:{
+				key : 'value'
+			},
+			url : PostManager.Root + "/validate",
+			success : function(data) {
+				if (data == false) {
+					window.location.replace(PostManager.Root + "/login");
+				}
+			},
+			error : function(data) {
+				// alert(data);
+				console.log(data);
+			}
+		})
+	};
+
 
 	this.commentEnterEvent = function() {
 		$('.feed-comment-count').click(
@@ -155,7 +178,13 @@ var PostManager = new function() {
 					for (var i = 0; i < data.posts.length; i++) {
 						PostManager.Posts.push(data.posts[i]);
 					}
-
+					if(data.posts.length > 0)
+						PostManager.DateTimeForPaging = data.posts[data.posts.length - 1].postDate;
+						console.log(PostManager.DateTimeForPaging);
+					if(data.posts.length < 2){
+						$('.no-more-feeds').css('display', 'block');
+						$('.more-feeds').css('display', 'none');
+					}
 					PostManager.renderPosts();
 				} else {
 					window.location.replace(PostManager.Root + "/login");
@@ -172,12 +201,14 @@ var PostManager = new function() {
 		$('#postContainer').setTemplateURL(
 				PostManager.Root + '/resources/pages/postTemplate.jsp');
 		$('#postContainer').processTemplate(PostManager.Posts);
+		
 		PostManager.commentEnterEvent();
 		PostManager.deletePostEvent();
 		PostManager.deleteCommentEvent();
 		PostManager.addComment();
 		PostManager.scribbleLike();
 		PostManager.scribbleDislike();
+		PostManager.getMoreFeeds();
 	};
 
 	this.deletePostEvent = function() {
@@ -425,6 +456,13 @@ var PostManager = new function() {
 										}
 									});
 						});
+	};
+	
+	this.getMoreFeeds = function() {
+		$('.more-feeds').click(
+				function() {
+			PostManager.getPosts();
+		});
 	};
 
 }
