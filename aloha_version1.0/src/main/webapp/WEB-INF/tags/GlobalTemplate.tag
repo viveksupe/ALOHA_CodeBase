@@ -25,6 +25,7 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/wall.css"
 	rel="stylesheet">
+<link href="resources/chat/style.css" rel="stylesheet">
 
 <link
 	href="${pageContext.request.contextPath}/resources/css/profile.css"
@@ -34,10 +35,9 @@
 <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
-<link href="resources/chat/style.css" rel="stylesheet">
+<script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script>var userID=${sessionUser.userId};</script>
-<script src="resources/chat/script.js"></script>
 <script>
 $( document ).ready(function(){
 	appRoot = "${pageContext.request.contextPath}";
@@ -53,13 +53,16 @@ $( document ).ready(function(){
 				<a href="${pageContext.request.contextPath}"> <img height="50px"
 					src="${pageContext.request.contextPath}/resources/img/logo.png">
 				</a>
+				<core:if test="${sessionUser.userId == '5'}">
+					<a href="google.com">google </a>
+				</core:if>
 			</div>
 			<div class="bcol-75 menu">
 				<span class="menu-text">+ menu</span>
 
 				<ul class="menu-bar">
 
-					<a href="${pageContext.request.contextPath}/search/users"><li><i
+					<a href="${pageContext.request.contextPath}/search"><li><i
 							class="fa fa-space fa-search"></i>Search</li></a>
 					<a href="${pageContext.request.contextPath}/post"><li><i
 							class="fa fa-space fa-comments"></i>Posts</li></a>
@@ -78,23 +81,32 @@ $( document ).ready(function(){
 	<div class="body">
 		<jsp:doBody />
 	</div>
-	<div class="chat_box" onclick=toggleChatBox();>
-		<div class="chat_head">Chit Chat</div>
-		<div class="chat_body">
 
+	<!-- THis is the chat box code : Start-->
+	<c:choose>
+		<c:when test="${empty sessionUser.userId}">
+			<div></div>
+		</c:when>
+		<c:otherwise>
 
-			<c:forEach items="${onlineUsers}" var="user">
-				<div class="user" onlick=clickUserBox();>
-					<a
-						href="javascript:register_popup(${user.userId},${sessionUser.userId }, '${user.firstName} ${user.lastName}');">${user.firstName}
-						${user.lastName}</a>
+			<div class="chat_box" onclick=toggleChatBox(); >
+				<div class="chat_head">Chit Chat</div>
+				<div class="chat_body">
+
+					<c:forEach items="${onlineUsers}" var="user">
+						<div class="user" onlick=clickUserBox();>
+							<a
+								href="javascript:register_popup(${user.userId},${sessionUser.userId }, '${user.firstName} ${user.lastName}');">${user.firstName}
+								${user.lastName}</a>
+						</div>
+					</c:forEach>
+
 				</div>
-			</c:forEach>
+			</div>
+		</c:otherwise>
+	</c:choose>
+	<!-- THis is the chat box code : End-->
 
-
-
-		</div>
-	</div>
 	<div class="footer">
 		<div class="container-main pad-20">
 			<div class="ftrr">
