@@ -488,4 +488,25 @@ public class UserDal {
 		return null;
 	}
 
+	public int setUserPassword(int userId, String pwd) throws SQLException {
+		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		int result = -1;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement("UPDATE user SET password=? WHERE user_id = ?;");
+			ps.setString(1,pwd);
+			ps.setInt(2, userId);
+			result = ps.executeUpdate();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (ps != null)
+				ps.close();
+			con.close();
+		}
+	}
+
 }

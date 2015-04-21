@@ -148,5 +148,47 @@ public class LoginService extends Secure_Hash{
 		return res;
 		
 	}
+
+	public int checkIfUser(int userId) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		try {
+			if(ud.selectUserByPrimaryKey(userId)!=null)
+				return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int verifyCode(int userId, String vpwd) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		User u = new User();
+		
+		try {
+			u = ud.selectUserByPrimaryKey(userId);
+			if(u.getPassword().equals(vpwd))
+					return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int setUserPassword(int userId, String pwd) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		try {
+			int res = ud.setUserPassword(userId,pwd);
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 }
