@@ -1,10 +1,8 @@
 package com.aloha.common.sal;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
-
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.user.User;
@@ -42,7 +40,7 @@ public class SignupService {
 			u.setIsLocked(0);
 			u.setIsVerified(0);
 			u.setEmail(email);
-		
+			u.setLastActive(new Timestamp(System.currentTimeMillis()));
 			int res =0;
 			try {
 				res = ud.insertUser(u);

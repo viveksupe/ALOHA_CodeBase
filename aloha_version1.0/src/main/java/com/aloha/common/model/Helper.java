@@ -3,6 +3,8 @@ package com.aloha.common.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Helper {
 
@@ -20,5 +22,13 @@ public class Helper {
 		sdfAmerica.setTimeZone(TimeZone.getDefault());
 		String sDateInAmerica = sdfAmerica.format(date);
 		return sDateInAmerica;
+	}
+
+	public static boolean checkvalidInput(String input){
+		
+		Pattern p = Pattern.compile("\\<(?:[^:]+:)?script\\>.*?\\<\\/(?:[^:]+:)?script\\>");
+		 Matcher m = p.matcher(input);
+		 boolean b = m.matches();
+		return b;
 	}
 }

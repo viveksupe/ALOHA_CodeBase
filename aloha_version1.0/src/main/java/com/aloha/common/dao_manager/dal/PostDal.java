@@ -39,7 +39,7 @@ public class PostDal {
 				+ "(SELECT user_id1 FROM friendship where user_id2=? and friend_status_id =2 "
 				+ "union "
 				+ "SELECT user_id2 FROM friendship where user_id1=? and friend_status_id =2 "
-				+ "union select ?) and timestamp < ? order by timestamp desc limit 2;";
+				+ "union select ?) and timestamp < ? order by timestamp desc limit 20;";
 
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}

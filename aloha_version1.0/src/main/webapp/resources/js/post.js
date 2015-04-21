@@ -3,12 +3,12 @@ var PostManager = new function() {
 	this.Posts = [];
 	this.Root = '';
 	this.DateTimeForPaging='';
-
+	this.isMore = true;
 	this.Comments = [];
 
 	this.init = function(root) {
 		this.Root = root;
-		this.validateSession();
+		//this.validateSession();
 		
 		this.getPosts();
 
@@ -68,12 +68,17 @@ var PostManager = new function() {
 	this.addPost = function() {
 
 		var value = $('#txtPost').val();
+		if(value.length ==0)
+			{
+				alert("Please scribble something !!");
+				return;
+			}
 		if (!this.isInvalidEntry(value)) {
 
 			var json = {
 				postData : value
 			};
-
+			PostManager.isMore == true;
 			$.ajax({
 				method : "POST",
 				url : "http://localhost:8080/common/post/add",
@@ -91,7 +96,10 @@ var PostManager = new function() {
 							PostManager.Posts.push(posts[i]);
 						}
 						PostManager.renderPosts();
-					} else {
+					}else if(data.statusCode == 2){
+						alert('Please scribble something !!')
+						return;
+					}  else {
 						window.location.replace(PostManager.Root + "/login");
 					}
 				}
@@ -111,6 +119,13 @@ var PostManager = new function() {
 									: event.which);
 							if (keycode == '13') {
 								var comment = commentBox.val();
+								
+								if(comment.length ==0)
+									{
+										alert("Please type a comment !!");
+										return;
+									}
+								
 								if (!PostManager.isInvalidEntry(comment)) {
 
 									var feed_id = $(this).attr('feed-id');
@@ -119,7 +134,8 @@ var PostManager = new function() {
 										$
 												.ajax({
 													headers : {
-														'Accept' : 'application/json'
+														'Accept' : 'application/json',
+														'Access-Control-Allow-Origin': '*'
 													},
 													url : PostManager.Root
 															+ "/comm/add",
@@ -144,7 +160,11 @@ var PostManager = new function() {
 																	+ feed_id);
 															container
 																	.slideDown();
-														} else {
+														} else if(data.statusCode == 2){
+															alert('Please type a comment !!')
+															return;
+														} 
+														else {
 															window.location
 																	.replace(PostManager.Root
 																			+ "/login");
@@ -163,10 +183,12 @@ var PostManager = new function() {
 	};
 
 	this.getPosts = function() {
+		if(PostManager.isMore == true){
 		console.log(this.Root);
 		$.ajax({
 			headers : {
-				'Accept' : 'application/json'
+				'Accept' : 'application/json',
+					'Access-Control-Allow-Origin': '*'
 			},
 			method : "POST",
 			url : PostManager.Root + "/post/getAll",
@@ -181,9 +203,10 @@ var PostManager = new function() {
 					if(data.posts.length > 0)
 						PostManager.DateTimeForPaging = data.posts[data.posts.length - 1].postDate;
 						console.log(PostManager.DateTimeForPaging);
-					if(data.posts.length < 2){
+					if(data.posts.length < 20){
 						$('.no-more-feeds').css('display', 'block');
 						$('.more-feeds').css('display', 'none');
+						PostManager.isMore = false;
 					}
 					PostManager.renderPosts();
 				} else {
@@ -195,6 +218,7 @@ var PostManager = new function() {
 				console.log(data);
 			}
 		})
+		}
 	};
 
 	this.renderPosts = function() {
@@ -217,7 +241,8 @@ var PostManager = new function() {
 
 			$.ajax({
 				headers : {
-					'Accept' : 'application/json'
+					'Accept' : 'application/json',
+					'Access-Control-Allow-Origin': '*'
 				},
 				method : "POST",
 				url : PostManager.Root + "/post/del",
@@ -254,7 +279,8 @@ var PostManager = new function() {
 					var feed_id = $(this).attr('feed-id');
 					$.ajax({
 						headers : {
-							'Accept' : 'application/json'
+							'Accept' : 'application/json',
+							'Access-Control-Allow-Origin': '*'
 						},
 						method : "POST",
 						url : PostManager.Root + "/comm/del",
@@ -317,7 +343,8 @@ var PostManager = new function() {
 							$
 									.ajax({
 										headers : {
-											'Accept' : 'application/json'
+											'Accept' : 'application/json',
+											'Access-Control-Allow-Origin': '*'
 										},
 										method : "POST",
 										url : PostManager.Root + "/post/like",
@@ -405,7 +432,8 @@ var PostManager = new function() {
 							$
 									.ajax({
 										headers : {
-											'Accept' : 'application/json'
+											'Accept' : 'application/json',
+											'Access-Control-Allow-Origin': '*'
 										},
 										method : "POST",
 										url : PostManager.Root

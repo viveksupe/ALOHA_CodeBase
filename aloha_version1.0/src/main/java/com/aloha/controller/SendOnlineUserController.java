@@ -54,7 +54,7 @@ public class SendOnlineUserController {
 	}
 	
 	
-	@RequestMapping(value = "removeUserFromSession", method=RequestMethod.POST)
+	/*@RequestMapping(value = "removeUserFromSession", method=RequestMethod.POST)
 	public @ResponseBody void removeUserOnBrowserClose(Model model,HttpSession session) throws SQLException { 
 		
 		UserUI curSessionUser = (UserUI) session.getAttribute("sessionUser");
@@ -63,5 +63,5 @@ public class SendOnlineUserController {
 		olUsers.deleteUserWhoIsOnline(curSessionUser.getUserId());
 		
 	
-	}
+	}*/
 }

@@ -1,8 +1,5 @@
-
 var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
-			+ '/common/websocket/' + userID);
-
-
+		+ '/common/websocket/' + userID);
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -20,25 +17,13 @@ webSocket.onclose = function(event) {
 	onClose(event)
 };
 
-window.onbeforeunload = function (event) {
-	$
-	.ajax({
-		method : "POST",
-		url : appRoot + "/removeUserFromSession",
-		data : {
-		},
-		success : function(data) {
-			alert("You Have Been Logged Out");
-		}
-
-	});
-};
-
 function onMessage(event) {
 	var obj = new Object();
 	obj = JSON.parse(event.data);
-	/*document.getElementById('messages').innerHTML += '<br />Received message: '
-			+ obj.chatMsg;*/
+	/*
+	 * document.getElementById('messages').innerHTML += '<br />Received
+	 * message: ' + obj.chatMsg;
+	 */
 	if ($("#" + obj.userID).length == 0) {
 		register_popup(obj.userID, obj.toUserID, obj.Sendername);
 	} else {
@@ -46,6 +31,30 @@ function onMessage(event) {
 				'.msg_push_' + obj.userID);
 	}
 }
+
+/*window.onbeforeunload = function(event) {
+
+	$
+
+	.ajax({
+
+		method : "POST",
+
+		url : appRoot + "/removeUserFromSession",
+
+		data : {
+
+		},
+
+		success : function(data) {
+
+			console.log("You Have Been Logged Out");
+
+		}
+
+	});
+
+};*/
 
 function fileSent(toid, fromid) {
 	var obj = new Object();
@@ -118,16 +127,14 @@ function SendMsg(message, toid, fromid) {
 		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore(
 				'.msg_push_' + toid);
 		webSocket.send(jsonString);
-		/*document.getElementById('messages').innerHTML += '<br />Sent message: '
-				+ obj.chatMsg;*/
+		/*
+		 * document.getElementById('messages').innerHTML += '<br />Sent
+		 * message: ' + obj.chatMsg;
+		 */
 	}
 	$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 
 }
-
-
-
-
 
 function sendOnlineFriends(userSessionID) {
 	$.ajax({
@@ -137,18 +144,26 @@ function sendOnlineFriends(userSessionID) {
 
 		},
 		success : function(data) {
-			$( ".chat_body" ).remove();
-			$( "<div class='chat_body'></div>").insertAfter(  ".chat_head" );
-			//$( ".chat_head" ).append("<div class='chat_body'></div>");
-			
+			$(".chat_body").remove();
+			$("<div class='chat_body'></div>").insertAfter(".chat_head");
+			// $( ".chat_head" ).append("<div class='chat_body'></div>");
+
 			for ( var ke in data) {
 				if (data.hasOwnProperty(ke)) {
-					
-					$( ".chat_body" ).append( "<div class='user' onlick=clickUserBox();><a href='javascript:register_popup("+data[ke].userId+","+userSessionID+",&quot;"+ data[ke].firstName+' '+data[ke].lastName+"&quot;);'>"+data[ke].firstName+" "+data[ke].lastName+"</a></div>" );
-				
+
+					$(".chat_body").append(
+							"<div class='user' onlick=clickUserBox();><a href='javascript:register_popup("
+									+ data[ke].userId + "," + userSessionID
+									+ ",&quot;" + data[ke].firstName + ' '
+									+ data[ke].lastName + "&quot;);'>"
+									+ data[ke].firstName + " "
+									+ data[ke].lastName + "</a></div>");
+
 				}
 			}
-			setTimeout(function() {sendOnlineFriends(userSessionID);}, 10000);
+			setTimeout(function() {
+				sendOnlineFriends(userSessionID);
+			}, 10000);
 		}
 
 	});

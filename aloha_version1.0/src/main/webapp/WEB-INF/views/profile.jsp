@@ -11,22 +11,21 @@
 			FriendJS.init("${pageContext.request.contextPath}");
 		});
 	</script>
+
     <div class="container-main pad-20">
       <div class="app bcol-70">
-
           <div class="wall">
 
             <div class="profile">
               <div class="profile-mobile-bg">
 
+
                 <img src="http://feedstack.asia/img/user.jpg"
 								class="profile-image-mobile" />
                 </div>
               <div class="bcol-30">
-                <div
-								class="feed-user mobile-hidden mobile-hidden-main-image">
-                  <img src="http://feedstack.asia/img/user.jpg"
-									class="profile-image" />
+              <div class="feed-user mobile-hidden mobile-hidden-main-image">
+              	<img id="profileimage" userId="${user.getUserId()}" src="${pageContext.request.contextPath}/displayimage?id=${user.getUserId()}" class="profile-image">
 			</div>
               </div>
               <div class="bcol-70">
@@ -35,19 +34,9 @@
                     <div class="profile-name-span">${user.firstName} ${user.lastName}</div>
                   </div>
                   <div class="profile-desc">
-                    Hey people im a new entry to this website..hope to have fun..follow me to get updates.
-                  </div>
-                  <div class="profile-link">
-                    <!-- 					<a href="http://feedstack.asia/milindhg"><i class="fa fa-space profile-fa-link fa-th"></i></a> &nbsp;
-					<a href="http://feedstack.asia/milindhg/text"><i class="fa fa-space profile-fa-link fa-bars"></i></a> &nbsp;
-					<a href="http://feedstack.asia/milindhg/photo"><i class="fa fa-space profile-fa-link fa-picture-o"></i></a> &nbsp;
-					<a href="http://feedstack.asia/milindhg/video"><i class="fa fa-space profile-fa-link fa-video-camera"></i></a> &nbsp;
-					<a href="http://feedstack.asia/milindhg/link"><i class="fa fa-space profile-fa-link fa-code"></i></a> -->
-                  </div>
-                  <div class="mobile-links">
-                    <!-- 										<a href="http://feedstack.asia/milindhg/notifications"><span class="mb-link-span">Notifications</span></a>
-										<a href="http://feedstack.asia/milindhg/following"><span class="mb-link-span">Following</span></a>
-					<a href="http://feedstack.asia/milindhg/followers"><span class="mb-link-span">Followers</span></a> -->
+					<div>Brith Date: ${user.getDateOfBirth()} </div>
+					<div>Contact: ${user.getContactNumber()} </div>
+					<div>Email: ${user.getEmail()} </div>
                   </div>
                   <div class="profile-buttons" uid="836"
 									liveuser-id="836">
@@ -58,24 +47,32 @@
                           </button>
                         </c:when>
                         <c:otherwise>
-                          
+                          	
                             ${friendship.status}
-                          <button id="unFriendBtn" class="btn btn-edit" friendshipId="${friendship.friendshipId}"> Unfriend
-                          </button>
+                            
+<%--                           <c:choose>
+                          <c:when test"${(friendship.getStatus() = '1')}">
+                          <button class="acceptFriendBtn btn btn-edit" userID="${sessionUser.userId}" acceptorID="${friendship.friendshipId}"> Accept Friendship </button>
+                          </c:when>
+                          <c:otherwise> --%>
+                          <button id="unFriendBtn" class="btn btn-edit" friendshipId="${friendship.friendshipId}"> Unfriend </button>
+<%--                           </c:otherwise>
+                          </c:choose> --%>
                         </c:otherwise>
                       </c:choose>
-                    
+
                   </div>
                 </div>
               </div>
               <div class="clear"></div>
             </div>
           </div>
+          
           <div class="profile-container-box">
             <script src="http://feedstack.asia/app/script/readmore.js"></script>
             <script src="http://feedstack.asia/app/script/popup.js"></script>
             <script src="http://feedstack.asia/app/script/wall.js"></script>
-            <style>
+<style>
 .footer {
 	background: white;
 }
@@ -85,18 +82,41 @@
 }
 </style>
 
-            <!-- <div class="login-popup popup"><b>Please Login to continue</b> <br>
-	<a href="http://feedstack.asia/user/login"><button class="btn btn-login">login</button></a>
-	 <button class="btn btn-cancel" type="button">cancel</button>
-</div>
-<div class="root" root="http://feedstack.asia/" access-token="1429169272g836"></div>
-	<div class="profile-card" count="0">Opps ! No  feeds yet </div> -->
+		<div class="container">
+			<div class = "container" id="displaypersonalinfo" style="display:block;">
+				<div class= "feed-block">
+					<div class = "feed-title">About Me</div>
+					<div class = "feed-title">${personal.getAboutme()}</div>
+				</div>
+				<div class= "feed-block">
+					<div class = "feed-title">Lives In</div>
+					<div class = "feed-title">${personal.getCity()}</div>
+				</div>
+	        </div>
+		</div>
 
-            <br />
+		<div class="container" id="displayeducationinfo" style="display:block;">
+			<div class= "feed-block" style="display:block;">
+				<div class = "feed-title">Education</div>
+				<div class = "feed-title">${education.getSchool()} ${education.getArea()}</div>
+			</div>
+		</div>	
+
 
 </div>
+      </div>
+      <div class="sidebar bcol-30">
+
+        <div class="notify-block">
+          <div>
+            <div class="notify-title">
+                <a href="${pageContext.request.contextPath}/friends?userId=${user.getUserId()}"> ${user.firstName}'s Friends </a> <span class="unread"></span>
+            </div>
+          </div>
         </div>
-      <div class="clear"></div>
-    </div>
+      </div>
+      
+       <div class="clear"></div>
+	</div>
   </jsp:body>
 </t:GlobalTemplate>

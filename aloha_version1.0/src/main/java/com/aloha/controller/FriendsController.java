@@ -77,8 +77,8 @@ public class FriendsController {
 	 * @return
 	 * @throws SQLException
 	 */
-	@RequestMapping("friends")
-	public String displayFriends(Locale locale, Model model, HttpSession session)
+	@RequestMapping(value = "friends", method = RequestMethod.GET)
+	public String displayFriends(@RequestParam("userId") String userId, Locale locale, Model model, HttpSession session)
 			throws SQLException {
 		User u = new User();
 		Friendship f = new Friendship();
@@ -90,10 +90,14 @@ public class FriendsController {
 
 			return "redirect:" + "login";
 		} else {
-			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
+/*			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
 			ulist = f.getUserFriends(commonUtils
-					.convertUserUIToUser(sessionUserUI));
-			model.addAttribute("user", sessionUserUI);
+					.convertUserUIToUser(sessionUserUI));*/
+			User user = new User();
+			user.setUserId(Integer.valueOf(userId));
+			user=user.getUser(Integer.valueOf(userId));
+			ulist = f.getUserFriends(user);
+			model.addAttribute("user", user);
 			model.addAttribute("globalstatus", "logout");
 			model.addAttribute("globalstatuslink", "logout");
 
