@@ -38,8 +38,9 @@
 <script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script>
-var userID=${sessionUser.userId};
-if (userID==''){
+var userID=-1;
+userID=${sessionUser.userId};
+if (userID==-1){
 	window.location.replace("/common/error404");
 }
 
