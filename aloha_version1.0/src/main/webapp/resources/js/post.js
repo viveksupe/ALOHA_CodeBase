@@ -78,7 +78,7 @@ var PostManager = new function() {
 			var json = {
 				postData : value
 			};
-
+			PostManager.isMore == true;
 			$.ajax({
 				method : "POST",
 				url : "http://localhost:8080/common/post/add",
@@ -203,7 +203,7 @@ var PostManager = new function() {
 					if(data.posts.length > 0)
 						PostManager.DateTimeForPaging = data.posts[data.posts.length - 1].postDate;
 						console.log(PostManager.DateTimeForPaging);
-					if(data.posts.length < 2){
+					if(data.posts.length < 20){
 						$('.no-more-feeds').css('display', 'block');
 						$('.more-feeds').css('display', 'none');
 						PostManager.isMore = false;
