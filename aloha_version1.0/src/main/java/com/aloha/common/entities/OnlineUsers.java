@@ -33,6 +33,16 @@ public class OnlineUsers {
 		}
 		return -1;
 	}
+	
+	public int deleteUserWhoIsOnline(int userId) {
+		try {
+			return dal.deleteUserFromOnlineTable(userId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
 
 	public ArrayList<User> getOnlineFriends(int userId) {
 		ArrayList<User> onlineFriends = null;

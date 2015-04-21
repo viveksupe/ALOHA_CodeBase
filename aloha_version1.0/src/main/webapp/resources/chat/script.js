@@ -20,6 +20,20 @@ webSocket.onclose = function(event) {
 	onClose(event)
 };
 
+window.onbeforeunload = function (event) {
+	$
+	.ajax({
+		method : "POST",
+		url : appRoot + "/removeUserFromSession",
+		data : {
+		},
+		success : function(data) {
+			alert("You Have Been Logged Out");
+		}
+
+	});
+};
+
 function onMessage(event) {
 	var obj = new Object();
 	obj = JSON.parse(event.data);
@@ -111,15 +125,22 @@ function SendMsg(message, toid, fromid) {
 
 }
 
+
+
+
+
 function sendOnlineFriends(userSessionID) {
 	$.ajax({
 		method : "POST",
 		url : appRoot + "/onlineUsers",
-		timeout:2000,
 		data : {
 
 		},
 		success : function(data) {
+			$( ".chat_body" ).remove();
+			$( "<div class='chat_body'></div>").insertAfter(  ".chat_head" );
+			//$( ".chat_head" ).append("<div class='chat_body'></div>");
+			
 			for ( var ke in data) {
 				if (data.hasOwnProperty(ke)) {
 					
@@ -127,6 +148,7 @@ function sendOnlineFriends(userSessionID) {
 				
 				}
 			}
+			setTimeout(function() {sendOnlineFriends(userSessionID);}, 10000);
 		}
 
 	});
