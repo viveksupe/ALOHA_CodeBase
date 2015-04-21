@@ -38,12 +38,17 @@
 <script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script>
-try {
+var userID=${sessionUser.userId};
+if (userID==''){
+	window.location.replace("/common/error404");
+}
+
+/* try {
 	var userID=${sessionUser.userId};
 }
 catch(err) {
-	window.location.replace("/common/error404");
-}
+	//window.location.replace("/common/error404");
+} */
 
 
 </script>

@@ -1,11 +1,7 @@
 
-try {
-	var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
+var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
 			+ '/common/websocket/' + userID);
-}
-catch(err) {
-	window.location.replace("/common/error404");
-}
+
 
 
 webSocket.onerror = function(event) {
@@ -119,6 +115,7 @@ function sendOnlineFriends(userSessionID) {
 	$.ajax({
 		method : "POST",
 		url : appRoot + "/onlineUsers",
+		timeout:2000,
 		data : {
 
 		},
