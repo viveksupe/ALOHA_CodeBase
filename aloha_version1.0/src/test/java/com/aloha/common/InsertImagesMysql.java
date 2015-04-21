@@ -1,18 +1,20 @@
 package com.aloha.common;
-import java.sql.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
+import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 public class InsertImagesMysql{
 	public static void main(String[] args){
 		System.out.println("Insert Image Example!");
-		String driverName = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://localhost:3306/";
-		String dbName = "testdb";
-		String userName = "root";
-		String password = "root";
 		Connection con = null;
+		
 		try{
-		   Class.forName(driverName);
-		   con = DriverManager.getConnection(url+dbName,userName,password);
+		   con = DatabaseHandlerSingleton.getDBConnection();
 		   Statement st = con.createStatement();
 		   File imgfile = new File("E://iu acad//pic.jpg");
 		  
