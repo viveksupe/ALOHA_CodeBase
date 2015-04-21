@@ -37,13 +37,24 @@
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
 <script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script>var userID=${sessionUser.userId};</script>
+<script>
+try {
+	var userID=${sessionUser.userId};
+}
+catch(err) {
+	window.location.replace("/common/error404");
+}
+
+
+</script>
+<script src="resources/chat/script.js"></script>
 <script>
 $( document ).ready(function(){
 	appRoot = "${pageContext.request.contextPath}";
 	console.log(appRoot);
-	
+	sendOnlineFriends(userID);
 });
+
 </script>
 </head>
 <body>
@@ -53,9 +64,6 @@ $( document ).ready(function(){
 				<a href="${pageContext.request.contextPath}"> <img height="50px"
 					src="${pageContext.request.contextPath}/resources/img/logo.png">
 				</a>
-				<core:if test="${sessionUser.userId == '5'}">
-					<a href="google.com">google </a>
-				</core:if>
 			</div>
 			<div class="bcol-75 menu">
 				<span class="menu-text">+ menu</span>
@@ -81,30 +89,12 @@ $( document ).ready(function(){
 	<div class="body">
 		<jsp:doBody />
 	</div>
-
-	<!-- THis is the chat box code : Start-->
-	<c:choose>
-		<c:when test="${empty sessionUser.userId}">
-			<div></div>
-		</c:when>
-		<c:otherwise>
-
 			<div class="chat_box" onclick=toggleChatBox(); >
 				<div class="chat_head">Chit Chat</div>
 				<div class="chat_body">
 
-					<c:forEach items="${onlineUsers}" var="user">
-						<div class="user" onlick=clickUserBox();>
-							<a
-								href="javascript:register_popup(${user.userId},${sessionUser.userId }, '${user.firstName} ${user.lastName}');">${user.firstName}
-								${user.lastName}</a>
-						</div>
-					</c:forEach>
-
 				</div>
 			</div>
-		</c:otherwise>
-	</c:choose>
 	<!-- THis is the chat box code : End-->
 
 	<div class="footer">

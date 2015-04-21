@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
@@ -37,7 +38,7 @@ import com.aloha.common.util.CommonUtils;
  *         friends module
  */
 @Controller
-// @SessionAttributes("sessionUser")
+@SessionAttributes("sessionUser")
 public class FriendsController {
 
 	private static final Logger logger = LoggerFactory

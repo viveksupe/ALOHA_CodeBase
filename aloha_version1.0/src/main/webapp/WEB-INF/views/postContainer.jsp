@@ -3,7 +3,6 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
     <jsp:body>
-<script src="http://feedstack.asia/app/script/jquery.autosize.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-jtemplates.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/post.js"></script>
@@ -54,8 +53,7 @@ $( document ).ready(function() {
 </div>
 
         <div class="profile-container-box">
-            <script src="http://feedstack.asia/app/script/readmore.js"></script>
-            <script src="http://feedstack.asia/app/script/popup.js"></script>
+            
             
             <style>
                 .footer {
@@ -70,12 +68,7 @@ $( document ).ready(function() {
 <div id="postContainer">
 
 </div>
-            <div class="bcol-15">&nbsp;</div>
-            <div class="bcol-85">
-                <div class="no-feeds">No more Feeds</div>
-            </div>
-            <div class="clear"></div>
-            <br>
+           
 
         </div>
     </div>

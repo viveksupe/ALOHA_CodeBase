@@ -1,5 +1,12 @@
-var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
-		+ '/common/websocket/' + userID);
+
+try {
+	var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
+			+ '/common/websocket/' + userID);
+}
+catch(err) {
+	window.location.replace("/common/error404");
+}
+
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -20,8 +27,8 @@ webSocket.onclose = function(event) {
 function onMessage(event) {
 	var obj = new Object();
 	obj = JSON.parse(event.data);
-	document.getElementById('messages').innerHTML += '<br />Received message: '
-			+ obj.chatMsg;
+	/*document.getElementById('messages').innerHTML += '<br />Received message: '
+			+ obj.chatMsg;*/
 	if ($("#" + obj.userID).length == 0) {
 		register_popup(obj.userID, obj.toUserID, obj.Sendername);
 	} else {
@@ -35,7 +42,9 @@ function fileSent(toid, fromid) {
 	obj.userID = fromid;
 	obj.toUserID = toid;
 	obj.chatMsg = '<a href="http://' + location.hostname + ':' + location.port
-		+ '/common/downloadFile?filename=' +$("#filenameID_"+toid).val().replace(/.+[\\\/]/, "") +'" target="_blank"">File Received</a>'; //document.getElementById('filenameID').value
+			+ '/common/downloadFile?filename='
+			+ $("#filenameID_" + toid).val().replace(/.+[\\\/]/, "")
+			+ '" target="_blank"">File Received</a>'; // document.getElementById('filenameID').value
 	var jsonString = JSON.stringify(obj);
 	webSocket.send(jsonString);
 	$('<div class="msg_a">' + obj.chatMsg + '</div>').insertBefore(
@@ -43,6 +52,7 @@ function fileSent(toid, fromid) {
 }
 
 function onOpen(event) {
+	$('.chat_body').slideToggle('slow');
 	$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>')
@@ -98,30 +108,33 @@ function SendMsg(message, toid, fromid) {
 		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore(
 				'.msg_push_' + toid);
 		webSocket.send(jsonString);
-		document.getElementById('messages').innerHTML += '<br />Sent message: '
-				+ obj.chatMsg;
+		/*document.getElementById('messages').innerHTML += '<br />Sent message: '
+				+ obj.chatMsg;*/
 	}
 	$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 
 }
 
-function ProcessImageToSend() {
-	$
-	.ajax({
+function sendOnlineFriends(userSessionID) {
+	$.ajax({
 		method : "POST",
-		url : appRoot + "/process",
+		url : appRoot + "/onlineUsers",
 		data : {
-			image:document.getElementById(id).files[0]
+
 		},
 		success : function(data) {
-			alert("Image Uploaded Successfully!");
+			for ( var ke in data) {
+				if (data.hasOwnProperty(ke)) {
+					
+					$( ".chat_body" ).append( "<div class='user' onlick=clickUserBox();><a href='javascript:register_popup("+data[ke].userId+","+userSessionID+",&quot;"+ data[ke].firstName+' '+data[ke].lastName+"&quot;);'>"+data[ke].firstName+" "+data[ke].lastName+"</a></div>" );
+				
+				}
+			}
 		}
 
 	});
 
 }
-
-
 
 // this function can remove a array element.
 Array.remove = function(array, from, to) {
@@ -241,7 +254,13 @@ function register_popup(toid, fromid, name) {
 	element = element + '<div class="msg_body" ><div class="msg_push_' + toid
 			+ '"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><form action="process" method="POST" enctype="multipart/form-data"><input type="file" name="upload_file" id="filenameID_'+toid+'"/><br/><input type="submit" value="Upload" onclick="fileSent('+toid+','+fromid+')" /></form><table><tr><td width=80%><textarea id="'
+			+ '<div class="msg_footer"><form action="process" method="POST" enctype="multipart/form-data"><input type="file" name="upload_file" id="filenameID_'
+			+ toid
+			+ '"/><br/><input type="submit" value="Upload" onclick="fileSent('
+			+ toid
+			+ ','
+			+ fromid
+			+ ')" /></form><table><tr><td width=80%><textarea id="'
 			+ name
 			+ '" class="msg_input'
 			+ toid

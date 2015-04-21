@@ -147,4 +147,9 @@
                 <div class="clear"></div>
             </div>
  {#/for}
-
+ <div class="bcol-15">&nbsp;</div>
+            <div class="bcol-85">
+                <div class="no-feeds">No more Feeds</div>
+            </div>
+            <div class="clear"></div>
+            <br>
