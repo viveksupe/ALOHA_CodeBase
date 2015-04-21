@@ -52,9 +52,9 @@ function onMessage(event) {
 
 		}
 
-	});*/
+	});
 
-};
+};*/
 
 function fileSent(toid, fromid) {
 	var obj = new Object();
