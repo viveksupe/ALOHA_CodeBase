@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
@@ -200,4 +201,22 @@ public class EditProfileController{
 		model.addAttribute("user",u);
 		return "redirect:"+"user_profile";
 	}
+	@RequestMapping(value="privacysetting", method=RequestMethod.POST)
+	public @ResponseBody boolean editPrivacy(Model model, HttpSession session){
+		UserUI u = new UserUI();
+		EditProfileService eps = new EditProfileService();
+		
+		if(null==session.getAttribute("sessionUser")){
+		}
+		else
+		{
+			u = (UserUI)session.getAttribute("sessionUser");
+			
+			int res = eps.setPrivacy(u);
+			if(res==0)
+				return false;
+		}
+		return true;
+	}	
+	
 }
