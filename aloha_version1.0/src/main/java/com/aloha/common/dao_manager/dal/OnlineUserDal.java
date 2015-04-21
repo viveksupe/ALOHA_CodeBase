@@ -65,7 +65,7 @@ public class OnlineUserDal {
 		}
 	}
 
-	public int deletePost(int id) throws SQLException {
+	public int deleteUserFromOnlineTable(int id) throws SQLException {
 		String deleteUserQuery = DELETE;
 		PreparedStatement ps = null;
 		int result = -1;

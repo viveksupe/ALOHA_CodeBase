@@ -20,6 +20,20 @@ webSocket.onclose = function(event) {
 	onClose(event)
 };
 
+window.onbeforeunload = function (event) {
+	$
+	.ajax({
+		method : "POST",
+		url : appRoot + "/removeUserFromSession",
+		data : {
+		},
+		success : function(data) {
+			alert("You Have Been Logged Out");
+		}
+
+	});
+};
+
 function onMessage(event) {
 	var obj = new Object();
 	obj = JSON.parse(event.data);
