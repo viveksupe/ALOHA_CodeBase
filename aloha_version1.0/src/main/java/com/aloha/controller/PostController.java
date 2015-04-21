@@ -2,6 +2,7 @@ package com.aloha.controller;
 
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,8 +43,16 @@ public class PostController implements IPostController {
 		
 		PostUI pui = new PostUI();
 		
-		ArrayList<PostUI> posts = pui.getPostsForUserAndFriends(userUIInSession);
-		gui.setPosts(posts);
+		ArrayList<PostUI> posts;
+		try {
+			
+			posts = pui.getPostsForUserAndFriends(userUIInSession, searchKey);
+			gui.setPosts(posts);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return gui;
 	}
 	

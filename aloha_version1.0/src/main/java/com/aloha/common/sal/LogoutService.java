@@ -1,10 +1,11 @@
-package com.aloha.controller;
+package com.aloha.common.sal;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import com.aloha.common.dao_manager.dal.UserDal;
+import com.aloha.common.entities.OnlineUsers;
 import com.aloha.common.model.UserUI;
 
 public class LogoutService {
@@ -15,11 +16,17 @@ public class LogoutService {
 		int res = 0;
 		try {
 			res = ud.setLastActive(u.getUserId(), lastActive);
+			OnlineUsers olUsers = new OnlineUsers();
+			olUsers.deleteUserWhoIsOnline(u.getUserId());
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		u.setLastActive(lastActive);
+
+		
+
 		return res;
 	}
 }

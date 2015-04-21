@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta name="robots" content="noindex" />
 
-    <title>Bitly | Page Not Found | 404</title>
+    <title>ALOHA | Page Not Found | 404</title>
     <style type="text/css">
     * { padding:0; margin:0; }
     body, html {
@@ -164,8 +164,8 @@
 <body>
     <div id="text">
         <h1>Something's wrong here...</h1>
-        <p>Uh oh, Bitly couldn't find a link for the bitly URL you clicked.</p>
-        <p>Most Bitlinks are 4-6 characters, and only include letters and numbers (and are case sensitive).</p>
+        <p>Uh oh, ALOHA couldn't find a link for the aolha URL you clicked.</p>
+        <p>Most alolinks are 4-6 characters, and only include letters and numbers (and are case sensitive).</p>
     </div>
     <div id="ripple-control"></div>
     <img id="fish" src="https://bit.ly/static/graphics/fish-404.png" />

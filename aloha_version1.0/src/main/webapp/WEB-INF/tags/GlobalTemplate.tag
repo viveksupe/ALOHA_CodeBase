@@ -78,7 +78,7 @@ $( document ).ready(function(){
 					<a href="${pageContext.request.contextPath}/search"><li><i
 							class="fa fa-space fa-search"></i>Search</li></a>
 					<a href="${pageContext.request.contextPath}/post"><li><i
-							class="fa fa-space fa-comments"></i>Posts</li></a>
+							class="fa fa-space fa-comments"></i>Scribbles</li></a>
 					<a href="${pageContext.request.contextPath}/user_profile">
 						<li><i class="fa fa-space fa-user"> </i>Profile</li>
 					</a>

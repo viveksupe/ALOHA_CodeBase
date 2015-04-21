@@ -24,7 +24,7 @@ public class SendOnlineUserController {
 	@RequestMapping(value = "onlineUsers", method=RequestMethod.POST)
 	public @ResponseBody ArrayList<User> getOnlineUsers(Model model,HttpSession session) throws SQLException { 
 		
-	/*	if(null==session.getAttribute("sessionUser")){
+		/*if(null==session.getAttribute("sessionUser")){
 			model.addAttribute("globalstatus","login");
 			model.addAttribute("globalstatuslink","login");
 			
@@ -35,11 +35,13 @@ public class SendOnlineUserController {
 		
 		ArrayList<User> onlineUsers = null;
 		OnlineUsers olUsers = new OnlineUsers();
+		if(curSessionUser!=null){
 		try{
 		onlineUsers = olUsers.getOnlineFriends(curSessionUser.getUserId());
 		}
 		catch(Exception e){
 			e.printStackTrace();
+		}
 		}
 		/*
 		 * onlineUsers.add(u1); onlineUsers.add(u2); onlineUsers.add(u3);
@@ -50,4 +52,16 @@ public class SendOnlineUserController {
 		
 		return onlineUsers;
 	}
+	
+	
+	/*@RequestMapping(value = "removeUserFromSession", method=RequestMethod.POST)
+	public @ResponseBody void removeUserOnBrowserClose(Model model,HttpSession session) throws SQLException { 
+		
+		UserUI curSessionUser = (UserUI) session.getAttribute("sessionUser");
+		
+		OnlineUsers olUsers = new OnlineUsers();
+		olUsers.deleteUserWhoIsOnline(curSessionUser.getUserId());
+		
+	
+	}*/
 }

@@ -1,6 +1,7 @@
 package com.aloha.common.sal;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Locale;
 
@@ -27,25 +28,45 @@ import com.aloha.common.entities.user.UserEducation;
 import com.aloha.common.entities.user.UserPersonal;
 import com.aloha.common.model.UserUI;
 import com.aloha.common.util.ProfileImage;
+import com.aloha.common.util.Secure_Hash;
 
-public class LoginService {
+public class LoginService extends Secure_Hash{
 	
-	public int perform_login(String email, String pwd, UserUI ui) {
+	public int perform_login(String email, String pwd, UserUI ui, int count) {
 		UserDal ud = new UserDal();
 		User res= null;
+		int accountStatus = 0;
+		String newpwd = "ThisIsTest1";
 		try {
-			res = ud.getPasswordByEmail(email,pwd);
+			newpwd = getHash(pwd);
+		} catch (NoSuchAlgorithmException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			if(count>=3)
+			{
+				ud.lockaccount(email,newpwd);
+				return 0;
+			}
+			accountStatus = ud.isEmailLocked(email);
+			if(accountStatus == 0) //not locked
+				res = ud.getPasswordByEmail(email,pwd);
+			else if(accountStatus == 1)	//locked
+				return 0; //locked
+			else
+				return -1;	//exception
 		} catch (SQLException e) {
-			return 0;
+			return -1;
 		}
 		if(res!=null)	
 		{
 			ui.setUser(res);
 			OnlineUsers olUsers = new OnlineUsers();
 			olUsers.addUserAsOnline(res.getUserId());
-			return 1;				
+			return 1;					//success
 		}
-		return 0;
+		return -2; //account or password does not match
 	}
 	
 	public UserPersonal get_personal(UserUI u){
@@ -93,28 +114,81 @@ public class LoginService {
 	
 	@Autowired
     private JavaMailSender mailSender;
-	public int forgot_password(String email){
+	public User forgot_password(String email){
 		UserUI u = new UserUI();
+		User user = new User();
 		UserDal ud = new UserDal();
-		int res = 0;
+		int userId=0;
+		User res = null;
 		try {
-				if(ud.checkIfUniqueEmail(email))
-				{
+			if(ud.checkIfUniqueEmail(email))
+			{	
+				String newpwd = "ThisIsTest1";
+				try {
+					newpwd = getHash(newpwd);
 					
-					res = 1;
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				else
-				{
-					
-					res = 0;
-				}
+				ud.lockaccount(email,newpwd);
+				user = ud.getUserIdByEmail(email);
+				res = user;
+			}
+			else
+			{
+				
+				res = null;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			res = 0;
 		}
+		
 		return res;
 		
+	}
+
+	public int checkIfUser(int userId) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		try {
+			if(ud.selectUserByPrimaryKey(userId)!=null)
+				return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int verifyCode(int userId, String vpwd) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		User u = new User();
+		
+		try {
+			u = ud.selectUserByPrimaryKey(userId);
+			if(u.getPassword().equals(vpwd))
+					return 1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public int setUserPassword(int userId, String pwd) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		try {
+			int res = ud.setUserPassword(userId,pwd);
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 }

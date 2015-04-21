@@ -1,6 +1,7 @@
 package com.aloha.common.model;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -123,7 +124,7 @@ public class PostUI {
 		this.dislikes = dislikes;
 	}
 
-	public ArrayList<PostUI> getPostsForUser(UserUI user) {
+	public ArrayList<PostUI> getPostsForUser(UserUI user, String tstamp) {
 
 		ArrayList<PostUI> userPosts = new ArrayList<PostUI>();
 		Post p = new Post();
@@ -136,7 +137,7 @@ public class PostUI {
 				PostUI pui = new PostUI();
 				pui.setUserName(user.getFirstName() + " " + user.getLastName());
 				pui.setUserId(user.getUserId());
-				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
+				pui.setPostDate(post.getPostDate().toString());
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
 				
@@ -182,21 +183,21 @@ public class PostUI {
 
 	}
 
-	public ArrayList<PostUI> getPostsForUserAndFriends(UserUI user) {
+	public ArrayList<PostUI> getPostsForUserAndFriends(UserUI user, String tstamp) throws ParseException {
 
 		ArrayList<PostUI> userPosts = new ArrayList<PostUI>();
 		Post p = new Post();
 		CommentUI comm = new CommentUI();
 		ArrayList<Post> posts;
 		try {
-			posts = p.getPostsFriends(user.getUserId());
+			posts = p.getPostsFriends(user.getUserId(), tstamp);
 			for (Post post : posts) {
 				LikeDislike ld = post.getLikeStatistics();
 				PostUI pui = new PostUI();
 				pui.setUserName(post.getUserName() + " "
 						+ post.getUserSurname());
 				pui.setUserId(post.getUserId());
-				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
+				pui.setPostDate(post.getPostDate().toString());
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
 				if (user.getUserId() == post.getUserId())
