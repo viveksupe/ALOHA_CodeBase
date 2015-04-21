@@ -68,7 +68,9 @@ $( document ).ready(function() {
 <div id="postContainer">
 
 </div>
-           
+ <div id="moreContainer">
+
+</div>          
 
         </div>
     </div>
