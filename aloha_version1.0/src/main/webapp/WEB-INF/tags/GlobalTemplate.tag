@@ -35,12 +35,11 @@
 <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
-<script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script>
-var userID=-1;
+var userID=0;
 userID=${sessionUser.userId};
-if (userID==-1){
+if (userID==''){
 	window.location.replace("/common/error404");
 }
 
