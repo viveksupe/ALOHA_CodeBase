@@ -3,12 +3,12 @@ var PostManager = new function() {
 	this.Posts = [];
 	this.Root = '';
 	this.DateTimeForPaging='';
-
+	this.isMore = true;
 	this.Comments = [];
 
 	this.init = function(root) {
 		this.Root = root;
-		this.validateSession();
+		//this.validateSession();
 		
 		this.getPosts();
 
@@ -68,6 +68,11 @@ var PostManager = new function() {
 	this.addPost = function() {
 
 		var value = $('#txtPost').val();
+		if(value.length ==0)
+			{
+				alert("Please scribble something !!");
+				return;
+			}
 		if (!this.isInvalidEntry(value)) {
 
 			var json = {
@@ -91,7 +96,10 @@ var PostManager = new function() {
 							PostManager.Posts.push(posts[i]);
 						}
 						PostManager.renderPosts();
-					} else {
+					}else if(data.statusCode == 2){
+						alert('Please scribble something !!')
+						return;
+					}  else {
 						window.location.replace(PostManager.Root + "/login");
 					}
 				}
@@ -111,6 +119,13 @@ var PostManager = new function() {
 									: event.which);
 							if (keycode == '13') {
 								var comment = commentBox.val();
+								
+								if(comment.length ==0)
+									{
+										alert("Please type a comment !!");
+										return;
+									}
+								
 								if (!PostManager.isInvalidEntry(comment)) {
 
 									var feed_id = $(this).attr('feed-id');
@@ -144,7 +159,11 @@ var PostManager = new function() {
 																	+ feed_id);
 															container
 																	.slideDown();
-														} else {
+														} else if(data.statusCode == 2){
+															alert('Please type a comment !!')
+															return;
+														} 
+														else {
 															window.location
 																	.replace(PostManager.Root
 																			+ "/login");
@@ -163,6 +182,7 @@ var PostManager = new function() {
 	};
 
 	this.getPosts = function() {
+		if(PostManager.isMore == true){
 		console.log(this.Root);
 		$.ajax({
 			headers : {
@@ -184,6 +204,7 @@ var PostManager = new function() {
 					if(data.posts.length < 2){
 						$('.no-more-feeds').css('display', 'block');
 						$('.more-feeds').css('display', 'none');
+						PostManager.isMore = false;
 					}
 					PostManager.renderPosts();
 				} else {
@@ -195,6 +216,7 @@ var PostManager = new function() {
 				console.log(data);
 			}
 		})
+		}
 	};
 
 	this.renderPosts = function() {

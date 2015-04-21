@@ -19,6 +19,7 @@ import com.aloha.common.model.GetLikeStatusUI;
 import com.aloha.common.model.GetPostUI;
 import com.aloha.common.model.GetPostsUI;
 import com.aloha.common.model.GetStatusUI;
+import com.aloha.common.model.Helper;
 import com.aloha.common.model.UserUI;
 
 @Controller
@@ -62,6 +63,12 @@ public class ProxyPostController implements IPostController {
 	public @ResponseBody GetPostUI addPost(@RequestParam("postData") String post, HttpSession session) {
 		// TODO Auto-generated method stub
 		GetPostUI gui = new GetPostUI();
+		if(post.isEmpty() || Helper.checkvalidInput(post))
+		{
+			gui.setStatusCode(2);
+			gui.setStatusMessage("Invalid Input");
+			return gui;
+		}
 		boolean isValid = validateSessionUser(session);
 		if (isValid) {
 			postController = new PostController();
@@ -77,6 +84,12 @@ public class ProxyPostController implements IPostController {
 	public @ResponseBody GetCommentUI addComment(@RequestParam("commentData") String comm,@RequestParam("postId") int postId, HttpSession session) {
 		// TODO Auto-generated method stub
 		GetCommentUI gui = new GetCommentUI();
+		if(comm.isEmpty() || Helper.checkvalidInput(comm))
+		{
+			gui.setStatusCode(2);
+			gui.setStatusMessage("Invalid Input");
+			return gui;
+		}
 		boolean isValid = validateSessionUser(session);
 		if (isValid) {
 			postController = new PostController();
