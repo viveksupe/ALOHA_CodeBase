@@ -32,8 +32,8 @@ public class OnlineUserDal {
 		SELECT = "SELECT online_users.user_id FROM online_users";
 		INSERT = "INSERT INTO online_users (user_id) VALUES (?) ON DUPLICATE KEY UPDATE user_id = ?;";
 		DELETE = "DELETE FROM online_users WHERE user_id = ?;";
-		SELECT_ONLINE_USERS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE user.user_id in (SELECT online_users.user_id FROM online_users);";
-		SELECT_ONLINE_FRIENDS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive from user where user_id in ("
+		SELECT_ONLINE_USERS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE user.user_id in (SELECT online_users.user_id FROM online_users);";
+		SELECT_ONLINE_FRIENDS = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.bdate, user.isVerified, user.isLocked, user.lastactive from user where user_id in ("
 				+ "SELECT user_id from online_users"
 				+ " where user_id in (SELECT friendship.user_id1 FROM friendship where friendship.user_id2 = ? and friendship.friend_status_id=2"
 				+ " union"
@@ -123,7 +123,6 @@ public class OnlineUserDal {
 					u.setLastName(rSet.getString("lname"));
 					u.setContactNumber(rSet.getString("contact_number"));
 					u.setEmail(rSet.getString("email"));
-					u.setPassword(rSet.getString("password"));
 					u.setDateOfBirth(rSet.getTimestamp("bdate"));
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));
@@ -163,7 +162,6 @@ public class OnlineUserDal {
 					u.setLastName(rSet.getString("lname"));
 					u.setContactNumber(rSet.getString("contact_number"));
 					u.setEmail(rSet.getString("email"));
-					u.setPassword(rSet.getString("password"));
 					u.setDateOfBirth(rSet.getTimestamp("bdate"));
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import com.aloha.common.entities.*;
 import com.aloha.common.entities.user.User;
 
@@ -121,7 +123,7 @@ public class PostUI {
 		this.dislikes = dislikes;
 	}
 
-	public ArrayList<PostUI> getPostsForUser(User user) {
+	public ArrayList<PostUI> getPostsForUser(UserUI user) {
 
 		ArrayList<PostUI> userPosts = new ArrayList<PostUI>();
 		Post p = new Post();
@@ -142,7 +144,7 @@ public class PostUI {
 					pui.setCanDelete(1);
 				else
 					pui.setCanDelete(2);
-				pui.setComments(comm.getCommentsForPost(post));
+				pui.setComments(comm.getCommentsForPost(post, user));
 
 				if (ld != null) {
 					if (ld.getLikes() != null) 
@@ -180,14 +182,14 @@ public class PostUI {
 
 	}
 
-	public ArrayList<PostUI> getPostsForUserAndFriends(int userId) {
+	public ArrayList<PostUI> getPostsForUserAndFriends(UserUI user) {
 
 		ArrayList<PostUI> userPosts = new ArrayList<PostUI>();
 		Post p = new Post();
 		CommentUI comm = new CommentUI();
 		ArrayList<Post> posts;
 		try {
-			posts = p.getPostsFriends(userId);
+			posts = p.getPostsFriends(user.getUserId());
 			for (Post post : posts) {
 				LikeDislike ld = post.getLikeStatistics();
 				PostUI pui = new PostUI();
@@ -197,12 +199,12 @@ public class PostUI {
 				pui.setPostDate(Helper.getLocalDate(post.getPostDate()));
 				pui.setPostData(post.getPost());
 				pui.setPostId(post.getPostId());
-				if (userId == post.getUserId())
+				if (user.getUserId() == post.getUserId())
 					pui.setCanDelete(1);
 				else
 					pui.setCanDelete(2);
 
-				pui.setComments(comm.getCommentsForPost(post));
+				pui.setComments(comm.getCommentsForPost(post, user));
 
 				if (ld != null) {
 					if (ld.getLikes() != null) 
@@ -215,13 +217,13 @@ public class PostUI {
 						pui.setUserLikeType(0);
 						if (ld.getLikes() != null) {
 							for (Like like : ld.getLikes()) {
-								if (like.getUserId() == userId)
+								if (like.getUserId() == user.getUserId())
 									pui.setUserLikeType(1);
 							}
 						}
 						if (ld.getDislikes() != null) {
 							for (Dislike dislike : ld.getDislikes()) {
-								if (dislike.getUserId() == userId)
+								if (dislike.getUserId() == user.getUserId())
 									pui.setUserLikeType(2);
 							}
 						}
@@ -239,17 +241,17 @@ public class PostUI {
 
 	}
 
-	public PostUI addPost(String post, User u) throws SQLException {
+	public PostUI addPost(String post, UserUI u) throws SQLException {
 		Post p = new Post(-1, post, null, null, null, u.getUserId());
 		p = p.addPost(p);
 		return getPostUI(p, u);
 	}
 
-	public PostUI getPostUI(Post post, User u) throws SQLException {
+	public PostUI getPostUI(Post post, UserUI u) throws SQLException {
 		PostUI pui = new PostUI();
 		CommentUI cui = new CommentUI();
 		LikeDislike ld = post.getLikeStatistics();
-		pui.setComments(cui.getCommentsForPost(post));
+		pui.setComments(cui.getCommentsForPost(post, u));
 
 		pui.setPostData(post.getPost());
 		pui.setPostDate(Helper.getLocalDate(post.getPostDate()));

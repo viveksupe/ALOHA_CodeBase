@@ -84,13 +84,14 @@ public class UserDal {
 	 * @return List of users
 	 * @throws SQLException
 	 */
-	public ArrayList<User> selectMutlipleUsersByPrimaryKey(ArrayList<Integer> ids) throws SQLException {
+	public ArrayList<User> selectMutlipleUsersByPrimaryKey(int[] ids) throws SQLException {
 		String SelectUsersByPrimaryKeyStatement = SELECT;
-		SelectUsersByPrimaryKeyStatement = SelectUsersByPrimaryKeyStatement + " where user.user_id in (?";
-		for(int i=1; i<ids.size(); i++){
+		SelectUsersByPrimaryKeyStatement = SelectUsersByPrimaryKeyStatement + " where user.user_id in (?,";
+		for(int i=1; i<ids.length; i++){
 			SelectUsersByPrimaryKeyStatement = SelectUsersByPrimaryKeyStatement + "?,";
 		}
-		SelectUsersByPrimaryKeyStatement=SelectUsersByPrimaryKeyStatement.substring(0, SelectUsersByPrimaryKeyStatement.length()-2);
+		int lastIndexOfComma = SelectUsersByPrimaryKeyStatement.lastIndexOf(",");
+		SelectUsersByPrimaryKeyStatement=SelectUsersByPrimaryKeyStatement.substring(0, lastIndexOfComma);
 		SelectUsersByPrimaryKeyStatement = SelectUsersByPrimaryKeyStatement + ");";
 				
 		PreparedStatement ps = null;
@@ -98,6 +99,9 @@ public class UserDal {
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(SelectUsersByPrimaryKeyStatement);
+			for(int i=0; i<ids.length; i++){
+				ps.setInt(i+1, ids[i]);
+			}
 			rSet = ps.executeQuery();
 			ArrayList<User> users = new ArrayList<User>();
 			if (rSet != null) {

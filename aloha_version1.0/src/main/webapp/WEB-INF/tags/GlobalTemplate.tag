@@ -25,7 +25,8 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/wall.css"
 	rel="stylesheet">
-	
+<link href="resources/chat/style.css" rel="stylesheet">
+
 <link
 	href="${pageContext.request.contextPath}/resources/css/profile.css"
 	rel="stylesheet">
@@ -34,7 +35,32 @@
 <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+var userID=0;
+userID=${sessionUser.userId};
+if (userID==''){
+	window.location.replace("/common/error404");
+}
 
+/* try {
+	var userID=${sessionUser.userId};
+}
+catch(err) {
+	//window.location.replace("/common/error404");
+} */
+
+
+</script>
+<script src="resources/chat/script.js"></script>
+<script>
+$( document ).ready(function(){
+	appRoot = "${pageContext.request.contextPath}";
+	console.log(appRoot);
+	sendOnlineFriends(userID);
+});
+
+</script>
 </head>
 <body>
 	<div class="header">
@@ -49,14 +75,14 @@
 
 				<ul class="menu-bar">
 
-					<a href="${pageContext.request.contextPath}/search/users"><li><i
+					<a href="${pageContext.request.contextPath}/search"><li><i
 							class="fa fa-space fa-search"></i>Search</li></a>
 					<a href="${pageContext.request.contextPath}/post"><li><i
 							class="fa fa-space fa-comments"></i>Posts</li></a>
 					<a href="${pageContext.request.contextPath}/user_profile">
 						<li><i class="fa fa-space fa-user"> </i>Profile</li>
 					</a>
-					<a href="${pageContext.request.contextPath}/friends"><li><i
+					<a href="${pageContext.request.contextPath}/friends?userId=${sessionUser.userId}"><li><i
 							class="fa fa-space fa-group"></i>Friends</li></a>
 					<a href="${pageContext.request.contextPath}/${globalstatuslink}"><li><i
 							class="fa fa-space fa-sign-out"></i>${globalstatus }</li></a>
@@ -68,6 +94,13 @@
 	<div class="body">
 		<jsp:doBody />
 	</div>
+			<div class="chat_box" onclick=toggleChatBox(); >
+				<div class="chat_head">Chit Chat</div>
+				<div class="chat_body">
+
+				</div>
+			</div>
+	<!-- THis is the chat box code : End-->
 
 	<div class="footer">
 		<div class="container-main pad-20">

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.dao_manager.dal.FriendshipDal;
 import com.aloha.common.dao_manager.dal.UserDal;
@@ -23,12 +24,13 @@ import com.aloha.common.model.UserUI;
 import com.aloha.common.util.CommonUtils;
 
 @Controller
+@SessionAttributes("sessionUser")
 public class SearchController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserSignupController.class);
 	CommonUtils commonUtils = new CommonUtils();
 
-	@RequestMapping(value = "search/users", method = RequestMethod.GET)
+	@RequestMapping(value = "search", method = RequestMethod.GET)
 	public String searchUsers(Locale locale, Model model, HttpSession session) {
 		logger.info("Entered Search Users GET");
 		if(null==session.getAttribute("sessionUser")){
@@ -50,7 +52,7 @@ public class SearchController {
 	 */
 	@RequestMapping(value = "search/users", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<User> searchUsers(
-			@RequestParam("searchKey") String searchKey, Model model) {
+			@RequestParam("searchKey") String searchKey, Model model, HttpSession session) {
 		logger.info("Entered Search Users POST method");
 		ArrayList<User> ulist = null;
 		ArrayList<UserUI> uiList = null;

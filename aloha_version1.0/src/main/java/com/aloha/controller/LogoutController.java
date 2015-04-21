@@ -30,7 +30,7 @@ public class LogoutController {
 			model.addAttribute("globalstatuslink","login");
 		}
 		//UserUI ui=null;
-		session.setAttribute("sessionUser", null);
+		//session.setAttribute("sessionUser", null);
 		session.invalidate();
 		model.asMap().clear();
 		return "Login";

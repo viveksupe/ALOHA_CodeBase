@@ -2,7 +2,16 @@ package com.aloha.controller;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
@@ -28,7 +38,7 @@ import com.aloha.common.util.CommonUtils;
  *         friends module
  */
 @Controller
-// @SessionAttributes("sessionUser")
+@SessionAttributes("sessionUser")
 public class FriendsController {
 
 	private static final Logger logger = LoggerFactory
@@ -51,9 +61,9 @@ public class FriendsController {
 		UserUI testUser = null;
 		// testuser = ud.selectUserByPrimaryKey(4);
 		testUser = (UserUI) session.getAttribute("sessionUser");
-		model.addAttribute("globalstatus","logout");
-		model.addAttribute("globalstatuslink","logout");
-		
+		model.addAttribute("globalstatus", "logout");
+		model.addAttribute("globalstatuslink", "logout");
+
 		return "friends/index";
 	}
 
@@ -75,17 +85,18 @@ public class FriendsController {
 
 		ArrayList<User> ulist;
 		if (null == session.getAttribute("sessionUser")) {
-			model.addAttribute("globalstatus","login");
-			model.addAttribute("globalstatuslink","login");
-			
+			model.addAttribute("globalstatus", "login");
+			model.addAttribute("globalstatuslink", "login");
+
 			return "redirect:" + "login";
 		} else {
 			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
 			ulist = f.getUserFriends(commonUtils
 					.convertUserUIToUser(sessionUserUI));
-			model.addAttribute("globalstatus","logout");
-			model.addAttribute("globalstatuslink","logout");
-			
+			model.addAttribute("user", sessionUserUI);
+			model.addAttribute("globalstatus", "logout");
+			model.addAttribute("globalstatuslink", "logout");
+
 		}
 		model.addAttribute("users", ulist);
 
@@ -203,4 +214,111 @@ public class FriendsController {
 			return true;
 		}
 	}
+
+	@RequestMapping("friendsuggestions")
+	public String displayFriendsSuggestions(Locale locale, Model model,
+			HttpSession session) throws SQLException {
+		// hashmap to store user id and count.
+		HashMap<Integer, Integer> immediateFriends = new HashMap<Integer, Integer>();
+		
+		User u = new User();
+		Friendship f = new Friendship();
+		ArrayList<User> friendSuggestionList =null;
+		
+
+		ArrayList<User> ulist;
+		if (null == session.getAttribute("sessionUser")) {
+			model.addAttribute("globalstatus", "login");
+			model.addAttribute("globalstatuslink", "login");
+
+			return "redirect:" + "login";
+		} else {
+			UserUI sessionUserUI = (UserUI) session.getAttribute("sessionUser");
+			int sessionUserId = sessionUserUI.getUserId();
+			ulist = f.getUserFriends(commonUtils
+					.convertUserUIToUser(sessionUserUI));
+			for (User friend : ulist) {
+				immediateFriends.putIfAbsent(friend.getUserId(), 1);
+				/*
+				 * if (!immediateFriends.containsKey(friend.getUserId())) {
+				 * immediateFriends.put(friend.getUserId(), 1); } else {
+				 * immediateFriends.put(friend.getUserId(),
+				 * immediateFriends.get(friend.getUserId() + 1)); }
+				 */
+			}
+
+			HashMap<Integer, Integer> totalFriendSuggestions = new HashMap<Integer, Integer>();
+			for (User friend : ulist) {
+				ArrayList<User> friendsOfFriends = f.getUserFriends(friend);
+				for (User eachFriend : friendsOfFriends) {
+					if (!immediateFriends.containsKey(eachFriend.getUserId()) && sessionUserId!=eachFriend.getUserId()) {
+						if (!totalFriendSuggestions.containsKey(eachFriend
+								.getUserId())) {
+							totalFriendSuggestions.put(eachFriend.getUserId(),
+									1);
+						} else {
+							totalFriendSuggestions.put(eachFriend.getUserId(),
+									totalFriendSuggestions.get(eachFriend
+											.getUserId() + 1));
+						}
+					}
+				}
+			}
+			//get the ids of the suggested friends.
+			int[] ids = friendListSorter(totalFriendSuggestions);
+			friendSuggestionList = f.getFriendsSuggestions(ids);
+			
+			model.addAttribute("globalstatus", "logout");
+			model.addAttribute("globalstatuslink", "logout");
+
+		}
+		model.addAttribute("users", friendSuggestionList);
+
+		return "friends/suggestions";
+
+	}
+
+	public static int[] friendListSorter(HashMap h) {
+		// HashMap h = new HashMap<Integer, Integer>();
+		// h.put(1, 1);
+		// h.put(2, 4);
+		// h.put(3, 2);
+		int[] returnList = new int[h.size()];
+
+		Map<Integer, Integer> reversedMap = sortByValues(h);
+		Set s1 = reversedMap.entrySet();
+		Iterator iterator1 = s1.iterator();
+		int i = 0;
+		while (iterator1.hasNext()) {
+			Map.Entry<Integer, Integer> me2 = (Map.Entry<Integer, Integer>) iterator1
+					.next();
+			returnList[i] = me2.getKey();
+			i++;
+
+			// System.out.print(me2.getKey() + ": " );
+			// System.out.println(me2.getValue());
+		}
+		return returnList;
+	}
+
+	private static HashMap sortByValues(HashMap map) {
+		List list = new LinkedList(map.entrySet());
+		// Defined Custom Comparator here
+		Collections.sort(list, new Comparator() {
+			public int compare(Object o1, Object o2) {
+				return ((Comparable) ((Map.Entry) (o1)).getValue())
+						.compareTo(((Map.Entry) (o2)).getValue());
+			}
+		});
+
+		// Here I am copying the sorted list in HashMap
+		// using LinkedHashMap to preserve the insertion order
+		HashMap sortedHashMap = new LinkedHashMap();
+		for (Iterator it = list.iterator(); it.hasNext();) {
+			Map.Entry entry = (Map.Entry) it.next();
+			sortedHashMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedHashMap;
+	}
+
 }

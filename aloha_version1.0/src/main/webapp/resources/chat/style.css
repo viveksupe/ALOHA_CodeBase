@@ -1,7 +1,5 @@
 body {
-	background: #16a085;
 	margin: 0px;
-	
 	font-family: sans-serif;
 }
 
@@ -99,7 +97,7 @@ body {
 
 .user a {
 	display: block;
-	height: 100%;
+	/* height: 100%; */
 	text-decoration: none;
 	color: inherit;
 }

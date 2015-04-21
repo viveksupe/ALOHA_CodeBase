@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.aloha.common.dao_manager.dal.CommentDal;
+import javax.servlet.http.HttpSession;
+
 import com.aloha.common.entities.Comment;
 import com.aloha.common.entities.Post;
 import com.aloha.common.entities.user.User;
+import com.aloha.common.entities.user.UserInfo;
 
 public class CommentUI {
 	private int commentId;
@@ -96,7 +98,7 @@ public class CommentUI {
 		this.postId = postId;
 	}
 
-	public ArrayList<CommentUI> getCommentsForPost( Post post) throws SQLException {
+	public ArrayList<CommentUI> getCommentsForPost( Post post, UserUI user) throws SQLException {
 
 		ArrayList<CommentUI> comments = new ArrayList<CommentUI>();
 		
@@ -112,12 +114,7 @@ public class CommentUI {
 			cui.setUserId(comment.getUserId());
 			cui.setPostId(comment.getPostId());
 			
-			//TODO
-			//User u = get user from session
-			//if u.userid == post.userid => set candelete == 1 for all comments of this posts.
-			//TODO - comment.getUserId() == logged-in user id => add condition is following if with an or clause
-			
-			if(comment.getUserId() == post.getUserId())
+			if((comment.getUserId() == post.getUserId()) || (comment.getUserId() == user.getUserId()))
 				cui.setCanDelete(1);
 			else 	cui.setCanDelete(2);
 			
