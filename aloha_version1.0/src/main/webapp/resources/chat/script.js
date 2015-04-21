@@ -111,15 +111,22 @@ function SendMsg(message, toid, fromid) {
 
 }
 
+
+
+
+
 function sendOnlineFriends(userSessionID) {
 	$.ajax({
 		method : "POST",
 		url : appRoot + "/onlineUsers",
-		timeout:2000,
 		data : {
 
 		},
 		success : function(data) {
+			$( ".chat_body" ).remove();
+			$( "<div class='chat_body'></div>").insertAfter(  ".chat_head" );
+			//$( ".chat_head" ).append("<div class='chat_body'></div>");
+			
 			for ( var ke in data) {
 				if (data.hasOwnProperty(ke)) {
 					
@@ -127,6 +134,7 @@ function sendOnlineFriends(userSessionID) {
 				
 				}
 			}
+			setTimeout(function() {sendOnlineFriends(userSessionID);}, 10000);
 		}
 
 	});
