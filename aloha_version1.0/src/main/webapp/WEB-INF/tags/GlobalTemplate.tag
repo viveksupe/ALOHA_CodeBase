@@ -35,10 +35,10 @@
 <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
-<script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script>
-var userID=${sessionUser.userId};
+var userID=0;
+userID=${sessionUser.userId};
 if (userID==''){
 	window.location.replace("/common/error404");
 }
@@ -82,7 +82,7 @@ $( document ).ready(function(){
 					<a href="${pageContext.request.contextPath}/user_profile">
 						<li><i class="fa fa-space fa-user"> </i>Profile</li>
 					</a>
-					<a href="${pageContext.request.contextPath}/friends"><li><i
+					<a href="${pageContext.request.contextPath}/friends?userId=${sessionUser.userId}"><li><i
 							class="fa fa-space fa-group"></i>Friends</li></a>
 					<a href="${pageContext.request.contextPath}/${globalstatuslink}"><li><i
 							class="fa fa-space fa-sign-out"></i>${globalstatus }</li></a>
