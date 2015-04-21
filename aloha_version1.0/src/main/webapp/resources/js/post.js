@@ -81,7 +81,7 @@ var PostManager = new function() {
 			PostManager.isMore == true;
 			$.ajax({
 				method : "POST",
-				url : "http://localhost:8080/common/post/add",
+				url : PostManager.Root + "/post/add",
 				data : {
 					postData : value
 				},
