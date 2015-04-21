@@ -85,6 +85,7 @@ public class LoginController extends Secure_Hash{
 			model.addAttribute("globalstatuslink","login");
 			if(res==1)
 			{
+				userMap.remove(email);
 				model.addAttribute("sessionUser",ui);
 				return "redirect:"+"user_profile";	
 			}
@@ -239,15 +240,29 @@ public class LoginController extends Secure_Hash{
 	@RequestMapping(value = "changepassword", method = RequestMethod.GET)
 	public String changePasswordDisplay(@RequestParam("id") String id, Locale locale, Model model, HttpSession session) {
 		int userId = Integer.parseInt(id);
-		
-		//System.out.println(userId);
-		model.addAttribute("id",id);
-		return "changepassword";
+		LoginService loginService = new LoginService();
+		int isUser = loginService.checkIfUser(userId);
+		if(isUser==1)
+		{
+			model.addAttribute("id",id);
+			return "changepassword";
+		}
+		return "redirect:"+"error";
 	}
 	@RequestMapping(value = "changepassword", method = RequestMethod.POST)
-	public String changePassword(@RequestParam("id") String id, @RequestParam("vpwd") String vpwd, @RequestParam("cpwd") String cpwd,  Model model, HttpSession session){
+	public String changePassword(@RequestParam("id") String id, @RequestParam("vpwd") String vpwd, @RequestParam("pwd") String pwd, @RequestParam("cpwd") String cpwd,  Model model, HttpSession session){
 		int userId = Integer.parseInt(id);
-		
+		LoginService loginService = new LoginService();
+		int verify = loginService.verifyCode(userId,vpwd);
+		if(verify==1)
+		{
+			int isSet = loginService.setUserPassword(userId,pwd);
+			if(isSet!=1)
+			{
+				model.addAttribute("headerMessage","could not perform action! Try again");
+				return "changepassword";
+			}
+		}
 		//System.out.println(userId);
 		return "redirect:"+"login";
 	}

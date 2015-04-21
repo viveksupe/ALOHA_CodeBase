@@ -4,8 +4,18 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <t:GlobalTemplate>
 	<jsp:body>
-
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" type="text/css"></link>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"></link> 
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery-ui.css">
+  	<script src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"></script>
+    <!--[if IE]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  
+  <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
+  
         <h1>Reset Password</h1>
+        <h6>${headerMessage}</h6>
         <form:form method="post" onSubmit="return Validate()" action="${pageContext.request.contextPath}/changepassword?id=${id}"> 
         	<label>Verification Password</label>
 			 <input type="password" name="vpwd" width="100px" size="20" required/>		      
@@ -18,7 +28,7 @@
 			 <input type="password" name="cpwd" width="100px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" required/>			 
             <input type="submit"/>       		
         </form:form>
-        
+  </div>      
 <script>
 function Validate(){
       var in_pswd = document.forms["sign_up"]["pwd"].value;
