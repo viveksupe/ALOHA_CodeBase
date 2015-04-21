@@ -17,7 +17,7 @@
 <script>	
 	$(document).ready(function(){
 		FriendJS.init("${pageContext.request.contextPath}");
-	
+
 	});	
 </script>
 <script>
@@ -159,7 +159,6 @@ function saveEducationInfo(){
 					</div>
 				</form>
 		</div>
-        <a href = "${pageContext.request.contextPath}/chat"><h6>chat</h6>
         <div class="clear"></div>
 
         </div>
@@ -170,16 +169,9 @@ function saveEducationInfo(){
         <div class="notify-block">
           <div>
             <div class="notify-title">
-              <a href="http://feedstack.asia/milindhg/notifications">
-                Pending Friends Requests <span class="unread"> 0 unread</span>
-              </a>
+                Pending Friends Requests <span class="unread"> ${pendingFriends.size()}</span>
               <c:forEach items="${pendingFriends}" var="friend">
-
                 <div class="bcol-member-block">
-                  <%--                   <div class="member-image">
-                    <a href="${pageContext.request.contextPath}/profile?userId=${friend.user1.firstName}">
-                      <img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
-                  </div> --%>
                   <div class="member-name">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.user2.userId}">${friend.user2.firstName}</a>
                           <button id="acceptFriendBtn_${friend.user2.userId}"
@@ -198,6 +190,5 @@ function saveEducationInfo(){
       <div class="clear"></div>
 
     </div>
-  </div>
   </jsp:body>
 </t:GlobalTemplate>

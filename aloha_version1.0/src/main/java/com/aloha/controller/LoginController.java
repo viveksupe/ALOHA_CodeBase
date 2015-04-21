@@ -1,7 +1,7 @@
 package com.aloha.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -21,16 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.aloha.common.dao_manager.dal.ImageDal;
-import com.aloha.common.dao_manager.dal.UserDal;
-import com.aloha.common.dao_manager.dal.UserEducationDal;
-import com.aloha.common.dao_manager.dal.UserPersonalDal;
-import com.aloha.common.entities.OnlineUsers;
+import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.entities.user.UserEducation;
 import com.aloha.common.entities.user.UserPersonal;
 import com.aloha.common.model.UserUI;
 import com.aloha.common.sal.LoginService;
+import com.aloha.common.util.CommonUtils;
 import com.aloha.common.util.ProfileImage;
 import com.aloha.common.util.Secure_Hash;
 
@@ -38,7 +35,7 @@ import com.aloha.common.util.Secure_Hash;
 @SessionAttributes("sessionUser")
 public class LoginController extends Secure_Hash{
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
+	CommonUtils commonUtils = new CommonUtils();
 	/*
 	 * renders the login page
 	 */
@@ -46,6 +43,7 @@ public class LoginController extends Secure_Hash{
 	public String Login(Locale locale, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
+		Friendship f = new Friendship(); 
 		if(null==session.getAttribute("sessionUser")){
 			model.addAttribute("globalstatus","login");
 			model.addAttribute("globalstatuslink","login");
@@ -56,6 +54,11 @@ public class LoginController extends Secure_Hash{
 			model.addAttribute("globalstatuslink","logout");
 		}
 		model.addAttribute("user",u);
+		ArrayList<Friendship> pendingRequests = null;
+		User userInSession = commonUtils.convertUserUIToUser(u);
+		pendingRequests = f.getPendingFriendshipRequest(userInSession);
+		model.addAttribute("pendingFriends", pendingRequests);
+
 		return "redirect:"+"user_profile";
 	}
 	
@@ -91,6 +94,7 @@ public class LoginController extends Secure_Hash{
 	@RequestMapping(value = "user_profile", method = RequestMethod.GET)
 	public String display_user_profile(Model model, HttpSession session){
 		UserUI u = new UserUI();
+		Friendship f = new Friendship();
 		UserEducation u_ed = null;
 		UserPersonal up = null;
 		LoginService login_service = new LoginService();
@@ -107,7 +111,13 @@ public class LoginController extends Secure_Hash{
 		}
 		model.addAttribute("education",u_ed);
 		model.addAttribute("personal",up);
-		model.addAttribute("user",u);		
+		model.addAttribute("user",u);	
+		
+		ArrayList<Friendship> pendingRequests = null;
+		User userInSession = commonUtils.convertUserUIToUser(u);
+		pendingRequests = f.getPendingFriendshipRequest(userInSession);
+		model.addAttribute("pendingFriends", pendingRequests);
+
 		return "user_profile";
 	}
 	
