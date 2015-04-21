@@ -25,6 +25,7 @@
 	rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/wall.css"
 	rel="stylesheet">
+<link href="resources/chat/style.css" rel="stylesheet">
 
 <link
 	href="${pageContext.request.contextPath}/resources/css/profile.css"
@@ -34,9 +35,23 @@
 <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/feed-menu.js"></script>
-<link href="resources/chat/style.css" rel="stylesheet">
+<script src="resources/chat/script.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script>var userID=${sessionUser.userId};</script>
+<script>
+var userID=${sessionUser.userId};
+if (userID==''){
+	window.location.replace("/common/error404");
+}
+
+/* try {
+	var userID=${sessionUser.userId};
+}
+catch(err) {
+	//window.location.replace("/common/error404");
+} */
+
+
+</script>
 <script src="resources/chat/script.js"></script>
 <script>
 $( document ).ready(function(){
@@ -60,7 +75,7 @@ $( document ).ready(function(){
 
 				<ul class="menu-bar">
 
-					<a href="${pageContext.request.contextPath}/search/users"><li><i
+					<a href="${pageContext.request.contextPath}/search"><li><i
 							class="fa fa-space fa-search"></i>Search</li></a>
 					<a href="${pageContext.request.contextPath}/post"><li><i
 							class="fa fa-space fa-comments"></i>Posts</li></a>
@@ -79,17 +94,14 @@ $( document ).ready(function(){
 	<div class="body">
 		<jsp:doBody />
 	</div>
-	<div class="chat_box" onclick="toggleChatBox();">
-		<div class="chat_head" >Chit Chat</div>
-		<div class="chat_body">
+			<div class="chat_box" onclick=toggleChatBox(); >
+				<div class="chat_head">Chit Chat</div>
+				<div class="chat_body">
 
+				</div>
+			</div>
+	<!-- THis is the chat box code : End-->
 
-				
-
-
-
-		</div>
-	</div>
 	<div class="footer">
 		<div class="container-main pad-20">
 			<div class="ftrr">

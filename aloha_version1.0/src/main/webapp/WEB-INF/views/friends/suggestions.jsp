@@ -9,11 +9,10 @@
         <script src="http://feedstack.asia/app/script/members.js"></script>
         <div class="member-body">
           <div class="header-member">
-            <i class="fa fa-space fa-group"></i> Friends of ${user.firstName}
+            <i class="fa fa-space fa-group"></i> Friend Suggestions for  ${user.firstName}
             <span class="members-count"> </span>
             <span class="member-seach-span">
             <a href="friends/invite"> invite more friends </a>
-            <a href="friendsuggestions"> Friend Suggestions </a>
 <!--               <input type="text"
 							class="member-search" placeholder="search..."
 							root="http://feedstack.asia/"> -->

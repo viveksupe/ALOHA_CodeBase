@@ -29,8 +29,9 @@ public class FriendshipDal {
 	private String UPDATE_FRIENDSHIP;
 	private String DELETE_FRIENDSHIP;
 
-	private String SELECT_FRIENDSHIP_BY_USER1ID;
-	private String SELECT_FRIENDSHIP_BY_USER2ID;
+	private String SELECT_ACTIVE_FRIENDSHIP_BY_USER1ID;
+	private String SELECT_ACTIVE_FRIENDSHIP_BY_USER2ID;
+	private String SELECT_PENDING_FRIEND_REQUESTS;
 	private static final Logger logger = Logger.getLogger(FriendshipDal.class);
 
 	/**
@@ -40,13 +41,14 @@ public class FriendshipDal {
 		SELECTALL = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship;";
 		SELECTALL_FRIENDSHIPS_OF_USER = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship where friendship.user_id1 = ? or friendship.user_id2 = ? and friendship.friend_status_id=2;";
 		SELECT_FRIENDSHIP_BY_PKEY = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE friendship.friendship_id = ?;";
-		SELECT_FRIENDSHIP_BY_USERIDS = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE (friendship.user_id1=? && friendship.user_id2=?) or  (friendship.user_id2=? && friendship.user_id1=?) and friendship.friend_status_id=2 ;";
+		SELECT_FRIENDSHIP_BY_USERIDS = "SELECT friendship.friendship_id, friendship.user_id1, friendship.user_id2, friendship.friend_status_id, friendship.blocked_by, friendship.req_sent_by FROM friendship WHERE (friendship.user_id1=? && friendship.user_id2=?) or  (friendship.user_id2=? && friendship.user_id1=?);";
 		INSERT_FRIENDSHIP = "INSERT INTO friendship(user_id1, user_id2, friend_status_id, blocked_by, req_sent_by) VALUES(?, ?, ?, ?, ?);";
 		UPDATE_FRIENDSHIP = "UPDATE friendship SET user_id1 = ? , user_id2 = ? , friend_status_id = ? , blocked_by = ? , req_sent_by = ? WHERE friendship_id = ?;";
 		DELETE_FRIENDSHIP = "DELETE FROM friendship WHERE friendship.friendship_id = ?;";
 
-		SELECT_FRIENDSHIP_BY_USER1ID = "SELECT F.*,U.* FROM friendship F inner join user U on F.user_id2=U.user_id where F.user_id1=? and F.friend_status_id=2;";
-		SELECT_FRIENDSHIP_BY_USER2ID = "SELECT F.*,U.* FROM friendship F inner join user U  on F.user_id1=U.user_id where F.user_id2=? and F.friend_status_id=2;";
+		SELECT_ACTIVE_FRIENDSHIP_BY_USER1ID = "SELECT F.*,U.* FROM friendship F inner join user U on F.user_id2=U.user_id where F.user_id1=? and F.friend_status_id=2;";
+		SELECT_ACTIVE_FRIENDSHIP_BY_USER2ID = "SELECT F.*,U.* FROM friendship F inner join user U  on F.user_id1=U.user_id where F.user_id2=? and F.friend_status_id=2;";
+		SELECT_PENDING_FRIEND_REQUESTS = "SELECT F.*,U.* FROM friendship F inner join user U  on F.user_id1=U.user_id where F.user_id2=? and F.friend_status_id=1;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
 
@@ -208,8 +210,8 @@ public class FriendshipDal {
 			throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
-		String SelectUsersByUID1 = SELECT_FRIENDSHIP_BY_USER1ID;
-		String SelectUsersByUID2 = SELECT_FRIENDSHIP_BY_USER2ID;
+		String SelectUsersByUID1 = SELECT_ACTIVE_FRIENDSHIP_BY_USER1ID;
+		String SelectUsersByUID2 = SELECT_ACTIVE_FRIENDSHIP_BY_USER2ID;
 		Friendship f;
 		ArrayList<Friendship> flist = new ArrayList<Friendship>();
 		try {
@@ -243,7 +245,7 @@ public class FriendshipDal {
 	}
 
 	public Friendship selectFriendshipByPrimaryKey(int id) throws SQLException {
-		String SelectUsersByPrimaryKeyStatement = SELECT_FRIENDSHIP_BY_USER1ID;
+		String SelectUsersByPrimaryKeyStatement = SELECT_ACTIVE_FRIENDSHIP_BY_USER1ID;
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
 		try {
@@ -397,7 +399,7 @@ public class FriendshipDal {
 			throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rSet = null;
-		String SelectUsersByUID2 = SELECT_FRIENDSHIP_BY_USER2ID;
+		String SelectUsersByUID2 = SELECT_PENDING_FRIEND_REQUESTS;
 		Friendship f;
 		ArrayList<Friendship> flist = new ArrayList<Friendship>();
 		try {

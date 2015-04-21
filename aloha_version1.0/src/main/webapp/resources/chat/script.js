@@ -1,7 +1,8 @@
 
-
 var webSocket = new WebSocket('ws://' + location.hostname + ':' + location.port
-		+ '/common/websocket/' + userID);
+			+ '/common/websocket/' + userID);
+
+
 
 webSocket.onerror = function(event) {
 	onError(event)
@@ -48,7 +49,7 @@ function fileSent(toid, fromid) {
 
 function onOpen(event) {
 	$('.chat_body').slideToggle('slow');
-	//$('#status').remove();
+	$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:green;">Chat Server Online</div>')
 			.insertAfter('.chat_body');
@@ -56,7 +57,7 @@ function onOpen(event) {
 }
 
 function onError(event) {
-	//$('#status').remove();
+	$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:red;">Chat Server Offline ('
 					+ event.data + ')</div>').insertAfter('.chat_body');
@@ -64,7 +65,7 @@ function onError(event) {
 }
 
 function onClose(event) {
-	//$('#status').remove();
+	$('#status').remove();
 	$(
 			'<div id="status" style="background:white;position: relative;padding: 10px 30px;color:red;">Chat Server Offline</div>')
 			.insertAfter('.chat_body');
@@ -114,6 +115,7 @@ function sendOnlineFriends(userSessionID) {
 	$.ajax({
 		method : "POST",
 		url : appRoot + "/onlineUsers",
+		timeout:2000,
 		data : {
 
 		},

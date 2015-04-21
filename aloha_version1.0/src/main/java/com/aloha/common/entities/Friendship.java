@@ -278,6 +278,18 @@ public class Friendship {
 		return pendingFriendshipRequests;
 	}
 
+	public ArrayList<User> getFriendsSuggestions(int[] ids){
+		ArrayList friendSuggestions=null;
+		try {
+			if(ids.length>0)
+				friendSuggestions=udal.selectMutlipleUsersByPrimaryKey(ids);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return friendSuggestions;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -303,4 +315,7 @@ public class Friendship {
 
 	}
 
+	
+	
+	
 }
