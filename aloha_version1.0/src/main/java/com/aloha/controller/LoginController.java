@@ -262,6 +262,7 @@ public class LoginController extends Secure_Hash{
 				model.addAttribute("headerMessage","could not perform action! Try again");
 				return "changepassword";
 			}
+			loginService.unlockAccount(userId);
 		}
 		//System.out.println(userId);
 		return "redirect:"+"login";

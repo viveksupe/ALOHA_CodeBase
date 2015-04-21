@@ -30,7 +30,7 @@ public class UserDal {
 	 * Constructor
 	 */
 	public UserDal() {
-		SELECT = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user";
+		SELECT = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive, user.privacy FROM user";
 		INSERT_USER = "INSERT INTO user(fname, lname, contact_number, email, password, bdate, isVerified, isLocked, lastactive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		UPDATE_USER = "UPDATE user SET fname = ?, lname = ?, contact_number = ?, email = ?, password = ?, bdate = ?, isVerified = ?, isLocked = ?, lastactive = ? WHERE user_id = ?;";
 		DELETE_USER = "DELETE FROM user WHERE user_id = ?;";
@@ -117,6 +117,7 @@ public class UserDal {
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));
 					u.setLastActive(rSet.getDate("lastActive"));
+					u.setPrivacy(rSet.getInt("privacy"));
 					users.add(u);
 				}
 			}
@@ -156,6 +157,7 @@ public class UserDal {
 				u.setIsVerified(rSet.getInt("isVerified"));
 				u.setIsLocked(rSet.getInt("isLocked"));
 				u.setLastActive(rSet.getDate("lastActive"));
+				u.setPrivacy(rSet.getInt("privacy"));
 				return u;
 			} else
 				return null;
@@ -277,6 +279,7 @@ public class UserDal {
 				u.setIsVerified(res.getInt("isVerified"));
 				u.setIsLocked(res.getInt("isLocked"));
 				u.setLastActive(res.getDate("lastActive"));
+				u.setPrivacy(res.getInt("privacy"));
 			} else
 				u = null;
 		} catch (SQLException ex) {
@@ -318,6 +321,7 @@ public class UserDal {
 					u.setIsVerified(rSet.getInt("isVerified"));
 					u.setIsLocked(rSet.getInt("isLocked"));
 					u.setLastActive(rSet.getTimestamp("lastActive"));
+					u.setPrivacy(rSet.getInt("privacy"));
 					users.add(u);
 				}
 			}
@@ -474,6 +478,7 @@ public class UserDal {
 				u.setIsVerified(rSet.getInt("isVerified"));
 				u.setIsLocked(rSet.getInt("isLocked"));
 				u.setLastActive(rSet.getTimestamp("lastActive"));
+				u.setPrivacy(rSet.getInt("privacy"));
 				return u;
 			}
 			else
@@ -509,4 +514,41 @@ public class UserDal {
 		}
 	}
 
+	public void unlockAccount(int userId) throws SQLException {
+		// TODO Auto-generated method stub
+		String update = "UPDATE user SET isLocked = ? , password = ? WHERE user_id = ?;";
+		PreparedStatement ps = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(update);
+			ps.setInt(1, 0);
+			ps.setInt(2, userId);
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			con.close();
+		}
+
+	}
+	public int setPrivacy(int userId, int privacy) throws SQLException{
+		String update = "UPDATE user SET privacy = ? WHERE user_id = ?;";
+		PreparedStatement ps = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(update);
+			ps.setInt(1, privacy);
+			ps.setInt(2, userId);
+			int res = ps.executeUpdate();
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			con.close();
+		}
+		return 0;
+	}
 }

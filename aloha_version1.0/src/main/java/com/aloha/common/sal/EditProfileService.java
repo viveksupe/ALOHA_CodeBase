@@ -110,4 +110,17 @@ public class EditProfileService {
 			}
 		return 0;
 	}
+
+	public int setPrivacy(UserUI u) {
+		// TODO Auto-generated method stub
+		UserDal ud = new UserDal();
+		try {
+			int res = ud.setPrivacy(u.getUserId(), 1-u.getPrivacy());
+			return res;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }

@@ -22,6 +22,7 @@ public class User {
 	private int isVerified;
 	private int isLocked;
 	private Date lastActive;
+	private int privacy;
 	private UserDal ud;
 	private UserEducationDal edal;
 	private UserPersonalDal pdal;
@@ -203,6 +204,20 @@ public class User {
 	 */
 	public void setLastActive(Date lastActive) {
 		this.lastActive = lastActive;
+	}
+	/**
+	 * @return the privacy
+	 */
+	public int getPrivacy() {
+		return privacy;
+	}
+
+	/**
+	 * @param privacy
+	 *            
+	 */
+	public void setPrivacy(int value) {
+		this.privacy = value;
 	}
 
 	public UserPersonal getPersonalInfo() throws SQLException {

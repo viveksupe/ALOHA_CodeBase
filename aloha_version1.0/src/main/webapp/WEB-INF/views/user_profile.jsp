@@ -17,35 +17,59 @@
 <script>	
 	$(document).ready(function(){
 		FriendJS.init("${pageContext.request.contextPath}");
-	
+		
+		var p = ${user.getPrivacy()}
+		console.log(p);
+		if(p==1)
+			buttonval = "make public";
+		else
+			buttonval = "make private";
+		$('.privacy-btn').html(buttonval);
 	});	
-</script>
-<script>
 function display_pform(){
 	$('#personalform').css('display','block');
 	$('#displaypersonalinfo').css('display','none');
 }
-</script>
-<script>
 function display_eform(){
 	$('#educationform').css('display','block');
 	$('#displayeducationinfo').css('display','none');
 }
-</script>
-
-<script>
 function savePersonalInfo(){
 	$('#personalform').css('display','none');
 	$('#displaypersonalinfo').css('display','block');
 }
-</script>
-<script>
 function saveEducationInfo(){
 	$('#educationform').css('display','none');
 	$('#displaypersonalinfo').css('display','block');
 }
-</script>
+function setPrivacy(){
+	var url = '${pageContext.request.contextPath}';
+	var p = ${user.getPrivacy()}
+	var buttonval = "";
+	if(p==1)
+		buttonval = "make public";
+	else
+		buttonval = "make private";
+	$.ajax({
+		headers : {
+			'Accept' : 'application/json'
+		},
+		method : "POST",
+		url : url+"/privacysetting",
+		data : {
+			
+		},
+		success : function(data) {
+			$('.privacy-btn').html(buttonval);
+		},
+		error : function(data) {
+			// alert(data);
+			console.log(data);
+		}
+	})
 
+}
+</script>
     <div class="container-main pad-20">
 
       <div class="app bcol-70">
@@ -83,7 +107,7 @@ function saveEducationInfo(){
                   <a href="${pageContext.request.contextPath}/editaccountdetails">
                     <button class="btn btn-edit">Account Settings</button>
                   </a>
-                    <button class="btn btn-edit">Make Account Details Private</button>
+                    <button class="btn btn-edit privacy-btn" onClick="setPrivacy()">Make Account Details Private</button>
                 </div>
                 
               </div>

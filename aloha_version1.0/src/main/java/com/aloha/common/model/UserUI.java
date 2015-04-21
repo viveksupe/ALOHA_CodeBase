@@ -15,6 +15,7 @@ public class UserUI {
 	int isVerified;
 	int isLocked;
 	Date lastActive;
+	int privacy;
 	/**
 	 * @return the userId
 	 */
@@ -157,6 +158,20 @@ public class UserUI {
 	public void setLastActive(Date lastActive) {
 		this.lastActive = lastActive;
 	}
+	/**
+	 * @return the privacy
+	 */
+	public int getPrivacy() {
+		return privacy;
+	}
+
+	/**
+	 * @param privacy
+	 *            
+	 */
+	public void setPrivacy(int value) {
+		this.privacy = value;
+	}
 
 
 	public void setUser(User res) {
@@ -170,6 +185,7 @@ public class UserUI {
 		this.isVerified = res.getIsVerified();
 		this.userId = res.getUserId();
 		this.lastActive = res.getLastActive();
+		this.privacy = res.getPrivacy();
 	}
 
 }
