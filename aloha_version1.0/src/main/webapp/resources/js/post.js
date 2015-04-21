@@ -134,7 +134,8 @@ var PostManager = new function() {
 										$
 												.ajax({
 													headers : {
-														'Accept' : 'application/json'
+														'Accept' : 'application/json',
+														'Access-Control-Allow-Origin': '*'
 													},
 													url : PostManager.Root
 															+ "/comm/add",
@@ -186,7 +187,8 @@ var PostManager = new function() {
 		console.log(this.Root);
 		$.ajax({
 			headers : {
-				'Accept' : 'application/json'
+				'Accept' : 'application/json',
+					'Access-Control-Allow-Origin': '*'
 			},
 			method : "POST",
 			url : PostManager.Root + "/post/getAll",
@@ -239,7 +241,8 @@ var PostManager = new function() {
 
 			$.ajax({
 				headers : {
-					'Accept' : 'application/json'
+					'Accept' : 'application/json',
+					'Access-Control-Allow-Origin': '*'
 				},
 				method : "POST",
 				url : PostManager.Root + "/post/del",
@@ -276,7 +279,8 @@ var PostManager = new function() {
 					var feed_id = $(this).attr('feed-id');
 					$.ajax({
 						headers : {
-							'Accept' : 'application/json'
+							'Accept' : 'application/json',
+							'Access-Control-Allow-Origin': '*'
 						},
 						method : "POST",
 						url : PostManager.Root + "/comm/del",
@@ -339,7 +343,8 @@ var PostManager = new function() {
 							$
 									.ajax({
 										headers : {
-											'Accept' : 'application/json'
+											'Accept' : 'application/json',
+											'Access-Control-Allow-Origin': '*'
 										},
 										method : "POST",
 										url : PostManager.Root + "/post/like",
@@ -427,7 +432,8 @@ var PostManager = new function() {
 							$
 									.ajax({
 										headers : {
-											'Accept' : 'application/json'
+											'Accept' : 'application/json',
+											'Access-Control-Allow-Origin': '*'
 										},
 										method : "POST",
 										url : PostManager.Root
