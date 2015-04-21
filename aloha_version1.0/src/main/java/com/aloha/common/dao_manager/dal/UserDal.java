@@ -353,15 +353,16 @@ public class UserDal {
 		return false;
 	}
 
-	public void lockaccount(String email) throws SQLException {
+	public void lockaccount(String email, String newpwd) throws SQLException {
 		// TODO Auto-generated method stub
-		String update = "UPDATE user SET isLocked = ? WHERE email = ?;";
+		String update = "UPDATE user SET isLocked = ? , password = ? WHERE email = ?;";
 		PreparedStatement ps = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(update);
 			ps.setInt(1, 1);
-			ps.setString(2, email);
+			ps.setString(2, newpwd);
+			ps.setString(3, email);
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
@@ -418,6 +419,69 @@ public class UserDal {
 				ps.close();
 			con.close();
 		}
+	}
+
+	public int isEmailLocked(String email) throws SQLException {
+		// TODO Auto-generated method stub
+		String select = "Select isLocked from user WHERE email = ?;";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(select);
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			if(rs.first())
+			{
+				return rs.getInt(1);
+			}
+			else
+				return -1;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			con.close();
+		}
+
+		return -1;
+	}
+
+	public User getUserIdByEmail(String email) throws SQLException {
+		// TODO Auto-generated method stub
+		String select = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE email = ?;";
+		ResultSet rSet = null;
+		PreparedStatement ps = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(select);
+			ps.setString(1, email);
+			rSet = ps.executeQuery();
+			if(rSet.first())
+			{
+				User u = new User();
+				u.setUserId(rSet.getInt("user_id"));
+				u.setFirstName(rSet.getString("fname"));
+				u.setLastName(rSet.getString("lname"));
+				u.setContactNumber(rSet.getString("contact_number"));
+				u.setEmail(rSet.getString("email"));
+				u.setPassword(rSet.getString("password"));
+				u.setDateOfBirth(rSet.getTimestamp("bdate"));
+				u.setIsVerified(rSet.getInt("isVerified"));
+				u.setIsLocked(rSet.getInt("isLocked"));
+				u.setLastActive(rSet.getTimestamp("lastActive"));
+				return u;
+			}
+			else
+				return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			con.close();
+		}
+
+		return null;
 	}
 
 }

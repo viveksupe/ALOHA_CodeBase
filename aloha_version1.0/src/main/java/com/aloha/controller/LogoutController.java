@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.aloha.common.model.UserUI;
+import com.aloha.common.sal.LogoutService;
 
 @Controller
 @SessionAttributes("sessionUser")
