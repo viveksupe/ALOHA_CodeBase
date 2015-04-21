@@ -12,7 +12,7 @@
             <i class="fa fa-space fa-group"></i> Friend Suggestions for  ${user.firstName} |      
             <span class="members-count"> </span>
 <!--             <span class="member-seach-span"> -->
-            <a href="friends/invite"> invite more friends </a>
+            <a href="friendsinvite"> invite more friends </a>
 <!--               <input type="text"
 							class="member-search" placeholder="search..."
 							root="http://feedstack.asia/"> -->

@@ -14,7 +14,7 @@
 					</div>
 					<p><a href="${pageContext.request.contextPath}/friends">Display Friends</a></p>
 					<p><a href="#friends/add">Add Friend</a></p>
-					<p><a href="#friends/invite">Invite Friend and send mail</a></p>
+					<p><a href="#friendsinvite">Invite Friend and send mail</a></p>
 					<p><a href="#friends/online">Display Online friends</a></p>
 					<p><a href="${pageContext.request.contextPath}/search/users">Search Users</a></p>
 					<p><a href="#friends/suggest">Suggest Friends</a></p>

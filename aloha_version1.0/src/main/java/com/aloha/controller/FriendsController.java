@@ -180,7 +180,7 @@ public class FriendsController {
 		return -1;
 	}
 
-	@RequestMapping(value = "friends/invite", method = RequestMethod.GET)
+	@RequestMapping(value = "friendsinvite", method = RequestMethod.GET)
 	public String inviteFriend(Locale locale, Model model, HttpSession session) {
 		UserUI u = new UserUI();
 		if (null == session.getAttribute("sessionUser")) {
@@ -193,7 +193,7 @@ public class FriendsController {
 		return "friends/invite";
 	}
 
-	@RequestMapping(value = "friends/invite", method = RequestMethod.POST)
+	@RequestMapping(value = "friendsinvite", method = RequestMethod.POST)
 	public @ResponseBody boolean inviteFriend(
 			@RequestParam("email") String email, Model model,
 			HttpSession session) {

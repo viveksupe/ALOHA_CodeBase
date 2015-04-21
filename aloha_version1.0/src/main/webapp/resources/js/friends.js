@@ -48,7 +48,7 @@ var FriendJS = new function() {
 					'Accept' : 'application/json'
 				},
 				method : "POST",
-				url : FriendJS.root + "/friends/invite",
+				url : FriendJS.root + "/friendsinvite",
 				data : {
 					email : emailAddr
 				},
