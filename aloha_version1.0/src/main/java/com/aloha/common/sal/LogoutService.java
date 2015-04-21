@@ -1,4 +1,4 @@
-package com.aloha.controller;
+package com.aloha.common.sal;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;

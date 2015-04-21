@@ -2,6 +2,7 @@ package com.aloha.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Locale;
 
 import javax.servlet.ServletException;
@@ -38,7 +39,7 @@ import com.aloha.common.util.Secure_Hash;
 @SessionAttributes("sessionUser")
 public class LoginController extends Secure_Hash{
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-	
+	private static HashMap<String,Integer> userMap = new HashMap<String,Integer>();
 	/*
 	 * renders the login page
 	 */
@@ -69,21 +70,48 @@ public class LoginController extends Secure_Hash{
 		LoginService login_service = new LoginService();
 
 		if(null==session.getAttribute("sessionUser")){
-			int res = login_service.perform_login(email, pwd, ui);
+			int value = 0;
+			if(userMap.containsKey(email))
+			{
+				value = userMap.get(email);
+				
+			}
+			value++;
+			userMap.put(email, value);
+			
+			int res = login_service.perform_login(email, pwd, ui, value);
+
+			model.addAttribute("globalstatus","login");
+			model.addAttribute("globalstatuslink","login");
 			if(res==1)
 			{
 				model.addAttribute("sessionUser",ui);
+				return "redirect:"+"user_profile";	
 			}
-			model.addAttribute("globalstatus","login");
-			model.addAttribute("globalstatuslink","login");
+			else if(res==0)
+			{
+				model.addAttribute("headerMessage","your account is locked.");
+				return "redirect:"+"forgotpassword";
+			}
+			else if(res==-1)
+			{
+				model.addAttribute("headerMessage","something went wrong, please try again");
+				return "redirect:"+"login";
+			}
+			else
+			{
+				model.addAttribute("headerMessage","Invalid Credentials.");
+				return "redirect:"+"login";
+			}
 		}else{			
 			ui = (UserUI)session.getAttribute("sessionUser");
 			model.addAttribute("globalstatus","logout");
 			model.addAttribute("globalstatuslink","logout");
+			model.addAttribute("user",ui);
+			
+			return "redirect:"+"user_profile";	
 		}
-		model.addAttribute("user",ui);
 		
-		return "redirect:"+"user_profile";	
 	}
 
 	
@@ -142,7 +170,7 @@ public class LoginController extends Secure_Hash{
     }
 	
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.GET)
-	public String forgot_password_display(Locale locale, Model model, HttpSession session) {
+	public String forgot_password_display(@RequestParam("headerMessage") String msg, Locale locale, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
@@ -154,6 +182,7 @@ public class LoginController extends Secure_Hash{
 			model.addAttribute("globalstatus","logout");
 			model.addAttribute("globalstatuslink","logout");
 		}
+		model.addAttribute("headerMessage",msg);
 		model.addAttribute("user",u);
 		return "user_profile";
 	}
@@ -166,15 +195,23 @@ public class LoginController extends Secure_Hash{
 		logger.info("Welcome login! The client locale is {}.");
 		UserUI u = new UserUI();
 		String res = "";
+		String sub = "";
+		String message = "your verification password is:  ";
+		String message2 = "\nPlease click the following link to reset it:\n ";
+		String link = "<a href=\"localhost:1336/common/changepassword?id="; String end = "\">click this link</a>\"";
 		LoginService login_service = new LoginService();
+		int userId = 0;
 		if(null==session.getAttribute("sessionUser")){
-			int out = login_service.forgot_password(email);
-			if(out==1)
+			User out = login_service.forgot_password(email);
+			if(out!=null)
 			{
+				link+=out.getUserId();
+				link+=end;
+				message+=out.getPassword();
 				SimpleMailMessage emailobj = new SimpleMailMessage();
 		        emailobj.setTo(email);
 		        emailobj.setSubject("Password Reset Link");
-		        emailobj.setText("Hello");
+		        emailobj.setText(message+message2+link);
 		         
 		        // sends the e-mail
 		        mailSender.send(emailobj);
@@ -198,5 +235,20 @@ public class LoginController extends Secure_Hash{
 		}
 		model.addAttribute("user",u);
 		return "redirect:"+"logout";
+	}
+	@RequestMapping(value = "changepassword", method = RequestMethod.GET)
+	public String changePasswordDisplay(@RequestParam("id") String id, Locale locale, Model model, HttpSession session) {
+		int userId = Integer.parseInt(id);
+		
+		//System.out.println(userId);
+		model.addAttribute("id",id);
+		return "changepassword";
+	}
+	@RequestMapping(value = "changepassword", method = RequestMethod.POST)
+	public String changePassword(@RequestParam("id") String id, @RequestParam("vpwd") String vpwd, @RequestParam("cpwd") String cpwd,  Model model, HttpSession session){
+		int userId = Integer.parseInt(id);
+		
+		//System.out.println(userId);
+		return "redirect:"+"login";
 	}
 }

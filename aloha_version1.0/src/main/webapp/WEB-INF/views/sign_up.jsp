@@ -39,7 +39,7 @@
 	 <input type="password" name="cpwd" width="100px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" required/>
 	 <div id="cpwd_e" class = "error" style = "display:none"><label>Confirm password wrong</label></div>
 	 <input class="btn btn-primary" type="submit" value="Sign Up" name="sign_up" align="middle" >
-	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
+	 <input class="btn btn-primary" type="reset" value="Cancel" name="Cancel" align="middle"><br/>
 	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/">Already a member? Login</a>
 	
 	
