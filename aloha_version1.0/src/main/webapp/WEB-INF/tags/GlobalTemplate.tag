@@ -82,7 +82,7 @@ $( document ).ready(function(){
 					<a href="${pageContext.request.contextPath}/user_profile">
 						<li><i class="fa fa-space fa-user"> </i>Profile</li>
 					</a>
-					<a href="${pageContext.request.contextPath}/friends"><li><i
+					<a href="${pageContext.request.contextPath}/friends?userId=${sessionUser.userId}"><li><i
 							class="fa fa-space fa-group"></i>Friends</li></a>
 					<a href="${pageContext.request.contextPath}/${globalstatuslink}"><li><i
 							class="fa fa-space fa-sign-out"></i>${globalstatus }</li></a>
