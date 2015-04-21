@@ -97,8 +97,9 @@ public class SearchController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 			ArrayList<Friendship> pendingRequests = null;
+			
 			pendingRequests = f.getPendingFriendshipRequest(userInSession);
 			model.addAttribute("pendingFriends", pendingRequests);
 			return "user_profile";
