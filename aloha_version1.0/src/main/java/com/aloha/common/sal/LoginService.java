@@ -44,14 +44,16 @@ public class LoginService extends Secure_Hash{
 			e1.printStackTrace();
 		}
 		try {
-			if(count>=3)
+			if(count>=8)
 			{
 				ud.lockaccount(email,newpwd);
 				return 0;
 			}
 			accountStatus = ud.isEmailLocked(email);
 			if(accountStatus == 0) //not locked
+			{
 				res = ud.getPasswordByEmail(email,pwd);
+			}
 			else if(accountStatus == 1)	//locked
 				return 0; //locked
 			else
@@ -133,7 +135,7 @@ public class LoginService extends Secure_Hash{
 				}
 				ud.lockaccount(email,newpwd);
 				user = ud.getUserIdByEmail(email);
-				res = user;
+				return user;
 			}
 			else
 			{
@@ -191,15 +193,21 @@ public class LoginService extends Secure_Hash{
 		return 0;
 	}
 
-	public void unlockAccount(int userId) {
+	public String unlockAccount(int userId) {
 		// TODO Auto-generated method stub
 		UserDal ud = new UserDal();
+		String email = "";
 		try {
 			ud.unlockAccount(userId);
+			User u = ud.selectUserByPrimaryKey(userId);
+			if(u!=null)
+				email = u.getEmail();
+			return email;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return email;
 	}
 	
 }

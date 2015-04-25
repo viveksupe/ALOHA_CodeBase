@@ -90,24 +90,24 @@ public class LoginController extends Secure_Hash{
 			model.addAttribute("globalstatuslink","login");
 			if(res==1)
 			{
-				userMap.remove(email);
+				userMap.put(email,0);
 				model.addAttribute("sessionUser",ui);
 				return "redirect:"+"user_profile";	
 			}
 			else if(res==0)
 			{
 				model.addAttribute("headerMessage","your account is locked.");
-				return "redirect:"+"forgotpassword";
+				return "forgotpassword";
 			}
 			else if(res==-1)
 			{
 				model.addAttribute("headerMessage","something went wrong, please try again");
-				return "redirect:"+"login";
+				return "Login";
 			}
 			else
 			{
 				model.addAttribute("headerMessage","Invalid Credentials.");
-				return "redirect:"+"login";
+				return "Login";
 			}
 		}else{			
 			ui = (UserUI)session.getAttribute("sessionUser");
@@ -183,7 +183,7 @@ public class LoginController extends Secure_Hash{
     }
 	
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.GET)
-	public String forgot_password_display(@RequestParam("headerMessage") String msg, Locale locale, Model model, HttpSession session) {
+	public String forgot_password_display(Locale locale, Model model, HttpSession session) {
 		logger.info("Welcome login! The client locale is {}.", locale);
 		UserUI u = new UserUI();
 		if(null==session.getAttribute("sessionUser")){
@@ -195,12 +195,11 @@ public class LoginController extends Secure_Hash{
 			model.addAttribute("globalstatus","logout");
 			model.addAttribute("globalstatuslink","logout");
 		}
-		model.addAttribute("headerMessage",msg);
 		model.addAttribute("user",u);
 		return "user_profile";
 	}
 	
-	//please revert back
+	
 	@Autowired
     private JavaMailSender mailSender;
 	@RequestMapping(value = "forgotpassword", method = RequestMethod.POST)
@@ -211,7 +210,7 @@ public class LoginController extends Secure_Hash{
 		String sub = "";
 		String message = "your verification password is:  ";
 		String message2 = "\nPlease click the following link to reset it:\n ";
-		String link = "<a href=\"localhost:1336/common/changepassword?id="; String end = "\">click this link</a>\"";
+		String link = "localhost:1336/common/changepassword?id="; String end = "copy this link and paste it in your browser";
 		LoginService login_service = new LoginService();
 		int userId = 0;
 		if(null==session.getAttribute("sessionUser")){
@@ -274,9 +273,12 @@ public class LoginController extends Secure_Hash{
 				model.addAttribute("headerMessage","could not perform action! Try again");
 				return "changepassword";
 			}
-			loginService.unlockAccount(userId);
+			String email = loginService.unlockAccount(userId);
+			userMap.put(email, 0);
+			return "redirect:"+"login";
 		}
 		//System.out.println(userId);
-		return "redirect:"+"login";
+		else
+			return "changepassword";
 	}
 }

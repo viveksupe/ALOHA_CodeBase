@@ -457,7 +457,7 @@ public class UserDal {
 
 	public User getUserIdByEmail(String email) throws SQLException {
 		// TODO Auto-generated method stub
-		String select = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive FROM user WHERE email = ?;";
+		String select = "SELECT user.user_id, user.fname, user.lname, user.contact_number, user.email, user.password, user.bdate, user.isVerified, user.isLocked, user.lastactive, user.privacy FROM user WHERE email = ?;";
 		ResultSet rSet = null;
 		PreparedStatement ps = null;
 		try {
@@ -516,7 +516,7 @@ public class UserDal {
 
 	public void unlockAccount(int userId) throws SQLException {
 		// TODO Auto-generated method stub
-		String update = "UPDATE user SET isLocked = ? , password = ? WHERE user_id = ?;";
+		String update = "UPDATE user SET isLocked = ? WHERE user_id = ?;";
 		PreparedStatement ps = null;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();

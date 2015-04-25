@@ -25,7 +25,7 @@ public class ImageDal {
 	{
 		SELECT = "select images.image_id, images.image, images.size from images where images.user_id=?;";
 		INSERT = "insert into images(images.user_id, images.image, images.size) values(?, ?, ?);";
-		UPDATE = "update images set images.image = ?, images.size = ? where images.user_id=? and images.image_id=?;";
+		UPDATE = "update images set images.image = ?, images.size = ? where images.user_id=?;";
 		DELETE = "delete from images where images.user_id=?;";
 		con = DatabaseHandlerSingleton.getDBConnection();
 	}
@@ -94,10 +94,10 @@ public class ImageDal {
 			File imgfile = new File("tempPic.jpg");			  
 			FileInputStream fin = new FileInputStream(imgfile);
 			ps = con.prepareStatement(UPDATE);
-			ps.setInt(3, user_id);
+	
 			ps.setBinaryStream(1,(InputStream)fin,(int)imgfile.length());
 			ps.setLong(2,imgfile.length());
-			ps.setInt(4, image_id);
+			ps.setInt(3, user_id);
 			res = ps.executeUpdate();
 			if(res!=0)
 			{				
