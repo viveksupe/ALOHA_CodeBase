@@ -71,11 +71,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (rSet != null)
+			/*if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 
 	}
@@ -126,11 +126,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (rSet != null)
+			/*if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 
 	}
@@ -165,11 +165,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if(rSet != null)
+			/*if(rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -200,9 +200,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -229,9 +229,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -249,9 +249,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -287,9 +287,9 @@ public class UserDal {
 			System.out.println("" + ex.getMessage());
 			throw ex;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 
 		return u;
@@ -330,11 +330,11 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (rSet != null)
+			/*if (rSet != null)
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -377,7 +377,7 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -402,9 +402,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -423,9 +423,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -449,7 +449,7 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			con.close();
+			//con.close();
 		}
 
 		return -1;
@@ -487,7 +487,7 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			con.close();
+			//con.close();
 		}
 
 		return null;
@@ -508,9 +508,9 @@ public class UserDal {
 			e.printStackTrace();
 			throw e;
 		} finally {
-			if (ps != null)
+			/*if (ps != null)
 				ps.close();
-			con.close();
+			con.close();*/
 		}
 	}
 
@@ -547,7 +547,7 @@ public class UserDal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			con.close();
+			//scon.close();
 		}
 		return 0;
 	}

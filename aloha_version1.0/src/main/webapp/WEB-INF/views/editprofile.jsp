@@ -5,9 +5,9 @@
 <t:GlobalTemplate>
 	<jsp:body>
 
-        <h1>Please upload a file</h1>
-        <form:form method="post"  modelattribute="uploadForm" action="${pageContext.request.contextPath}/uploadform" enctype="multipart/form-data">       
-            <input type="file" name="uploadForm" required/>
+        <h1>Please upload an image</h1>
+        <form:form method="post"  action="${pageContext.request.contextPath}/uploadform" enctype="multipart/form-data">       
+            <input type="file" name="file" required/>
             <input type="submit"/>       		
         </form:form>
         

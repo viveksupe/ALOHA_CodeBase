@@ -88,14 +88,15 @@ public class ImageDal {
 		
 		try{
 			con = DatabaseHandlerSingleton.getDBConnection();
-			FileOutputStream fos = new FileOutputStream("tempPic.jpg");
+			FileOutputStream fos = new FileOutputStream("E:\\tempPic.jpg");
 			fos.write(image);
 			fos.close();
-			File imgfile = new File("tempPic.jpg");			  
+			File imgfile = new File("E:\\tempPic.jpg");			  
 			FileInputStream fin = new FileInputStream(imgfile);
 			ps = con.prepareStatement(UPDATE);
 	
 			ps.setBinaryStream(1,(InputStream)fin,(int)imgfile.length());
+			//ps.setBytes(1, image);
 			ps.setLong(2,imgfile.length());
 			ps.setInt(3, user_id);
 			res = ps.executeUpdate();

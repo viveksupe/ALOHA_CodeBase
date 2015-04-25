@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
@@ -119,7 +120,7 @@ public class EditProfileController{
 	@RequestMapping(value = "editaccountdetails", method = RequestMethod.GET)
 	public String show_page(Model map,HttpSession session){
 		UserUI u = new UserUI();
-		if(null==session.getAttribute("sessionUser")){
+ 		if(null==session.getAttribute("sessionUser")){
 			map.addAttribute("globalstatus","login");
 			map.addAttribute("globalstatuslink","login");
 			return "Login";
