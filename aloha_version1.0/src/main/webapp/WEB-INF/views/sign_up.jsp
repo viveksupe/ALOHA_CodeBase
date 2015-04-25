@@ -16,7 +16,7 @@
   <div class="container">
   
 <!-- Start of FORM -->
-<form name="sign_up" method="post" onSubmit="return Validate()" action="${pageContext.request.contextPath}/login/sign_up">
+<form name="sign_up" method="post" onSubmit="return Validate(this)" action="${pageContext.request.contextPath}/login/sign_up">
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
@@ -38,8 +38,27 @@
 	 <label>Confirm Password</label>
 	 <input type="password" name="cpwd" width="100px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" required/>
 	 <div id="cpwd_e" class = "error" style = "display:none"><label>Confirm password wrong</label></div>
+	 
+	 <div>
+	 
+	 	<input id="CaptchaCode" name="CaptchaCode" type="text" style="width:80px; border:1px solid #999999;" maxlength="6" />
+
+		<a href="http://www.SnapHost.com"><img id="CaptchaImage" alt="Web Form Code" title="Anti-spam web forms"
+		style="margin-left:20px; border:1px solid #999999"
+		src="http://www.SnapHost.com/captcha/WebForm.aspx?id=A48GBG36LCX4&ImgType=2" /></a>
+		<br /><a href="#" onclick="return ReloadCaptchaImage('CaptchaImage');"><span style="font-size:12px;">reload image</span></a>
+	 
+	 </div>
+	 
+	 <div>
+	 By submitting, I agree that all info entered was done accurately & truthfully.<br>
+		I accept: <input type="checkbox" value="0" name="agree" required/>
+	 </div>
+	 
+	 			 
 	 <input class="btn btn-primary" type="submit" value="Sign Up" name="sign_up" align="middle" >
 	 <input class="btn btn-primary" type="reset" value="Cancel" name="Cancel" align="middle"><br/>
+	 
 	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/">Already a member? Login</a>
 	
 	
@@ -52,7 +71,7 @@
  
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 <script>
-function Validate(){
+function Validate(f){
       var in_pswd = document.forms["sign_up"]["pwd"].value;
 	  var c_pswd = document.forms["sign_up"]["cpwd"].value;	  
       if(c_pswd.match(in_pswd))
@@ -65,9 +84,29 @@ function Validate(){
        	  ret = false;
        	  document.forms["sign_up"].reset();
 	  }
-	  
+      if (f.agree.checked == false )
+      {
+      	   alert('Please check the box to continue.');
+			ret = false;
+      }
+      else
+      {
+    	  ret = true;
+      }
 	  return ret;
 }
+function ReloadCaptchaImage(captchaImageId) {
+	var obj = document.getElementById(captchaImageId);
+	var src = obj.src;
+	var date = new Date();
+	var pos = src.indexOf('&rad=');
+	if (pos >= 0) 
+	{ 
+		src = src.substr(0, pos); 
+	}
+	obj.src = src + '&rad=' + date.getTime();
+	return false; 
+	}
 </script>
     </jsp:body>
 </t:GlobalTemplate>
