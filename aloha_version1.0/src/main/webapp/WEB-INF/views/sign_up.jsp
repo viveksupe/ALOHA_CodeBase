@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
 <t:GlobalTemplate>
     <jsp:body>
 
@@ -39,18 +41,17 @@
 	 <input type="password" name="cpwd" width="100px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" required/>
 	 <div id="cpwd_e" class = "error" style = "display:none"><label>Confirm password wrong</label></div>
 	 
-	 <div>
-	 
-	 	<input id="CaptchaCode" name="CaptchaCode" type="text" style="width:80px; border:1px solid #999999;" maxlength="6" />
-
-		<a href="http://www.SnapHost.com"><img id="CaptchaImage" alt="Web Form Code" title="Anti-spam web forms"
-		style="margin-left:20px; border:1px solid #999999"
-		src="http://www.SnapHost.com/captcha/WebForm.aspx?id=A48GBG36LCX4&ImgType=2" /></a>
-		<br /><a href="#" onclick="return ReloadCaptchaImage('CaptchaImage');"><span style="font-size:12px;">reload image</span></a>
-	 
-	 </div>
-	 
-	 <div>
+	 <div id="captcha_paragraph">
+			<c:if test="${invalidRecaptcha == true}">
+				<span class="error_form_validation"><spring:message code="invalid.captcha" text="Invalid captcha please try again"/></span>
+			</c:if>
+		    <%
+		        ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LcW3OASAAAAAKEJTHMmp_bo5kny4lZXeDtgcMqC", 
+		        					"6LcW3OASAAAAAKVX2duVsSy2uMMHL105-jPDrHMD", false);
+		        out.print(c.createRecaptchaHtml(null, null));
+		    %>			    
+	</div> 
+	<div>
 	 By submitting, I agree that all info entered was done accurately & truthfully.<br>
 		I accept: <input type="checkbox" value="0" name="agree" required/>
 	 </div>
@@ -107,6 +108,33 @@ function ReloadCaptchaImage(captchaImageId) {
 	obj.src = src + '&rad=' + date.getTime();
 	return false; 
 	}
+</script>
+<script type="text/javascript">
+	var strings = new Array();
+	strings['recaptcha.instructions_visual'] = "<spring:message code='recaptcha.instructions_visual' javaScriptEscape='true'/>";
+	strings['recaptcha.instructions_audio'] = "<spring:message code='recaptcha.instructions_audio' javaScriptEscape='true'/>"; 
+	strings['recaptcha.play_again'] = "<spring:message code='recaptcha.play_again' javaScriptEscape='true'/>";
+	strings['recaptcha.cant_hear_this'] = "<spring:message code='recaptcha.cant_hear_this' javaScriptEscape='true'/>";
+	strings['recaptcha.visual_challenge'] = "<spring:message code='recaptcha.visual_challenge' javaScriptEscape='true'/>";
+	strings['recaptcha.audio_challenge'] = "<spring:message code='recaptcha.audio_challenge' javaScriptEscape='true'/>";
+	strings['recaptcha.refresh_btn'] = "<spring:message code='recaptcha.refresh_btn' javaScriptEscape='true'/>"; 
+	strings['recaptcha.help_btn'] = "<spring:message code='recaptcha.help_btn' javaScriptEscape='true'/>";
+	strings['recaptcha.incorrect_try_again'] = "<spring:message code='recaptcha.incorrect_try_again' javaScriptEscape='true'/>";
+ 
+	var RecaptchaOptions = {
+	custom_translations : {		 
+		 instructions_visual :  strings['recaptcha.instructions_visual'] ,
+		 instructions_audio : strings['recaptcha.instructions_audio'],
+		 play_again : strings['recaptcha.play_again'],
+		 cant_hear_this : strings['recaptcha.cant_hear_this'],
+		 visual_challenge : strings['recaptcha.visual_challenge'],
+		 audio_challenge : strings['recaptcha.audio_challenge'],
+		 refresh_btn : strings['recaptcha.refresh_btn'],
+		 help_btn : strings['recaptcha.help_btn'],
+		 incorrect_try_again : strings['recaptcha.incorrect_try_again']
+	},		 
+	theme : 'clean'
+	}; 
 </script>
     </jsp:body>
 </t:GlobalTemplate>
