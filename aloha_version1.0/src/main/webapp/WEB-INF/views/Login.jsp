@@ -30,7 +30,7 @@
 	 <label>Email-Id</label><input type="email" name="email" width="100px"  required/>
 	 <label>Password</label><input type="password" name="pwd" width="100px" required/>
 	 <input class="btn btn-primary" type="submit" value="Login" name="Login" align="middle" onClick="checkPassword(document.login.Login)">
-	 <input class="btn btn-primary" type="submit" value="Cancel" name="Cancel" align="middle"><br/>
+	 <input class="btn btn-primary" type="reset" value="Cancel" name="Cancel" align="middle"><br/>
 	 <a style="font-size:11px" href="${pageContext.request.contextPath}/forgotpassword">Forgot Password?</a> <br/>
 	 <a style="font-size:20px" href="${pageContext.request.contextPath}/login/sign_up/">Not a member yet? Join Us</a>
 </div>

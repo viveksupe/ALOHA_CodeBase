@@ -2,8 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
-<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
 <t:GlobalTemplate>
     <jsp:body>
 
@@ -41,16 +39,6 @@
 	 <input type="password" name="cpwd" width="100px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" required/>
 	 <div id="cpwd_e" class = "error" style = "display:none"><label>Confirm password wrong</label></div>
 	 
-	 <div id="captcha_paragraph">
-			<c:if test="${invalidRecaptcha == true}">
-				<span class="error_form_validation"><spring:message code="invalid.captcha" text="Invalid captcha please try again"/></span>
-			</c:if>
-		    <%
-		        ReCaptcha c = ReCaptchaFactory.newReCaptcha("6LcW3OASAAAAAKEJTHMmp_bo5kny4lZXeDtgcMqC", 
-		        					"6LcW3OASAAAAAKVX2duVsSy2uMMHL105-jPDrHMD", false);
-		        out.print(c.createRecaptchaHtml(null, null));
-		    %>			    
-	</div> 
 	<div>
 	 By submitting, I agree that all info entered was done accurately & truthfully.<br>
 		I accept: <input type="checkbox" value="0" name="agree" required/>
