@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.model.UserUI;
 import com.aloha.common.sal.LogoutService;
 
@@ -33,6 +34,7 @@ public class LogoutController {
 		//session.setAttribute("sessionUser", null);
 		session.invalidate();
 		model.asMap().clear();
+		DatabaseHandlerSingleton.close();
 		return "Login";
 	}
 }
