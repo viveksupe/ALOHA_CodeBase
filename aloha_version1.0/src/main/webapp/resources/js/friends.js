@@ -1,38 +1,38 @@
 var FriendJS = new function() {
 
-	this.root;	
-	
-	this.init = function(root){ 
-		this.root=root;
+	this.root;
+
+	this.init = function(root) {
+		this.root = root;
 		this.inviteFriendEvent();
 		this.acceptFriendEvent();
 		this.addFriendEvent();
 		this.unFriendEvent();
 	}
-	
-	this.inviteFriendEvent=function(){
-		$('#inviteFriendBtn').click(function () {
+
+	this.inviteFriendEvent = function() {
+		$('#inviteFriendBtn').click(function() {
 			FriendJS.inviteFriend();
 		});
 	};
-	
-	this.acceptFriendEvent=function(){
-		$('.acceptFriendBtn').click(function () {
+
+	this.acceptFriendEvent = function() {
+		$('.acceptFriendBtn').click(function() {
 			var userId = $(this).attr('userID');
 			var acceptorId = $(this).attr('acceptorID');
 			FriendJS.acceptFriend(userId, acceptorId);
 		});
 	};
 
-	this.addFriendEvent=function(){
-		$('#addFriendBtn').click(function () {
+	this.addFriendEvent = function() {
+		$('#addFriendBtn').click(function() {
 			var userId = $(this).attr('userID');
 			FriendJS.addFriend(userId);
 		});
 	};
 
-	this.unFriendEvent=function(){
-		$('#unFriendBtn').click(function () {
+	this.unFriendEvent = function() {
+		$('#unFriendBtn').click(function() {
 			var friendshipId = $(this).attr('friendshipId');
 			FriendJS.unFriend(friendshipId);
 		});
@@ -54,12 +54,17 @@ var FriendJS = new function() {
 				},
 				success : function(data) {
 					console.log(data);
-					$('#email').val('');
-					$('#inviteFriendStatus').html('Friend Invited');
+					if (data == true) {
+						$('#email').val('');
+						$('#inviteFriendStatus').html('Friend Invited');
+					}else {
+						$('#inviteFriendStatus').html('Invalid Email Address');
+					}
 				},
 				error : function(data) {
 					console.log('error occurred');
 					console.log(data);
+					$('#inviteFriendStatus').html('Invalid Email Address');
 				}
 			});
 		}
@@ -90,25 +95,27 @@ var FriendJS = new function() {
 	this.acceptFriend = function(userId, acceptorId) {
 		console.log("userId" + userId);
 		console.log("acceptorId" + acceptorId);
-		$.ajax({
-			headers : {
-				'Accept' : 'application/json'
-			},
-			method : "POST",
-			url : FriendJS.root + "/friends/accept",
-			data : {
-				userIdToAccept : userId,
-				acceptor : acceptorId
-			},
-			success : function(data) {
-				console.log('success');
-				$('#acceptFriendBtn_' + userId).html('Friend Request Accepted');
-			},
-			error : function(data) {
-				console.log('error occurred');
-				console.log(data);
-			}
-		});
+		$
+				.ajax({
+					headers : {
+						'Accept' : 'application/json'
+					},
+					method : "POST",
+					url : FriendJS.root + "/friends/accept",
+					data : {
+						userIdToAccept : userId,
+						acceptor : acceptorId
+					},
+					success : function(data) {
+						console.log('success');
+						$('#acceptFriendBtn_' + userId).html(
+								'Friend Request Accepted');
+					},
+					error : function(data) {
+						console.log('error occurred');
+						console.log(data);
+					}
+				});
 	};
 
 	this.unFriend = function(friendshipId) {
