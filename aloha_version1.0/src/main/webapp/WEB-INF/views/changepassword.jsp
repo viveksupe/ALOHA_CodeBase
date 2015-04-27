@@ -16,12 +16,12 @@
   
         <h1>Reset Password</h1>
         <h6>${headerMessage}</h6>
-        <form:form method="post" onSubmit="return Validate()" action="${pageContext.request.contextPath}/changepassword?id=${id}"> 
+        <form:form name="sign_up" method="post" onSubmit="return Validate()" action="${pageContext.request.contextPath}/changepassword?id=${id}"> 
         	<label>Verification Password</label>
 			 <input type="password" name="vpwd" width="100px" size="20" required/>		      
             <label>Password</label>
 			 <input type="password" name="pwd" width="100px" 
-			 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" 
+			 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}" 
 			 title="Please enter at least one uppercase, one lowercase and one numeric. Length should be at least 8 and maximum 15" 
 			 required/>
 			 <label>Confirm Password</label>
