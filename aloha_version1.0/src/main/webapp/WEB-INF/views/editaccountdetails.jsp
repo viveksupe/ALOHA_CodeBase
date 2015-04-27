@@ -17,15 +17,15 @@
 			<div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
 				<div>
 					<label>First Name</label>
-	 				<input type="text" name="fname" value="${user.getFirstName() }" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters" />
+	 				<input type="text" name="fname" value="${user.getFirstName() }" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters" required/>
 				</div>
 				<div>
 				 <label>Last Name</label>
-				 <input type="text" name="lname" value="${user.getLastName() }" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters" />
+				 <input type="text" name="lname" value="${user.getLastName() }" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters" required/>
 				</div>
 				<div> 
 				 <label>Contact Number</label>
-				 <input type="text" name="cnum" value="${user.getContactNumber() }" width="100px" pattern="\d{10}" title="please enter only 10 digits"/>
+				 <input type="text" name="cnum" value="${user.getContactNumber() }" width="100px" pattern="\d{10}" title="please enter only 10 digits" required/>
 				</div>
 				<div> 
 				 <label>Email-Id</label>
@@ -33,7 +33,7 @@
 				</div>
 				<div> 
 				 <label>Date of Birth</label>
-				 <input type="date" name = "dob" value="${user.getDateOfBirth() }" min="1915-12-31" max="1997-12-31" title="Minimum age should be 18" />
+				 <input type="date" name = "dob" value="${user.getDateOfBirth() }" min="1915-12-31" max="1997-12-31" title="Minimum age should be 18" required/>
 				</div>
 				 <button type="submit" class="btn btn-save"> Save</button>
 				 <a style="font-size:24px" href="${pageContext.request.contextPath}/user_profile/">Back to Profile</a>
