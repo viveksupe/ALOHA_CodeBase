@@ -28,7 +28,8 @@
 	 <label>Contact Number</label>
 	 <input type="text" name="cnum" width="100px" pattern="\d{10}" title="please enter only 10 digits"/>
 	 <label>Email-Id</label>
-	 <input type="email" name="email" width="100px"  required/>
+	 <input type="email" name="email" width="100px" 
+	 pattern = "^[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,6}$" required/>
 	 <label>Date of Birth</label><input type="date" name = "dob" min="1915-12-31" max="1997-12-31" title="Minimum age should be 18" required/>
 	 <label>Password</label>
 	 <input type="password" name="pwd" width="100px" 
