@@ -20,11 +20,11 @@
 
 
 <div style="margin-left:400px; margin-top:20px; border-color:green" class="span3 hero-unit ">
-	 <h2>Login</h2>
+	 <h2>Sign UP</h2>
 	 <label>First Name</label>
-	 <input type="text" name="fname" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters" required/>
+	 <input type="text" name="fname" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters and length below 20" required/>
 	 <label>Last Name</label>
-	 <input type="text" name="lname" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters" required/>
+	 <input type="text" name="lname" width="100px" size = "20" pattern="[A-Za-z]{1,20}" title = "please enter only characters and length below 20" required/>
 	 <label>Contact Number</label>
 	 <input type="text" name="cnum" width="100px" pattern="\d{10}" title="please enter only 10 digits"/>
 	 <label>Email-Id</label>
@@ -32,11 +32,11 @@
 	 <label>Date of Birth</label><input type="date" name = "dob" min="1915-12-31" max="1997-12-31" title="Minimum age should be 18" required/>
 	 <label>Password</label>
 	 <input type="password" name="pwd" width="100px" 
-	 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" 
-	 title="Please enter at least one uppercase, one lowercase and one numeric. Length should be at least 8 and maximum 15" 
+	 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}" 
+	 title="Please enter at least one uppercase, one lowercase and one numeric. Length should be at least 8 and maximum 15 no special characters allowed" 
 	 required/>
 	 <label>Confirm Password</label>
-	 <input type="password" name="cpwd" width="100px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}" required/>
+	 <input type="password" name="cpwd" width="100px" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}" required/>
 	 <div id="cpwd_e" class = "error" style = "display:none"><label>Confirm password wrong</label></div>
 	 
 	<div>
