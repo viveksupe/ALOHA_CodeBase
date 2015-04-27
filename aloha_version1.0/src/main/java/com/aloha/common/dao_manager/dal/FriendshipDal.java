@@ -92,7 +92,7 @@ public class FriendshipDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}
@@ -141,7 +141,7 @@ public class FriendshipDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}
@@ -195,7 +195,7 @@ public class FriendshipDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return null;
 	}
@@ -240,7 +240,7 @@ public class FriendshipDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -280,7 +280,7 @@ public class FriendshipDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -311,7 +311,7 @@ public class FriendshipDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -341,7 +341,7 @@ public class FriendshipDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -366,7 +366,7 @@ public class FriendshipDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -424,7 +424,7 @@ public class FriendshipDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 }

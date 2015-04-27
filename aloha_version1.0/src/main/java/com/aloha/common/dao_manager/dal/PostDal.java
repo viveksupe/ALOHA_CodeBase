@@ -70,7 +70,7 @@ public class PostDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -90,7 +90,7 @@ public class PostDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -118,7 +118,7 @@ public class PostDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return null;
 	}
@@ -140,7 +140,7 @@ public class PostDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -171,7 +171,7 @@ public class PostDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -209,7 +209,7 @@ public class PostDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 

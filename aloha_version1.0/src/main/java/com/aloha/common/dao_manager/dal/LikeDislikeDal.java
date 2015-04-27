@@ -77,7 +77,7 @@ public class LikeDislikeDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -102,7 +102,7 @@ public class LikeDislikeDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -126,7 +126,7 @@ public class LikeDislikeDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -147,7 +147,7 @@ public class LikeDislikeDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 	
@@ -172,7 +172,7 @@ public class LikeDislikeDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}

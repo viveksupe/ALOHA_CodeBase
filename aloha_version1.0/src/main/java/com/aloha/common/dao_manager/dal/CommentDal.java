@@ -64,7 +64,7 @@ public class CommentDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}
@@ -99,7 +99,7 @@ public class CommentDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}
@@ -137,7 +137,7 @@ public class CommentDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}
@@ -159,7 +159,7 @@ public class CommentDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			////con.close();
 		}
 	}
 	
@@ -179,7 +179,7 @@ public class CommentDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -208,7 +208,7 @@ public class CommentDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return null;
 	}
@@ -232,7 +232,7 @@ public class CommentDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 }

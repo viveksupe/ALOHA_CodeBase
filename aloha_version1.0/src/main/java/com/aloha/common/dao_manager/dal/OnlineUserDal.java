@@ -61,7 +61,7 @@ public class OnlineUserDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -81,7 +81,7 @@ public class OnlineUserDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -102,7 +102,7 @@ public class OnlineUserDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -139,7 +139,7 @@ public class OnlineUserDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -178,7 +178,7 @@ public class OnlineUserDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}

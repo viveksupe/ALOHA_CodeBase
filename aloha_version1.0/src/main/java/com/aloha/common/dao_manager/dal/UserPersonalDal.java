@@ -46,7 +46,7 @@ public class UserPersonalDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 
@@ -82,7 +82,7 @@ public class UserPersonalDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}		
 	}
 	public int deleteUserPersonal(int id) throws SQLException {
@@ -101,7 +101,7 @@ public class UserPersonalDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 	public int updateUserPersonal(int id, UserPersonal pu) throws SQLException {
@@ -122,7 +122,7 @@ public class UserPersonalDal {
 		} finally {			
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 }

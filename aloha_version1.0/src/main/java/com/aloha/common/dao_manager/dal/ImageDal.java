@@ -76,7 +76,7 @@ public class ImageDal {
 				rs.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return pi;
 	}
@@ -116,7 +116,7 @@ public class ImageDal {
 				rs.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return false;
 	}
@@ -138,7 +138,7 @@ public class ImageDal {
 		finally{
 			if(ps!=null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return false;
 	}
@@ -172,7 +172,7 @@ public class ImageDal {
 		finally{
 			if(ps!=null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 		return pi;
 	}

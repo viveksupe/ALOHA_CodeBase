@@ -114,7 +114,7 @@ public class CommentUI {
 			cui.setUserId(comment.getUserId());
 			cui.setPostId(comment.getPostId());
 			
-			if((comment.getUserId() == post.getUserId()) || (comment.getUserId() == user.getUserId()))
+			if((user.getUserId() == post.getUserId()) || (comment.getUserId() == user.getUserId()))
 				cui.setCanDelete(1);
 			else 	cui.setCanDelete(2);
 			

@@ -47,7 +47,7 @@ public class UserEducationDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();*/
+			//con.close();*/
 		}
 
 	}
@@ -80,7 +80,7 @@ public class UserEducationDal {
 				rSet.close();
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 
 	}
@@ -103,7 +103,7 @@ public class UserEducationDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}		
 	}
 	public int deleteUserEducation(int id) throws SQLException {
@@ -122,7 +122,7 @@ public class UserEducationDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 	public int updateUserEducation(int id, UserEducation ed) throws SQLException {
@@ -143,7 +143,7 @@ public class UserEducationDal {
 		} finally {
 			if (ps != null)
 				ps.close();
-			con.close();
+			//con.close();
 		}
 	}
 }
