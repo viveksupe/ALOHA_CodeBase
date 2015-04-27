@@ -40,7 +40,10 @@ var FriendJS = new function() {
 
 	this.inviteFriend = function() {
 		var emailAddr = $('#email').val();
-		if (emailAddr != '') {
+		if (emailAddr == '') {
+			$('#inviteFriendStatus').html('Please enter a valid email address');
+		}
+		else{
 			$('#email').text('');
 			console.log(emailAddr);
 			$.ajax({
