@@ -33,8 +33,9 @@ public class UserEducationDal {
 			ps = con.prepareStatement(SelectUsersEducationAllStatement);
 			ps.setInt(1, user_id);
 			rSet = ps.executeQuery();
-			UserEducation u = new UserEducation();
+			UserEducation u = null;
 			if (rSet.first()) {
+				u = new UserEducation();
 				u.setEducation(rSet.getString("school"), rSet.getString("area"));
 				
 			}

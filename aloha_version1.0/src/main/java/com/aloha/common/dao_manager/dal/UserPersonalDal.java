@@ -33,9 +33,10 @@ public class UserPersonalDal {
 			UserPersonal u = null;
 			if (rSet.first()) {
 				u  = new UserPersonal();
+				u.setP_id(rSet.getInt("info_id"));
 				u.setAboutme(rSet.getString("about_me"));
 				u.setCity(rSet.getString("current_city"));
-				u.setP_id(rSet.getInt("info_id"));
+				
 			}
 			return u;
 		} catch (SQLException e) {

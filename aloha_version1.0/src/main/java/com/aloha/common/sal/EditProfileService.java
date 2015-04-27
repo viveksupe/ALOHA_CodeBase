@@ -62,7 +62,7 @@ public class EditProfileService {
 		try {
 				ed = edal.selectUserEducationById(u.getUserId());
 				if(ed!=null)
-				{
+		 		{
 					ed.setEducation(school,area);
 					res = edal.updateUserEducation(u.getUserId(), ed);					
 				}

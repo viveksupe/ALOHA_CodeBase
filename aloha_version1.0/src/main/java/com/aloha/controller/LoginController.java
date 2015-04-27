@@ -210,7 +210,7 @@ public class LoginController extends Secure_Hash{
 		String sub = "";
 		String message = "your verification password is:  ";
 		String message2 = "\nPlease click the following link to reset it:\n ";
-		String link = "localhost:1336/common/changepassword?id="; String end = "copy this link and paste it in your browser";
+		String link = "localhost:8080/common/changepassword?id="; String end = "copy this link and paste it in your browser";
 		LoginService login_service = new LoginService();
 		int userId = 0;
 		if(null==session.getAttribute("sessionUser")){
