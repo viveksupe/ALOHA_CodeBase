@@ -32,6 +32,7 @@ import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.UserUI;
 import com.aloha.common.util.CommonUtils;
+import com.sun.mail.smtp.SMTPAddressFailedException;
 
 /**
  * @author Milind FriendsController to handle the controls and flow of the
@@ -184,7 +185,7 @@ public class FriendsController {
 	public String inviteFriend(Locale locale, Model model, HttpSession session) {
 		UserUI u = new UserUI();
 		if (null == session.getAttribute("sessionUser")) {
-			return "redirect:" + "../login";
+			return "redirect:" + "login";
 		} else {
 			u = (UserUI) session.getAttribute("sessionUser");
 		}
@@ -208,12 +209,22 @@ public class FriendsController {
 				String[] emails = email.split(",");
 				for (String eachEmailAddr : emails) {
 					eachEmailAddr.trim();
-					commonUtils.mailSendUtil(mailSender, eachEmailAddr,
-							u.getEmail(), mailContent);
+					try {
+						commonUtils.mailSendUtil(mailSender, eachEmailAddr,
+								u.getEmail(), mailContent);
+					} catch (SMTPAddressFailedException e) {
+						e.printStackTrace();
+						return false;
+					}
 				}
 			} else {
+				try{
 				commonUtils.mailSendUtil(mailSender, email, u.getEmail(),
 						mailContent);
+				}catch(SMTPAddressFailedException e){
+					e.printStackTrace();
+					return false;					
+				}
 			}
 			return true;
 		}

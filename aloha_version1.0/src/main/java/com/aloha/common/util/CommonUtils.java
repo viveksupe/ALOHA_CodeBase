@@ -1,11 +1,11 @@
 package com.aloha.common.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.aloha.common.entities.user.User;
 import com.aloha.common.model.UserUI;
+import com.sun.mail.smtp.SMTPAddressFailedException;
 
 public class CommonUtils {
 
@@ -23,7 +23,7 @@ public class CommonUtils {
 		return user;
 	}
 
-	public void mailSendUtil(JavaMailSender mailSender, String emailTo, String emailFrom,String mailContent) {
+	public void mailSendUtil(JavaMailSender mailSender, String emailTo, String emailFrom,String mailContent) throws SMTPAddressFailedException{
 		SimpleMailMessage emailobj = new SimpleMailMessage();
 		emailobj.setTo(emailTo);
 		emailobj.setSubject("Check out Aloha");

@@ -18,7 +18,7 @@
 					<div class="header-member">
 						<i class="fa fa-space fa-group"></i> Invite Friends
 					</div>
-					<div class="entry" align="center">Enter email address of your friends to invite them to Aloha
+					<div class="entry" align="center">Enter email address of your friends to invite them to Aloha. If you wish to invite more than one friends please enter email addresses separated by comma.
 					<br/>
 					<input type="text" id="email" name="email"
 							placeholder="Enter Email Address..." width="100px"
