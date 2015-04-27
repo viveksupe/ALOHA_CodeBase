@@ -122,21 +122,16 @@ function SendMsg(message, toid, fromid) {
 	var jsonString = JSON.stringify(obj);
 	// json = JSON.stringify(msg);
 	// alert(jsonString);
-	var pattern = new RegExp(
-				/<[a-zA-Z]*script[\s\S]*?>[\s\S]*?<\/[a-zA-Z]*script>/g);
+	var pattern = new RegExp(/<[a-zA-Z]*script[\s\S]*?>[\s\S]*?<\/[a-zA-Z]*script>/g);
+
 	if(!pattern.test(message)){
 	$(".msg_input" + toid).val('');
 	if (obj.chatMsg != '' && obj.chatMsg != "\n") {
 		$('<div class="msg_b">' + obj.chatMsg + '</div>').insertBefore(
 				'.msg_push_' + toid);
 		webSocket.send(jsonString);
-	}else{
-		alert("Script Not Allowed");
-	}
-	/*
-		 * document.getElementById('messages').innerHTML += '<br />Sent
-		 * message: ' + obj.chatMsg;
-		 */
+	}}else{
+		alert("Scripts Not Allowed");
 	}
 	$('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 
@@ -300,7 +295,7 @@ function register_popup(toid, fromid, name) {
 			+ toid
 			+ ','
 			+ fromid
-			+ ')" /></form><table><tr><td width=80%><textarea maxlength="250 id="'
+			+ ')" /></form><table><tr><td width=80%><textarea maxlength="250" id="'
 			+ name
 			+ '" class="msg_input'
 			+ toid
