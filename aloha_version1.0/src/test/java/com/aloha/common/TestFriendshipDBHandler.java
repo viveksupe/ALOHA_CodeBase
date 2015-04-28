@@ -158,19 +158,6 @@ public class TestFriendshipDBHandler {
 		}
 	}
 
-	public void sendMailToFriend(int id, String mailContent) {
-		CommonUtils commonUtils = new CommonUtils();
-		User u = null;
-		try {
-			u = ud.selectUserByPrimaryKey(id);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		commonUtils.mailSendUtil(mailSender, u.getEmail(),
-				"milindhg@gmail.com", mailContent);
-	}
-
 	public static void treeMapSOrtingTest() {
 		HashMap h = new HashMap<Integer, Integer>();
 		h.put(1, 1);
