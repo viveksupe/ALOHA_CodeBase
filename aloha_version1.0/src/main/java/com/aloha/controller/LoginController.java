@@ -96,7 +96,7 @@ public class LoginController extends Secure_Hash{
 			}
 			else if(res==0)
 			{
-				model.addAttribute("headerMessage","your account is locked.");
+				model.addAttribute("headerMessage","your account is locked due incorrect attempts. Unlock using forgot password");
 				return "forgotpassword";
 			}
 			else if(res==-1)
