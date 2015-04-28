@@ -259,6 +259,10 @@ public class PostUI {
 		pui.setPostId(post.getPostId());
 		pui.setUserId(u.getUserId());
 		pui.setUserName(u.getFirstName() + " " + u.getLastName());
+		if (u.getUserId() == post.getUserId())
+			pui.setCanDelete(1);
+		else
+			pui.setCanDelete(2);
 		pui.setUserLikeType(0);
 		if (ld != null) {
 			if (ld.getLikes() != null) 
