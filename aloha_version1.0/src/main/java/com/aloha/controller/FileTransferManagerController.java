@@ -35,32 +35,6 @@ import com.aloha.common.util.FileUploadBean;
 @SessionAttributes("sessionUser")
 public class FileTransferManagerController {
 
-	/*@RequestMapping(value = "process", method = RequestMethod.POST)
-	@ResponseBody
-	public String save(HttpServletRequest request) throws Exception {
-		String path = "C:\\imgupload\\";
-		path = path.substring(0, path.indexOf("\\build"));
-		path = path + "\\web\\upload\\";
-		
-		
-		
-		DiskFileItemFactory d = new DiskFileItemFactory();
-		ServletFileUpload uploader = new ServletFileUpload(d);
-		try {
-			List<FileItem> lst = uploader.parseRequest(request);
-			for (FileItem fileItem : lst) {
-				if(fileItem.isFormField()==false){
-					//writing file
-					fileItem.write(new File(path+"/"+fileItem.getName()));
-				}
-			}
-		} catch (FileUploadException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//return "fail";
-		}
-		return "<h1>File Upload Was Successful Check Chat For Link For Download</h1>";
-	}*/
 	@RequestMapping(value = "process", method = RequestMethod.POST)
 	@ResponseBody
 	public String save(FileUploadBean request) throws Exception {
@@ -74,13 +48,7 @@ public class FileTransferManagerController {
 		FileOutputStream fos=new FileOutputStream(path+"/"+m.getOriginalFilename());
 		fos.write(bytefile);
 		fos.close();
-		/*List<FileItem> lst = uploader.parseRequest(request);
-		for (FileItem fileItem : lst) {
-			if(fileItem.isFormField()==false){
-				//writing file
-				fileItem.write(new File(path+"/"+fileItem.getName()));
-			}
-		}*/
+	
 		return "<h1>File Upload Was Successful Check Chat For Link For Download</h1>";
 	}
 	
