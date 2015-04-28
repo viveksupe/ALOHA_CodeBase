@@ -3,6 +3,7 @@ package com.aloha.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.aloha.common.util.FileUploadBean;
 
 /**
  * Handles requests for the application home page.
@@ -31,12 +35,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("sessionUser")
 public class FileTransferManagerController {
 
-	@RequestMapping(value = "process", method = RequestMethod.POST)
+	/*@RequestMapping(value = "process", method = RequestMethod.POST)
 	@ResponseBody
 	public String save(HttpServletRequest request) throws Exception {
 		String path = "C:\\imgupload\\";
-		/*path = path.substring(0, path.indexOf("\\build"));
-		path = path + "\\web\\upload\\";*/
+		path = path.substring(0, path.indexOf("\\build"));
+		path = path + "\\web\\upload\\";
+		
+		
+		
 		DiskFileItemFactory d = new DiskFileItemFactory();
 		ServletFileUpload uploader = new ServletFileUpload(d);
 		try {
@@ -52,6 +59,28 @@ public class FileTransferManagerController {
 			e.printStackTrace();
 			//return "fail";
 		}
+		return "<h1>File Upload Was Successful Check Chat For Link For Download</h1>";
+	}*/
+	@RequestMapping(value = "process", method = RequestMethod.POST)
+	@ResponseBody
+	public String save(FileUploadBean request) throws Exception {
+		String path = "C:\\imgupload\\";
+		/*path = path.substring(0, path.indexOf("\\build"));
+		path = path + "\\web\\upload\\";*/
+		MultipartFile m=request.getFile();
+		byte[] bytefile;
+		
+		bytefile=m.getBytes();
+		FileOutputStream fos=new FileOutputStream(path+"/"+m.getOriginalFilename());
+		fos.write(bytefile);
+		fos.close();
+		/*List<FileItem> lst = uploader.parseRequest(request);
+		for (FileItem fileItem : lst) {
+			if(fileItem.isFormField()==false){
+				//writing file
+				fileItem.write(new File(path+"/"+fileItem.getName()));
+			}
+		}*/
 		return "<h1>File Upload Was Successful Check Chat For Link For Download</h1>";
 	}
 	
