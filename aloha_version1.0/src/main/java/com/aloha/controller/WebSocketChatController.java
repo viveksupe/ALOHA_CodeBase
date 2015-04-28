@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -53,7 +54,7 @@ public class WebSocketChatController {
 	// private static Set<Session> clients = Collections.synchronizedSet(new
 	// HashSet<Session>());
 	private static volatile Map<Integer, Session> userIDToSessionMap = new ConcurrentHashMap<Integer, Session>();
-	static int uID = 100;
+	//static int uID = 100;
 	private static final Logger logger = LoggerFactory
 			.getLogger(HomeController.class);
 
@@ -151,4 +152,11 @@ public class WebSocketChatController {
 		System.out.println("Socket Session " + session.getId() + " has ended");
 
 	}
+	
+	
+	 @OnError
+	    public void onError(Session session, Throwable t) {
+		 	
+		 System.out.println("Browser Closed");
+	    }
 }
