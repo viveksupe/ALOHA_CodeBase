@@ -289,13 +289,13 @@ function register_popup(toid, fromid, name) {
 	element = element + '<div class="msg_body" ><div class="msg_push_' + toid
 			+ '"></div></div>'
 	element = element
-			+ '<div class="msg_footer"><form action="process" method="POST" enctype="multipart/form-data"><input type="file" name="upload_file" id="filenameID_'
+			+ '<div class="msg_footer"><form action="process" method="POST" enctype="multipart/form-data"><input type="file" name="file" id="filenameID_'
 			+ toid
 			+ '"/><br/><input type="submit" value="Upload" onclick="fileSent('
 			+ toid
 			+ ','
 			+ fromid
-			+ ')" /></form><table><tr><td width=80%><textarea maxlength="250" id="'
+			+ ');" /></form><table><tr><td width=80%><textarea maxlength="250" id="'
 			+ name
 			+ '" class="msg_input'
 			+ toid
