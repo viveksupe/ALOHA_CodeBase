@@ -136,6 +136,9 @@ public class CommentUI {
 		cui.setUserName(user.getFirstName() + user.getLastName());
 		cui.setUserId(comment.getUserId());
 		cui.setPostId(comment.getPostId());
+		
+		cui.setCanDelete(1);
+		
 		return cui;
 	}
 	
