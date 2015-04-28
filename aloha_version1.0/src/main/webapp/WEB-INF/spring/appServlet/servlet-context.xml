@@ -42,12 +42,10 @@
 		
 		PLEASE DO NOT CHANGE THIS    -->
 		
-<!-- 	<beans:bean id="multipartResolver"
+	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
-		<beans:property name="maxUploadSize" value="25000000" />
-
-	</beans:bean> -->
+	</beans:bean>
 	
 	<beans:bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
