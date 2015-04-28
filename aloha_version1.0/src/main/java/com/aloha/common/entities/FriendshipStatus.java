@@ -8,7 +8,7 @@ package com.aloha.common.entities;
  *
  */
 public enum FriendshipStatus {
-	RequestSent(1), Friends(2), Blocked(3), Default(0);
+	RequestSent(1), Friends(2), Blocked(3), Default(0), FriendshipRequestSent(4);
 
 	private int status;
 

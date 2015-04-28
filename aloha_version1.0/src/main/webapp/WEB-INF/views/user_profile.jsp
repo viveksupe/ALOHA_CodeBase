@@ -199,7 +199,11 @@ function setPrivacy(){
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.user2.userId}">${friend.user2.firstName}</a>
                           <button id="acceptFriendBtn_${friend.user2.userId}"
 											class="acceptFriendBtn btn btn-edit" userID="${friend.user2.userId}" acceptorID="${friend.user1.userId}" >
-                            Accept Friend
+                            Accept
+                          </button>
+                          <button id="ignoreFriendBtn_${friend.user2.userId}"
+											class="ignoreFriendBtn btn btn-edit" userID="${friend.user2.userId}" acceptorID="${friend.user1.userId}" >
+                            Ignore
                           </button>
 
                   </div>
