@@ -62,8 +62,19 @@ var PostManager = new function() {
 
 		var pattern = new RegExp(
 				/<[a-zA-Z]*script[\s\S]*?>[\s\S]*?<\/[a-zA-Z]*script>/g);
+		
 		return pattern.test(value);
+	
 	};
+	
+	this.areEnglishChars = function(value) {
+
+		var englishPattern = new RegExp(/^[\w\-\s?,!.']+$/);
+		var check2 = englishPattern.test(value);
+		
+		return check2;
+	};
+
 
 	this.addPost = function() {
 
@@ -73,8 +84,9 @@ var PostManager = new function() {
 				alert("Please scribble something !!");
 				return;
 			}
-		if (!this.isInvalidEntry(value)) {
+		if (!PostManager.isInvalidEntry(value)) {
 
+			if(PostManager.areEnglishChars(value)){
 			var json = {
 				postData : value
 			};
@@ -104,6 +116,7 @@ var PostManager = new function() {
 					}
 				}
 			});
+			} else {alert("Special characters not allowed !!");}
 
 		} else {
 			alert("Scripts not allowed !!");
@@ -127,7 +140,8 @@ var PostManager = new function() {
 									}
 								
 								if (!PostManager.isInvalidEntry(comment)) {
-
+									if(PostManager.areEnglishChars(comment)){
+										
 									var feed_id = $(this).attr('feed-id');
 									var user_id = $(this).attr('user-id');
 									if (comment) {
@@ -175,6 +189,7 @@ var PostManager = new function() {
 													}
 												});
 									}
+									} else {alert("Special characters not allowed !!");}
 								} else {
 									alert("Scripts not allowed !!");
 								}
