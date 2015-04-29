@@ -18,7 +18,7 @@ public class ChatDal {
 	private String GET_NAME;
 
 	public ChatDal() {
-		SELECT = "SELECT chat.chat_id,chat.chatContent,chat.timestamp,chat.user_id1,chat.user_id2 FROM chat WHERE (chat.user_id1=? AND chat.user_id2=?)OR (chat.user_id1=? AND chat.user_id2=?) order by chat_id desc limit 5;";
+		SELECT = "SELECT chat.chat_id,chat.chatContent,chat.timestamp,chat.user_id1,chat.user_id2 FROM chat WHERE (chat.user_id1=? AND chat.user_id2=?)OR (chat.user_id1=? AND chat.user_id2=?) order by chat_id desc limit 10;";
 		INSERT_CHAT = "INSERT INTO chat (chat_id,chatContent,timestamp,user_id1,user_id2) VALUES ( ?, ?, ?,?,?);";
 		DELETE_CHAT = "DELETE chat post WHERE chat.chat_id = ?;";
 		GET_NAME = "SELECT user.fname,user.lname FROM user WHERE user.user_id=?;";

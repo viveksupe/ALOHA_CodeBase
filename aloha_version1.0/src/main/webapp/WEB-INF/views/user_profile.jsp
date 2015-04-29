@@ -153,7 +153,7 @@ function setPrivacy(){
 					<textarea name="aboutme" class="feed-box" form="savepersonalinfo" placeholder="${personal.getAboutme() }" value="${personal.getAboutme() }" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
 					
 					<div class = "feed-title">Lives In</div>
-					<input type="text" name="livesin" value="${personal.getCity() }" width="100px" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					<input type="text" name="livesin" value="${personal.getCity() }" width="100px" size = "25" pattern="[a-zA-Z ]{1,25}" title = "please enter only characters" required/>
 					<div class="profile-buttons" uid="858" liveuser-id="858">
 							<button class="btn btn-edit" type="submit" onSubmit="savePersonalInfo()">Save</button>
 					</div>
@@ -173,10 +173,10 @@ function setPrivacy(){
 		<div class= "feed-block" id="educationform" style="display:none;">
 				<form id="saveeducationinfo" action="${pageContext.request.contextPath}/educationinfo" method="post">				
 					<div class = "feed-title">School</div>
-					<input type="text" name="school" value="${education.getSchool()}" width="100px" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
-					
+					<input type="text" name="school" value="${education.getSchool()}" width="100px" size = "25" pattern="[a-zA-Z ]{1,25}" title = "please enter only characters (length less than 25)" required/>
+					 
 					<div class = "feed-title">Area</div>
-					<input type="text" name="area" width="100px" value="${education.getArea()}" size = "15" pattern="[a-zA-Z]{1,15}" title = "please enter only characters" required/>
+					<input type="text" name="area" width="100px" value="${education.getArea()}" size = "25" pattern="[a-zA-Z ]{1,25}" title = "please enter only characters (length less than 25)" required/>
 					<div class="profile-buttons" uid="858" liveuser-id="858">
 							<button class="btn btn-edit" type="submit" onSubmit="saveEducationInfo()">Save</button>
 					</div>
