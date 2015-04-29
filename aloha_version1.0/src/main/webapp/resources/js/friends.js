@@ -130,6 +130,7 @@ var FriendJS = new function() {
 						console.log('success');
 						$('#acceptFriendBtn_' + userId).html(
 								'Friend Request Accepted');
+						$('#pendingReqBox_' + userId).html('Friend Request Accepted');
 					},
 					error : function(data) {
 						console.log('error occurred');
@@ -154,6 +155,7 @@ var FriendJS = new function() {
 			success : function(data) {
 				console.log('success');
 				$('#ignoreFriendBtn_' + userId).html('Friend Request Ignored');
+				$('#pendingReqBox_' + userId).html('Friend Request Accepted');
 			},
 			error : function(data) {
 				console.log('error occurred');

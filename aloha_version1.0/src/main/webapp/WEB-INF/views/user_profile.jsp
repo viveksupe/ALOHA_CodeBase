@@ -195,7 +195,7 @@ function setPrivacy(){
                 Pending Friends Requests <span class="unread"> ${pendingFriends.size()}</span>
               <c:forEach items="${pendingFriends}" var="friend">
                 <div class="bcol-member-block">
-                  <div class="member-name">
+                  <div class="member-name" id="pendingReqBox_${friend.user2.userId}">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.user2.userId}">${friend.user2.firstName}</a>
                           <button id="acceptFriendBtn_${friend.user2.userId}"
 											class="acceptFriendBtn btn btn-edit" userID="${friend.user2.userId}" acceptorID="${friend.user1.userId}" >
