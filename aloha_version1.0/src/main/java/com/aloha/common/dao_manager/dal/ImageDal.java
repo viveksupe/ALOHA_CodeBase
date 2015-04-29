@@ -88,10 +88,10 @@ public class ImageDal {
 		
 		try{
 			con = DatabaseHandlerSingleton.getDBConnection();
-			FileOutputStream fos = new FileOutputStream("E:\\tempPic.jpg");
+			FileOutputStream fos = new FileOutputStream("G:\\tempPic.jpg");
 			fos.write(image);
 			fos.close();
-			File imgfile = new File("E:\\tempPic.jpg");			  
+			File imgfile = new File("G:\\tempPic.jpg");			  
 			FileInputStream fin = new FileInputStream(imgfile);
 			ps = con.prepareStatement(UPDATE);
 	

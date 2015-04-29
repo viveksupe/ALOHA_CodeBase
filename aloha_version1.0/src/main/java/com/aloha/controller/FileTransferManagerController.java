@@ -38,7 +38,7 @@ public class FileTransferManagerController {
 	@RequestMapping(value = "process", method = RequestMethod.POST)
 	@ResponseBody
 	public String save(FileUploadBean request) throws Exception {
-		String path = "C:\\imgupload\\";
+		String path = "G:\\imgupload\\";
 		/*path = path.substring(0, path.indexOf("\\build"));
 		path = path + "\\web\\upload\\";*/
 		MultipartFile m=request.getFile();
@@ -58,7 +58,7 @@ public class FileTransferManagerController {
         OutputStream outputStream = null;
         InputStream in = null;
         try {
-            in = new FileInputStream("C:\\imgupload\\" + filename); // I assume files are at imgupload
+            in = new FileInputStream("G:\\imgupload\\" + filename); // I assume files are at imgupload
             byte[] buffer = new byte[1024];
             int bytesRead = 0;
             response.setHeader(
