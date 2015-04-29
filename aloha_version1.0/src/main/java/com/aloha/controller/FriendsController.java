@@ -162,6 +162,29 @@ public class FriendsController {
 	}
 
 	/**
+	 * Function to accept pending friend request
+	 * 
+	 * @param userId
+	 * @param acceptorId
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "friends/ignore", method = RequestMethod.POST)
+	public @ResponseBody int ignoreFriend(
+			@RequestParam("userIdToIgnore") int userId,
+			@RequestParam("acceptor") int acceptorId, Model model,
+			HttpSession session) {
+		logger.info("Entered ignoreFriend POST");
+		Friendship f = new Friendship();
+		f = f.getExistingFriendship(userId, acceptorId);
+		f.setStatus(FriendshipStatus.FriendshipRequestSent);
+		if (f.updateFriendship(f))
+			return 1;
+		return -1;
+	}
+
+	/**
 	 * 
 	 * Function to remove friend from friendslist
 	 * 

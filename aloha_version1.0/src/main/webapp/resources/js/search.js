@@ -34,7 +34,7 @@ var SearchJS = new function() {
 										.append(
 												"<div class=\"bcol-member-block\"> <div class=\"member-image\"> <a href=\"" + SearchJS.root +  "/profile?userId="
 														+ data[i].userId
-														+ "\"> <img src=\"http://feedstack.asia/img/user.jpg\" class=\"member\"> </a> </div> <div class=\"member-name\"> <a href=\"" + SearchJS.root +  "/profile?userId="
+														+ "\"> <img src=\"" + SearchJS.root + "/displayimage?id=" + data[i].userId + "\" class=\"member\"> </a> </div> <div class=\"member-name\"> <a href=\"" + SearchJS.root +  "/profile?userId="
 														+ data[i].userId
 														+ "\">"
 														+ data[i].firstName

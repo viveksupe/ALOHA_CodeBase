@@ -123,6 +123,8 @@ public class Friendship {
 			break;
 		case 3:
 			this.status = FriendshipStatus.Blocked;
+		case 4:
+			this.status = FriendshipStatus.FriendshipRequestSent;
 			break;
 		}
 

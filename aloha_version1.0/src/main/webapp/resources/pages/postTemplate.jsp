@@ -3,7 +3,8 @@
                 <div class="bcol-15">
                     <div class="feed-user mobile-hidden">
                         <a href="http://feedstack.asia/renudeshmukh">
-                            <img src="http://feedstack.asia/img/user.jpg" class="feed-user-image" />
+                            <!-- <img src="http://feedstack.asia/img/user.jpg" class="feed-user-image" /> -->
+                            <img class="feed-user-image" src="/common/displayimage?id={ $T.Post.userId}">
                         </a>
                     </div>
                 </div>
@@ -13,7 +14,8 @@
                             <div class="bcol-10x mobile-visible">
                                 <div class="feed-user">
                                     <a href="http://feedstack.asia/renudeshmukh">
-                                        <img src="http://feedstack.asia/img/user.jpg" class="feed-user-image-mobile" />
+                                        <!-- <img src="http://feedstack.asia/img/user.jpg" class="feed-user-image-mobile" /> -->
+                                        <!-- <img class="feed-user-image" src="/common/displayimage?id={ $T.Post.userId}"> -->
                                     </a>
                                 </div>
                             </div>
@@ -85,7 +87,8 @@
                 <div class="bcol-20x">
                     <div class="feed-comment-user">
                         <a href="http://feedstack.asia/{ $T.comment.userId}">
-                            <img src="http://feedstack.asia/img/user.jpg" class="feed-comment-user-image">
+                            <!-- <img src="http://feedstack.asia/img/user.jpg" class="feed-comment-user-image"> -->
+                            <img class="feed-user-image" src="/common/displayimage?id={ $T.comment.userId}">
                         </a>
                     </div>
                 </div>
