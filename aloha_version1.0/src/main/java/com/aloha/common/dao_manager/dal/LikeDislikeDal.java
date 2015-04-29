@@ -155,7 +155,7 @@ public class LikeDislikeDal {
 		String insertStmt = INSERT_OR_UPDATE;
 
 		PreparedStatement ps = null;
-		int result = -1;
+		int result = likeType;
 		try {
 			con = DatabaseHandlerSingleton.getDBConnection();
 			ps = con.prepareStatement(insertStmt);
@@ -163,8 +163,9 @@ public class LikeDislikeDal {
 			ps.setInt(2, userId);
 			ps.setInt(3, postId);
 			ps.setInt(4, likeType);
-			result = ps.executeUpdate();
+			ps.executeUpdate();
 			
+			result = GetPostLikeTypeById(postId, userId);
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -175,5 +176,38 @@ public class LikeDislikeDal {
 			//con.close();
 		}
 
+	}
+	
+	public int GetPostLikeTypeById(int postid, int userid) throws SQLException {
+
+		String getStmt = SELECT
+				+ " where likedislike.post_id=? and  likedislike.user_id = ?;";
+		PreparedStatement ps = null;
+		int likeType = 0;
+		
+		ResultSet rSet = null;
+		try {
+			con = DatabaseHandlerSingleton.getDBConnection();
+			ps = con.prepareStatement(getStmt);
+			ps.setInt(1, postid);
+			ps.setInt(2, userid);
+			rSet = ps.executeQuery();
+			if (rSet.next()) {
+
+				likeType = rSet.getInt("like_type");
+
+				
+		} 
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rSet != null)
+				rSet.close();
+			if (ps != null)
+				ps.close();
+			//con.close();
+		}
+		return likeType;
 	}
 }

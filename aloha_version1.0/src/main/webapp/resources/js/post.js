@@ -330,6 +330,7 @@ var PostManager = new function() {
 							var userId = $(this).attr('user-id');
 							var likeType = -1;
 							var counter = 0;
+							var counter1 = 0;
 							var elem = $(this).find("i").hasClass(
 									"fa-thumbs-o-up");
 							if (elem == true) {
@@ -353,6 +354,7 @@ var PostManager = new function() {
 										.addClass("fa-thumbs-o-up");
 								$(this).find("span").html('Like');
 								likeType = 0;
+								counter1 = 1;
 							}
 
 							$
@@ -370,7 +372,7 @@ var PostManager = new function() {
 										},
 										success : function(data) {
 											if(data.statusCode == 0){
-											if (data.actionStatus == 1 || data.actionStatus == 2) {
+											if (data.likeType == 1 || data.likeType == 2) {
 												if (likeType == 1) {
 													var count = parseInt($(
 															'.like-count-'
@@ -394,6 +396,13 @@ var PostManager = new function() {
 														- counter;
 												$('.dislike-count-' + postId)
 														.html(cnt);
+											}else{
+												var count = parseInt($(
+														'.like-count-'
+																+ postId)
+														.html()) - 1;
+												$('.like-count-' + postId)
+														.html(count);	
 											}
 											}else {
 												window.location.replace(PostManager.Root + "/login");
@@ -461,7 +470,7 @@ var PostManager = new function() {
 										success : function(data) {
 											if(data.statusCode == 0){
 
-											if (data.actionStatus == 1 || data.actionStatus == 2) {
+											if (data.likeType == 1 || data.likeType == 2) {
 												if (likeType == 2) {
 													var count = parseInt($(
 															'.dislike-count-'
@@ -488,6 +497,15 @@ var PostManager = new function() {
 														- counter;
 												$('.like-count-' + postId)
 														.html(cnt);
+											}else {
+												var count = parseInt($(
+														'.dislike-count-'
+																+ postId)
+														.html()) - 1;
+												$(
+														'.dislike-count-'
+																+ postId)
+														.html(count);
 											}
 											}else {
 												window.location.replace(PostManager.Root + "/login");
