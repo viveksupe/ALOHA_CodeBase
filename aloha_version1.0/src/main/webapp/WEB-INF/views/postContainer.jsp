@@ -33,7 +33,8 @@ $( document ).ready(function() {
 		<div class="bcol-15">
 			<div class="feed-user mobile-hidden" username="renudeshmukh" name="Renuka Deshmukh" uid="845">
 				<a href="http://feedstack.asia/renudeshmukh">
-					<img src="http://feedstack.asia/img/user.jpg" class="feed-user-image"> 
+					<!-- <img src="http://feedstack.asia/img/user.jpg" class="feed-user-image"> --> 
+					<img class="feed-user-image" src="/common/displayimage?id=${userId}">
 				</a>	
 			</div>
 		</div>

@@ -1,11 +1,16 @@
 package com.aloha.controller;
 
-import java.security.NoSuchAlgorithmException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,11 +21,12 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.user.User;
 import com.aloha.common.sal.SignupService;
+import com.aloha.common.util.ProfileImage;
 import com.aloha.common.util.Secure_Hash;
 
 @Controller
@@ -49,6 +55,18 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
 		else if(res==1){
 			((Model) model).addAttribute("headerMessage","Please login, you have successfully signed up");
 			//System.out.println("success");
+			UserDal ud = new UserDal();
+			User u;
+			try {
+				u = ud.getUserIdByEmail(email);
+				uploadDefaultProfileImage(u.getUserId());
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(res==-1)
 			((Model) model).addAttribute("headerMessage","Email already exists");
@@ -61,4 +79,27 @@ private static final Logger logger = LoggerFactory.getLogger(UserSignupControlle
         dateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
+	
+	private static void uploadDefaultProfileImage(int userId) throws FileNotFoundException {
+		FileInputStream file = new FileInputStream(
+				"G:/imgupload/user.jpg");
+
+		byte[] bytefile;
+		ProfileImage pi = null;
+		ImageDal pdal = new ImageDal();
+		if (file != null) {
+			System.out.println("uploaded");
+			try {
+				bytefile = IOUtils.toByteArray(file);
+				pi = pdal.insertImage(userId, bytefile);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
+
 }

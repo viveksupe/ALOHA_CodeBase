@@ -30,13 +30,15 @@ public class ProxyPostController implements IPostController {
 
 	@RequestMapping("post")
 	public String setup(Locale locale, Model model, HttpSession session) throws SQLException {
-		if(null==session.getAttribute("sessionUser")){
+		UserUI userui = (UserUI) session.getAttribute("sessionUser");
+		if(userui==null){
 			model.addAttribute("globalstatus","login");
 			model.addAttribute("globalstatuslink","login");
 			return "Login";
 		}else{
 			model.addAttribute("globalstatus","logout");
 			model.addAttribute("globalstatuslink","logout");
+			model.addAttribute("userId",userui.getUserId());
 		}
 		return "postContainer";
 	}

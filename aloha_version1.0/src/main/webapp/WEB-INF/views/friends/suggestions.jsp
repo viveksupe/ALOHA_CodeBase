@@ -26,7 +26,8 @@
                 <div class="bcol-member-block">
                   <div class="member-image">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.userId}">
-                      <img src="http://feedstack.asia/img/user.jpg" class="member">		</a>
+                      <!-- <img src="http://feedstack.asia/img/user.jpg" class="member">		</a> -->
+                      <img id="profileimage" src="${pageContext.request.contextPath}/displayimage?id=${friend.getUserId()}" class="profile-image">
                   </div>
                   <div class="member-name">
                     <a href="${pageContext.request.contextPath}/profile?userId=${friend.userId}">${friend.firstName} ${friend.lastName}</a>

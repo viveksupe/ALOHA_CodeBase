@@ -1,5 +1,8 @@
 package com.aloha.common;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -14,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.TreeMap;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,17 +24,19 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import com.aloha.common.dao_manager.DatabaseHandlerSingleton;
 import com.aloha.common.dao_manager.dal.FriendshipDal;
+import com.aloha.common.dao_manager.dal.ImageDal;
 import com.aloha.common.dao_manager.dal.UserDal;
 import com.aloha.common.entities.Friendship;
 import com.aloha.common.entities.FriendshipStatus;
 import com.aloha.common.entities.user.User;
-import com.aloha.common.util.CommonUtils;
+import com.aloha.common.util.ProfileImage;
 
 public class TestFriendshipDBHandler {
 	static final Logger logger = Logger.getLogger(TestFriendshipDBHandler.class
@@ -57,22 +61,27 @@ public class TestFriendshipDBHandler {
 			// test.insertFriendship();
 			// test.selectFriendship(3);
 			// test.updateFriendship(3);
-			test.selectFriendship(4);
+			//test.selectFriendship(4);
 			// test.deleteFriendship(3);
 			// test.selectAllFriendships();
-//			test.sendMailToFriend(5,
-//					"Online friends has been integrated with chat :D :D ");
+			// test.sendMailToFriend(5,
+			// "Online friends has been integrated with chat :D :D ");
 			treeMapSOrtingTest();
 			UserDal udal = new UserDal();
 			int[] ids = new int[4];
-			ids[0]=5;
-			ids[1]=4;
-			ids[2]=6;
-			ids[3]=7;
-			
+			ids[0] = 5;
+			ids[1] = 4;
+			ids[2] = 6;
+			ids[3] = 7;
+
 			System.out.println(udal.selectMutlipleUsersByPrimaryKey(ids));
-			
-			
+			try {
+				uploadDefaultImage();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -163,37 +172,66 @@ public class TestFriendshipDBHandler {
 		h.put(1, 1);
 		h.put(2, 4);
 		h.put(3, 2);
-		
-		Map<Integer,Integer> reversedMap = sortByValues(h);
+
+		Map<Integer, Integer> reversedMap = sortByValues(h);
 		Set s1 = reversedMap.entrySet();
 		Iterator iterator1 = s1.iterator();
-		
-		while(iterator1.hasNext()){
-			Map.Entry<Integer, Integer> me2 = (Map.Entry<Integer, Integer>) iterator1.next();
-			System.out.print(me2.getKey() + ": " );
+
+		while (iterator1.hasNext()) {
+			Map.Entry<Integer, Integer> me2 = (Map.Entry<Integer, Integer>) iterator1
+					.next();
+			System.out.print(me2.getKey() + ": ");
 			System.out.println(me2.getValue());
 		}
 	}
-	
-	 private static HashMap sortByValues(HashMap map) { 
-	       List list = new LinkedList(map.entrySet());
-	       // Defined Custom Comparator here
-	       Collections.sort(list, new Comparator() {
-	            public int compare(Object o1, Object o2) {
-	               return ((Comparable) ((Map.Entry) (o1)).getValue())
-	                  .compareTo(((Map.Entry) (o2)).getValue());
-	            }
-	       });
 
-	       // Here I am copying the sorted list in HashMap
-	       // using LinkedHashMap to preserve the insertion order
-	       HashMap sortedHashMap = new LinkedHashMap();
-	       for (Iterator it = list.iterator(); it.hasNext();) {
-	              Map.Entry entry = (Map.Entry) it.next();
-	              sortedHashMap.put(entry.getKey(), entry.getValue());
-	       } 
-	       return sortedHashMap;
-	  }
+	private static HashMap sortByValues(HashMap map) {
+		List list = new LinkedList(map.entrySet());
+		// Defined Custom Comparator here
+		Collections.sort(list, new Comparator() {
+			public int compare(Object o1, Object o2) {
+				return ((Comparable) ((Map.Entry) (o1)).getValue())
+						.compareTo(((Map.Entry) (o2)).getValue());
+			}
+		});
 
-	 
+		// Here I am copying the sorted list in HashMap
+		// using LinkedHashMap to preserve the insertion order
+		HashMap sortedHashMap = new LinkedHashMap();
+		for (Iterator it = list.iterator(); it.hasNext();) {
+			Map.Entry entry = (Map.Entry) it.next();
+			sortedHashMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedHashMap;
+	}
+
+	private static void uploadDefaultImage() throws FileNotFoundException {
+		FileInputStream file = new FileInputStream(
+				"F:/Users/Milind/Documents/GitHub/ALOHA_CodeBase/aloha_version1.0/src/main/webapp/resources/img/user.jpg");
+		byte[] bytefile;
+		ProfileImage pi = null;
+		ImageDal pdal = new ImageDal();
+		if (file != null) {
+			System.out.println("uploaded");
+			try {
+				// bytefile = file.getBytes();
+				bytefile = IOUtils.toByteArray(file);
+				/*
+				 * pi = pdal.getProfileImage(u.getUserId()); if(pi!=null) {
+				 * pdal.modifyImage(u.getUserId(), bytefile, pi.getImg_id());
+				 * pi.setImg(bytefile); } else
+				 */
+				pi = pdal.insertImage(42, bytefile);
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+	}
+
 }
