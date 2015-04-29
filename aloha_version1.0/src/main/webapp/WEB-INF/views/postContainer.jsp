@@ -43,7 +43,7 @@ $( document ).ready(function() {
 					<textarea class="feed-box" id="txtPost" placeholder="Scribble..." maxlength="500" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 60px;"></textarea>
 					<div>
 						&nbsp;<img src="http://feedstack.asia/img/loading.gif" class="loading" style="display: none;">
-						<span class="right"><button class="post-btn" onclick="PostManager.addPost()">post</button></span>
+						<span class="right"><button class="post-btn" onclick="PostManager.addPost()">Scribble</button></span>
 					</div>
 				</div>
 			</div>
